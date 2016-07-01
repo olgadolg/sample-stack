@@ -1,7 +1,3 @@
-import { createAction } from 'redux-actions'
-
-export const selectAction = createAction('SELECT')
-
 export const receiveItems = () => (dispatch) => {
   const request = new XMLHttpRequest()
   request.open('GET', '/api/items', true)

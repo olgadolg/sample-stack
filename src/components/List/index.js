@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { selectAction, receiveItems, deleteItem } from '../../actions'
+import { selectAction, receiveItems, deleteItem } from '../../actions/items'
 
-export class Foo extends Component {
+export class List extends Component {
   constructor (props) {
     super(props)
   }
@@ -21,11 +21,10 @@ export class Foo extends Component {
   render () {
     return (
       <div>
-        <h1>Foo</h1>
+        <h1>List</h1>
         <nav>
-          <Link to="/bar">Bar</Link>
+          <Link to="/create">Create</Link>
         </nav>
-        <p>Selected: {this.props.selected}</p>
         <ul>
           {this.props.items.map(item =>
             <li key={item._id}>
@@ -45,9 +44,8 @@ export class Foo extends Component {
 
 function mapStateToProps (state) {
   return {
-    selected: state.select.selected,
     items: state.items.list
   }
 }
 
-export default connect(mapStateToProps)(Foo)
+export default connect(mapStateToProps)(List)

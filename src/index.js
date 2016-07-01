@@ -8,8 +8,8 @@ import thunkMiddleware from 'redux-thunk'
 
 import reducers from './reducers'
 import App from './components/App'
-import Foo from './components/Foo'
-import Bar from './components/Bar'
+import List from './components/List'
+import Create from './components/Create'
 
 const reduxRouterMiddleware = syncHistory(browserHistory)
 const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware, thunkMiddleware)(createStore)
@@ -19,10 +19,10 @@ render((
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRedirect to='/foo'/>
+        <IndexRedirect to='/list'/>
 
-        <Route path="foo" component={Foo}/>
-        <Route path="bar" component={Bar}/>
+        <Route path="list" component={List}/>
+        <Route path="create" component={Create}/>
       </Route>
     </Router>
   </Provider>
