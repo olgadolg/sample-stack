@@ -21,6 +21,18 @@ export default handleActions({
       ...state,
       list: items
     }
+  },
+  UPDATE_ITEM: (state, action) => {
+    const items = state.list.map(item => {
+      if (item._id === action.payload._id) {
+        return action.payload
+      }
+      return item
+    })
+    return {
+      ...state,
+      list: items
+    }
   }
 }, {
   list: []

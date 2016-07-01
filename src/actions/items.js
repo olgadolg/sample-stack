@@ -41,3 +41,19 @@ export const deleteItem = (id) => (dispatch) => {
   }
   request.send()
 }
+
+export const updateItem = (item) => (dispatch) => {
+  const request = new XMLHttpRequest()
+  request.open('PUT', `/api/items/${item._id}`, true)
+  request.setRequestHeader('Content-Type', 'application/json')
+  request.onload = () => {
+    if (request.status >= 200 && request.status < 400) {
+      dispatch({
+        type: 'UPDATE_ITEM',
+        payload: JSON.parse(request.responseText)
+      })
+      window.alert('Item is updated')
+    }
+  }
+  request.send(JSON.stringify(item))
+}

@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { selectAction, receiveItems, deleteItem } from '../../actions/items'
+import { receiveItems, deleteItem, updateItem } from '../../actions/items'
+import { Update } from '../Update'
 
 export class List extends Component {
   constructor (props) {
     super(props)
+
+    this.state = {
+      updateItem: null
+    }
   }
 
   componentWillMount () {
@@ -13,12 +18,21 @@ export class List extends Component {
   }
 
   handleItemDelete (event) {
-    event.preventDefault()
-
     this.props.dispatch(deleteItem(event.target.dataset.id))
   }
 
+  handleItemUpdate (event) {
+    this.setState({
+      updateItem: event.target.dataset.id
+    })
+  }
+
+  handleUpdateSubmit (data) {
+    this.props.dispatch(updateItem(data))
+  }
+
   render () {
+    const updateItem = this.props.items.find(i => i._id === this.state.updateItem)
     return (
       <div>
         <h1>List</h1>
@@ -30,6 +44,11 @@ export class List extends Component {
             <li key={item._id}>
               <span>{item.name}</span>
               <button
+                onClick={this.handleItemUpdate.bind(this)}
+                data-id={item._id}>
+                  Update
+                </button>
+              <button
                 onClick={this.handleItemDelete.bind(this)}
                 data-id={item._id}>
                   X
@@ -37,6 +56,13 @@ export class List extends Component {
             </li>
           )}
         </ul>
+        {(() => {
+            if (this.state.updateItem) {
+              return <Update
+                      item={updateItem}
+                      handleSubmit={this.handleUpdateSubmit.bind(this)} />
+            }
+          })()}
       </div>
     )
   }
