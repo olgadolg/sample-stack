@@ -2,10 +2,11 @@ import Path from 'path'
 import Hapi from 'hapi'
 import Inert from 'inert'
 import mongoose from 'mongoose'
+import config from 'config'
 import base from './base'
 import items from './api/items'
 
-mongoose.connect('mongodb://localhost/sample-stack')
+mongoose.connect(config.get('database.host'))
 mongoose.connection.on('error', console.error.bind(console, 'db error:'))
 
 const server = new Hapi.Server({
