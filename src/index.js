@@ -10,6 +10,7 @@ import reducers from './reducers'
 import App from './components/App'
 import List from './components/List'
 import Create from './components/Create'
+import Authenticate from './components/Authenticate'
 
 const reduxRouterMiddleware = syncHistory(browserHistory)
 const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware, thunkMiddleware)(createStore)
@@ -21,8 +22,9 @@ render((
       <Route path="/" component={App}>
         <IndexRedirect to='/list'/>
 
-        <Route path="list" component={List}/>
-        <Route path="create" component={Create}/>
+        <Route path="/list" component={List}/>
+        <Route path="/create" component={Create}/>
+        <Route path='/authenticate' component={Authenticate}/>
       </Route>
     </Router>
   </Provider>

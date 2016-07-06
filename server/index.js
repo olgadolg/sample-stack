@@ -4,6 +4,7 @@ import Inert from 'inert'
 import mongoose from 'mongoose'
 import config from 'config'
 import base from './base'
+import auth from './api/auth'
 import items from './api/items'
 
 mongoose.connect(config.get('database.host'))
@@ -51,6 +52,10 @@ server.register([
 
   {
     register: base
+  },
+
+  {
+    register: auth
   },
 
   {

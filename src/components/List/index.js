@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { receiveItems, deleteItem, updateItem } from '../../actions/items'
+import { signOut } from '../../actions/auth'
 import { Update } from '../Update'
 
 export class List extends Component {
@@ -31,6 +32,10 @@ export class List extends Component {
     this.props.dispatch(updateItem(data))
   }
 
+  handleSignOut (event) {
+    this.props.dispatch(signOut('/authenticate'))
+  }
+
   render () {
     const updateItem = this.props.items.find(i => i._id === this.state.updateItem)
     return (
@@ -38,6 +43,7 @@ export class List extends Component {
         <h1>List</h1>
         <nav>
           <Link to="/create">Create</Link>
+          <button onClick={this.handleSignOut.bind(this)}>Sign out</button>
         </nav>
         <ul>
           {this.props.items.map(item =>

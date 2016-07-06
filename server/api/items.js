@@ -54,7 +54,8 @@ exports.register = (server, options, next) => {
       method: 'GET',
       path: '/api/items',
       config: {
-        handler: getItems
+        handler: getItems,
+        auth: 'session'
       }
     },
 
@@ -62,7 +63,8 @@ exports.register = (server, options, next) => {
       method: 'POST',
       path: '/api/items',
       config: {
-        handler: addItem
+        handler: addItem,
+        auth: 'session'
       }
     },
 
@@ -70,7 +72,8 @@ exports.register = (server, options, next) => {
       method: 'PUT',
       path: '/api/items/{id}',
       config: {
-        handler: updateItem
+        handler: updateItem,
+        auth: 'session'
       }
     },
 
@@ -78,7 +81,8 @@ exports.register = (server, options, next) => {
       method: 'DELETE',
       path: '/api/items/{id}',
       config: {
-        handler: deleteItem
+        handler: deleteItem,
+        auth: 'session'
       }
     }
   ])
