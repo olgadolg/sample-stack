@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import VectorDrawer from '../../components/Clickarea/VectorDrawer';
+import { updateCoords } from '../../actions/clickarea';
 import styles from './styles/styles.css';
 import backgroundImage from '../../images/3-1.jpg'
 
@@ -16,7 +17,7 @@ export default class Canvas extends Component {
 	}
 
 	componentDidMount() {
-		this.vectorDrawer = new VectorDrawer(this.refs.svgWrapper, this.createClickarea);
+		this.vectorDrawer = new VectorDrawer(this.refs.svgWrapper, updateCoords, this.props.dispatch);
 		this.vectorDrawer.update(this.state);
 	}
 
@@ -40,7 +41,8 @@ export default class Canvas extends Component {
 
 		if (this.vectorDrawer.state.nodes.length == 0 ||
 			this.vectorDrawer.state.allowedToCreateNew == true) {
-			this.vectorDrawer.animateNewClickarea(80, 0, 1500, 250, 'bounce',this.vectorDrawer.createClickarea);
+			this.vectorDrawer.animateNewClickarea(80, 0, 1500, 250, 
+				'bounce', this.vectorDrawer.createClickarea);
 		}
 	}
 

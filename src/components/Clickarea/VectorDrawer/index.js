@@ -298,7 +298,9 @@ export default class DrawVectors extends Component {
 				self.update();
 			})
 			.on('dragend', function(d, i) {
-				self.state.allowedToCreateNew = true;
+				self.state.pathData = d3.select('.clickarea' + self.settings.clickarea).attr('d');
+				self.state.allowedToCreateNew = true
+				self.settings.dispatch(self.settings.updateCoordsFn(self.state.pathData, self.settings.clickarea -1))
 			});
 	}
 
@@ -518,6 +520,9 @@ export default class DrawVectors extends Component {
 			this.animateNewClickarea(0, 0, 750, 500, "none");
 			this.state.nodes[this.settings.clickarea -1].push(d);
 			this.update();
+
+			this.state.pathData = d3.select('.clickarea' + this.settings.clickarea).attr('d');
+			this.settings.dispatch(this.settings.updateCoordsFn(this.state.pathData, this.settings.clickarea -1))
 		}
 		
 		this.state.mouseDown = false;

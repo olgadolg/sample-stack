@@ -21,6 +21,17 @@ export default handleActions({
 			...state,
 			fill: action.data
 		}
+	},
+
+	UPDATE_COORDS: (state, action) => {
+
+		let list = {...state.list};
+		list[action.data.index].coords = action.data.coords;
+
+		return {
+			...state,
+			list
+		}
 	}
 }, {
 	list: {},
