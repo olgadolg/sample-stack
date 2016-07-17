@@ -24,7 +24,6 @@ export default class Canvas extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-
 		if (nextProps.clickareas != this.props.clickareas) {
 			this.openClickarea();
 		}
@@ -38,7 +37,6 @@ export default class Canvas extends Component {
 	}
 
 	openClickarea() {
-		
 		this.vectorDrawer.settings.initRectFade = false;
 
 		if (this.vectorDrawer.state.nodes.length == 0 ||
@@ -50,10 +48,8 @@ export default class Canvas extends Component {
 
 	render() {
 		return (
-			<div className={styles.graph}>
-				<div ref='svgWrapper'>
-					<img src={backgroundImage} alt="background" />
-				</div>
+			<div ref='svgWrapper'>
+				<img src={backgroundImage} alt="background" />
 			</div>
 		);
 	}
