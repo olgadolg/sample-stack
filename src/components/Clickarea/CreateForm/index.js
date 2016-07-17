@@ -1,23 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
-import assign from 'object-assign';
 import { connect } from 'react-redux';
 import { createClickarea } from '../../../actions/clickarea';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
 export default class CreateClickarea extends Component {
-	
+
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			val: null
 		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-	    console.log(nextProps)  
 	}
 
 	handleSubmit(event) {

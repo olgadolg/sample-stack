@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
 import ControlContainer from '../../containers/Controls';
 import Canvas from '../../containers/Canvas';
+import styles from './styles/styles.css';
 
-export default class Bonava extends Component {
+export default class Main extends Component {
 
 	render() {
 		return (
