@@ -13,7 +13,6 @@ export default class ControlsContainer extends Component {
 	}
 
 	render() {
-
 		const controlsContainer = classnames({
 			'controlsContainer': true,
 			[styles.controlsContainer]: true
