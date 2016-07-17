@@ -19,17 +19,15 @@ export default class FillToggler extends Component {
 		this.setState({opacity: this.props.opacity});
 	}
 
-	onChange() {
+	handleChange() {
 		this.props.dispatch(updateFill(!this.state.checked));
 		this.setState({checked: !this.state.checked});
 	}
 
 	render() {
 		const labelClass = classnames({
-			'control': true,
-			'controlCheckbox': true,
-			[styles.control]: true,
-			[styles.controlCheckbox]: true
+			'fillTogglerLabel': true,
+			[styles.fillTogglerLabel]: true
 		});
 
 		const checkboxClass = classnames({
@@ -40,7 +38,7 @@ export default class FillToggler extends Component {
 		return (
 			<label className={labelClass}>
 				<span>Toggle fill</span>
-				<input defaultChecked={this.state.checked} onChange={this.onChange.bind(this)} type="checkbox" />
+				<input defaultChecked={this.state.checked} onChange={this.handleChange.bind(this)} type="checkbox" />
 				<div className={checkboxClass}></div>
 			</label>
 		);
