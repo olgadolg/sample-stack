@@ -12,13 +12,9 @@
 }
 
 .handle {
-  fill: #6ec2b3;
+  fill: #fff;
   opacity: 1;
   pointer-events: all;
-}
-
-.handle.filled {
-  fill: #fff;
 }
 
 .handle.selected {
