@@ -1,0 +1,20 @@
+
+:global(html) {
+	font-size: 10px;
+}
+
+:global(body) {
+	background: #f6f6f6;
+}
+
+:global(.wrapper) {
+	position: absolute;
+	left: 50%;
+	right: 0;
+	top: 50%;
+	bottom: 0;
+	width: 1274px;
+	height: 570px;
+	transform: translate(-50%, -50%);
+	border: 1px solid #555;
+}

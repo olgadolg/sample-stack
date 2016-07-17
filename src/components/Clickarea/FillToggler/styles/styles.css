@@ -1,0 +1,89 @@
+:local(.control) {
+	display: block;
+	margin-bottom: 15px;
+	padding: 5px 9px 5px 12px;
+	cursor: pointer;
+	position: absolute;
+    left: 1115px;
+    top: 18px;
+    background: #f7f7f7;
+    opacity: .9;
+    border-radius: 5px;
+    border: 1px solid #888;
+    font-size: 14px;
+    font-weight: normal;
+    z-index: 1;
+}
+
+:local(.control input) {
+	position: absolute;
+	z-index: 1;
+	opacity: 0;
+}
+
+:local(.control span) {
+	margin-left: 23px;
+	font-family: BonavaSans Regular,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    line-height: 1.6;
+}
+
+:local(.controlIndicator) {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+	background: #e6e6e6;
+	border: 1px solid #777;
+	margin-left: 3px;
+}
+
+:local(.control:hover input ~ .controlIndicator,
+.control input:focus ~ .controlIndicator) {
+	background: #ccc;
+}
+
+:local(.control input:checked ~ .controlIndicator) {
+	background: #6EC2B3;
+	border: none;
+}
+
+:local(.control:hover input:not([disabled]):checked ~ .controlIndicator,
+.control input:checked:focus ~ .controlIndicator) {
+	background: #0e647d;
+}
+
+:local(.control input:disabled ~ .controlIndicator) {
+	pointer-events: none;
+	opacity: .6;
+	background: #e6e6e6;
+}
+
+:local(.controlIndicator:after) {
+	position: absolute;
+	display: none;
+	content: '';
+}
+
+:local(.control input:checked ~ .controlIndicator:after) {
+	display: block;
+}
+
+:local(.controlCheckbox .controlIndicator:after) {
+	top: 6px;
+	left: 9px;
+	width: 3px;
+	height: 8px;
+	transform: rotate(45deg);
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+}
+
+:local(.controlCheckbox input:disabled ~ .controlIndicator:after) {
+	border-color: #7b7b7b;
+}

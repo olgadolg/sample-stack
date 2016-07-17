@@ -1,0 +1,11 @@
+:local(.controlsContainer) {
+	float: left;
+	display: inline-block;
+	margin: 0;
+	height: 570px;
+	width: 250px;
+	background: #A8DAD1;
+	box-sizing: border-box;
+	padding: 25px;
+	box-sizing: border-box;
+}

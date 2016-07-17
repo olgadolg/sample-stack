@@ -1,0 +1,62 @@
+.line {
+  fill: none;
+  stroke: #7dc7f4;
+  stroke-width: 2px;
+}
+
+.no-fill {
+  fill: none !important;
+  stroke: #7dc7f4;
+  stroke-width: 2px;
+  cursor: default;
+}
+
+.handle {
+  fill: #6ec2b3;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.handle.filled {
+  fill: #fff;
+}
+
+.handle.selected {
+  fill: #013B2D;
+}
+
+.handle.invisible {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.clickarea {
+  fill: #6EC2B3;
+  stroke: #fff;
+  stroke-width: 2px;
+  cursor: default;
+}
+
+.clickarea.selected {
+  cursor: move;
+}
+
+.dragline {
+  stroke: #7dc7f4;
+  stroke-width: 2px;
+}
+
+img {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 250px;
+}
+
