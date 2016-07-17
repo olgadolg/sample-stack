@@ -14,7 +14,7 @@ export default class DrawVectors extends Component {
 			nodes: [],
 			edges: [],
 			shapes: 0,
-			fill: true,
+			props: null,
 			selectedNode: null,
 			selectedEdge: null,
 			mouseDown: false,
@@ -853,9 +853,10 @@ export default class DrawVectors extends Component {
 
 				d3.select(this)
 					.append('path')
-					.attr("class", function(d) { return "clickarea " + "clickarea" + parseInt(i + 1) })
+					.attr('data-id', function(d) { return self.state.props.list[i].goTo; })
+					.attr("class", function(d, i) { return "clickarea " + "clickarea" + parseInt(i + 1) })
 					.attr("fill-opacity", function(d) {
-						if (self.state.fill === true) {
+						if (self.state.props.fill === true) {
 							return 0.7;
 						} else {
 							return 0;
@@ -947,9 +948,7 @@ export default class DrawVectors extends Component {
 	update(props) {
 		const self = this;
 
-		if (typeof props != "undefined") {
-			this.state.fill = props.fill;
-		}
+		this.state.props = props || this.state.props;
 
 		this.containerCreator();
 		self.createHandles();

@@ -16,7 +16,7 @@ export default class CreateClickarea extends Component {
 
 	handleSubmit(event) {
 		event.preventDefault();
-		this.props.dispatch(createClickarea());
+		this.props.dispatch(createClickarea(this.state.val));
 	}
 
 	render() {

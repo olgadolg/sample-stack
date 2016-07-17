@@ -1,7 +1,7 @@
 import { addClickarea } from './addclickarea'
 
-export const createClickarea = () => (dispatch) => {
-	return dispatch(addClickarea());
+export const createClickarea = (name) => (dispatch) => {
+	return dispatch(addClickarea({name}));
 };
 
 export const updateFill = (bool) => (dispatch) => {

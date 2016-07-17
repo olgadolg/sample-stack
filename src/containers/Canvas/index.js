@@ -10,6 +10,7 @@ export default class Canvas extends Component {
 		super(props);
 
 		this.state = {
+			list: {},
 			fill: false
 		}
 	}
@@ -24,16 +25,14 @@ export default class Canvas extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.clickareas != this.props.clickareas) {
+		this.state.list = nextProps.clickareas.list;
+		this.state.fill = nextProps.clickareas.fill;
+
+		if (Object.keys(this.props.clickareas.list).length !== Object.keys(this.state.list).length) {
 			this.openClickarea();
 		}
 
-		this.setState({
-			fill: nextProps.fill
-		});
-
 		this.vectorDrawer.update(this.state);
-		
 	}
 
 	openClickarea() {
@@ -43,7 +42,6 @@ export default class Canvas extends Component {
 			this.vectorDrawer.state.allowedToCreateNew == true) {
 			this.vectorDrawer.animateNewClickarea(80, 0, 1500, 250, 'bounce',this.vectorDrawer.createClickarea);
 		}
-		
 	}
 
 	render() {
@@ -55,11 +53,5 @@ export default class Canvas extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		clickareas: state.clickarea.list,
-		fill: state.clickarea.fill
-	}
-}
-
+const mapStateToProps = (state) => ({clickareas: state.clickarea})
 export default connect(mapStateToProps)(Canvas);

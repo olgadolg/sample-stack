@@ -20,7 +20,7 @@ export default class ControlsContainer extends Component {
 
 		return (
 			<div className={styles.controlsContainer} >
-				<FillToggler opacity="1" />
+				<FillToggler />
 				<CreateForm />
 			</div>
 		);

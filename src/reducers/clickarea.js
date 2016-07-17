@@ -3,22 +3,27 @@ import { handleActions } from 'redux-actions';
 export default handleActions({
 
 	ADD_CLICKAREA: (state, action) => {
+		
+		let list = {...state.list};
+		list[(Object.keys(list).length).toString()] = {
+			coords: null,
+			goTo: action.payload.name
+		}
 
-		let newState = Object.assign({}, state)
-		newState.list++;
-
-		return newState;
+		return {
+			...state,
+			list
+		}
 	},
 
 	UPDATE_FILL: (state, action) => {
-
 		return {
 			...state,
 			fill: action.data
 		}
 	}
 }, {
-	list: 0,
+	list: {},
 	fill: false
 });
 
