@@ -1,3 +1,5 @@
-:local(.graph) {
-	float: left;
+:global(svg) {
+  position: absolute;
+  top: 0;
+  left: 250px;
 }

@@ -1,4 +1,4 @@
-:local(.control) {
+:local(.fillTogglerLabel) {
 	display: block;
 	margin-bottom: 15px;
 	padding: 5px 9px 5px 12px;
@@ -15,13 +15,13 @@
     z-index: 1;
 }
 
-:local(.control input) {
+:local(.fillTogglerLabel input) {
 	position: absolute;
 	z-index: 1;
 	opacity: 0;
 }
 
-:local(.control span) {
+:local(.fillTogglerLabel span) {
 	margin-left: 23px;
 	font-family: BonavaSans Regular,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-weight: 400;
@@ -43,38 +43,22 @@
 	margin-left: 3px;
 }
 
-:local(.control:hover input ~ .controlIndicator,
-.control input:focus ~ .controlIndicator) {
-	background: #ccc;
-}
-
-:local(.control input:checked ~ .controlIndicator) {
-	background: #6EC2B3;
-	border: none;
-}
-
-:local(.control:hover input:not([disabled]):checked ~ .controlIndicator,
-.control input:checked:focus ~ .controlIndicator) {
-	background: #0e647d;
-}
-
-:local(.control input:disabled ~ .controlIndicator) {
-	pointer-events: none;
-	opacity: .6;
-	background: #e6e6e6;
-}
-
 :local(.controlIndicator:after) {
 	position: absolute;
 	display: none;
 	content: '';
 }
 
-:local(.control input:checked ~ .controlIndicator:after) {
+:local(.fillTogglerLabel input:checked ~ .controlIndicator) {
+	background: #6EC2B3;
+	border: none;
+}
+
+:local(.fillTogglerLabel input:checked ~ .controlIndicator:after) {
 	display: block;
 }
 
-:local(.controlCheckbox .controlIndicator:after) {
+:local(.fillTogglerLabel .controlIndicator:after) {
 	top: 6px;
 	left: 9px;
 	width: 3px;
@@ -82,8 +66,4 @@
 	transform: rotate(45deg);
 	border: solid #fff;
 	border-width: 0 2px 2px 0;
-}
-
-:local(.controlCheckbox input:disabled ~ .controlIndicator:after) {
-	border-color: #7b7b7b;
 }
