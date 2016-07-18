@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import VectorDrawer from '../../components/Clickarea/VectorDrawer';
-import { updateCoords } from '../../actions/clickarea';
+import { updateClickarea, removeClickarea } from '../../actions/clickarea';
 import styles from './styles/styles.css';
 import backgroundImage from '../../images/3-1.jpg'
 
@@ -11,29 +11,42 @@ export default class Canvas extends Component {
 		super(props);
 
 		this.state = {
-			list: {},
+			views: {},
 			fill: false
 		}
 	}
 
 	componentDidMount() {
-		this.vectorDrawer = new VectorDrawer(this.refs.svgWrapper, updateCoords, this.props.dispatch);
+		this.vectorDrawer = new VectorDrawer(
+			this.refs.svgWrapper,
+			updateClickarea,
+			removeClickarea,
+			this.props.dispatch
+		);
+
 		this.vectorDrawer.update(this.state);
 	}
 
 	componentDidUpdate(prevProps) {
-		this.vectorDrawer.update(this.state);
+		if (Object.keys(this.state.views).length > 0) {
+			this.vectorDrawer.update(this.state);
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.state.list = nextProps.clickareas.list;
+		this.state.views = nextProps.clickareas.views;
 		this.state.fill = nextProps.clickareas.fill;
 
-		if (Object.keys(this.props.clickareas.list).length !== Object.keys(this.state.list).length) {
+		if (Object.keys(this.props.clickareas.views).length !==
+			Object.keys(this.state.views).length &&
+			Object.keys(this.state.views).length > 0) {
+			
 			this.openClickarea();
 		}
 
-		this.vectorDrawer.update(this.state);
+		if (Object.keys(nextProps.clickareas.views).length > 0) {
+			this.vectorDrawer.update(this.state);
+		}
 	}
 
 	openClickarea() {
@@ -55,5 +68,5 @@ export default class Canvas extends Component {
 	}
 }
 
-const mapStateToProps = (state) => ({clickareas: state.clickarea})
+const mapStateToProps = (state) => ({ clickareas: state.clickareas })
 export default connect(mapStateToProps)(Canvas);

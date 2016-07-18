@@ -5,7 +5,7 @@ import './styles/styles.css';
 
 export default class DrawVectors extends Component {
 
-	constructor(el, updateCoordsFn, dispatch) {
+	constructor(el, updateClickareaFn, removeClickareaFn, dispatch) {
 		super();
 
 		const self = this;
@@ -32,7 +32,8 @@ export default class DrawVectors extends Component {
 			clickarea: null,
 			isCreating: false,
 			dispatch: dispatch,
-			updateCoordsFn: updateCoordsFn,
+			updateClickareaFn: updateClickareaFn,
+			removeClickareaFn: removeClickareaFn,
 			selectedClass: "selected",
 			containerclass: "overlay overlay" + self.state.shapes.toString(),
 			backspace_key: 8,
@@ -278,8 +279,7 @@ export default class DrawVectors extends Component {
 				self.dragmove.call(self, d);
 			})
 			.on('dragend', function(d) {
-				self.state.pathData = d3.select('.clickarea' + self.settings.clickarea).attr('d');
-				self.settings.dispatch(self.settings.updateCoordsFn(self.state.pathData, self.settings.clickarea -1))
+				self.updateClickarea();
 
 				if (d3.select(this).classed('selected') == false) {
 					self.state.shapeIsSelected = true;
@@ -298,9 +298,8 @@ export default class DrawVectors extends Component {
 				self.update();
 			})
 			.on('dragend', function(d, i) {
-				self.state.pathData = d3.select('.clickarea' + self.settings.clickarea).attr('d');
-				self.state.allowedToCreateNew = true
-				self.settings.dispatch(self.settings.updateCoordsFn(self.state.pathData, self.settings.clickarea -1))
+				self.state.allowedToCreateNew = true;
+				self.updateClickarea();
 			});
 	}
 
@@ -321,7 +320,6 @@ export default class DrawVectors extends Component {
 		}
 
 		switch(d3.event.keyCode) {
-
 			case this.settings.alt_key:
 				d3.selectAll('.handle').classed(this.settings.selectedClass, false);
 				this.state.multipleSelection = true;
@@ -343,6 +341,7 @@ export default class DrawVectors extends Component {
 						this.state.multipleHandles = [];
 						this.update();
 						this.cleanupElements();
+						this.removeClickarea(this.settings.clickarea -1);
 					}
 
 				} else if (selectedNode) {
@@ -356,6 +355,7 @@ export default class DrawVectors extends Component {
 						this.state.shapeIsSelected = true;
 						this.state.multipleHandles = [];
 						this.update();
+						this.updateClickarea();
 					}
 				}
 
@@ -520,9 +520,6 @@ export default class DrawVectors extends Component {
 			this.animateNewClickarea(0, 0, 750, 500, "none");
 			this.state.nodes[this.settings.clickarea -1].push(d);
 			this.update();
-
-			this.state.pathData = d3.select('.clickarea' + this.settings.clickarea).attr('d');
-			this.settings.dispatch(this.settings.updateCoordsFn(this.state.pathData, this.settings.clickarea -1))
 		}
 		
 		this.state.mouseDown = false;
@@ -863,7 +860,7 @@ export default class DrawVectors extends Component {
 
 				d3.select(this)
 					.append('path')
-					.attr('data-id', function(d) { return self.state.props.list[i].goTo; })
+					.attr('data-id', function(d) { return self.state.props.views[i].goTo; })
 					.attr("class", function(d) { return "clickarea " + "clickarea" + parseInt(i + 1)
 					 })
 					.attr("fill-opacity", function(d) {
@@ -956,8 +953,20 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	getCoords() {
-		return this.state.pathData;
+	updateClickarea() {
+		this.state.pathData = d3.select('.clickarea' + this.settings.clickarea).attr('d');
+		this.settings.dispatch(this.settings.updateClickareaFn(this.state.pathData, this.settings.clickarea -1))
+	}
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	removeClickarea(index) {
+		this.settings.dispatch(this.settings.removeClickareaFn(index))
 	}
 
 	/**
