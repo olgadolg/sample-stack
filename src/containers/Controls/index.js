@@ -22,8 +22,8 @@ export default class ControlsContainer extends Component {
 		return (
 			<div className={styles.controlsContainer} >
 				<FillToggler />
-				<CreateForm />
 				<ImageUpload />
+				<CreateForm />
 			</div>
 		);
 	}

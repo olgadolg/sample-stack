@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import { uploadImage } from '../../actions/imageupload';
+import styles from './styles/styles.css';
 
 export default class ImageUpload extends Component {
 
@@ -24,13 +25,18 @@ export default class ImageUpload extends Component {
 	render() {
 		return (
 			<div>
-				<Dropzone ref="dropzone" onDrop={this.handleDrop.bind(this)} >
-					<div>Try dropping some files here, or click to select files to upload.</div>
+				<Dropzone 
+					className={ styles.dropzone } 
+					activeClassName={ styles.activeDropzone } 
+					ref="dropzone" 
+					onDrop={ this.handleDrop.bind(this) }>
+					<div className={ styles.dropText }>Drop image to create a new view</div>
 				</Dropzone>
-				<button type="button" onClick={this.onOpenClick}>Open Dropzone</button>
 			</div>
 		);
 	}
 }
 
 export default connect()(ImageUpload);
+
+

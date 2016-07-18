@@ -1,15 +1,20 @@
-import axios from 'axios';
+import $ from 'jquery';
+import request from 'superagent';
 import { addImage } from './addimage'
 
-export const uploadImage = (image) => (dispatch) => {
+export const uploadImage = (files) => (dispatch) => {
 
-	console.log('in action', image[0])
+	const req = request.post('/api/image');
 
-	const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+	req.set('Accept', 'application/json');
 
-	return axios.post('/api/image', image, config)
-		.then(({ data }) => {
-			console.log('recieved data callack', data)
-			dispatch(addImage(data));
+	files.forEach((file) => {
+		req.attach('img_attach', file);
+		req.field('filename', file.name);
+		req.end(function(err, res) {
+			if (res.status === 200) {
+
+			}
 		});
+	});
 }

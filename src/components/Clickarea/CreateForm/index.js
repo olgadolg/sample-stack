@@ -31,16 +31,19 @@ export default class CreateClickarea extends Component {
 		});
 
 		return (
-			<form id="createForm" className={styles.controlsContainer} onSubmit={this.handleSubmit.bind(this)}>
-				<input
-					onChange={e => this.setState({ val: e.target.value })}
-					type="text"
-					name="title"
-					className={textfieldClass}
-				/>
-				
-				<button className={btnClass} type='submit'>Create new clickarea</button>
-			</form>
+			<div>
+				<form id="createForm" className={styles.controlsContainer} onSubmit={this.handleSubmit.bind(this)}>
+					<input
+						onChange={e => this.setState({ val: e.target.value })}
+						type="text"
+						name="title"
+						placeholder="Please name your clickarea"
+						className={textfieldClass}
+					/>
+					
+					<button className={btnClass} type='submit'>Add clickarea to view</button>
+				</form>
+			</div>
 		);
 	}
 }

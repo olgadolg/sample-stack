@@ -1,0 +1,25 @@
+:local(.dropzone) {
+	margin-bottom: 20px;
+	position: relative;
+	height: 100px;
+	background: none;
+	border-radius: 3px;
+	border: 2px dashed #fff;
+	color: #4bb2a0;
+}
+
+:local(.activeDropzone) {
+	background-color: #fff;
+	border: 2px solid #4bb2a0;
+}
+
+:local(.dropText) {
+	position: absolute;
+	text-align: center;
+	width: 120px;
+	font-size: 14px;
+	top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Helvetica, Arial, 'sans-serif';
+}

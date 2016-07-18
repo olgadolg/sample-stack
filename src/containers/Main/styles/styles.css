@@ -1,6 +1,7 @@
 
 :global(html) {
 	font-size: 10px;
+	font-family: Helvetica, Arial, 'sans-serif';
 }
 
 :global(body) {
@@ -25,4 +26,8 @@
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-	}
+}
+
+:global(h2) {
+	font-weight: normal;
+}
