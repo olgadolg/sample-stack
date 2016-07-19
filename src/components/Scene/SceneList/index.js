@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import _ from 'underscore';
+import $ from 'jquery';
 import styles from './styles/styles.css';
+import SceneListItem from '../SceneListItem';
 
 export default class SceneList extends Component {
 
@@ -14,15 +17,28 @@ export default class SceneList extends Component {
 	}
 
 	render() {
+		var scenes = _.map(this.props.scenes, function(scene, i) {
+			return (
+				<SceneListItem item={ scene } /> 
+			)
+		});
+
+		if (scenes.length) {
+			$('#sceneSelect').show();
+		}
 
 		return (
-			<select className={styles.select}>
-				<option selected="selected">Choose view</option>
-				<option>I love Steve Jobs</option>
-				<option>PHP is awesome</option>
+			<select id="sceneSelect" className={ styles.select }>
+				{scenes}
 			</select>
 		);
 	}
 }
 
-export default connect()(SceneList);
+const mapStateToProps = (state) => { 
+	return {
+		scenes: state.clickareas.views
+	}
+}
+
+export default connect(mapStateToProps)(SceneList);

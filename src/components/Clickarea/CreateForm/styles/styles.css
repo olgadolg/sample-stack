@@ -37,6 +37,7 @@
 	box-shadow: 0 0 0 0 #6EC2B3;
 	color: #fff;
 	margin: 5px 0;
+	width: 200px;
 }
 
 
@@ -47,4 +48,5 @@
 
 :local(.createForm) {
 	display: none;
+	margin-bottom: 20px;
 }

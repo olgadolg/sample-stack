@@ -16,10 +16,10 @@ export const uploadImage = (files) => (dispatch) => {
 				dispatch({
 					type: 'ADD_VIEW',
 					data: {
-						name: file.name.replace(/(.*)\.(.*?)$/, "$1")
+						name: file.name.replace(/(.*)\.(.*?)$/, '$1')
 					}
-				})
+				});
 			}
 		});
 	});
-}
+};

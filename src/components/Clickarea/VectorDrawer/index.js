@@ -863,9 +863,6 @@ export default class DrawVectors extends Component {
 				d3.select(this)
 					.append('path')
 					.attr('data-id', function(d) {
-
-						console.log(self.state.props.views)
-
 						if (self.state.props.views[self.state.currentView].clickareas.length > 0) {
 							return self.state.props.views[self.state.currentView].clickareas[i].goTo;
 						}

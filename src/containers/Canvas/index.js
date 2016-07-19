@@ -8,8 +8,8 @@ import backgroundImage from '../../images/3-1.jpg'
 
 export default class Canvas extends Component {
 
-	constructor(props) {
-		super(props);
+	constructor (props) {
+		super (props);
 
 		this.state = {
 			views: {},
@@ -19,7 +19,7 @@ export default class Canvas extends Component {
 		}
 	}
 
-	componentDidMount() {
+	componentDidMount () {
 		this.vectorDrawer = new VectorDrawer(
 			this.refs.svgWrapper,
 			updateClickarea,
@@ -30,30 +30,35 @@ export default class Canvas extends Component {
 		this.vectorDrawer.update(this.state);
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate (prevProps) {
 		if (Object.keys(this.state.views).length > 0) {
 			this.vectorDrawer.update(this.state);
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps (nextProps) {
 		this.state.views = nextProps.clickareas.views;
 		this.state.fill = nextProps.clickareas.fill;
 
 		if (nextProps.clickareas.isNew == true) {
-			this.state.currentView = nextProps.clickareas.views[Object.keys(nextProps.clickareas.views)].viewId;
-			this.vectorDrawer.state.currentView = nextProps.clickareas.views[Object.keys(nextProps.clickareas.views)].viewId;
-			this.vectorDrawer.state.views.push(nextProps.clickareas.views[Object.keys(nextProps.clickareas.views)].viewId);
+			this.setCurrentScene(nextProps);
 			this.props.dispatch(makeClickarea(nextProps.clickarea, this.state.currentView));
 			this.openClickarea();
 		}
 
 		if (typeof this.props.clickareas.isNew != undefined) {
-			$('#createForm').fadeIn();
+			$('#createForm').show();
 		}
 	}
 
-	openClickarea() {
+	setCurrentScene (nextProps) {
+		const objLength = Object.keys(nextProps.clickareas.views);
+		this.state.currentView = nextProps.clickareas.views[objLength].viewId;
+		this.vectorDrawer.state.currentView = nextProps.clickareas.views[objLength].viewId;
+		this.vectorDrawer.state.views.push(this.vectorDrawer.state.currentView);
+	}
+
+	openClickarea () {
 		this.vectorDrawer.settings.initRectFade = false;
 
 		if (this.vectorDrawer.state.nodes.length == 0 ||
@@ -63,7 +68,7 @@ export default class Canvas extends Component {
 		}
 	}
 
-	render() {
+	render () {
 		return (
 			<div ref='svgWrapper'>
 				<img src={backgroundImage} alt="background" />

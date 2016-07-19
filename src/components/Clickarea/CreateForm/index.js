@@ -37,11 +37,11 @@ export default class CreateClickarea extends Component {
 						onChange={e => this.setState({ val: e.target.value })}
 						type="text"
 						name="title"
-						placeholder="Please name your clickarea"
+						placeholder="Enter clickarea title"
 						className={textfieldClass}
 					/>
-					
-					<button className={btnClass} type='submit'>Add clickarea to view</button>
+
+					<button className={btnClass} type='submit'>Add clickarea</button>
 				</form>
 			</div>
 		);

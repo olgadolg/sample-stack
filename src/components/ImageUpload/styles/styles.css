@@ -4,13 +4,12 @@
 	height: 100px;
 	background: none;
 	border-radius: 3px;
-	border: 2px dashed #013B2D;
-	color: #013B2D;
+	border: 2px dashed #fff;
+	color: #fff;
 }
 
 :local(.activeDropzone) {
-	background-color: #fff;
-	border: 2px solid #4bb2a0;
+	border: 2px dashed #4bb2a0;
 }
 
 :local(.dropText) {
