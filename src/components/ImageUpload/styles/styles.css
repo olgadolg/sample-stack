@@ -4,8 +4,8 @@
 	height: 100px;
 	background: none;
 	border-radius: 3px;
-	border: 2px dashed #fff;
-	color: #4bb2a0;
+	border: 2px dashed #013B2D;
+	color: #013B2D;
 }
 
 :local(.activeDropzone) {

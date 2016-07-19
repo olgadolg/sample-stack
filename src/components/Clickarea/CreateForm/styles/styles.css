@@ -44,3 +44,7 @@
 	background-color: #4bb2a0;
 	color: #fff;
 }
+
+:local(.createForm) {
+	display: none;
+}

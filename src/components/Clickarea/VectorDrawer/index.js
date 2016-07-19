@@ -13,6 +13,7 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
+			views: [],
 			shapes: 0,
 			props: null,
 			coords: null,
@@ -29,7 +30,7 @@ export default class DrawVectors extends Component {
 		this.settings = {
 			width: 1024,
 			height: 570,
-			clickarea: null,
+			clickarea: 0,
 			isCreating: false,
 			dispatch: dispatch,
 			updateClickareaFn: updateClickareaFn,
@@ -519,6 +520,7 @@ export default class DrawVectors extends Component {
 			this.state.allowedToCreateNew = true;
 			this.animateNewClickarea(0, 0, 750, 500, "none");
 			this.state.nodes[this.settings.clickarea -1].push(d);
+			this.updateClickarea();
 			this.update();
 		}
 		
@@ -860,7 +862,14 @@ export default class DrawVectors extends Component {
 
 				d3.select(this)
 					.append('path')
-					.attr('data-id', function(d) { return self.state.props.views[i].goTo; })
+					.attr('data-id', function(d) {
+
+						console.log(self.state.props.views)
+
+						if (self.state.props.views[self.state.currentView].clickareas.length > 0) {
+							return self.state.props.views[self.state.currentView].clickareas[i].goTo;
+						}
+					})
 					.attr("class", function(d) { return "clickarea " + "clickarea" + parseInt(i + 1)
 					 })
 					.attr("fill-opacity", function(d) {
@@ -955,7 +964,7 @@ export default class DrawVectors extends Component {
 	 */
 	updateClickarea() {
 		this.state.pathData = d3.select('.clickarea' + this.settings.clickarea).attr('d');
-		this.settings.dispatch(this.settings.updateClickareaFn(this.state.pathData, this.settings.clickarea -1))
+		this.settings.dispatch(this.settings.updateClickareaFn(this.state.pathData, this.settings.clickarea -1, this.state.currentView))
 	}
 
 	/**

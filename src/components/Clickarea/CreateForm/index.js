@@ -32,7 +32,7 @@ export default class CreateClickarea extends Component {
 
 		return (
 			<div>
-				<form id="createForm" className={styles.controlsContainer} onSubmit={this.handleSubmit.bind(this)}>
+				<form id="createForm" className={styles.createForm} onSubmit={this.handleSubmit.bind(this)}>
 					<input
 						onChange={e => this.setState({ val: e.target.value })}
 						type="text"

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import VectorDrawer from '../../components/Clickarea/VectorDrawer';
-import { updateClickarea, removeClickarea } from '../../actions/clickarea';
+import { updateClickarea, removeClickarea, makeClickarea } from '../../actions/clickarea';
 import styles from './styles/styles.css';
 import backgroundImage from '../../images/3-1.jpg'
 
@@ -12,7 +13,9 @@ export default class Canvas extends Component {
 
 		this.state = {
 			views: {},
-			fill: false
+			fill: false,
+			currentView: null,
+			noItems: 0
 		}
 	}
 
@@ -37,15 +40,16 @@ export default class Canvas extends Component {
 		this.state.views = nextProps.clickareas.views;
 		this.state.fill = nextProps.clickareas.fill;
 
-		if (Object.keys(this.props.clickareas.views).length !==
-			Object.keys(this.state.views).length &&
-			Object.keys(this.state.views).length > 0) {
-			
+		if (nextProps.clickareas.isNew == true) {
+			this.state.currentView = nextProps.clickareas.views[Object.keys(nextProps.clickareas.views)].viewId;
+			this.vectorDrawer.state.currentView = nextProps.clickareas.views[Object.keys(nextProps.clickareas.views)].viewId;
+			this.vectorDrawer.state.views.push(nextProps.clickareas.views[Object.keys(nextProps.clickareas.views)].viewId);
+			this.props.dispatch(makeClickarea(nextProps.clickarea, this.state.currentView));
 			this.openClickarea();
 		}
 
-		if (Object.keys(nextProps.clickareas.views).length > 0) {
-			this.vectorDrawer.update(this.state);
+		if (typeof this.props.clickareas.isNew != undefined) {
+			$('#createForm').fadeIn();
 		}
 	}
 
@@ -68,5 +72,11 @@ export default class Canvas extends Component {
 	}
 }
 
-const mapStateToProps = (state) => ({ clickareas: state.clickareas })
+const mapStateToProps = (state) => { 
+	return {
+		clickareas: state.clickareas,
+		clickarea: state.clickareas.clickarea
+	}
+}
+
 export default connect(mapStateToProps)(Canvas);

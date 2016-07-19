@@ -13,7 +13,12 @@ export const uploadImage = (files) => (dispatch) => {
 		req.field('filename', file.name);
 		req.end(function(err, res) {
 			if (res.status === 200) {
-
+				dispatch({
+					type: 'ADD_VIEW',
+					data: {
+						name: file.name.replace(/(.*)\.(.*?)$/, "$1")
+					}
+				})
 			}
 		});
 	});
