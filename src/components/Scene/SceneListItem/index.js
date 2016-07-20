@@ -5,17 +5,17 @@ import styles from './styles/styles.css';
 
 export default class SceneListItem extends Component {
 
-	constructor(props) {
+	constructor (props) {
 		super(props);
 
 		this.state = {
-			
+
 		};
 	}
 
-	render() {
+	render () {
 		return (
-			<option selected="selected">{ this.props.item.viewId }</option>
+			<option value={this.props.item.image} selected="selected">{this.props.item.viewId}</option>
 		);
 	}
 }

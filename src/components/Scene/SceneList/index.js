@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import _ from 'underscore';
 import $ from 'jquery';
 import styles from './styles/styles.css';
@@ -8,19 +7,24 @@ import SceneListItem from '../SceneListItem';
 
 export default class SceneList extends Component {
 
-	constructor(props) {
+	constructor (props) {
 		super(props);
 
 		this.state = {
-			
+
 		};
+
 	}
 
-	render() {
-		var scenes = _.map(this.props.scenes, function(scene, i) {
+	onSelectChange (event) {
+		console.log('change', event.currentTarget.value);
+	}
+
+	render () {
+		var scenes = _.map(this.props.scenes, function (scene, i) {
 			return (
-				<SceneListItem item={ scene } /> 
-			)
+				<SceneListItem item={scene} />
+			);
 		});
 
 		if (scenes.length) {
@@ -28,17 +32,20 @@ export default class SceneList extends Component {
 		}
 
 		return (
-			<select id="sceneSelect" className={ styles.select }>
+			<select
+				id="sceneSelect" className={styles.select}
+				onChange={(e) => this.onSelectChange(e)}
+			>
 				{scenes}
 			</select>
 		);
 	}
 }
 
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
 	return {
 		scenes: state.clickareas.views
-	}
-}
+	};
+};
 
 export default connect(mapStateToProps)(SceneList);

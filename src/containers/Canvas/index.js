@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import VectorDrawer from '../../components/Clickarea/VectorDrawer';
 import { updateClickarea, removeClickarea, makeClickarea } from '../../actions/clickarea';
 import styles from './styles/styles.css';
@@ -16,7 +15,7 @@ export default class Canvas extends Component {
 			currentView: null,
 			noItems: 0,
 			backgroundImg: null
-		}
+		};
 	}
 
 	componentDidMount () {
@@ -40,22 +39,24 @@ export default class Canvas extends Component {
 		this.state.views = nextProps.clickareas.views;
 		this.state.fill = nextProps.clickareas.fill;
 
-		const objLength = Object.keys(nextProps.clickareas.views);
+		const objLength = Object.keys(nextProps.clickareas.views)[Object.keys(nextProps.clickareas.views).length - 1];
 
-		if (nextProps.clickareas.isNew == true) {
-			this.setCurrentScene(nextProps, objLength);
-			this.props.dispatch(makeClickarea(nextProps.clickarea, this.state.currentView));
-			this.openClickarea();
-		}
+		this.setState({
+			views: nextProps.clickareas.views,
+			fill: nextProps.clickareas.fill,
+			currentView: nextProps.clickareas.views[objLength].viewId
+		}, () => {
+			if (nextProps.clickareas.isNew === true) {
+				this.setCurrentScene(nextProps, objLength);
+				this.props.dispatch(makeClickarea(nextProps.clickarea, this.state.currentView));
+				this.openClickarea();
+			}
 
-		console.log('baaaaaaaar')
-
-
-		this.state.currentView = nextProps.clickareas.views[objLength].viewId;
-
-		if (typeof this.props.clickareas.isNew != undefined) {
-			$('#createForm').show();
-		}
+			if (typeof this.props.clickareas.isNew !== undefined) {
+				const form = document.getElementById('createForm');
+				form.style.display = 'block';
+			}
+		});
 	}
 
 	setCurrentScene (nextProps, objLength) {
@@ -67,25 +68,22 @@ export default class Canvas extends Component {
 	openClickarea () {
 		this.vectorDrawer.settings.initRectFade = false;
 
-		if (this.vectorDrawer.state.nodes.length == 0 ||
-			this.vectorDrawer.state.allowedToCreateNew == true) {
+		if (this.vectorDrawer.state.nodes.length === 0 ||
+			this.vectorDrawer.state.allowedToCreateNew === true) {
 			this.vectorDrawer.animateNewClickarea(80, 0, 1500, 250,
 				'bounce', this.vectorDrawer.createClickarea);
 		}
 	}
 
 	render () {
-
-		var backgroundImg;
-
-
+		let backgroundImg;
 
 		if (Object.keys(this.props.clickareas.views).length) {
 			backgroundImg = require('../../images/' + this.props.clickareas.views[this.state.currentView].image);
 		}
 
 		return (
-			<div ref='svgWrapper'>
+			<div ref="svgWrapper">
 				<img className="canvasIcon" src={backgroundImg} />
 			</div>
 		);
@@ -96,7 +94,7 @@ const mapStateToProps = (state) => {
 	return {
 		clickareas: state.clickareas,
 		clickarea: state.clickareas.clickarea
-	}
-}
+	};
+};
 
 export default connect(mapStateToProps)(Canvas);
