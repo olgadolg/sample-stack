@@ -14,11 +14,9 @@ export const uploadImage = (files) => (dispatch) => {
 		req.end(function(err, res) {
 			if (res.status === 200) {
 
-				const 
+				const
 					fileArray = file.name.split("."),
 					extension = fileArray[(fileArray.length)-1];
-
-				console.log(extension);
 
 				dispatch({
 					type: 'ADD_VIEW',

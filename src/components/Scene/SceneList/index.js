@@ -4,6 +4,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import SceneListItem from '../SceneListItem';
+import { updateView } from '../../../actions/views';
 
 export default class SceneList extends Component {
 
@@ -13,11 +14,10 @@ export default class SceneList extends Component {
 		this.state = {
 
 		};
-
 	}
 
 	onSelectChange (event) {
-		console.log('change', event.currentTarget.value);
+		this.props.dispatch(updateView(event.currentTarget.value));
 	}
 
 	render () {

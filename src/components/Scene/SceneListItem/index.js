@@ -1,16 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
-import styles from './styles/styles.css';
 
 export default class SceneListItem extends Component {
 
 	constructor (props) {
 		super(props);
 
-		this.state = {
-
-		};
+		this.state = {};
 	}
 
 	render () {

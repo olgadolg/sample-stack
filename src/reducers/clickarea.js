@@ -3,8 +3,7 @@ import { handleActions } from 'redux-actions';
 export default handleActions({
 
 	ADD_CLICKAREA: (state, action) => {
-
-		let 
+		let
 			clickarea = {...state.clickarea},
 			isNew = [...state.isNew];
 
@@ -16,46 +15,51 @@ export default handleActions({
 			...state,
 			clickarea,
 			isNew
-		}
+		};
 	},
 
 	CREATE_CLICKAREA: (state, action) => {
-
-		let 
+		let
 			views = {...state.views},
 			isNew = [...state.isNew];
 
-		views[action.data.view]['clickareas'][Object.keys(views[action.data.view].clickareas).length] = action.data.clickarea;
+		let currentView = [...state.currentView.replace(/(.*)\.(.*?)$/, '$1')];
+		currentView = currentView.join('.').replace(/\./g, '');
+
+		views[currentView]['clickareas'][Object.keys(views[currentView].clickareas).length] = action.data.clickarea;
 		isNew = false;
 
 		return {
 			...state,
 			views,
 			isNew
-		}
+		};
 	},
 
 	UPDATE_CLICKAREA: (state, action) => {
-		let 
+		let
 			views = {...state.views},
 			isNew = [...state.isNew];
 
+		let currentView = [...state.currentView.replace(/(.*)\.(.*?)$/, '$1')];
+		currentView = currentView.join('.').replace(/\./g, '');
+
 		isNew = false;
 
-		views[action.data.view].clickareas[action.data.index].coords = action.data.coords;
+		views[currentView].clickareas[action.data.index].coords = action.data.coords;
 
 		return {
 			...state,
 			views,
 			isNew
-		}
+		};
 	},
-	
+
 	REMOVE_CLICKAREA: (state, action) => {
-		let 
+		let
 			views = {...state.views},
 			isNew = [...state.isNew];
-		
+
 		isNew = false;
 
 		delete views[action.data];
@@ -64,9 +68,9 @@ export default handleActions({
 			...state,
 			views,
 			isNew
-		}
+		};
 	},
-	
+
 	UPDATE_FILL: (state, action) => {
 		let isNew = [...state.isNew];
 
@@ -76,30 +80,44 @@ export default handleActions({
 			...state,
 			fill: action.data,
 			isNew
-		}
+		};
 	},
 
 	ADD_VIEW: (state, action) => {
-		let 
+		let
 			views = {...state.views},
+			currentView = [...state.currentView],
 			isNew = [...state.isNew];
 
 		isNew = false;
+		currentView = action.data.image;
 
 		views[action.data.fileName] = {
 			viewId: action.data.fileName,
 			image: action.data.image,
 			clickareas: {}
-		}
+		};
 
 		return {
 			...state,
 			views,
-			isNew
-		}
+			isNew,
+			currentView
+		};
+	},
+
+	UPDATE_VIEW: (state, action) => {
+		let currentView = [...state.currentView];
+		currentView = action.data;
+
+		return {
+			...state,
+			currentView
+		};
 	}
 }, {
 	views: {},
+	currentView: 0,
 	clickarea: {
 		coords: null,
 		goTo: null
@@ -107,5 +125,3 @@ export default handleActions({
 	fill: false,
 	isNew: false
 });
-
-
