@@ -42,10 +42,6 @@ export default handleActions({
 
 		isNew = false;
 
-		console.log(views[action.data.view].clickareas[action.data.index], action.data.index)
-
-
-
 		views[action.data.view].clickareas[action.data.index].coords = action.data.coords;
 
 		return {
@@ -90,13 +86,11 @@ export default handleActions({
 
 		isNew = false;
 
-		views[action.data.name] = {
-			viewId: action.data.name,
+		views[action.data.fileName] = {
+			viewId: action.data.fileName,
+			image: action.data.image,
 			clickareas: {}
 		}
-
-
-		console.log('adds view')
 
 		return {
 			...state,

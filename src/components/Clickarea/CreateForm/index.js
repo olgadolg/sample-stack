@@ -6,20 +6,20 @@ import styles from './styles/styles.css';
 
 export default class CreateClickarea extends Component {
 
-	constructor(props) {
+	constructor (props) {
 		super(props);
 
 		this.state = {
 			val: null
-		}
+		};
 	}
 
-	handleSubmit(event) {
+	handleSubmit (event) {
 		event.preventDefault();
 		this.props.dispatch(createClickarea(this.state.val));
 	}
 
-	render() {
+	render () {
 		const textfieldClass = classnames({
 			'textfield': true,
 			[styles.textfield]: true
@@ -34,14 +34,14 @@ export default class CreateClickarea extends Component {
 			<div>
 				<form id="createForm" className={styles.createForm} onSubmit={this.handleSubmit.bind(this)}>
 					<input
-						onChange={e => this.setState({ val: e.target.value })}
+						onChange={(e) => this.setState({ val: e.target.value })}
 						type="text"
 						name="title"
 						placeholder="Enter clickarea title"
 						className={textfieldClass}
 					/>
 
-					<button className={btnClass} type='submit'>Add clickarea</button>
+					<button className={btnClass} type="submit">Add clickarea</button>
 				</form>
 			</div>
 		);
@@ -49,7 +49,7 @@ export default class CreateClickarea extends Component {
 }
 
 CreateClickarea.propTypes = {
-  dispatch: PropTypes.func
-}
+	dispatch: PropTypes.func
+};
 
 export default connect()(CreateClickarea);
