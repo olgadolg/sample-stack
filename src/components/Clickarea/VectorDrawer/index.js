@@ -367,7 +367,7 @@ export default class DrawVectors extends Component {
 
 			break;
 		}
-	};
+	}
 
 	/**
 	 * remove edges associated with a node
@@ -376,7 +376,7 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	cleanupElements() {
+	cleanupElements () {
 		var el;
 
 		$('.clickarea' + parseInt(this.settings.clickarea)).remove()
@@ -387,7 +387,7 @@ export default class DrawVectors extends Component {
 			$(el)
 				.removeClass()
 				.addClass('clickarea')
-				.addClass('clickarea' + parseInt(i + 1))
+				.addClass('clickarea' + parseInt(i + 1));
 		}
 
 		for (var i = 0; i < $('.overlay').length; i++) {
@@ -407,7 +407,7 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	svgKeyUp() {
+	svgKeyUp () {
 		this.state.multipleSelection = false;
 	};
 
@@ -418,15 +418,11 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	svgMouseDown(d) {
-		var
-			item,
-			edge;
-
+	svgMouseDown (d) {
 		this.state.mouseDown = true;
 		this.state.selectedNode = false;
 
-		if (d3.event.target.tagName != 'path' && this.state.multipleSelection === false) {
+		if (d3.event.target.tagName !== 'path' && this.state.multipleSelection === false) {
 			d3.selectAll('.handle').classed('selected', false);
 
 			if (!d3.event.shiftKey) {
@@ -434,7 +430,7 @@ export default class DrawVectors extends Component {
 				this.state.shapeIsSelected = false;
 			}
 
-		} else if (this.state.multipleSelection == true && this.state.multipleHandles.length == 2) {
+		} else if (this.state.multipleSelection === true && this.state.multipleHandles.length === 2) {
 			this.multipleDataUpdate();
 			this.update();
 		}
@@ -447,7 +443,7 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	multipleDataUpdate() {
+	multipleDataUpdate () {
 		var
 			isClosed = false,
 			edge,
@@ -455,8 +451,8 @@ export default class DrawVectors extends Component {
 
 		d3.selectAll('.handle').classed('selected', false);
 
-		for (let i = 0; i < this.state.edges[this.settings.clickarea -1].length; i++) {
-			if (this.state.edges[this.settings.clickarea -1][i].closed == true) {
+		for (let i = 0; i < this.state.edges[this.settings.clickarea - 1].length; i++) {
+			if (this.state.edges[this.settings.clickarea - 1][i].closed === true) {
 				isClosed = true;
 			}
 		}
@@ -471,22 +467,22 @@ export default class DrawVectors extends Component {
 		edge = {
 			closed: isClosed,
 			source: null,
-			target: null,
-		}
+			target: null
+		};
 
 		if (this.state.multipleHandles[0] === 0 && this.state.multipleHandles[1] !== 1) {
-			this.state.nodes[parseInt(this.settings.clickarea -1)].push(node);
+			this.state.nodes[parseInt(this.settings.clickarea - 1)].push(node);
 		} else {
-			this.state.nodes[parseInt(this.settings.clickarea -1)].splice(this.state.multipleHandles[1], 0, node);
+			this.state.nodes[parseInt(this.settings.clickarea - 1)].splice(this.state.multipleHandles[1], 0, node);
 		}
 
 		this.state.edges[parseInt(this.settings.clickarea -1)].push(edge);
 
-		for (let i = 0; i < this.state.edges[this.settings.clickarea -1].length; i++) {
-			for (let j = 0; j < this.state.nodes[this.settings.clickarea -1].length; j++) {
-				if (j == i) {
-					this.state.edges[this.settings.clickarea -1][i].source = this.state.nodes[this.settings.clickarea -1][j];
-					this.state.edges[this.settings.clickarea -1][i].target = this.state.nodes[this.settings.clickarea -1][j+1];
+		for (let i = 0; i < this.state.edges[this.settings.clickarea - 1].length; i++) {
+			for (let j = 0; j < this.state.nodes[this.settings.clickarea - 1].length; j++) {
+				if (j === i) {
+					this.state.edges[this.settings.clickarea - 1][i].source = this.state.nodes[this.settings.clickarea -1][j];
+					this.state.edges[this.settings.clickarea - 1][i].target = this.state.nodes[this.settings.clickarea -1][j+1];
 				}
 			}
 		}
@@ -502,7 +498,7 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	svgMouseUp() {
+	svgMouseUp () {
 		var
 			xycoords,
 			d;
@@ -513,7 +509,7 @@ export default class DrawVectors extends Component {
 				return;
 			}
 
-			xycoords = d3.mouse(this.svgG.node()),
+			xycoords = d3.mouse(this.svgG.node());
 
 			d = {
 				id: self.idct++,
@@ -522,12 +518,10 @@ export default class DrawVectors extends Component {
 				y: xycoords[1]
 			};
 
-			console.log('clickarea', this.settings.clickarea)
-
 			this.state.allowedToCreateNew = true;
 			this.animateNewClickarea(0, 0, 750, 500, 'none');
-			this.state.nodes[this.settings.clickarea -1].push(d);
-			//this.updateClickarea();
+			this.state.nodes[this.settings.clickarea - 1].push(d);
+			this.updateClickarea();
 			this.update();
 		}
 
