@@ -57,8 +57,6 @@ export default handleActions({
 		isNew = false;
 		viewUpdate = false;
 
-		console.log('fuckfuck', action.data)
-
 		views[view].nodes = action.data.nodes;
 		views[view].edges = action.data.edges;
 
@@ -74,21 +72,16 @@ export default handleActions({
 	},
 
 	REMOVE_CLICKAREA: (state, action) => {
-		let
-			views = {...state.views},
-			isNew = [...state.isNew];
+		let views = {...state.views};
+		let isNew = [...state.isNew];
 
 		isNew = false;
 
 		delete views[action.data];
 
-		//views.nodes = action.data.nodes;
-		//views.edges = action.data.edges;
-
 		return {
 			...state,
 			views,
-			currentView,
 			isNew
 		};
 	},
