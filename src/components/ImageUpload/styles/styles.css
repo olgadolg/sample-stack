@@ -9,7 +9,8 @@
 }
 
 :local(.activeDropzone) {
-	border: 2px dashed #4bb2a0;
+	background: rgba(255, 255, 255, 0.9);
+	color: #4bb2a0;
 }
 
 :local(.dropText) {
