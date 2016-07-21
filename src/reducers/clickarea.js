@@ -184,26 +184,6 @@ export default handleActions({
 		let currentView = _state.currentView;
 		currentView = action.data.view;
 
-		//let view = action.data.view.replace(/(.*)\.(.*?)$/, '$1');
-
-		//views[view].nodes = action.data.nodes;
-		//views[view].edges = action.data.edges;
-
-		console.log(views.length)
-
-		for (var i in views) {
-
-			console.log('enter view loop', i);
-
-			/*
-			if (i == view) {
-				console.log('in view loop now.......................', i)
-				views[view].nodes = action.data.nodes;
-				views[view].edges = action.data.edges;
-			}
-			*/
-		}
-
 		return {
 			...state,
 			isNew,
