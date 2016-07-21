@@ -109,7 +109,7 @@ export default handleActions({
 			isNew = [...state.isNew];
 
 		isNew = false;
-		viewUpdate = false;
+		viewUpdate = true;
 		currentView = action.data.image;
 
 		views[action.data.fileName] = {
