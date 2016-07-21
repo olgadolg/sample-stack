@@ -4,21 +4,21 @@ export const createClickarea = (name) => (dispatch) => {
 	dispatch(addClickarea({name}));
 };
 
-export const makeClickarea = (clickarea, view) => (dispatch) => {
+export const makeClickarea = (clickarea, view, nodes, edges) => (dispatch) => {
 	dispatch({
 		type: 'CREATE_CLICKAREA',
-		data: {clickarea, view}
+		data: {clickarea, view, nodes, edges}
 	});
 };
 
-export const updateClickarea = (coords, index, view) => (dispatch) => {
+export const updateClickarea = (coords, index, view, nodes, edges) => (dispatch) => {
 	dispatch({
 		type: 'UPDATE_CLICKAREA',
-		data: {coords, index, view}
+		data: {coords, index, view, nodes, edges}
 	});
 };
 
-export const removeClickarea = (index) => (dispatch) => {
+export const removeClickarea = (index, nodes, edges) => (dispatch) => {
 	dispatch({
 		type: 'REMOVE_CLICKAREA',
 		data: index

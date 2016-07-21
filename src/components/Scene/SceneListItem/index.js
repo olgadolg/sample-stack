@@ -10,6 +10,9 @@ export default class SceneListItem extends Component {
 	}
 
 	render () {
+
+		console.log(this.props)
+
 		return (
 			<option value={this.props.item.image} selected="selected">{this.props.item.viewId}</option>
 		);
