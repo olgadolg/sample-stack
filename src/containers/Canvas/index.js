@@ -43,8 +43,6 @@ export default class Canvas extends Component {
 		this.vectorDrawer.state.isNew = nextProps.clickareas.isNew;
 
 		if (nextProps.clickareas.viewUpdate === true) {
-			// updatera rätt vy med noder/edges
-			// hämta noder/edges från andra vyn
 			this.props.dispatch(selectViewUpdate(
 				nextProps.clickareas.currentView
 			));
@@ -58,7 +56,6 @@ export default class Canvas extends Component {
 			currentView: currentView,
 			backgroundImg: nextProps.clickareas.views[nextProps.clickareas.currentView]
 		}, () => {
-
 			if (nextProps.clickareas.viewUpdate === true || this.state.currentView !== null && this.props.clickareas.currentView !== nextProps.clickareas.currentView) {
 				this.vectorDrawer = new VectorDrawer(
 					this.refs.svgWrapper,
@@ -96,7 +93,6 @@ export default class Canvas extends Component {
 
 	openClickarea (vectorState) {
 		this.vectorDrawer.settings.initRectFade = false;
-
 		this.vectorDrawer.animateNewClickarea(80, 0, 1500, 250,
 			'bounce', this.vectorDrawer.createClickarea);
 	}

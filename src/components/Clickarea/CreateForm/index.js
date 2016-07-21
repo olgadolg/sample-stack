@@ -17,6 +17,7 @@ export default class CreateClickarea extends Component {
 	handleSubmit (event) {
 		event.preventDefault();
 		this.props.dispatch(createClickarea(this.state.val));
+		this.setState({ val: '' });
 	}
 
 	render () {
@@ -39,6 +40,7 @@ export default class CreateClickarea extends Component {
 						name="title"
 						placeholder="Enter clickarea title"
 						className={textfieldClass}
+						value={this.state.val}
 					/>
 
 					<button className={btnClass} type="submit">Add clickarea</button>
