@@ -3,10 +3,8 @@ import { handleActions } from 'redux-actions';
 export default handleActions({
 
 	ADD_CLICKAREA: (state, action) => {
-		let
-			clickarea = {...state.clickarea},
-			isNew = [...state.isNew];
-
+		let clickarea = {...state.clickarea};
+		let isNew = [...state.isNew];
 
 		clickarea.goTo = action.payload.name;
 		isNew = true;
@@ -19,11 +17,10 @@ export default handleActions({
 	},
 
 	CREATE_CLICKAREA: (state, action) => {
-		let
-			_state = {...state},
-			views = {...state.views},
-			viewUpdate = [...state.viewUpdate],
-			isNew = [...state.isNew];
+		let _state = {...state};
+		let views = {...state.views};
+		let viewUpdate = [...state.viewUpdate];
+		let isNew = [...state.isNew];
 
 		let currentView = _state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
@@ -45,12 +42,10 @@ export default handleActions({
 	},
 
 	UPDATE_CLICKAREA: (state, action) => {
-		let
-			_state = {...state},
-			views = {...state.views},
-			viewUpdate = [...state.viewUpdate],
-			isNew = [...state.isNew];
-
+		let _state = {...state};
+		let views = {...state.views};
+		let viewUpdate = [...state.viewUpdate];
+		let isNew = [...state.isNew];
 		let currentView = _state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 
@@ -88,11 +83,8 @@ export default handleActions({
 
 	UPDATE_FILL: (state, action) => {
 		let isNew = [...state.isNew];
-		let viewUpdate = [...state.viewUpdate];
-
 
 		isNew = false;
-		viewUpdate = false;
 
 		return {
 			...state,
@@ -102,11 +94,10 @@ export default handleActions({
 	},
 
 	ADD_VIEW: (state, action) => {
-		let
-			views = {...state.views},
-			currentView = [...state.currentView],
-			viewUpdate = [...state.viewUpdate],
-			isNew = [...state.isNew];
+		let views = {...state.views};
+		let currentView = [...state.currentView];
+		let viewUpdate = [...state.viewUpdate];
+		let isNew = [...state.isNew];
 
 		isNew = false;
 		viewUpdate = true;
@@ -130,32 +121,15 @@ export default handleActions({
 	},
 
 	SELECT_UPDATE_VIEW: (state, action) => {
-
-		console.log('views...............', action)
-		let view = action.data.view.replace(/(.*)\.(.*?)$/, '$1');
-
 		let _state = {...state};
-		let views = {...state.views};
 		var viewUpdate = [...state.viewUpdate];
 		var isNew = [...state.isNew];
-
-		view = action.data.view.replace(/(.*)\.(.*?)$/, '$1');
 
 		isNew = false;
 		viewUpdate = false;
 
 		let currentView = _state.currentView;
 		currentView = action.data.view;
-
-		/*
-		for (var i in views) {
-			if (i == view) {
-				console.log('in view loop now.......................', i)
-				views[i].nodes = action.data.nodes;
-				views[i].edges = action.data.edges;
-			}
-		}
-		*/
 
 		return {
 			...state,
@@ -167,7 +141,6 @@ export default handleActions({
 
 	UPDATE_VIEW: (state, action) => {
 		let _state = {...state};
-		let views = {...state.views};
 		var viewUpdate = [...state.viewUpdate];
 		var isNew = [...state.isNew];
 

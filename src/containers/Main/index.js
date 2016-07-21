@@ -5,7 +5,7 @@ import styles from './styles/styles.css';
 
 export default class Main extends Component {
 
-	render() {
+	render () {
 		return (
 			<div className="wrapper">
 				<ControlContainer />

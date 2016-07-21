@@ -72,7 +72,6 @@ export default class Canvas extends Component {
 			}
 
 			if (nextProps.clickareas.isNew === true) {
-
 				vectorState.currentView = views[index].viewId;
 				vectorState.views.push(vectorState.currentView);
 				this.props.dispatch(makeClickarea(
