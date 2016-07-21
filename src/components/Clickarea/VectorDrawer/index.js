@@ -315,6 +315,11 @@ export default class DrawVectors extends Component {
 
 		this.dragHandle = d3.behavior.drag()
 			.origin(function(d) {
+
+				console.log(d3.select(this))
+
+				console.log('origin', d)
+
 				return {x: d.x, y: d.y}
 			})
 			.on('dragstart', function(d) {
@@ -328,7 +333,7 @@ export default class DrawVectors extends Component {
 				self.dragmove.call(self, d);
 			})
 			.on('dragend', function(d) {
-				self.updateClickarea();
+				//self.updateClickarea();
 
 				if (d3.select(this).classed('selected') == false) {
 					//self.state.shapeIsSelected = true;
@@ -351,7 +356,7 @@ export default class DrawVectors extends Component {
 			})
 			.on('dragend', function(d, i) {
 				//self.state.allowedToCreateNew = true;
-				self.updateClickarea();
+				//self.updateClickarea();
 			});
 	}
 
@@ -407,7 +412,7 @@ export default class DrawVectors extends Component {
 						this.state.shapeIsSelected = true;
 						this.state.multipleHandles = [];
 						this.update();
-						this.updateClickarea();
+						//this.updateClickarea();
 					}
 				}
 
@@ -571,7 +576,7 @@ export default class DrawVectors extends Component {
 			this.state.allowedToCreateNew = true;
 			this.animateNewClickarea(0, 0, 750, 500, "none");
 			this.state.nodes[this.settings.clickarea -1].push(d);
-			this.updateClickarea();
+			//this.updateClickarea();
 			this.update();
 		}
 
@@ -729,6 +734,8 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	dragmove(d) {
+
+
 
 		console.log('dragmove')
 		d.x += d3.event.dx;
@@ -1015,14 +1022,13 @@ export default class DrawVectors extends Component {
 
 		console.log('edges', this.state.edges)
 
+		if (d3.selectAll('.overlay').length > this.state.edges.length) {
+			return;
+		}
 
-		//if (this.state.mouseDown === false && this.settings.isCreating == false && this.state.remove == false) {
-			for (let i = 0; i < this.state.edges.length; i++) {
-				//if (i != 0) {
-					this.createContainer();
-				//}
-			}
-		//}
+		for (let i = 0; i < this.state.edges.length; i++) {
+			this.createContainer();
+		}
 	}
 
 	onloadContainerCreator() {
@@ -1081,6 +1087,10 @@ export default class DrawVectors extends Component {
 		if (typeof this.state.nodes === "undefined") {
 			return;
 		}
+
+		//d3.selectAll('.overlay').remove();
+
+
 
 		for (var i=0; i < this.state.nodes.length; i++) {
 			console.log('container')

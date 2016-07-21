@@ -65,6 +65,8 @@ export default class Canvas extends Component {
 		if (nextProps.clickareas.viewUpdate == true || this.state.currentView != null && this.props.clickareas.currentView !== nextProps.clickareas.currentView) {
 
 
+			console.log('dsjkldsfjklsdfljkdlkdfslkjfdlkjdfskjdsflksjdsdkdsfkjfdsljkdfsljkdsfkljdfslkjdfslkjdfslkj')
+
 			this.vectorDrawer = new VectorDrawer(
 				this.refs.svgWrapper,
 				updateClickarea,
