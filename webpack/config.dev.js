@@ -2,9 +2,10 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  devtool: 'source-map',
+  //devtool: 'source-map',
   entry: [
     'babel-polyfill',
+	'webpack-hot-middleware/client',
     './src/index'
   ],
   output: {
@@ -13,6 +14,7 @@ module.exports = {
     publicPath: '/static/'
   },
   plugins: [
+	new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     function () {
       this.plugin('done', function (stats) {

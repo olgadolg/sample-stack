@@ -40,7 +40,6 @@ export default class CreateClickarea extends Component {
 						name="title"
 						placeholder="Enter clickarea title"
 						className={textfieldClass}
-						value={this.state.val}
 					/>
 
 					<button className={btnClass} type="submit">Add clickarea</button>

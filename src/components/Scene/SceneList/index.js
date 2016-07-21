@@ -23,7 +23,7 @@ export default class SceneList extends Component {
 	render () {
 		var scenes = _.map(this.props.scenes, function (scene, i) {
 			return (
-				<SceneListItem item={scene} />
+				<SceneListItem key={scene.viewId} item={scene} />
 			);
 		});
 
