@@ -1,4 +1,5 @@
 import d3 from 'd3';
+import d3tooltip from 'd3-tooltip';
 import $ from 'jquery';
 import { Component } from 'react';
 import './styles/styles.css';
@@ -63,6 +64,8 @@ export default class DrawVectors extends Component {
 			.attr('d', function (d) {
 				return self.rightRoundedRect(-80, 0, 80, 133, 5);
 			});
+
+		this.tooltip = d3tooltip(d3);
 
 		this.lineCreator = d3.svg.line()
 			.x(function (d, i) { return d.x; })
@@ -845,6 +848,17 @@ export default class DrawVectors extends Component {
 
 						return self.lineCreator(self.state.nodes[i]) + z;
 					})
+					.on('click', function (d, i) {
+						d3.select(this)
+							.classed('selected', true);
+					})
+					.on('mouseover', function (d) {
+						self.tooltip.html(d3.select(this).attr('data-id'));
+						self.tooltip.show();
+					})
+					.on('mouseout', function (d) {
+						self.tooltip.hide();
+					})
 					.on('mousedown', function () {
 						if (self.state.multipleHandles.length < 2) {
 							self.state.multipleHandles = [];
@@ -881,7 +895,6 @@ export default class DrawVectors extends Component {
 						}
 					})
 					.attr('class', 'clickarea')
-
 					.attr('d', function (d, i) {
 						return self.lineCreator([self.state.nodes[i]]);
 					})
@@ -889,6 +902,14 @@ export default class DrawVectors extends Component {
 						d3.select(this)
 							.classed('selected', true);
 					}
+					.on('mouseover', function (d) {
+						const html = 'hello';
+						self.tooltip.html(html);
+						self.tooltip.show();
+					})
+					.on('mouseout', function (d) {
+						self.tooltip.hide();
+					})
 					.call(self.dragClickarea)
 				);
 			});
