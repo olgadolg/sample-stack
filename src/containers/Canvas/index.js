@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import VectorDrawer from '../../components/Clickarea/VectorDrawer';
 import { updateClickarea, removeClickarea, makeClickarea } from '../../actions/clickarea';
 import { selectViewUpdate } from '../../actions/views';
@@ -34,6 +35,7 @@ export default class Canvas extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
+		const self = this;
 		const views = nextProps.clickareas.views;
 		const view = Object.keys(views);
 		const index = view[view.length - 1];
@@ -63,6 +65,10 @@ export default class Canvas extends Component {
 					removeClickarea,
 					this.props.dispatch
 				);
+
+				setTimeout(function () {
+					$('.canvasIcon').attr('src', require('../../images/' + self.state.currentView));
+				}, 1000);
 
 				this.vectorDrawer.state.nodes = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].nodes;
 				this.vectorDrawer.state.edges = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].edges;
@@ -97,15 +103,12 @@ export default class Canvas extends Component {
 	}
 
 	render () {
+		let self = this;
 		let backgroundImg;
-
-		if (Object.keys(this.props.clickareas.views).length) {
-			backgroundImg = require('../../images/' + this.state.currentView);
-		}
 
 		return (
 			<div ref="svgWrapper">
-				<img className="canvasIcon" src={backgroundImg} />
+				<img className="canvasIcon" />
 			</div>
 		);
 	}
