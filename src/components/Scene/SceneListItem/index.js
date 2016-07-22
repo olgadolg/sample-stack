@@ -14,6 +14,7 @@ export default class SceneListItem extends Component {
 			<option
 				key={this.props.item}
 				value={this.props.item.image}
+				selected="selected"
 			>
 				{this.props.item.viewId}
 			</option>

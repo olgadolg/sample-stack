@@ -1,30 +1,35 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classnames from 'classnames';
+import $ from 'jquery';
 import { connect } from 'react-redux';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../actions/clickarea';
 
 export default class FillToggler extends Component {
 
-	constructor(props) {
+	constructor (props) {
 		super(props);
 
 		this.state = {
 			checked: false,
 			opacity: 1
-		}
+		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.clickareas.clickarea.coords !== null) {
+			$('.fillTogglerLabel').fadeIn();
+		}
+
 		this.setState({opacity: this.props.opacity});
 	}
 
-	handleChange() {
+	handleChange () {
 		this.props.dispatch(updateFill(!this.state.checked));
 		this.setState({checked: !this.state.checked});
 	}
 
-	render() {
+	render () {
 		const labelClass = classnames({
 			'fillTogglerLabel': true,
 			[styles.fillTogglerLabel]: true
@@ -34,7 +39,7 @@ export default class FillToggler extends Component {
 			'controlIndicator': true,
 			[styles.controlIndicator]: true
 		});
-	
+
 		return (
 			<label className={labelClass}>
 				<span>Toggle fill</span>

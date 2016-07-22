@@ -16,27 +16,30 @@ export default class SceneList extends Component {
 		};
 	}
 
+	componentWillReceiveProps (nextProps) {
+		$('#sceneSelect')
+			.removeAttr('disabled')
+			.css('opacity', 1);
+	}
+
 	onSelectChange (event) {
 		this.props.dispatch(updateView(event.currentTarget.value));
 	}
 
 	render () {
-		var scenes = _.map(this.props.scenes, function (scene, i) {
+		this.scenes = _.map(this.props.scenes, function (scene, i) {
 			return (
 				<SceneListItem key={scene.viewId} item={scene} />
 			);
 		});
 
-		if (scenes.length) {
-			$('#sceneSelect').show();
-		}
-
 		return (
 			<select
+				disabled
 				id="sceneSelect" className={styles.select}
 				onChange={(e) => this.onSelectChange(e)}
 			>
-				{scenes}
+				{this.scenes}
 			</select>
 		);
 	}

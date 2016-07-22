@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import { createClickarea } from '../../../actions/clickarea';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
@@ -12,6 +13,13 @@ export default class CreateClickarea extends Component {
 		this.state = {
 			val: null
 		};
+	}
+
+	componentWillReceiveProps (nextProps) {
+		$('.textfield, .button')
+			.removeAttr('disabled');
+
+		$('#createForm').css('opacity', 1);
 	}
 
 	handleSubmit (event) {
@@ -38,11 +46,13 @@ export default class CreateClickarea extends Component {
 						onChange={(e) => this.setState({ val: e.target.value })}
 						type="text"
 						name="title"
+						disabled
 						placeholder="Enter clickarea title"
 						className={textfieldClass}
+						value={this.state.val}
 					/>
 
-					<button className={btnClass} type="submit">Add clickarea</button>
+					<button disabled className={btnClass} type="submit">Add clickarea</button>
 				</form>
 			</div>
 		);
@@ -53,4 +63,10 @@ CreateClickarea.propTypes = {
 	dispatch: PropTypes.func
 };
 
-export default connect()(CreateClickarea);
+const mapStateToProps = (state) => {
+	return {
+		state: state
+	};
+};
+
+export default connect(mapStateToProps)(CreateClickarea);

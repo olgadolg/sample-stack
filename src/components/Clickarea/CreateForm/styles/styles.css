@@ -47,6 +47,6 @@
 }
 
 :local(.createForm) {
-	display: none;
 	margin-bottom: 20px;
+	opacity: 0.7;
 }
