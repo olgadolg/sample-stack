@@ -773,7 +773,8 @@ export default class DrawVectors extends Component {
 			.append('circle')
 			.attr('class', function (d, i) {
 				let fill = self.state.fill === true ? 'filled' : 'filled';
-				const visible = (d.clickarea === self.settings.clickarea || self.state.shapeIsSelected === true || self.state.multipleSelection === false) ? '' : 'invisible';
+				let visible = (d.clickarea === self.settings.clickarea) ? '' : 'invisible';
+
 				return 'handle' + ' ' + 'handle' + parseInt(i + 1) + ' ' + visible + ' ' + fill;
 			})
 			.attr('r', String(self.settings.nodeRadius))
@@ -877,7 +878,7 @@ export default class DrawVectors extends Component {
 						);
 
 						d3.select(this).classed('selected', true);
-						//d3.selectAll('.handle').classed('invisible', true);
+						d3.selectAll('.handle').classed('invisible', true);
 
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
 							.classed('invisible', false);

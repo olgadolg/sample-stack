@@ -70,7 +70,6 @@ export default class Canvas extends Component {
 				this.lib.state.nodes = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].nodes;
 				this.lib.state.edges = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].edges;
 				this.lib.state.currentView = nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1');
-				this.lib.state.shapeIsSelected = false;
 				this.lib.state.props = nextProps.clickareas;
 				this.lib.update();
 			}
