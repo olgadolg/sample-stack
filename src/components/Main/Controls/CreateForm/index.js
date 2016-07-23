@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import { createClickarea } from '../../../actions/clickarea';
+import { createClickarea } from '../../../../actions/clickarea';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import FillToggler from '../../components/clickarea/FillToggler';
-import CreateForm from '../../components/clickarea/CreateForm';
-import ImageUpload from '../../components/ImageUpload';
-import SceneList from '../../components/Scene/SceneList';
+import FillToggler from './FillToggler';
+import CreateForm from './CreateForm';
+import ImageUpload from './ImageUpload';
+import SceneList from './Scene/SceneList';
 import styles from './styles/styles.css';
 
 export default class ControlsContainer extends Component {

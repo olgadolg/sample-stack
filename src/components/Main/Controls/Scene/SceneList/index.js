@@ -4,7 +4,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import SceneListItem from '../SceneListItem';
-import { updateView } from '../../../actions/views';
+import { updateView } from '../../../../../actions/views';
 
 export default class SceneList extends Component {
 

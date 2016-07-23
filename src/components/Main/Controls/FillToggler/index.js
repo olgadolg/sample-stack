@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import styles from './styles/styles.css';
-import { updateFill } from '../../../actions/clickarea';
+import { updateFill } from '../../../../actions/clickarea';
 
 export default class FillToggler extends Component {
 
