@@ -36,53 +36,44 @@ export default class Canvas extends Component {
 
 	componentWillReceiveProps (nextProps) {
 		const self = this;
-		const views = nextProps.clickareas.views;
+		const views = nextProps.views;
+		const fill = nextProps.fill;
 		const view = Object.keys(views);
 		const index = view[view.length - 1];
-		const currentView = nextProps.clickareas.currentView;
+		const currentView = nextProps.currentView;
+		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
 		const libState = this.lib.state;
 
-		this.lib.state.isNew = nextProps.clickareas.isNew;
-
-		if (nextProps.clickareas.viewUpdate === true) {
-			this.props.dispatch(selectViewUpdate(
-				nextProps.clickareas.currentView
-			));
-		}
+		this.lib.state.isNew = nextProps.isNew;
+		this.lib.state.isSelected = nextProps.isSelected;
 
 		this.setState({
 			views: views,
-			fill: nextProps.clickareas.fill,
-			nodes: this.lib.state.nodes,
-			edges: this.lib.state.edges,
+			fill: fill,
+			image: image,
+			nodes: views[image].nodes,
+			edges: views[image].edges,
 			currentView: currentView,
-			backgroundImg: nextProps.clickareas.views[nextProps.clickareas.currentView]
+			backgroundImg: views[currentView]
 		}, () => {
-			if (nextProps.clickareas.viewUpdate === true || this.state.currentView !== null && this.props.clickareas.currentView !== nextProps.clickareas.currentView) {
-				this.lib = new VectorDrawer(
-					this.refs.svgWrapper,
-					updateClickarea,
-					removeClickarea,
-					this.props.dispatch
-				);
+			if (nextProps.viewUpdate === true || this.state.currentView !== null && this.props.currentView !== nextProps.currentView) {
+				this.lib = new VectorDrawer(this.refs.svgWrapper, updateClickarea, removeClickarea, this.props.dispatch);
 
 				$('.canvasIcon').attr('src', require('../../../images/' + self.state.currentView));
-				this.lib.state.nodes = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].nodes;
-				this.lib.state.edges = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].edges;
-				this.lib.state.currentView = nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1');
-				this.lib.state.props = nextProps.clickareas;
+				this.lib.setState(this.state, nextProps.clickareas);
 				this.lib.update();
 			}
 
 			if (nextProps.clickareas.isNew === true) {
-				libState.currentView = views[index].viewId;
-				libState.views.push(libState.currentView);
+				this.lib.state.currentView = views[index].viewId;
+
 				this.props.dispatch(makeClickarea(
 					nextProps.clickarea,
 					this.state.currentView,
-					libState.nodes,
-					libState.edges
+					this.lib.state.nodes,
+					this.lib.state.edges
 				));
+
 				this.openClickarea(libState);
 			}
 
@@ -94,7 +85,6 @@ export default class Canvas extends Component {
 	}
 
 	openClickarea (libState) {
-		this.lib.settings.initRectFade = false;
 		this.lib.animateNewClickarea(80, 0, 1500, 250,
 			'bounce', this.lib.createClickarea);
 	}
@@ -111,6 +101,12 @@ export default class Canvas extends Component {
 const mapStateToProps = (state) => {
 	return {
 		clickareas: state.clickareas,
+		views: state.clickareas.views,
+		currentView: state.clickareas.currentView,
+		fill: state.clickareas.fill,
+		isNew: state.clickareas.isNew,
+		isSelected: state.clickareas.isSelected,
+		viewUpdate: state.clickareas.viewUpdate,
 		clickarea: state.clickareas.clickarea
 	};
 };

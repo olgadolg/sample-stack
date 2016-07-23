@@ -21,6 +21,7 @@ export default handleActions({
 		let views = {...state.views};
 		let viewUpdate = [...state.viewUpdate];
 		let isNew = [...state.isNew];
+		var isSelected = [...state.isSelected];
 
 		let currentView = _state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
@@ -30,12 +31,14 @@ export default handleActions({
 
 		views[view]['clickareas'][Object.keys(views[view].clickareas).length] = action.data.clickarea;
 		isNew = false;
+		isSelected = false;
 		viewUpdate = false;
 
 		return {
 			...state,
 			views,
 			currentView,
+			isSelected,
 			viewUpdate,
 			isNew
 		};
@@ -120,31 +123,14 @@ export default handleActions({
 		};
 	},
 
-	SELECT_UPDATE_VIEW: (state, action) => {
-		let _state = {...state};
-		var viewUpdate = [...state.viewUpdate];
-		var isNew = [...state.isNew];
-
-		isNew = false;
-		viewUpdate = false;
-
-		let currentView = _state.currentView;
-		currentView = action.data.view;
-
-		return {
-			...state,
-			isNew,
-			viewUpdate,
-			currentView
-		};
-	},
-
 	UPDATE_VIEW: (state, action) => {
 		let _state = {...state};
 		var viewUpdate = [...state.viewUpdate];
 		var isNew = [...state.isNew];
+		var isSelected = [...state.isSelected];
 
 		isNew = false;
+		isSelected = true;
 		viewUpdate = true;
 
 		let currentView = _state.currentView;
@@ -153,6 +139,7 @@ export default handleActions({
 		return {
 			...state,
 			isNew,
+			isSelected,
 			viewUpdate,
 			currentView
 		};
@@ -166,5 +153,6 @@ export default handleActions({
 	},
 	fill: false,
 	isNew: false,
+	isSelected: false,
 	viewUpdate: false
 });

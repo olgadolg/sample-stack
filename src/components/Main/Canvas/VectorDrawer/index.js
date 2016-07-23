@@ -20,7 +20,6 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
-			views: [],
 			shapes: 0,
 			props: null,
 			coords: null,
@@ -80,6 +79,22 @@ export default class DrawVectors extends Component {
 
 		this.bindEvents();
 		this.bindDrag();
+	}
+
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	setState (state, clickareas) {
+		this.state.nodes = state.nodes;
+		this.state.edges = state.edges;
+		this.state.isSelected = state.isSelected;
+		this.state.currentView = state.image;
+		this.state.props = clickareas;
+		this.state.changeView = true;
 	}
 
 	/**
@@ -773,7 +788,7 @@ export default class DrawVectors extends Component {
 			.append('circle')
 			.attr('class', function (d, i) {
 				let fill = self.state.fill === true ? 'filled' : 'filled';
-				let visible = (d.clickarea === self.settings.clickarea) ? '' : 'invisible';
+				let visible = (d.clickarea === self.settings.clickarea && self.state.isSelected === false) ? '' : 'invisible';
 
 				return 'handle' + ' ' + 'handle' + parseInt(i + 1) + ' ' + visible + ' ' + fill;
 			})
@@ -827,6 +842,8 @@ export default class DrawVectors extends Component {
 	 */
 	createPath () {
 		const self = this;
+		const views = this.state.props.views;
+		const currentView = this.state.currentView;
 
 		var z;
 
@@ -842,8 +859,8 @@ export default class DrawVectors extends Component {
 				d3.select(this)
 					.append('path')
 					.attr('data-id', function (d) {
-						if (Object.keys(self.state.props.views[self.state.currentView].clickareas).length > 0) {
-							return self.state.props.views[self.state.currentView].clickareas[i].goTo;
+						if (Object.keys(views[currentView].clickareas).length > 0) {
+							return views[currentView].clickareas[i].goTo;
 						}
 					})
 					.attr('class', function (d) {
@@ -862,8 +879,7 @@ export default class DrawVectors extends Component {
 						return self.lineCreator(self.state.nodes[i]) + z;
 					})
 					.on('click', function (d, i) {
-						d3.select(this)
-							.classed('selected', true);
+						d3.select(this).classed('selected', true);
 					})
 					.on('mousedown', function () {
 						if (self.state.multipleHandles.length < 2) {
@@ -871,38 +887,26 @@ export default class DrawVectors extends Component {
 						}
 
 						self.settings.clickarea = parseInt(
-							d3.select(this)
-								.attr('class')
-									.replace('clickarea', '')
-									.replace('clickarea', '')
+							d3.select(this).attr('class')
+								.replace('clickarea', '')
+								.replace('clickarea', '')
 						);
 
-						d3.select(this).classed('selected', true);
 						d3.selectAll('.handle').classed('invisible', true);
-
-						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
-							.classed('invisible', false);
-
-						if (self.state.multipleSelection === false) {
-							d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
-								.classed('selected', true);
-						}
-
+						d3.selectAll('.handle').classed('selected', false);
+						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
 						self.state.shapeIsSelected = true;
 					})
 					.on('mouseup', function (d) {
-						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
-							.classed('selected', false);
+						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
 					})
 					.on('mouseover', function (d) {
 						const pathBBox = d3.select(this).node().getBBox();
 
-						if (d3.event.shiftKey || self.state.multipleSelection === true) {
-							return;
-						}
+						if (d3.event.shiftKey || self.state.multipleSelection === true) return;
 
 						self.tooltip
-							.html(self.state.props.views[self.state.currentView].clickareas[i].goTo)
+							.html(views[currentView].clickareas[i].goTo)
 							.style('left', (pathBBox.x + pathBBox.width / 2 + 250) + 'px')
 							.style('top', (pathBBox.y + pathBBox.height / 2) + 'px')
 							.style('opacity', 0.9);
@@ -923,8 +927,8 @@ export default class DrawVectors extends Component {
 				d3.select(this)
 					.append('path')
 					.attr('data-id', function (d) {
-						if (Object.keys(self.state.props.views[self.state.currentView].clickareas).length > 0) {
-							return self.state.props.views[self.state.currentView].clickareas[i].goTo;
+						if (Object.keys(views[currentView].clickareas).length > 0) {
+							return views[currentView].clickareas[i].goTo;
 						}
 					})
 					.attr('class', 'clickarea')
