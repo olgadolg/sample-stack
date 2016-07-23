@@ -9,6 +9,13 @@ export default class DrawVectors extends Component {
 		super();
 
 		const self = this;
+		const svg = d3.selectAll('svg');
+		const tooltip = d3.selectAll('.d3-tooltip');
+
+		if (svg.length > 0) {
+			svg.remove();
+			tooltip.remove();
+		}
 
 		this.state = {
 			nodes: [],
@@ -21,6 +28,7 @@ export default class DrawVectors extends Component {
 			selectedNode: null,
 			selectedEdge: null,
 			mouseDown: false,
+			dragHandle: false,
 			shapeIsSelected: false,
 			multipleSelection: false,
 			multipleHandles: [],
@@ -44,10 +52,6 @@ export default class DrawVectors extends Component {
 		};
 
 		this.win = d3.select(window);
-
-		if ($('svg').length) {
-			$('svg').remove();
-		}
 
 		this.svg = d3.select(el)
 			.append('svg')
@@ -281,6 +285,7 @@ export default class DrawVectors extends Component {
 			})
 			.on('drag', function (d) {
 				self.updateClickarea();
+				self.tooltip.style('opacity', 0);
 				d3.select(this).classed('selected', true);
 				self.dragmove(d);
 			})
@@ -297,6 +302,7 @@ export default class DrawVectors extends Component {
 				self.animateNewClickarea(0, 0, 750, 500, 'none');
 			})
 			.on('drag', function (d, i) {
+				self.tooltip.style('opacity', 0);
 				self.updateClickarea();
 
 				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
@@ -308,6 +314,7 @@ export default class DrawVectors extends Component {
 			})
 			.on('dragend', function (d, i) {
 				self.state.allowedToCreateNew = true;
+				self.tooltip.style('opacity', 0.9);
 				self.updateClickarea();
 			});
 	}
@@ -335,7 +342,9 @@ export default class DrawVectors extends Component {
 		case this.settings.backspace_key:
 		case this.settings.delete_key:
 
-			d3.event.preventDefault();
+			if ($('.textfield').is(':focus') === false) {
+				d3.event.preventDefault();
+			}
 
 			if (this.state.shapeIsSelected === true) {
 				if (confirm('Are you sure you want to remove this clickarea?')) {
@@ -764,7 +773,7 @@ export default class DrawVectors extends Component {
 			.append('circle')
 			.attr('class', function (d, i) {
 				let fill = self.state.fill === true ? 'filled' : 'filled';
-				const visible = (d.clickarea === self.settings.clickarea) ? '' : 'invisible';
+				const visible = (d.clickarea === self.settings.clickarea && self.state.shapeIsSelected === true) ? '' : 'invisible';
 				return 'handle' + ' ' + 'handle' + parseInt(i + 1) + ' ' + visible + ' ' + fill;
 			})
 			.attr('r', String(self.settings.nodeRadius))
@@ -806,21 +815,6 @@ export default class DrawVectors extends Component {
 		this.handle
 			.exit()
 			.remove();
-	}
-
-	/**
-	 * remove edges associated with a node
-	 *
-	 * @method onThemeSelected
-	 * @param {object} event - event
-	 * @return void
-	 */
-	getWidthOfText (txt, fontsize, fontname) {
-		const c = document.createElement('canvas');
-		const ctx = c.getContext('2d');
-		ctx.font = fontsize + 'px' + fontname;
-		const length = ctx.measureText(txt).width;
-		return length;
 	}
 
 	/**
@@ -886,12 +880,23 @@ export default class DrawVectors extends Component {
 						d3.selectAll('.handle').classed('invisible', true);
 
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
-							.classed('invisible selected', false);
+							.classed('invisible', false);
+
+						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
+							.classed('selected', true);
 
 						self.state.shapeIsSelected = true;
 					})
+					.on('mouseup', function (d) {
+						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle')
+							.classed('selected', false);
+					})
 					.on('mouseover', function (d) {
 						const pathBBox = d3.select(this).node().getBBox();
+
+						if (d3.event.shiftKey || self.state.multipleSelection === true) {
+							return;
+						}
 
 						self.tooltip
 							.html(self.state.props.views[self.state.currentView].clickareas[i].goTo)
@@ -900,7 +905,9 @@ export default class DrawVectors extends Component {
 							.style('opacity', 0.9);
 					})
 					.on('mouseout', function (d) {
-						self.tooltip.style('opacity', 0);
+						if (d3.event.toElement.className !== 'd3-tooltip') {
+							self.tooltip.style('opacity', 0);
+						}
 					})
 					.call(self.dragClickarea);
 			});
