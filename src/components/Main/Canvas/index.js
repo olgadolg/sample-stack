@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import VectorDrawer from './VectorDrawer';
 import { updateClickarea, removeClickarea, makeClickarea } from '../../../actions/clickarea';
-import { selectViewUpdate } from '../../../actions/views';
 
 export default class Canvas extends Component {
 

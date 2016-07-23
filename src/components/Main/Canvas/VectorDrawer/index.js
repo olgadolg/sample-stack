@@ -181,7 +181,6 @@ export default class DrawVectors extends Component {
 			[
 				{clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 30},
 				{clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 105}
-
 			]
 		);
 
@@ -691,7 +690,6 @@ export default class DrawVectors extends Component {
 	dragmove (d) {
 		d.x += d3.event.dx;
 		d.y += d3.event.dy;
-
 		this.update();
 	}
 
@@ -767,7 +765,6 @@ export default class DrawVectors extends Component {
 	createHandles () {
 		const self = this;
 
-		// data selection - handles
 		this.handle = d3.selectAll('.handles')
 			.data(self.state.nodes)
 			.selectAll('.handle')
@@ -775,14 +772,12 @@ export default class DrawVectors extends Component {
 					return d;
 				});
 
-		// update handles
 		this.handle
 			.classed('filled', true)
 			.attr('transform', function (d) {
 				return 'translate(' + d.x + ',' + d.y + ')';
 			});
 
-		// create new handles
 		this.handle
 			.enter()
 			.append('circle')
@@ -827,10 +822,7 @@ export default class DrawVectors extends Component {
 			})
 			.call(self.dragHandle);
 
-		// remove old circles
-		this.handle
-			.exit()
-			.remove();
+		this.handle.exit().remove();
 	}
 
 	/**
@@ -847,11 +839,9 @@ export default class DrawVectors extends Component {
 
 		var z;
 
-		// data selection
 		this.clickareas = d3.selectAll('.path')
 			.data(self.state.edges);
 
-		// update state.shapes
 		this.clickareas
 			.each(function (d, i) {
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
@@ -919,7 +909,6 @@ export default class DrawVectors extends Component {
 					.call(self.dragClickarea);
 			});
 
-		// create new state.shapes
 		this.clickareas
 			.enter()
 			.append('g')
@@ -943,10 +932,7 @@ export default class DrawVectors extends Component {
 				);
 			});
 
-		// remove old state.shapes
-		this.clickareas
-			.exit()
-			.remove();
+		this.clickareas.exit().remove();
 	}
 
 	/**
