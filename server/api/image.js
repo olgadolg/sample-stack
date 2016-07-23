@@ -7,10 +7,9 @@ const addImage = (request, reply) => {
 	const dir = path.join(__dirname, '..', '..', 'src', config.get('image_dir'));
 	fs.writeFile(dir + request.payload.filename, request.payload.img_attach._data, function(error){
 		if (error) return reply(error);
-
 		return reply().code(200);
 	});
-}
+};
 
 exports.register = (server, options, next) => {
 	server.route([

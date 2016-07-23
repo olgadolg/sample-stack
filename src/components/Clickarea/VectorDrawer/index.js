@@ -68,6 +68,12 @@ export default class DrawVectors extends Component {
 			.x(function (d, i) { return d.x; })
 			.y(function (d) { return d.y; });
 
+		this.tooltip = d3
+			.select('body')
+			.append('div')
+			.attr('class', 'd3-tooltip')
+			.style('opacity', 0);
+
 		this.bindEvents();
 		this.bindDrag();
 	}
@@ -883,6 +889,18 @@ export default class DrawVectors extends Component {
 							.classed('invisible selected', false);
 
 						self.state.shapeIsSelected = true;
+					})
+					.on('mouseover', function (d) {
+						const pathBBox = d3.select(this).node().getBBox();
+
+						self.tooltip
+							.html(self.state.props.views[self.state.currentView].clickareas[i].goTo)
+							.style('left', (pathBBox.x + pathBBox.width / 2 + 250) + 'px')
+							.style('top', (pathBBox.y + pathBBox.height / 2) + 'px')
+							.style('opacity', 0.9);
+					})
+					.on('mouseout', function (d) {
+						self.tooltip.style('opacity', 0);
 					})
 					.call(self.dragClickarea);
 			});

@@ -66,9 +66,9 @@ export default class Canvas extends Component {
 					this.props.dispatch
 				);
 
-				setTimeout(function () {
-					$('.canvasIcon').attr('src', require('../../images/' + self.state.currentView));
-				}, 1000);
+				//setTimeout(function () {
+				$('.canvasIcon').attr('src', require('../../images/' + self.state.currentView));
+				//}, 3000);
 
 				this.vectorDrawer.state.nodes = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].nodes;
 				this.vectorDrawer.state.edges = nextProps.clickareas.views[nextProps.clickareas.currentView.replace(/(.*)\.(.*?)$/, '$1')].edges;
