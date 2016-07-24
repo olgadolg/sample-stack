@@ -35,7 +35,6 @@ export default class Canvas extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		const self = this;
 		const views = nextProps.views;
 		const fill = nextProps.fill;
 		const view = Object.keys(views);
@@ -56,19 +55,10 @@ export default class Canvas extends Component {
 			currentView: currentView,
 			backgroundImg: views[currentView]
 		}, () => {
-			if (nextProps.viewUpdate === true || this.state.currentView !== null && this.props.currentView !== nextProps.currentView) {
-				this.artist = new Vector(
-					this.refs.svgWrapper,
-					updateClickarea,
-					removeClickarea,
-					this.props.dispatch
-				);
-
-				artState = this.artist.state;
-				$('.canvasIcon').attr('src', require('../../../images/' + self.state.currentView));
-
-				this.artist.setState(this.state, nextProps.clickareas);
-				this.artist.update();
+			if (nextProps.viewUpdate === true ||
+				this.state.currentView !== null &&
+				this.props.currentView !== nextProps.currentView) {
+				this.createNewArtist(nextProps);
 			}
 
 			if (nextProps.clickareas.isNew === true) {
@@ -90,6 +80,19 @@ export default class Canvas extends Component {
 				form.style.display = 'block';
 			}
 		});
+	}
+
+	createNewArtist (nextProps) {
+		this.artist = new Vector(
+			this.refs.svgWrapper,
+			updateClickarea,
+			removeClickarea,
+			this.props.dispatch
+		);
+
+		$('.canvasIcon').attr('src', require('../../../images/' + this.state.currentView));
+		this.artist.setState(this.state, nextProps.clickareas);
+		this.artist.update();
 	}
 
 	openClickarea () {
