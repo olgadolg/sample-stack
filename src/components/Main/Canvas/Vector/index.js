@@ -5,7 +5,7 @@ import './styles/styles.css';
 
 export default class DrawVectors extends Component {
 
-	constructor (el, updateClickareaFn, removeClickareaFn, dispatch) {
+	constructor (el, updateOverlayFn, removeOverlayFn, dispatch) {
 		super();
 
 		const self = this;
@@ -27,11 +27,9 @@ export default class DrawVectors extends Component {
 			selectedNode: null,
 			selectedEdge: null,
 			mouseDown: false,
-			dragHandle: false,
 			shapeIsSelected: false,
 			multipleSelection: false,
-			multipleHandles: [],
-			allowedToCreateNew: false
+			multipleHandles: []
 		};
 
 		this.settings = {
@@ -40,8 +38,8 @@ export default class DrawVectors extends Component {
 			clickarea: 0,
 			isCreating: false,
 			dispatch: dispatch,
-			updateClickareaFn: updateClickareaFn,
-			removeClickareaFn: removeClickareaFn,
+			updateOverlayFn: updateOverlayFn,
+			removeOverlayFn: removeOverlayFn,
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
 			backspace_key: 8,
@@ -327,7 +325,6 @@ export default class DrawVectors extends Component {
 				self.update();
 			})
 			.on('dragend', function (d, i) {
-				self.state.allowedToCreateNew = true;
 				self.tooltip.style('opacity', 0.9);
 				self.updateClickarea();
 			});
@@ -537,7 +534,6 @@ export default class DrawVectors extends Component {
 				y: xycoords[1]
 			};
 
-			this.state.allowedToCreateNew = true;
 			this.animateNewClickarea(0, 0, 750, 500, 'none');
 			this.state.nodes[this.settings.clickarea - 1].push(d);
 			this.updateClickarea();
@@ -964,7 +960,7 @@ export default class DrawVectors extends Component {
 	updateClickarea () {
 		this.state.pathData = d3.select('.clickarea' + this.settings.clickarea).attr('d');
 		this.settings.dispatch(
-			this.settings.updateClickareaFn(
+			this.settings.updateOverlayFn(
 				this.state.pathData,
 				this.settings.clickarea - 1,
 				this.state.currentView,
@@ -983,7 +979,7 @@ export default class DrawVectors extends Component {
 	 */
 	removeClickarea (index) {
 		this.settings.dispatch(
-			this.settings.removeClickareaFn(
+			this.settings.removeOverlayFn(
 				index,
 				this.state.nodes,
 				this.state.edges

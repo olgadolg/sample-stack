@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import VectorDrawer from './VectorDrawer';
+import Vector from './Vector';
 import { updateClickarea, removeClickarea, makeClickarea } from '../../../actions/clickarea';
 
 export default class Canvas extends Component {
@@ -13,24 +13,25 @@ export default class Canvas extends Component {
 			views: {},
 			fill: false,
 			currentView: null,
-			noItems: 0,
-			backgroundImg: null
+			backgroundImg: null,
+			nodes: null,
+			edges: null
 		};
 	}
 
 	componentDidMount () {
-		this.lib = new VectorDrawer(
+		this.artist = new Vector(
 			this.refs.svgWrapper,
 			updateClickarea,
 			removeClickarea,
 			this.props.dispatch
 		);
 
-		this.lib.update(this.state);
+		this.artist.update(this.state);
 	}
 
 	componentDidUpdate (prevProps) {
-		this.lib.update(this.state);
+		this.artist.update(this.state);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -41,10 +42,10 @@ export default class Canvas extends Component {
 		const index = view[view.length - 1];
 		const currentView = nextProps.currentView;
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
-		const libState = this.lib.state;
+		const libState = this.artist.state;
 
-		this.lib.state.isNew = nextProps.isNew;
-		this.lib.state.isSelected = nextProps.isSelected;
+		this.artist.state.isNew = nextProps.isNew;
+		this.artist.state.isSelected = nextProps.isSelected;
 
 		this.setState({
 			views: views,
@@ -56,21 +57,21 @@ export default class Canvas extends Component {
 			backgroundImg: views[currentView]
 		}, () => {
 			if (nextProps.viewUpdate === true || this.state.currentView !== null && this.props.currentView !== nextProps.currentView) {
-				this.lib = new VectorDrawer(this.refs.svgWrapper, updateClickarea, removeClickarea, this.props.dispatch);
+				this.artist = new Vector(this.refs.svgWrapper, updateClickarea, removeClickarea, this.props.dispatch);
 
 				$('.canvasIcon').attr('src', require('../../../images/' + self.state.currentView));
-				this.lib.setState(this.state, nextProps.clickareas);
-				this.lib.update();
+				this.artist.setState(this.state, nextProps.clickareas);
+				this.artist.update();
 			}
 
 			if (nextProps.clickareas.isNew === true) {
-				this.lib.state.currentView = views[index].viewId;
+				this.artist.state.currentView = views[index].viewId;
 
 				this.props.dispatch(makeClickarea(
 					nextProps.clickarea,
 					this.state.currentView,
-					this.lib.state.nodes,
-					this.lib.state.edges
+					this.artist.state.nodes,
+					this.artist.state.edges
 				));
 
 				this.openClickarea(libState);
@@ -84,8 +85,8 @@ export default class Canvas extends Component {
 	}
 
 	openClickarea (libState) {
-		this.lib.animateNewClickarea(80, 0, 1500, 250,
-			'bounce', this.lib.createClickarea);
+		this.artist.animateNewClickarea(80, 0, 1500, 250,
+			'bounce', this.artist.createClickarea);
 	}
 
 	render () {

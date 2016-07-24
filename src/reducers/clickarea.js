@@ -49,11 +49,13 @@ export default handleActions({
 		let views = {...state.views};
 		let viewUpdate = [...state.viewUpdate];
 		let isNew = [...state.isNew];
+		let isSelected = [...state.isSelected];
 		let currentView = _state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 
 		isNew = false;
 		viewUpdate = false;
+		isSelected = false;
 
 		views[view].nodes = action.data.nodes;
 		views[view].edges = action.data.edges;
@@ -65,7 +67,8 @@ export default handleActions({
 			views,
 			currentView,
 			viewUpdate,
-			isNew
+			isNew,
+			isSelected
 		};
 	},
 
