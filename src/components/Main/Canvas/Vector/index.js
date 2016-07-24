@@ -152,6 +152,7 @@ export default class DrawVectors extends Component {
 			.delay(delay)
 			.duration(duration)
 			.call(self.endTransition, function () {
+				self.state.isAllowedToCreateNew = true;
 				callback(self);
 			});
 	}
@@ -521,7 +522,7 @@ export default class DrawVectors extends Component {
 			d;
 
 		if (this.state.mouseDown && d3.event.shiftKey) {
-			if (this.settings.clickarea == null) {
+			if (this.settings.clickarea == null || this.state.isAllowedToCreateNew === false) {
 				return;
 			}
 
