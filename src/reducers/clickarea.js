@@ -21,15 +21,14 @@ export default handleActions({
 		let views = {...state.views};
 		let viewUpdate = [...state.viewUpdate];
 		let isNew = [...state.isNew];
-		var isSelected = [...state.isSelected];
-
+		let isSelected = [...state.isSelected];
 		let currentView = _state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 
 		views[view].nodes = action.data.nodes;
 		views[view].edges = action.data.edges;
-
 		views[view]['clickareas'][Object.keys(views[view].clickareas).length] = action.data.clickarea;
+
 		isNew = false;
 		isSelected = false;
 		viewUpdate = false;
@@ -59,7 +58,6 @@ export default handleActions({
 
 		views[view].nodes = action.data.nodes;
 		views[view].edges = action.data.edges;
-
 		views[view].clickareas[action.data.index].coords = action.data.coords;
 
 		return {
@@ -73,12 +71,14 @@ export default handleActions({
 	},
 
 	REMOVE_CLICKAREA: (state, action) => {
+		let _state = {...state};
 		let views = {...state.views};
 		let isNew = [...state.isNew];
+		let currentView = _state.currentView;
+		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 
 		isNew = false;
-
-		delete views[action.data];
+		delete views[view].clickareas[action.data];
 
 		return {
 			...state,
@@ -128,15 +128,14 @@ export default handleActions({
 
 	UPDATE_VIEW: (state, action) => {
 		let _state = {...state};
-		var viewUpdate = [...state.viewUpdate];
-		var isNew = [...state.isNew];
-		var isSelected = [...state.isSelected];
+		let viewUpdate = [...state.viewUpdate];
+		let isNew = [...state.isNew];
+		let isSelected = [...state.isSelected];
+		let currentView = _state.currentView;
 
 		isNew = false;
 		isSelected = true;
 		viewUpdate = true;
-
-		let currentView = _state.currentView;
 		currentView = action.data.view;
 
 		return {
@@ -150,12 +149,9 @@ export default handleActions({
 }, {
 	views: {},
 	currentView: 0,
-	clickarea: {
-		coords: null,
-		goTo: null
-	},
 	fill: false,
 	isNew: false,
 	isSelected: false,
-	viewUpdate: false
+	viewUpdate: false,
+	clickarea: { coords: null, goTo: null }
 });

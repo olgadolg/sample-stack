@@ -1,0 +1,63 @@
+:local(.checkboxLabel) {
+	display: block;
+	padding: 5px 9px 5px 12px;
+	cursor: pointer;
+    opacity: .9;
+    font-size: 14px;
+    font-weight: normal;
+	float: left;
+}
+
+:local(.checkboxLabel input) {
+	position: absolute;
+	z-index: 1;
+	opacity: 0;
+}
+
+:local(.checkboxLabel span) {
+	margin-left: 9px;
+	font-family: BonavaSans Regular,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    line-height: 1.7;
+	color: #fff;
+}
+
+:local(.controlIndicator) {
+	position: relative;
+	float: left;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+	background: #e6e6e6;
+	border: 1px solid #777;
+	margin-left: 3px;
+}
+
+:local(.controlIndicator:after) {
+	position: absolute;
+	display: none;
+	content: '';
+}
+
+:local(.checkboxLabel input:checked ~ .controlIndicator) {
+	background: #6EC2B3;
+	border: 1px solid #6EC2B3;
+}
+
+:local(.checkboxLabel input:checked ~ .controlIndicator:after) {
+	display: block;
+}
+
+:local(.checkboxLabel .controlIndicator:after) {
+	content: '';
+	top: 4px;
+	left: 8px;
+	width: 3px;
+	height: 8px;
+	transform: rotate(45deg);
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+}

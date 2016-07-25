@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRedirect, browserHistory } from 'react-router';
 import store from './store';
 import App from './components/App';
-import Main from './components/Main';
+import Container from './components/App/Container';
 
 render((
 	<Provider store={store}>
 		<Router history={browserHistory}>
 			<Route path="/" component={App}>
-				<IndexRedirect to='/overlayer'/>
-				<Route path="/overlayer" component={Main}/>
+				<IndexRedirect to="/overlayer"/>
+				<Route path="/overlayer" component={Container}/>
 			</Route>
 		</Router>
 	</Provider>
-), document.getElementById('root'))
+), document.getElementById('root'));

@@ -21,7 +21,7 @@ const server = new Hapi.Server({
 
 server.connection({
 	host: 'localhost',
-	port: process.env.PORT || 8000
+	port: process.env.PORT || 8001
 })
 
 if (process.env.NODE_ENV === 'development') {

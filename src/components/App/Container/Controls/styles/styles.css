@@ -1,0 +1,22 @@
+:local(.controlsContainer) {
+	float: left;
+	display: inline-block;
+	margin: 0;
+	height: 570px;
+	width: 250px;
+	background: #6EC2B3;
+	box-sizing: border-box;
+	padding: 25px;
+	box-sizing: border-box;
+	background-position: center;
+}
+
+:local(.lockFillWrapper) {
+	width: 302px;
+	height: 33px;
+	position: absolute;
+	right: 22px;
+	top: 22px;
+	display: none;
+	z-index: 1;
+}
