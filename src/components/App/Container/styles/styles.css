@@ -34,7 +34,7 @@
 
 :global(svg) {
   position: absolute;
-  top: 0;
+  top: 80px;
   left: 250px;
 }
 

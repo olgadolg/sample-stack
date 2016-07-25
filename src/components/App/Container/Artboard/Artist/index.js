@@ -63,7 +63,7 @@ export default class DrawVectors extends Component {
 			.attr('stroke', '#6EC2B3')
 			.attr('stroke-width', '1.5')
 			.attr('d', function (d) {
-				return self.rightRoundedRect(-80, 113, 80, 95, 5);
+				return self.rightRoundedRect(-80, 33, 80, 95, 5);
 			});
 
 		this.lineCreator = d3.svg.line()
@@ -178,16 +178,16 @@ export default class DrawVectors extends Component {
 
 		self.state.nodes.push(
 			[
-				{clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 130},
-				{clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 195}
+				{clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
+				{clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
 			]
 		);
 
 		self.state.edges.push([
 			{
 				closed: false,
-				source: {clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 130},
-				target: {clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 195}
+				source: {clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
+				target: {clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
 			}
 		]);
 
