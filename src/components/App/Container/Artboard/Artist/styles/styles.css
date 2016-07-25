@@ -18,7 +18,7 @@
 }
 
 .handle.selected {
-  fill: #013B2D;
+  fill: #E90086;
 }
 
 .handle.invisible {
@@ -27,7 +27,7 @@
 }
 
 .clickarea {
-  fill: #6EC2B3;
+  fill: #E90086;
   stroke: #fff;
   stroke-width: 2px;
   cursor: default;

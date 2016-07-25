@@ -235,7 +235,7 @@ export default class DrawVectors extends Component {
 			d3.selectAll('.clickarea').attr('fill-opacity', 0);
 			this.fill = false;
 		} else {
-			d3.selectAll('.clickarea').attr('fill-opacity', 0.7);
+			d3.selectAll('.clickarea').attr('fill-opacity', 0.5);
 			this.fill = true;
 		}
 	}
@@ -842,7 +842,7 @@ export default class DrawVectors extends Component {
 						return 'clickarea ' + 'clickarea' + parseInt(i + 1);
 					})
 					.attr('fill-opacity', function (d) {
-						return (self.state.props.fill === true) ? 0.7 : 0;
+						return (self.state.props.fill === true) ? 0.5 : 0;
 					})
 					.attr('d', function (d, k) {
 						if (d.length === 0) {
