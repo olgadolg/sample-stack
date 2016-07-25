@@ -6,12 +6,11 @@ export default class Button extends Component {
 	render() {
 		const btnClass = classnames({
 			'btn btn-primary': true,
-			'btn-danger': this.props.showError,
-			[styles.button]: true,
+			[styles.button]: true
 		});
 
 		return (
-			<button className={btnClass} type='button' onClick={this.props.onClick}>
+			<button id={this.props.btnType} className={btnClass} type='button' onClick={this.props.onClick}>
 				{this.props.label}
 			</button>
 		);

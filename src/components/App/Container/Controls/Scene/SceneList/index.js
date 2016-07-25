@@ -39,6 +39,7 @@ export default class SceneList extends Component {
 				id="sceneSelect" className={styles.select}
 				onChange={(e) => this.onSelectChange(e)}
 			>
+				<option selected>Choose View</option>
 				{this.scenes}
 			</select>
 		);

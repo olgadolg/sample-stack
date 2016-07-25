@@ -9,7 +9,7 @@
     "mongo:stop": "mongo admin --eval 'db.shutdownServer()' > /dev/null",
     "build:clean": "rimraf dist/client/static",
     "dev": "npm run build:clean && NODE_ENV=development node index.js",
-	"build": "NODE_ENV=production webpack -p --config ./webpack/config.prod.js --progress --profile --colors"
+    "build": "NODE_ENV=production webpack -p --config ./webpack/config.prod.js --progress --profile --colors"
   },
   "dependencies": {
     "axios": "^0.13.1",

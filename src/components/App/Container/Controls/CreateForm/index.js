@@ -48,7 +48,8 @@ export default class CreateClickarea extends Component {
 						value={this.state.val}
 					/>
 					<Button
-						label="Create new clickarea"
+						btnType="dark"
+						label="Create clickarea"
 						onClick={this.handleSubmit.bind(this)}
 					/>
 				</form>

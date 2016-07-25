@@ -6,6 +6,8 @@ import Checkbox from '../Checkbox';
 import CreateForm from './CreateForm';
 import ImageUpload from './ImageUpload';
 import SceneList from './Scene/SceneList';
+import Button from '../Button';
+import Modal from '../Modal';
 import styles from './styles/styles.css';
 import checkboxStyles from '../Checkbox/styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
@@ -16,7 +18,8 @@ export default class ControlsContainer extends Component {
 		super();
 
 		this.state = {
-			fillChecked: false
+			fillChecked: false,
+			isModalOpen: false
 		};
 	}
 
@@ -31,6 +34,10 @@ export default class ControlsContainer extends Component {
 	fillChange () {
 		this.props.dispatch(updateFill(!this.state.fillChecked));
 		this.setState({fillChecked: !this.state.fillChecked});
+	}
+
+	openModal () {
+		this.setState({ isModalOpen: true });
 	}
 
 	render () {
@@ -61,6 +68,13 @@ export default class ControlsContainer extends Component {
 				<ImageUpload />
 				<SceneList />
 				<CreateForm />
+				<Button label="Save Project" />
+				<Button label="Load Project" />
+				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
+				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
+					<h5>Please add a view before creating clickareas</h5>
+					<button>Close modal</button>
+				</Modal>
 			</div>
 		);
 	}
