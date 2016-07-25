@@ -60,8 +60,10 @@ export default class DrawVectors extends Component {
 			.append('path')
 			.classed('init-rect', true)
 			.attr('fill', '#013B2D')
+			.attr('stroke', '#6EC2B3')
+			.attr('stroke-width', '1.5')
 			.attr('d', function (d) {
-				return self.rightRoundedRect(-80, 110, 80, 95, 5);
+				return self.rightRoundedRect(-80, 113, 80, 95, 5);
 			});
 
 		this.lineCreator = d3.svg.line()
