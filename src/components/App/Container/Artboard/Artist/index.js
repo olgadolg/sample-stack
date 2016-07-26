@@ -24,7 +24,7 @@ export default class DrawVectors extends Component {
 			handelsize: null,
 			shapes: 0,
 			dirs: ["n", "e", "s", "w", "nw", "ne", "se", "sw"],
-			handlesize: {'w': 3, 'n': 3, 'e': 3, 's': 3},
+			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
 			props: null,
 			coords: null,
 			remove: false,
@@ -1013,6 +1013,13 @@ export default class DrawVectors extends Component {
         return border
     }
 
+	between(a, b) {
+	  var min = Math.min.apply(Math, [a, b]),
+	    max = Math.max.apply(Math, [a, b]);
+	  return this > min && this < max;
+	}
+
+
 	/**
 	 * update elements
 	 *
@@ -1038,15 +1045,15 @@ export default class DrawVectors extends Component {
 					.attr('width', box.width)
 					.attr('height', box.height)
 					.attr('fill', 'none')
-					.attr('stroke', '#aaa')
-					.attr('stroke-width', '1.5');
+					.attr('stroke', 'red')
+					.attr('stroke-width', '2');
 			}
 
 			var bb = d3BBox.d3lb.bbox()
 				.infect(d3.selectAll('rect'))
 				.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw'])
 				.on('resizestart', function (d, i) {
-					console.log(self.whichborder(d3.mouse(this), this))
+					self.state.direction = self.whichborder(d3.mouse(this), this);
 					//console.log('startresize', d3.event);
 				})
 				.on('resizemove', function (d, i) {
@@ -1055,6 +1062,17 @@ export default class DrawVectors extends Component {
 
 						if (self.state.nodes[self.settings.clickarea - 1][i].x != box.x) {
 							self.state.nodes[self.settings.clickarea - 1][i].x += d3.event.dx;
+						}
+					}
+
+					for (i = 0; i < self.state.edges[self.settings.clickarea - 1].length; i++) {
+
+						console.log(self.state.edges[self.settings.clickarea - 1][i])
+
+						if (self.state.edges[self.settings.clickarea - 1][i].source.x != self.between(box.x -5, box.x + 5) ||
+							self.state.edges[self.settings.clickarea - 1][i].target.x != self.between(box.x -5, box.x + 5)) {
+							self.state.edges[self.settings.clickarea - 1][i].source.x += d3.event.dx;
+							self.state.edges[self.settings.clickarea - 1][i].target.x += d3.event.dx;
 						}
 					}
 
