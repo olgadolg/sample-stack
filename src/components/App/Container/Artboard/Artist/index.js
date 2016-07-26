@@ -21,7 +21,10 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
+			handelsize: null,
 			shapes: 0,
+			dirs: ["n", "e", "s", "w", "nw", "ne", "se", "sw"],
+			handlesize: {'w': 3, 'n': 3, 'e': 3, 's': 3},
 			props: null,
 			coords: null,
 			remove: false,
@@ -45,7 +48,7 @@ export default class DrawVectors extends Component {
 			backspace_key: 8,
 			delete_key: 46,
 			alt_key: 18,
-			nodeRadius: 5
+			nodeRadius: 3
 		};
 
 		this.win = d3.select(window);
@@ -987,6 +990,88 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
+	whichborder (xy, elem) {
+        var border = ""
+        var x = +elem.getAttribute("x")
+        var y = +elem.getAttribute("y")
+        var w = +elem.getAttribute("width")
+        var h = +elem.getAttribute("height")
+
+             if(xy[1] < y + this.state.handlesize.n) border += 'n'
+        else if(xy[1] > y + h - this.state.handlesize.s) border += 's'
+
+             if(xy[0] < x + this.state.handlesize.w) border += 'w'
+        else if(xy[0] > x + w - this.state.handlesize.e) border += 'e'
+
+		console.log('border', border)
+
+        if(border == "" && (this.state.dirs.indexOf("x") > -1 || this.state.dirs.indexOf("y") > -1))
+            border = "M"
+        else if(this.state.dirs.indexOf(border) == -1)
+            border = ""
+
+        return border
+    }
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	createDragBox () {
+		const selected = d3.selectAll('.overlay.selected').node();
+		const self = this;
+
+		if (selected === null) return;
+
+		const box = selected.getBBox();
+
+			if (typeof self.pathBox == "undefined") {
+
+				self.pathBox = d3.selectAll('svg')
+					.append('rect')
+					.attr('class', 'bbRect')
+					.attr('x', box.x)
+					.attr('y', box.y)
+					.attr('width', box.width)
+					.attr('height', box.height)
+					.attr('fill', 'none')
+					.attr('stroke', '#aaa')
+					.attr('stroke-width', '1.5');
+			}
+
+			var bb = d3BBox.d3lb.bbox()
+				.infect(d3.selectAll('rect'))
+				.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw'])
+				.on('resizestart', function (d, i) {
+					console.log(self.whichborder(d3.mouse(this), this))
+					//console.log('startresize', d3.event);
+				})
+				.on('resizemove', function (d, i) {
+
+					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+
+						if (self.state.nodes[self.settings.clickarea - 1][i].x != box.x) {
+							self.state.nodes[self.settings.clickarea - 1][i].x += d3.event.dx;
+						}
+					}
+
+					self.update();
+				})
+				.on('resizeend', function (d, i) {
+					console.log("endresize")
+				});
+	}
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	update (props) {
 		const self = this;
 
@@ -1002,31 +1087,6 @@ export default class DrawVectors extends Component {
 
 		self.createHandles();
 		self.createPath();
-
-		/*
-		const selected = d3.selectAll('.overlay.selected').node();
-
-		console.log(selected);
-
-		if (selected === null) return;
-
-		const box = selected.getBBox();
-
-		self.pathBox = d3.selectAll('svg')
-			.append('rect')
-			.attr('x', box.x)
-			.attr('y', box.y)
-			.attr('width', box.width)
-			.attr('height', box.height)
-			.attr('fill', 'none')
-			.attr('stroke', '#aaa')
-			.attr('stroke-fill', '1');
-
-			var bb = d3BBox.d3lb.bbox()
-				.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw']);
-
-			d3.selectAll('rect').call(bb);
-		*/
-
+		self.createDragBox();
 	}
 }

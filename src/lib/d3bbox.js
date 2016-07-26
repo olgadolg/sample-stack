@@ -75,10 +75,11 @@ root.d3lb.bbox = function () {
         var x = dirs.indexOf("x")
         var y = dirs.indexOf("y")
         // Bwahahahaha this works even when one is at index 0.
-        if(b == "M" && 1/(x*y) < 0)
+        if(b == "M" && 1/(x*y) < 0) {
             document.body.style.cursor = x >= 0 ? curs.x : curs.y
-        else
-            document.body.style.cursor = curs[b] || null
+        } else {
+            document.body.style.cursor = curs[b] || null;
+		}
     }
 
     function leave(d, i) {
@@ -125,8 +126,9 @@ root.d3lb.bbox = function () {
                     return
         } else if(this.__resize_action__.length) {
             if(cbs.resizemove)
-                if(false === cbs.resizemove.call(this, d, i))
-                    return
+                if(false === cbs.resizemove.call(this, d, i)) {
+					return this.__resize_action__;
+				}
         }
 
         // Potentially dynamically determine the allowed space.
@@ -167,6 +169,8 @@ root.d3lb.bbox = function () {
                 this.setAttribute("width", clamp(r - x, [1, Infinity]))
             }
         }
+
+		return this.__resize_action__;
     }
 
     my.xextent = function(_) {
