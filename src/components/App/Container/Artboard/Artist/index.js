@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import $ from 'jquery';
 import { Component } from 'react';
+import d3BBox from '../../../../../lib/d3bbox';
 import './styles/styles.css';
 
 export default class DrawVectors extends Component {
@@ -446,6 +447,8 @@ export default class DrawVectors extends Component {
 			if (!d3.event.shiftKey) {
 				d3.selectAll('.handle').classed('invisible', true);
 				this.state.shapeIsSelected = false;
+				//this.pathBox.remove();
+				//d3.selectAll('.overlay' + this.settings.clickarea).classed('selected', false);
 			}
 		} else if (this.state.multipleSelection === true && this.state.multipleHandles.length === 2) {
 			this.multipleDataUpdate();
@@ -861,6 +864,8 @@ export default class DrawVectors extends Component {
 							self.state.multipleHandles = [];
 						}
 
+						d3.selectAll('.overlay' + self.settings.clickarea).classed('selected', true);
+
 						self.settings.clickarea = parseInt(
 							d3.select(this).attr('class')
 								.replace('clickarea', '')
@@ -910,8 +915,7 @@ export default class DrawVectors extends Component {
 						return self.lineCreator([self.state.nodes[i]]);
 					})
 					.on('click', function (d, i) {
-						d3.select(this)
-							.classed('selected', true);
+						d3.select(this).classed('selected', true);
 					}
 					.call(self.dragClickarea)
 				);
@@ -998,5 +1002,31 @@ export default class DrawVectors extends Component {
 
 		self.createHandles();
 		self.createPath();
+
+		/*
+		const selected = d3.selectAll('.overlay.selected').node();
+
+		console.log(selected);
+
+		if (selected === null) return;
+
+		const box = selected.getBBox();
+
+		self.pathBox = d3.selectAll('svg')
+			.append('rect')
+			.attr('x', box.x)
+			.attr('y', box.y)
+			.attr('width', box.width)
+			.attr('height', box.height)
+			.attr('fill', 'none')
+			.attr('stroke', '#aaa')
+			.attr('stroke-fill', '1');
+
+			var bb = d3BBox.d3lb.bbox()
+				.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw']);
+
+			d3.selectAll('rect').call(bb);
+		*/
+
 	}
 }
