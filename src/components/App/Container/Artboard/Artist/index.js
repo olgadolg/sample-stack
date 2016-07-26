@@ -23,6 +23,7 @@ export default class DrawVectors extends Component {
 			edges: [],
 			handelsize: null,
 			shapes: 0,
+			freezedNodes: [],
 			dirs: ["n", "e", "s", "w", "nw", "ne", "se", "sw"],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
 			props: null,
@@ -1019,7 +1020,15 @@ export default class DrawVectors extends Component {
 	  return this > min && this < max;
 	}
 
-
+	arrayContains(array, obj) {
+    var i = array.length;
+    while (i--) {
+       if (array[i] === obj) {
+           return true;
+       }
+    }
+    	return false;
+	}
 	/**
 	 * update elements
 	 *
@@ -1055,16 +1064,74 @@ export default class DrawVectors extends Component {
 				.on('resizestart', function (d, i) {
 					self.state.direction = self.whichborder(d3.mouse(this), this);
 					//console.log('startresize', d3.event);
-				})
-				.on('resizemove', function (d, i) {
+
+					self.state.freezedNodes = [];
+
+					self.state.freezedNodes = self.state.nodes[self.settings.clickarea - 1].filter(function (node, i) {
+						switch(self.state.direction) {
+							case 'e':
+								return node.x == box.x + 3;
+								break;
+
+							case 'w':
+								return node.x == (box.x + box.width) - 3;
+								break;
+
+							case 'n':
+								return node.y == (box.y + box.height) - 3;
+								break;
+
+							case 's':
+								return node.y == box.y + 3;
+								break;
+						}
+					})
+
+					console.log('box', box);
 
 					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+						if (self.arrayContains(self.state.freezedNodes, self.state.nodes[self.settings.clickarea - 1][i]) == false) {
+							var l1 = box.width - (self.state.nodes[self.settings.clickarea - 1][i].x - box.x);
+							var l2 = box.width - l1;
+							var h1 = box.height - (self.state.nodes[self.settings.clickarea - 1][i].y - box.y);
+							var h2 = box.height - h1
 
-						if (self.state.nodes[self.settings.clickarea - 1][i].x != box.x) {
-							self.state.nodes[self.settings.clickarea - 1][i].x += d3.event.dx;
+							if (self.state.direction == 'w') {
+								var factor = l1 / box.width;
+							} else if (self.state.direction == 'e') {
+								var factor = l2 / box.width;
+							} else if (self.state.direction == 'n') {
+								var factor = h1 / box.height;
+							} else if (self.state.direction == 's') {
+								var factor = h2 / box.height;
+							}
+
+							self.state.nodes[self.settings.clickarea - 1][i].factor = factor;
 						}
 					}
 
+
+				})
+				.on('resizemove', function (d, i) {
+
+
+					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+						if ('factor' in self.state.nodes[self.settings.clickarea - 1][i]) {
+							let factor = self.state.nodes[self.settings.clickarea - 1][i].factor;
+							//factor = +factor.toFixed(2);
+							if (self.state.direction == 'e' || self.state.direction == 'w') {
+								self.state.nodes[self.settings.clickarea - 1][i].x = self.state.nodes[self.settings.clickarea - 1][i].x + (d3.event.dx * factor);
+							} else if (self.state.direction == 'n' || self.state.direction == 's') {
+								self.state.nodes[self.settings.clickarea - 1][i].y = self.state.nodes[self.settings.clickarea - 1][i].y + (d3.event.dy * factor);
+							}
+						}
+							//console.log(self.state.nodes[self.settings.clickarea - 1][i])
+
+					}
+
+					self.update();
+
+					/*
 					for (i = 0; i < self.state.edges[self.settings.clickarea - 1].length; i++) {
 
 						console.log(self.state.edges[self.settings.clickarea - 1][i])
@@ -1077,6 +1144,7 @@ export default class DrawVectors extends Component {
 					}
 
 					self.update();
+					*/
 				})
 				.on('resizeend', function (d, i) {
 					console.log("endresize")
