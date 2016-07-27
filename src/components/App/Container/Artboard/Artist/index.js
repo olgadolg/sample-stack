@@ -1082,10 +1082,26 @@ export default class DrawVectors extends Component {
 							case 's':
 								return node.y == box.y + 3;
 								break;
+
+							case 'sw':
+								return node.y == 100000;
+								break;
+
+							case 'ew':
+								return node.y == 100000;
+								break;
+
+							case 'nw':
+								return node.y == 100000;
+								break;
+
+							case 'ne':
+								return node.y == 100000;
+								break;
 						}
 					})
 
-					console.log('box', self.state.freezedNodes);
+					console.log('box', self.state.direction);
 
 					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 						if (self.arrayContains(self.state.freezedNodes, self.state.nodes[self.settings.clickarea - 1][i]) === false) {
@@ -1095,20 +1111,40 @@ export default class DrawVectors extends Component {
 							var h2 = box.height - h1;
 
 							if (self.state.direction == 'w') {
-								var factor = l1 / box.width;
+								var factorX = l1 / box.width;
 							} else if (self.state.direction == 'e') {
-								var factor = l2 / box.width;
+								var factorX = l2 / box.width;
 							} else if (self.state.direction == 'n') {
-								var factor = h1 / box.height;
+								var factorY = h1 / box.height;
 							} else if (self.state.direction == 's') {
-								var factor = (h2 / box.height);
+								var factorY = (h2 / box.height);
+							} else if (self.state.direction == 'sw') {
+								var factorX = l1 / box.width;
+								var factorY = (h2 / box.height);
+							} else if (self.state.direction == 'se') {
+								var factorX = l2 / box.width;
+								var factorY = (h2 / box.height);
+							} else if (self.state.direction == 'nw') {
+								var factorX = l1 / box.width;
+								var factorY = h1 / box.height;
+							} else if (self.state.direction == 'ne') {
+								var factorX = l2 / box.width;
+								var factorY = h1 / box.height;
 							}
 
-							if (factor >= 0.99) {
-								factor = 1;
+							if (factorX >= 0.99) {
+								factorX = 1;
 							}
 
-							self.state.nodes[self.settings.clickarea - 1][i].factor = factor;
+							if (factorY >= 0.99) {
+								factorY = 1;
+							}
+
+
+							self.state.nodes[self.settings.clickarea - 1][i].factorX = factorX;
+							self.state.nodes[self.settings.clickarea - 1][i].factorY = factorY;
+							console.log('factor???', self.state.nodes[self.settings.clickarea - 1][i])
+
 						}
 					}
 
@@ -1118,13 +1154,18 @@ export default class DrawVectors extends Component {
 
 
 					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-						if ('factor' in self.state.nodes[self.settings.clickarea - 1][i]) {
-							let factor = self.state.nodes[self.settings.clickarea - 1][i].factor;
+						if ('factorX' in self.state.nodes[self.settings.clickarea - 1][i] || 'factorY' in self.state.nodes[self.settings.clickarea - 1][i]) {
+							let factorX = self.state.nodes[self.settings.clickarea - 1][i].factorX;
+							let factorY = self.state.nodes[self.settings.clickarea - 1][i].factorY;
+
 							//factor = +factor.toFixed(2);
 							if (self.state.direction == 'e' || self.state.direction == 'w') {
-								self.state.nodes[self.settings.clickarea - 1][i].x = self.state.nodes[self.settings.clickarea - 1][i].x + (d3.event.dx * factor);
+								self.state.nodes[self.settings.clickarea - 1][i].x = self.state.nodes[self.settings.clickarea - 1][i].x + (d3.event.dx * factorX);
 							} else if (self.state.direction == 'n' || self.state.direction == 's') {
-								self.state.nodes[self.settings.clickarea - 1][i].y = self.state.nodes[self.settings.clickarea - 1][i].y + (d3.event.dy * factor);
+								self.state.nodes[self.settings.clickarea - 1][i].y = self.state.nodes[self.settings.clickarea - 1][i].y + (d3.event.dy * factorY);
+							} else if (self.state.direction == 'se' || self.state.direction == 'sw' || self.state.direction == 'nw' || self.state.direction == 'ne') {
+								self.state.nodes[self.settings.clickarea - 1][i].x = self.state.nodes[self.settings.clickarea - 1][i].x + (d3.event.dx * factorX);
+								self.state.nodes[self.settings.clickarea - 1][i].y = self.state.nodes[self.settings.clickarea - 1][i].y + (d3.event.dy * factorY);
 							}
 						}
 							//console.log(self.state.nodes[self.settings.clickarea - 1][i])
@@ -1150,7 +1191,8 @@ export default class DrawVectors extends Component {
 				})
 				.on('resizeend', function (d, i) {
 					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-						delete self.state.nodes[self.settings.clickarea - 1][i].factor;
+						delete self.state.nodes[self.settings.clickarea - 1][i].factorX;
+						delete self.state.nodes[self.settings.clickarea - 1][i].factorY;
 					}
 
 				});
