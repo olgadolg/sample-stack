@@ -992,42 +992,55 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	whichborder (xy, elem) {
-        var border = ""
-        var x = +elem.getAttribute("x")
-        var y = +elem.getAttribute("y")
-        var w = +elem.getAttribute("width")
-        var h = +elem.getAttribute("height")
+		let border = '';
+		let x = +elem.getAttribute('x');
+		let y = +elem.getAttribute('y');
+		let w = +elem.getAttribute('width');
+		let h = +elem.getAttribute('height');
 
-             if(xy[1] < y + this.state.handlesize.n) border += 'n'
-        else if(xy[1] > y + h - this.state.handlesize.s) border += 's'
+		if (xy[1] < y + this.state.handlesize.n) {
+			border += 'n';
+		} else if (xy[1] > y + h - this.state.handlesize.s) {
+			border += 's';
+		}
 
-             if(xy[0] < x + this.state.handlesize.w) border += 'w'
-        else if(xy[0] > x + w - this.state.handlesize.e) border += 'e'
+		if (xy[0] < x + this.state.handlesize.w) {
+			border += 'w';
+		} else if (xy[0] > x + w - this.state.handlesize.e) {
+			border += 'e';
+		}
 
-		console.log('border', border)
+		if (border === '' && (this.state.dirs.indexOf('x') > -1 || this.state.dirs.indexOf('y') > -1)) {
+			border = 'M';
+		} else if (this.state.dirs.indexOf(border) === -1) {
+			border = '';
+		}
 
-        if(border == "" && (this.state.dirs.indexOf("x") > -1 || this.state.dirs.indexOf("y") > -1))
-            border = "M"
-        else if(this.state.dirs.indexOf(border) == -1)
-            border = ""
-
-        return border
-    }
-
-	between(a, b) {
-	  var min = Math.min.apply(Math, [a, b]),
-	    max = Math.max.apply(Math, [a, b]);
-	  return this > min && this < max;
+		return border;
 	}
 
-	arrayContains(array, obj) {
-    var i = array.length;
-    while (i--) {
-       if (array[i] === obj) {
-           return true;
-       }
-    }
-    	return false;
+	between (a, b) {
+		let min = Math.min.apply(Math, [a, b]);
+		let max = Math.max.apply(Math, [a, b]);
+		return this > min && this < max;
+	}
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	arrayContains (array, obj) {
+		var i = array.length;
+
+		while (i--) {
+			if (array[i] === obj) {
+				return true;
+			}
+		}
+		return false;
 	}
 	/**
 	 * update elements
@@ -1037,165 +1050,139 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	createDragBox () {
-		const selected = d3.selectAll('.overlay.selected').node();
 		const self = this;
+		const selected = d3.selectAll('.overlay.selected').node();
 
 		if (selected === null) return;
 
 		const box = selected.getBBox();
 
-			if (typeof self.pathBox == "undefined") {
+		if (typeof self.pathBox === 'undefined') {
+			self.pathBox = d3.selectAll('svg')
+				.append('rect')
+				.attr('class', 'bbRect')
+				.attr('x', box.x)
+				.attr('y', box.y)
+				.attr('width', box.width)
+				.attr('height', box.height)
+				.attr('fill', 'none')
+				.attr('stroke', 'red')
+				.attr('stroke-width', '2');
+		}
 
-				self.pathBox = d3.selectAll('svg')
-					.append('rect')
-					.attr('class', 'bbRect')
-					.attr('x', box.x)
-					.attr('y', box.y)
-					.attr('width', box.width)
-					.attr('height', box.height)
-					.attr('fill', 'none')
-					.attr('stroke', 'red')
-					.attr('stroke-width', '2');
-			}
+		d3BBox.d3lb.bbox()
+			.infect(d3.selectAll('rect'))
+			.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw'])
+			.on('resizestart', function (d, i) {
+				self.state.direction = self.whichborder(d3.mouse(this), this);
 
-			var bb = d3BBox.d3lb.bbox()
-				.infect(d3.selectAll('rect'))
-				.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw'])
-				.on('resizestart', function (d, i) {
-					self.state.direction = self.whichborder(d3.mouse(this), this);
-					//console.log('startresize', d3.event);
-
-					self.state.freezedNodes = self.state.nodes[self.settings.clickarea - 1].filter(function (node, i) {
-						switch(self.state.direction) {
-							case 'e':
-								return node.x == box.x + 3;
-								break;
-
-							case 'w':
-								return node.x == (box.x + box.width) - 3;
-								break;
-
-							case 'n':
-								return node.y == (box.y + box.height) - 3;
-								break;
-
-							case 's':
-								return node.y == box.y + 3;
-								break;
-
-							case 'sw':
-								return node.y == 100000;
-								break;
-
-							case 'ew':
-								return node.y == 100000;
-								break;
-
-							case 'nw':
-								return node.y == 100000;
-								break;
-
-							case 'ne':
-								return node.y == 100000;
-								break;
-						}
-					})
-
-					console.log('box', self.state.direction);
-
-					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-						if (self.arrayContains(self.state.freezedNodes, self.state.nodes[self.settings.clickarea - 1][i]) === false) {
-							var l1 = box.width - Math.ceil(self.state.nodes[self.settings.clickarea - 1][i].x - box.x);
-							var l2 = box.width - l1;
-							var h1 = box.height - (self.state.nodes[self.settings.clickarea - 1][i].y - box.y);
-							var h2 = box.height - h1;
-
-							if (self.state.direction == 'w') {
-								var factorX = l1 / box.width;
-							} else if (self.state.direction == 'e') {
-								var factorX = l2 / box.width;
-							} else if (self.state.direction == 'n') {
-								var factorY = h1 / box.height;
-							} else if (self.state.direction == 's') {
-								var factorY = (h2 / box.height);
-							} else if (self.state.direction == 'sw') {
-								var factorX = l1 / box.width;
-								var factorY = (h2 / box.height);
-							} else if (self.state.direction == 'se') {
-								var factorX = l2 / box.width;
-								var factorY = (h2 / box.height);
-							} else if (self.state.direction == 'nw') {
-								var factorX = l1 / box.width;
-								var factorY = h1 / box.height;
-							} else if (self.state.direction == 'ne') {
-								var factorX = l2 / box.width;
-								var factorY = h1 / box.height;
-							}
-
-							if (factorX >= 0.99) {
-								factorX = 1;
-							}
-
-							if (factorY >= 0.99) {
-								factorY = 1;
-							}
-
-
-							self.state.nodes[self.settings.clickarea - 1][i].factorX = factorX;
-							self.state.nodes[self.settings.clickarea - 1][i].factorY = factorY;
-							console.log('factor???', self.state.nodes[self.settings.clickarea - 1][i])
-
-						}
+				self.state.freezedNodes = self.state.nodes[self.settings.clickarea - 1].filter(function (node, i) {
+					switch (self.state.direction) {
+					case 'e':
+						return node.x === box.x + 3;
+					case 'w':
+						return node.x === (box.x + box.width) - 3;
+					case 'n':
+						return node.y === (box.y + box.height) - 3;
+					case 's':
+						return node.y === box.y + 3;
+					case 'sw':
+						return node.y === 100000;
+					case 'ew':
+						return node.y === 100000;
+					case 'nw':
+						return node.y === 100000;
+					case 'ne':
+						return node.y === 100000;
 					}
-
-
-				})
-				.on('resizemove', function (d, i) {
-
-
-					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-						if ('factorX' in self.state.nodes[self.settings.clickarea - 1][i] || 'factorY' in self.state.nodes[self.settings.clickarea - 1][i]) {
-							let factorX = self.state.nodes[self.settings.clickarea - 1][i].factorX;
-							let factorY = self.state.nodes[self.settings.clickarea - 1][i].factorY;
-
-							//factor = +factor.toFixed(2);
-							if (self.state.direction == 'e' || self.state.direction == 'w') {
-								self.state.nodes[self.settings.clickarea - 1][i].x = self.state.nodes[self.settings.clickarea - 1][i].x + (d3.event.dx * factorX);
-							} else if (self.state.direction == 'n' || self.state.direction == 's') {
-								self.state.nodes[self.settings.clickarea - 1][i].y = self.state.nodes[self.settings.clickarea - 1][i].y + (d3.event.dy * factorY);
-							} else if (self.state.direction == 'se' || self.state.direction == 'sw' || self.state.direction == 'nw' || self.state.direction == 'ne') {
-								self.state.nodes[self.settings.clickarea - 1][i].x = self.state.nodes[self.settings.clickarea - 1][i].x + (d3.event.dx * factorX);
-								self.state.nodes[self.settings.clickarea - 1][i].y = self.state.nodes[self.settings.clickarea - 1][i].y + (d3.event.dy * factorY);
-							}
-						}
-							//console.log(self.state.nodes[self.settings.clickarea - 1][i])
-
-					}
-
-					self.update();
-
-					/*
-					for (i = 0; i < self.state.edges[self.settings.clickarea - 1].length; i++) {
-
-						console.log(self.state.edges[self.settings.clickarea - 1][i])
-
-						if (self.state.edges[self.settings.clickarea - 1][i].source.x != self.between(box.x -5, box.x + 5) ||
-							self.state.edges[self.settings.clickarea - 1][i].target.x != self.between(box.x -5, box.x + 5)) {
-							self.state.edges[self.settings.clickarea - 1][i].source.x += d3.event.dx;
-							self.state.edges[self.settings.clickarea - 1][i].target.x += d3.event.dx;
-						}
-					}
-
-					self.update();
-					*/
-				})
-				.on('resizeend', function (d, i) {
-					for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-						delete self.state.nodes[self.settings.clickarea - 1][i].factorX;
-						delete self.state.nodes[self.settings.clickarea - 1][i].factorY;
-					}
-
 				});
+
+				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+					if (self.arrayContains(self.state.freezedNodes, self.state.nodes[self.settings.clickarea - 1][i]) === false) {
+						var l1 = box.width - Math.ceil(self.state.nodes[self.settings.clickarea - 1][i].x - box.x);
+						var l2 = box.width - l1;
+						var h1 = box.height - (self.state.nodes[self.settings.clickarea - 1][i].y - box.y);
+						var h2 = box.height - h1;
+						var deltaX, deltaY;
+
+						switch (self.state.direction) {
+						case 'w':
+							deltaX = l1 / box.width;
+							break;
+
+						case 'e':
+							deltaX = l2 / box.width;
+							break;
+
+						case 'n':
+							deltaY = h1 / box.height;
+							break;
+
+						case 's':
+							deltaY = (h2 / box.height);
+							break;
+
+						case 'sw':
+							deltaX = l1 / box.width;
+							deltaY = (h2 / box.height);
+							break;
+
+						case 'se':
+							deltaX = l2 / box.width;
+							deltaY = (h2 / box.height);
+							break;
+
+						case 'nw':
+							deltaX = l1 / box.width;
+							deltaY = h1 / box.height;
+							break;
+
+						case 'ne':
+							deltaX = l2 / box.width;
+							deltaY = h1 / box.height;
+							break;
+						}
+
+						if (deltaX >= 0.99) {
+							deltaX = 1;
+						}
+
+						if (deltaY >= 0.99) {
+							deltaY = 1;
+						}
+
+						self.state.nodes[self.settings.clickarea - 1][i].deltaX = deltaX;
+						self.state.nodes[self.settings.clickarea - 1][i].deltaY = deltaY;
+					}
+				}
+			})
+			.on('resizemove', function (d, i) {
+				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+					let node = self.state.nodes[self.settings.clickarea - 1][i];
+
+					if ('deltaX' in node || 'deltaY' in node) {
+						let deltaX = node.deltaX;
+						let deltaY = node.deltaY;
+
+						if (self.state.direction === 'e' ||self.state.direction === 'w') {
+							node.x += d3.event.dx * deltaX;
+						} else if (self.state.direction === 'n' || self.state.direction === 's') {
+							node.y += d3.event.dy * deltaY;
+						} else if (self.state.direction === 'se' || self.state.direction === 'sw' || self.state.direction === 'nw' || self.state.direction === 'ne') {
+							node.x += d3.event.dx * deltaX;
+							node.y += d3.event.dy * deltaY;
+						}
+					}
+				}
+
+				self.update();
+			})
+			.on('resizeend', function (d, i) {
+				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+					delete self.state.nodes[self.settings.clickarea - 1][i].deltaX;
+					delete self.state.nodes[self.settings.clickarea - 1][i].deltaY;
+				}
+			});
 	}
 
 	/**
