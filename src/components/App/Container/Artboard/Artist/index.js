@@ -1078,8 +1078,8 @@ export default class DrawVectors extends Component {
 				.attr('width', box.width)
 				.attr('height', box.height)
 				.attr('fill', 'none')
-				.attr('stroke', 'red')
-				.attr('stroke-width', '2');
+				.attr('stroke', '#068DF2')
+				.attr('stroke-width', '1');
 		//}
 
 		d3BBox.d3lb.bbox()
