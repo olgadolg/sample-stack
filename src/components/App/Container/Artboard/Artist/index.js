@@ -320,6 +320,8 @@ export default class DrawVectors extends Component {
 				self.animateNewClickarea(0, 0, 750, 500, 'none');
 			})
 			.on('drag', function (d, i) {
+				$('.bbRect').remove();
+				delete self.pathBox;
 				self.tooltip.style('opacity', 0);
 				self.updateClickarea();
 
@@ -333,6 +335,8 @@ export default class DrawVectors extends Component {
 			.on('dragend', function (d, i) {
 				self.tooltip.style('opacity', 0.9);
 				self.updateClickarea();
+				d3.selectAll('.bbRect').remove();
+				self.createDragBox();
 			});
 	}
 
@@ -445,14 +449,14 @@ export default class DrawVectors extends Component {
 		this.state.mouseDown = true;
 		this.state.selectedNode = false;
 
-		if (d3.event.target.tagName !== 'path' && this.state.multipleSelection === false) {
+		if (d3.event.target.tagName !== 'path' && this.state.multipleSelection === false && d3.event.target.nodeName !== 'rect') {
 			d3.selectAll('.handle').classed('selected', false);
 
 			if (!d3.event.shiftKey) {
 				d3.selectAll('.handle').classed('invisible', true);
 				this.state.shapeIsSelected = false;
-				//this.pathBox.remove();
-				//d3.selectAll('.overlay' + this.settings.clickarea).classed('selected', false);
+				delete this.pathBox;
+				d3.selectAll('.bbRect').remove();
 			}
 		} else if (this.state.multipleSelection === true && this.state.multipleHandles.length === 2) {
 			this.multipleDataUpdate();
@@ -796,6 +800,8 @@ export default class DrawVectors extends Component {
 
 				if (d3.event.shiftKey === false) {
 					d3.select(this).classed('selected', true);
+					delete this.pathBox;
+					d3.selectAll('.bbRect').remove();
 				}
 
 				if (self.state.multipleSelection === true) {
@@ -880,6 +886,12 @@ export default class DrawVectors extends Component {
 						d3.selectAll('.handle').classed('selected', false);
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
 						self.state.shapeIsSelected = true;
+
+						d3.selectAll('.bbRect').classed('inactive', true);
+						d3.selectAll('.overlay').classed('selected', false);
+						d3.selectAll('.overlay' + parseInt(self.settings.clickarea)).classed('selected', true);
+						d3.selectAll('.bbRect.inactive').remove();
+						self.createDragBox();
 					})
 					.on('mouseup', function (d) {
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
@@ -1057,7 +1069,7 @@ export default class DrawVectors extends Component {
 
 		const box = selected.getBBox();
 
-		if (typeof self.pathBox === 'undefined') {
+		//if (typeof self.pathBox === 'undefined') {
 			self.pathBox = d3.selectAll('svg')
 				.append('rect')
 				.attr('class', 'bbRect')
@@ -1068,7 +1080,7 @@ export default class DrawVectors extends Component {
 				.attr('fill', 'none')
 				.attr('stroke', 'red')
 				.attr('stroke-width', '2');
-		}
+		//}
 
 		d3BBox.d3lb.bbox()
 			.infect(d3.selectAll('rect'))
@@ -1181,6 +1193,8 @@ export default class DrawVectors extends Component {
 				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaX;
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaY;
+					self.pathBox.remove();
+					self.createDragBox();
 				}
 			});
 	}
@@ -1207,6 +1221,6 @@ export default class DrawVectors extends Component {
 
 		self.createHandles();
 		self.createPath();
-		self.createDragBox();
+		//self.createDragBox();
 	}
 }
