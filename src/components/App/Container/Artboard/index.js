@@ -71,7 +71,7 @@ export default class Artboard extends Component {
 
 			if (nextProps.clickareas.isNew === true) {
 				artState.currentView = views[index].viewId;
-				artState.isAllowedToCreateNew = false;
+				//artState.isAllowedToCreateNew = false;
 
 				this.props.dispatch(makeClickarea(
 					nextProps.clickarea,
