@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Checkbox from '../Checkbox';
 import CreateForm from './CreateForm';
 import ImageUpload from './ImageUpload';
+import Toolbox from './Toolbox';
 import SceneList from './Scene/SceneList';
 import Button from '../Button';
 import Modal from '../Modal';
@@ -67,6 +68,7 @@ export default class ControlsContainer extends Component {
 				</div>
 				<ImageUpload />
 				<SceneList />
+				<Toolbox />
 				<CreateForm />
 				<Button label="Save Project" />
 				<Button label="Load Project" />

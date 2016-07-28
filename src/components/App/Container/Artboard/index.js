@@ -35,12 +35,16 @@ export default class Artboard extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
+
+		console.log('newprops', nextProps)
+
 		const views = nextProps.views;
 		const fill = nextProps.fill;
 		const view = Object.keys(views);
 		const index = view[view.length - 1];
 		const currentView = nextProps.currentView;
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
+		const tool = nextProps.tool;
 		let artState = this.artist.state;
 
 		artState.isNew = nextProps.isNew;
@@ -53,8 +57,11 @@ export default class Artboard extends Component {
 			nodes: views[image].nodes,
 			edges: views[image].edges,
 			currentView: currentView,
-			backgroundImg: views[currentView]
+			backgroundImg: views[currentView],
+			tool: tool
 		}, () => {
+			artState.tool = tool;
+
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
 				this.props.currentView !== nextProps.currentView) {
@@ -118,7 +125,8 @@ const mapStateToProps = (state) => {
 		isNew: state.clickareas.isNew,
 		isSelected: state.clickareas.isSelected,
 		viewUpdate: state.clickareas.viewUpdate,
-		clickarea: state.clickareas.clickarea
+		clickarea: state.clickareas.clickarea,
+		tool: state.controls.tool
 	};
 };
 

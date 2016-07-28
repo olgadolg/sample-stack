@@ -7,7 +7,15 @@ export default handleActions({
 			...state,
 			initialized: true
 		};
+	},
+
+	SELECT_TOOL: (state, action) => {
+		return {
+			...state,
+			tool: action.data
+		};
 	}
 }, {
-	initialized: false
+	initialized: false,
+	tool: 'pen'
 });

@@ -23,6 +23,7 @@ export default class DrawVectors extends Component {
 			edges: [],
 			handelsize: null,
 			shapes: 0,
+			tool: 'pen',
 			freezedNodes: [],
 			dirs: ["n", "e", "s", "w", "nw", "ne", "se", "sw"],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
@@ -331,12 +332,15 @@ export default class DrawVectors extends Component {
 				}
 
 				self.update();
+
+				if (self.state.tool === 'selectAll') {
+					d3.selectAll('.bbRect').remove();
+					self.createDragBox();
+				}
 			})
 			.on('dragend', function (d, i) {
 				self.tooltip.style('opacity', 0.9);
 				self.updateClickarea();
-				d3.selectAll('.bbRect').remove();
-				self.createDragBox();
 			});
 	}
 
@@ -452,12 +456,22 @@ export default class DrawVectors extends Component {
 		if (d3.event.target.tagName !== 'path' && this.state.multipleSelection === false && d3.event.target.nodeName !== 'rect') {
 			d3.selectAll('.handle').classed('selected', false);
 
-			if (!d3.event.shiftKey) {
+			if (d3.selectAll('.clickarea' + this.settings.clickarea).attr('d').indexOf('z') > -1) {
 				d3.selectAll('.handle').classed('invisible', true);
 				this.state.shapeIsSelected = false;
 				delete this.pathBox;
 				d3.selectAll('.bbRect').remove();
+
+			} else {
+				//if (!d3.event.shiftKey) {
+				if (this.state.tool !== 'pen') {
+					d3.selectAll('.handle').classed('invisible', true);
+					this.state.shapeIsSelected = false;
+					delete this.pathBox;
+					d3.selectAll('.bbRect').remove();
+				}
 			}
+
 		} else if (this.state.multipleSelection === true && this.state.multipleHandles.length === 2) {
 			this.multipleDataUpdate();
 			this.update();
@@ -524,7 +538,9 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	svgMouseUp () {
-		if (this.state.mouseDown && d3.event.shiftKey) {
+		//if (this.state.mouseDown && d3.event.shiftKey) {
+		console.log(this.state.tool)
+		if (this.state.mouseDown && this.state.tool === 'pen') {
 			if (this.settings.clickarea == null || this.state.isAllowedToCreateNew === false) {
 				return;
 			}
@@ -571,7 +587,8 @@ export default class DrawVectors extends Component {
 
 		d3node.classed(this.settings.connectClass, false);
 
-		if (!d3.event.shiftKey) {
+		//if (!d3.event.shiftKey) {
+		if (self.state.tool !== 'pen') {
 			if (self.state.selectedEdge) {
 				self.removeSelectFromEdge();
 			}
@@ -744,7 +761,8 @@ export default class DrawVectors extends Component {
 	closeEdge (i) {
 		if (i === 0 && this.state.nodes[this.settings.clickarea - 1].length > 2 &&
 			this.state.multipleSelection === false) {
-			if (d3.event.shiftKey === true) {
+			if (this.state.tool === 'pen') {
+			//if (d3.event.shiftKey === true) {
 				for (let j = 0; j < this.state.edges[this.settings.clickarea - 1].length; j++) {
 					this.state.edges[this.settings.clickarea - 1][j].closed = true;
 				}
@@ -798,7 +816,8 @@ export default class DrawVectors extends Component {
 
 				d3.selectAll('.handle').classed('selected', false);
 
-				if (d3.event.shiftKey === false) {
+				//if (d3.event.shiftKey === false) {
+				if (self.state.tool !== 'pen') {
 					d3.select(this).classed('selected', true);
 					delete this.pathBox;
 					d3.selectAll('.bbRect').remove();
@@ -887,11 +906,13 @@ export default class DrawVectors extends Component {
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
 						self.state.shapeIsSelected = true;
 
-						d3.selectAll('.bbRect').classed('inactive', true);
-						d3.selectAll('.overlay').classed('selected', false);
-						d3.selectAll('.overlay' + parseInt(self.settings.clickarea)).classed('selected', true);
-						d3.selectAll('.bbRect.inactive').remove();
-						self.createDragBox();
+						if (self.state.tool === 'selectAll') {
+							d3.selectAll('.bbRect').classed('inactive', true);
+							d3.selectAll('.overlay').classed('selected', false);
+							d3.selectAll('.overlay' + parseInt(self.settings.clickarea)).classed('selected', true);
+							d3.selectAll('.bbRect.inactive').remove();
+							self.createDragBox();
+						}
 					})
 					.on('mouseup', function (d) {
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
@@ -899,7 +920,8 @@ export default class DrawVectors extends Component {
 					.on('mouseover', function (d) {
 						const pathBBox = d3.select(this).node().getBBox();
 
-						if (d3.event.shiftKey || self.state.multipleSelection === true) return;
+						//if (d3.event.shiftKey || self.state.multipleSelection === true) return;
+						if (self.state.tool === 'pen' || self.state.multipleSelection === true) return;
 
 						self.tooltip
 							.html(views[currentView].clickareas[i].goTo)
@@ -1069,18 +1091,16 @@ export default class DrawVectors extends Component {
 
 		const box = selected.getBBox();
 
-		//if (typeof self.pathBox === 'undefined') {
-			self.pathBox = d3.selectAll('svg')
-				.append('rect')
-				.attr('class', 'bbRect')
-				.attr('x', box.x)
-				.attr('y', box.y)
-				.attr('width', box.width)
-				.attr('height', box.height)
-				.attr('fill', 'none')
-				.attr('stroke', '#068DF2')
-				.attr('stroke-width', '1');
-		//}
+		self.pathBox = d3.selectAll('svg')
+			.append('rect')
+			.attr('class', 'bbRect')
+			.attr('x', box.x)
+			.attr('y', box.y)
+			.attr('width', box.width)
+			.attr('height', box.height)
+			.attr('fill', 'none')
+			.attr('stroke', '#068DF2')
+			.attr('stroke-width', '1');
 
 		d3BBox.d3lb.bbox()
 			.infect(d3.selectAll('rect'))
@@ -1193,8 +1213,11 @@ export default class DrawVectors extends Component {
 				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaX;
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaY;
-					self.pathBox.remove();
-					self.createDragBox();
+
+					if (self.state.tool === 'selectAll') {
+						self.pathBox.remove();
+						self.createDragBox();
+					}
 				}
 			});
 	}
