@@ -6,7 +6,7 @@ import './styles/styles.css';
 
 export default class DrawVectors extends Component {
 
-	constructor (el, updateOverlayFn, removeOverlayFn, dispatch) {
+	constructor (el, updateOverlayFn, removeOverlayFn, createOverlayFn, dispatch) {
 		super();
 
 		const self = this;
@@ -46,6 +46,7 @@ export default class DrawVectors extends Component {
 			dispatch: dispatch,
 			updateOverlayFn: updateOverlayFn,
 			removeOverlayFn: removeOverlayFn,
+			createOverlayFn: createOverlayFn,
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
 			backspace_key: 8,
@@ -187,21 +188,21 @@ export default class DrawVectors extends Component {
 
 		this.state.nodes.push(
 			[
-				//{clickarea: this.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
-				//{clickarea: this.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
+				{clickarea: this.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
+				{clickarea: this.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
 			]
 		);
 
 		this.state.edges.push([
 			{
-				//closed: false,
-				//source: {clickarea: this.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
-				//target: {clickarea: this.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
+				closed: false,
+				source: {clickarea: this.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
+				target: {clickarea: this.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
 			}
 		]);
 
 		this.createGroups();
-		//this.update();
+		this.update();
 	}
 
 	/**
@@ -459,6 +460,10 @@ export default class DrawVectors extends Component {
 		this.state.mouseDown = true;
 		this.state.selectedNode = false;
 		this.state.nodeIsDragged = false;
+
+		if (this.state.nodes.length === 0 || this.state.nodes[this.state.shapes].length === 0) {
+			this.settings.dispatch(this.settings.createOverlayFn('Daniel'));
+		}
 
 		if (d3.event.target.tagName !== 'path' && this.state.multipleSelection === false && d3.event.target.nodeName !== 'rect') {
 			d3.selectAll('.handle').classed('selected', false);

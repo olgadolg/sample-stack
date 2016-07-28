@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import Artist from './Artist';
-import { updateClickarea, removeClickarea, makeClickarea } from '../../../../actions/clickarea';
+import { updateClickarea, removeClickarea, makeClickarea, createClickarea } from '../../../../actions/clickarea';
 
 export default class Artboard extends Component {
 
@@ -24,6 +24,7 @@ export default class Artboard extends Component {
 			this.refs.svgWrapper,
 			updateClickarea,
 			removeClickarea,
+			createClickarea,
 			this.props.dispatch
 		);
 
@@ -94,6 +95,7 @@ export default class Artboard extends Component {
 			this.refs.svgWrapper,
 			updateClickarea,
 			removeClickarea,
+			createClickarea,
 			this.props.dispatch
 		);
 
