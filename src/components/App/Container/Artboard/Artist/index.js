@@ -11,11 +11,11 @@ export default class DrawVectors extends Component {
 
 		const self = this;
 		const svg = d3.selectAll('svg');
-		const tooltip = d3.selectAll('.d3-tooltip');
+		//const tooltip = d3.selectAll('.d3-tooltip');
 
 		if (svg.length > 0) {
 			svg.remove();
-			tooltip.remove();
+			//tooltip.remove();
 		}
 
 		this.state = {
@@ -76,11 +76,13 @@ export default class DrawVectors extends Component {
 			.x(function (d, i) { return d.x; })
 			.y(function (d) { return d.y; });
 
+		/*
 		this.tooltip = d3
 			.select('body')
 			.append('div')
 			.attr('class', 'd3-tooltip')
 			.style('opacity', 0);
+		*/
 
 		this.bindEvents();
 		this.bindDrag();
@@ -304,7 +306,7 @@ export default class DrawVectors extends Component {
 			})
 			.on('drag', function (d) {
 				self.updateClickarea();
-				self.tooltip.style('opacity', 0);
+				//self.tooltip.style('opacity', 0);
 				d3.select(this).classed('selected', true);
 				self.dragmove(d);
 			})
@@ -323,7 +325,7 @@ export default class DrawVectors extends Component {
 			.on('drag', function (d, i) {
 				$('.bbRect').remove();
 				delete self.pathBox;
-				self.tooltip.style('opacity', 0);
+				//self.tooltip.style('opacity', 0);
 				self.updateClickarea();
 
 				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
@@ -339,7 +341,7 @@ export default class DrawVectors extends Component {
 				}
 			})
 			.on('dragend', function (d, i) {
-				self.tooltip.style('opacity', 0.9);
+				//self.tooltip.style('opacity', 0.9);
 				self.updateClickarea();
 			});
 	}
@@ -374,7 +376,7 @@ export default class DrawVectors extends Component {
 			if (this.state.shapeIsSelected === true) {
 				if (confirm('Are you sure you want to remove this clickarea?')) {
 					d3.selectAll('.overlay' + parseInt(this.settings.clickarea)).remove();
-					d3.selectAll('.d3-tooltip').style('opacity', 0);
+					//d3.selectAll('.d3-tooltip').style('opacity', 0);
 					this.state.nodes.splice(this.settings.clickarea - 1, 1);
 					this.state.edges.splice(this.settings.clickarea - 1, 1);
 					this.state.shapes--;
@@ -901,9 +903,12 @@ export default class DrawVectors extends Component {
 								.replace('clickarea', '')
 						);
 
-						d3.selectAll('.handle').classed('invisible', true);
-						d3.selectAll('.handle').classed('selected', false);
-						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
+						if (self.state.tool === 'select') {
+							d3.selectAll('.handle').classed('invisible', true);
+							d3.selectAll('.handle').classed('selected', false);
+							d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
+						}
+
 						self.state.shapeIsSelected = true;
 
 						if (self.state.tool === 'selectAll') {
@@ -923,16 +928,20 @@ export default class DrawVectors extends Component {
 						//if (d3.event.shiftKey || self.state.multipleSelection === true) return;
 						if (self.state.tool === 'pen' || self.state.multipleSelection === true) return;
 
+						/*
 						self.tooltip
 							.html(views[currentView].clickareas[i].goTo)
 							.style('left', (pathBBox.x + pathBBox.width / 2 + 250) + 'px')
 							.style('top', (pathBBox.y + pathBBox.height / 2) + 'px')
 							.style('opacity', 0.9);
+						*/
 					})
 					.on('mouseout', function (d) {
+						/*
 						if (d3.event.toElement.className !== 'd3-tooltip') {
 							self.tooltip.style('opacity', 0);
 						}
+						*/
 					})
 					.call(self.dragClickarea);
 			});
@@ -1222,6 +1231,28 @@ export default class DrawVectors extends Component {
 			});
 	}
 
+	setFigureState () {
+		switch (this.state.tool) {
+			case 'select':
+				d3.selectAll('.handle').classed('invisible', false);
+				if (typeof this.pathBox !== 'undefined') {
+					this.pathBox.remove();
+				}
+			break;
+			case 'selectAll':
+				if (this.state.shapeIsSelected === true) {
+					if (typeof this.pathBox !== 'undefined') {
+						this.pathBox.remove();
+					}
+					this.createDragBox();
+				}
+
+				d3.selectAll('.handle').classed('invisible', true);
+				d3.select('.handle').on('click mousedown', null);
+			break;
+		}
+	}
+
 	/**
 	 * update elements
 	 *
@@ -1242,6 +1273,7 @@ export default class DrawVectors extends Component {
 			this.containerCreator();
 		}
 
+		self.setFigureState();
 		self.createHandles();
 		self.createPath();
 		//self.createDragBox();

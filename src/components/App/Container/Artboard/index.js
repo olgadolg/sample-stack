@@ -35,9 +35,6 @@ export default class Artboard extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-
-		console.log('newprops', nextProps)
-
 		const views = nextProps.views;
 		const fill = nextProps.fill;
 		const view = Object.keys(views);
@@ -60,7 +57,10 @@ export default class Artboard extends Component {
 			backgroundImg: views[currentView],
 			tool: tool
 		}, () => {
-			artState.tool = tool;
+			if (artState.tool !== tool) {
+				artState.tool = tool;
+				this.artist.update();
+			}
 
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
