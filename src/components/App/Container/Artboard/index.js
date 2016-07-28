@@ -103,8 +103,9 @@ export default class Artboard extends Component {
 	}
 
 	openClickarea () {
-		this.artist.animateNewClickarea(80, 0, 1500, 250,
-			'bounce', this.artist.createClickarea);
+		this.artist.createClickarea();
+		//this.artist.animateNewClickarea(80, 0, 1500, 250,
+			//'bounce', this.artist.createClickarea);
 	}
 
 	render () {

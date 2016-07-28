@@ -174,34 +174,34 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	createClickarea (self) {
-		self.state.shapes++;
-		self.settings.clickarea = self.state.shapes;
-		self.state.shapeIsSelected = true;
+	createClickarea () {
+		this.state.shapes++;
+		this.settings.clickarea = this.state.shapes;
+		this.state.shapeIsSelected = true;
 
 		d3.selectAll('.handle').classed('invisible', true);
 
-		self.svgG = self.svg
+		this.svgG = this.svg
 			.append('g')
-			.classed('overlay selected overlay' + self.state.shapes.toString(), true);
+			.classed('overlay selected overlay' + this.state.shapes.toString(), true);
 
-		self.state.nodes.push(
+		this.state.nodes.push(
 			[
-				{clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
-				{clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
+				//{clickarea: this.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
+				//{clickarea: this.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
 			]
 		);
 
-		self.state.edges.push([
+		this.state.edges.push([
 			{
-				closed: false,
-				source: {clickarea: self.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
-				target: {clickarea: self.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
+				//closed: false,
+				//source: {clickarea: this.state.shapes, title: 'Node1', id: 0, x: 40, y: 50},
+				//target: {clickarea: this.state.shapes, title: 'Node2', id: 1, x: 40, y: 115}
 			}
 		]);
 
-		self.createGroups();
-		self.update();
+		this.createGroups();
+		//this.update();
 	}
 
 	/**
@@ -458,7 +458,7 @@ export default class DrawVectors extends Component {
 	svgMouseDown (d) {
 		this.state.mouseDown = true;
 		this.state.selectedNode = false;
-		self.state.nodeIsDragged = false;
+		this.state.nodeIsDragged = false;
 
 		if (d3.event.target.tagName !== 'path' && this.state.multipleSelection === false && d3.event.target.nodeName !== 'rect') {
 			d3.selectAll('.handle').classed('selected', false);
@@ -902,6 +902,7 @@ export default class DrawVectors extends Component {
 						}
 
 						d3.selectAll('.overlay' + self.settings.clickarea).classed('selected', true);
+						d3.selectAll('.handle').classed('selected', false);
 
 						self.settings.clickarea = parseInt(
 							d3.select(this).attr('class')
@@ -911,7 +912,6 @@ export default class DrawVectors extends Component {
 
 						if (self.state.tool === 'select') {
 							d3.selectAll('.handle').classed('invisible', true);
-							d3.selectAll('.handle').classed('selected', false);
 							d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
 						}
 
@@ -1249,7 +1249,7 @@ export default class DrawVectors extends Component {
 			break;
 			case 'select':
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
-					.classed('selected invisible', false);
+					.classed('invisible', false);
 				if (typeof this.pathBox !== 'undefined') {
 					this.pathBox.remove();
 				}
