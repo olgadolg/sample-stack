@@ -17,5 +17,5 @@ export default handleActions({
 	}
 }, {
 	initialized: false,
-	tool: 'pen'
+	tool: 'selectAll'
 });

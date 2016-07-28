@@ -23,7 +23,7 @@ export default class DrawVectors extends Component {
 			edges: [],
 			handelsize: null,
 			shapes: 0,
-			tool: 'pen',
+			tool: 'selectAll',
 			freezedNodes: [],
 			dirs: ["n", "e", "s", "w", "nw", "ne", "se", "sw"],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
@@ -37,6 +37,7 @@ export default class DrawVectors extends Component {
 			nodeIsDragged: false,
 			multipleSelection: false,
 			init: true,
+			viewUpdate: false,
 			multipleHandles: []
 		};
 
@@ -105,6 +106,7 @@ export default class DrawVectors extends Component {
 		this.state.currentView = state.image;
 		this.state.props = clickareas;
 		this.state.changeView = true;
+		this.state.tool = 'selectAll';
 	}
 
 	/**
@@ -169,6 +171,12 @@ export default class DrawVectors extends Component {
 			});
 	}
 
+	removeBBRect() {
+		if (this.pathBox) {
+			this.pathBox.remove();
+		}
+	}
+
 	/**
 	 * Triggers on theme selected
 	 *
@@ -182,7 +190,6 @@ export default class DrawVectors extends Component {
 		this.state.shapeIsSelected = true;
 
 		//d3.selectAll('.handle').classed('invisible', true);
-		this.state.shapeIsSelected = true;
 
 		this.svgG = this.svg
 			.append('g')
@@ -469,6 +476,7 @@ export default class DrawVectors extends Component {
 		this.state.nodeIsDragged = false;
 
 		if (this.state.nodes.length === 0 || this.state.nodes[this.settings.clickarea - 1].length === 0 || d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1) {
+			console.log('tooooooooool', this.state.tool)
 			if (this.state.tool === 'pen') {
 				this.state.init = true;
 				this.state.mouseDown = false;
@@ -957,6 +965,8 @@ export default class DrawVectors extends Component {
 						d3.selectAll('.overlay').classed('selected', false);
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea)).classed('selected', true);
 
+						console.log('tool', self.state.tool)
+
 						if (self.state.tool === 'selectAll') {
 							d3.selectAll('.bbRect.inactive').remove();
 							self.createDragBox();
@@ -1148,6 +1158,8 @@ export default class DrawVectors extends Component {
 
 		const box = selected.getBBox();
 
+		console.log(box)
+
 		self.pathBox = d3.selectAll('svg')
 			.append('rect')
 			.attr('class', 'bbRect')
@@ -1298,6 +1310,7 @@ export default class DrawVectors extends Component {
 				}
 			break;
 			case 'selectAll':
+				console.log('shape', this.state.shapeIsSelected)
 				if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
 					if (typeof this.pathBox !== 'undefined') {
 						this.pathBox.remove();

@@ -48,6 +48,16 @@ export default class Artboard extends Component {
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
+		if (this.props.currentView === nextProps.currentView) {
+			if (artState.tool !== tool) {
+				artState.tool = tool;
+				this.artist.update();
+			}
+		} else {
+			artState.tool = 'selectAll';
+			this.artist.removeBBRect();
+		}
+
 		this.setState({
 			views: views,
 			fill: fill,
@@ -58,10 +68,6 @@ export default class Artboard extends Component {
 			backgroundImg: views[currentView],
 			tool: tool
 		}, () => {
-			if (artState.tool !== tool) {
-				artState.tool = tool;
-				this.artist.update();
-			}
 
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
@@ -69,7 +75,13 @@ export default class Artboard extends Component {
 				this.createNewArtist(nextProps);
 			}
 
-			if (nextProps.clickareas.isNew === true) {
+			if (nextProps.viewUpdate === true) {
+				this.artist.state.shapeIsSelected = false;
+				$('.tool').css({'background-color': '#fff'});
+				$('.selectAllIcon').css({'background-color': '#6EC2B3'});
+			}
+
+			if (nextProps.clickareas.isNew === true || nextProps.viewUpdate === true) {
 				artState.currentView = views[index].viewId;
 				//artState.isAllowedToCreateNew = false;
 
