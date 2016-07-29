@@ -112,6 +112,7 @@ export default handleActions({
 		views[action.data.fileName] = {
 			viewId: action.data.fileName,
 			image: action.data.image,
+			fileData: action.data.fileData,
 			nodes: [],
 			edges: [],
 			clickareas: {}

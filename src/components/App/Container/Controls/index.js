@@ -61,17 +61,11 @@ export default class ControlsContainer extends Component {
 						checked={this.state.fillChecked}
 						label="Toggle Fill"
 					/>
-					<Checkbox
-						labelClass={labelClass}
-						label="Lock position"
-					/>
 				</div>
 				<ImageUpload />
 				<SceneList />
 				<Toolbox />
 				<CreateForm />
-				<Button label="Save Project" />
-				<Button label="Load Project" />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
 				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
 					<h5>Please add a view before creating clickareas</h5>

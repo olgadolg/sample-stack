@@ -1,6 +1,15 @@
 import request from 'superagent';
 
-export const uploadImage = (files) => (dispatch) => {
+export const uploadImage = (obj) => (dispatch) => {
+	dispatch({
+		type: 'ADD_VIEW',
+		data: {
+			fileName: obj.name.replace(/(.*)\.(.*?)$/, '$1'),
+			image: obj.name,
+			fileData: obj.fileData
+		}
+	});
+	/*
 	const req = request.post('/api/image');
 
 	req.set('Accept', 'application/json');
@@ -24,4 +33,5 @@ export const uploadImage = (files) => (dispatch) => {
 			}
 		});
 	});
+	*/
 };

@@ -10,16 +10,29 @@ export default class ImageUpload extends Component {
 		super();
 
 		this.state = {
-			files: null
+			fileData: null,
+			name: null
 		};
 	}
 
 	handleDrop (files) {
-		this.setState({
-			files: files
-		});
 
-		this.props.dispatch(uploadImage(files));
+		let reader = new FileReader();
+		let file = files[0];
+
+		reader.onload = ((theFile) => {
+			return (e) => {
+				this.setState({
+					fileData: e.target.result,
+					name: theFile.name
+				}, () => {
+					console.log('state', this.state)
+					this.props.dispatch(uploadImage(this.state));
+				});
+			};
+		})(file);
+
+		reader.readAsDataURL(file);
 	}
 
 	render () {

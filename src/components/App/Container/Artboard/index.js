@@ -59,21 +59,17 @@ export default class Artboard extends Component {
 			views: views,
 			fill: fill,
 			image: image,
+			imageData: views[image].fileData,
 			nodes: views[image].nodes,
 			edges: views[image].edges,
 			currentView: currentView,
 			backgroundImg: views[currentView],
 			tool: tool
 		}, () => {
-
-			console.log('here', artState.tool, tool)
-
 			if (artState.tool !== tool) {
 				artState.tool = tool;
 				this.artist.update();
 			}
-
-			console.log('and here', artState.tool);
 
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
@@ -111,7 +107,7 @@ export default class Artboard extends Component {
 			this.props.dispatch
 		);
 
-		$('.canvasIcon').attr('src', require('../../../../images/' + this.state.currentView));
+		//$('.canvasIcon').attr('src', require('../../../../images/' + this.state.currentView));
 		this.artist.setState(this.state, nextProps.clickareas);
 		this.artist.update();
 	}
@@ -125,7 +121,7 @@ export default class Artboard extends Component {
 	render () {
 		return (
 			<div ref="svgWrapper">
-				<img className="canvasIcon" />
+				<img src={this.state.imageData} className="canvasIcon" />
 			</div>
 		);
 	}

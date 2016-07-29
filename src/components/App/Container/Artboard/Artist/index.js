@@ -406,11 +406,18 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	svgMouseDown (d) {
+		const self = this;
+
 		if (Object.keys(this.state.props.views).length === 0) {
 			return;
 		}
 
 		if (d3.event.target.tagName === 'path' && d3.event.target.attributes.d.nodeValue.indexOf('z') > -1) {
+			if (self.state.edges.length > 0) {
+				//console.log(self.state.edges, self.state.nodes)
+
+			}
+
 			return;
 		}
 
@@ -519,6 +526,16 @@ export default class DrawVectors extends Component {
 
 		if (this.state.nodes.length === 0 && this.state.tool !== 'pen') {
 			return;
+		}
+
+		for (var i = 0; i < this.state.nodes[this.settings.clickarea - 1].length; i++) {
+			if (i !== this.state.nodes[this.settings.clickarea - 1].length - 1) {
+				let isBetween = this.isBetween(this.state.nodes[this.settings.clickarea - 1][i], this.state.nodes[this.settings.clickarea - 1][i + 1], {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]}, 15);
+				console.log(isBetween);
+			} else {
+				let isBetween = this.isBetween(this.state.nodes[this.settings.clickarea - 1][i], this.state.nodes[this.settings.clickarea - 1][0], {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]}, 15);
+				console.log(isBetween);
+			}
 		}
 
 		if (this.state.mouseDown && this.state.tool === 'pen') {
@@ -1278,6 +1295,22 @@ export default class DrawVectors extends Component {
 			break;
 		}
 	}
+
+	isBetween (a, b, c, tolerance) {
+		//test if the point c is inside a pre-defined distance (tolerance) from the line
+		var distance = Math.abs((c.y - b.y) * a.x - (c.x - b.x) * a.y + c.x * b.y - c.y * b.x) / Math.sqrt(Math.pow((c.y - b.y), 2) + Math.pow((c.x - b.x), 2));
+		if (distance > tolerance) { return false; }
+
+		//test if the point c is between a and b
+		var dotproduct = (c.x - a.x) * (b.x - a.x) + (c.y - a.y) * (b.y - a.y);
+		if (dotproduct < 0) { return false; }
+
+		var squaredlengthba = (b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y);
+		if (dotproduct > squaredlengthba) { return false; }
+
+		return true;
+	};
+
 
 	/**
 	 * update elements

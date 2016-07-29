@@ -29,19 +29,13 @@ export default class Toolbox extends Component {
 
 		$('.handle').removeClass('selected');
 
-		console.log('thisstate', this.state)
-
 		for (var item in this.state) {
-
-			console.log(event, type, this.state)
-
 			if (type === item) {
 				obj[type] = true;
 				$('.' + [type] + 'Icon').css({'background-color': '#6EC2B3'});
 			} else {
 				obj[item] = false;
 				$('.' + [item] + 'Icon').css({'background-color': '#ffffff'});
-
 			}
 		}
 
