@@ -12,6 +12,7 @@ export default class Toolbox extends Component {
 
 		this.state = {
 			pen: false,
+			penAdd: false,
 			select: false,
 			selectAll: true
 		};
@@ -65,6 +66,13 @@ export default class Toolbox extends Component {
 			[styles.penIcon]: true
 		});
 
+		const penAddIcon = classnames({
+			'tool': true,
+			'penAddIcon': true,
+			[styles.tool]: true,
+			[styles.penAddIcon]: true
+		});
+
 		const selectIcon = classnames({
 			'tool': true,
 			'selectIcon': true,
@@ -82,6 +90,7 @@ export default class Toolbox extends Component {
 		return (
 			<div className={toolBox}>
 				<div onClick={(e) => this.handleClick(e, 'pen')} className={penIcon}></div>
+				<div onClick={(e) => this.handleClick(e, 'penAdd')} className={penAddIcon}></div>
 				<div onClick={(e) => this.handleClick(e, 'select')} className={selectIcon}></div>
 				<div onClick={(e) => this.handleClick(e, 'selectAll')} className={selectAllIcon}></div>
 			</div>
