@@ -5,7 +5,8 @@ import styles from './styles/styles.css';
 export default class Modal extends Component {
 
 	render () {
-		console.log(this.props.isOpen)
+		return null;
+
 		if (this.props.isOpen) {
 			return (
 				<ReactCSSTransitionGroup transitionName={this.props.transitionName}>

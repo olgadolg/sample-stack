@@ -44,6 +44,7 @@ export default class Artboard extends Component {
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
 		const tool = nextProps.tool;
 		let artState = this.artist.state;
+		let lastView = this.props.currentView;
 
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
@@ -78,7 +79,6 @@ export default class Artboard extends Component {
 
 			if (nextProps.clickareas.isNew === true || nextProps.viewUpdate === true) {
 				artState.currentView = views[index].viewId;
-				//artState.isAllowedToCreateNew = false;
 
 				this.props.dispatch(makeClickarea(
 					nextProps.clickarea,

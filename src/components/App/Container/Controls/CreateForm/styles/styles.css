@@ -1,7 +1,6 @@
 :local(.textfield) {
 	display: block;
 	box-sizing: border-box;
-	height: 5rem;
 	padding: 1.5rem;
 	border: .1rem solid #fff;
 	margin: 0 0 1rem 0;
@@ -11,14 +10,12 @@
 	font-size: 1.4rem;
 	line-height: 2rem;
 	margin: 5px 0;
-	float: left;
 	color: #4d4d4d;
 	background-color: #fff;
 	border-radius: .2rem;
 	height: 41px;
-	margin-top: 6px;
-	margin-right: 10px;
 	float: left;
+	width: 100%;
 }
 
 :local(.button:hover) {
@@ -27,7 +24,4 @@
 }
 
 :local(.createForm) {
-	position: absolute;
-	right: 340px;
-	top: 12px;
 }

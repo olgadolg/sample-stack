@@ -12,7 +12,7 @@ export default class CreateClickarea extends Component {
 		super(props);
 
 		this.state = {
-			val: null
+			val: ''
 		};
 	}
 
