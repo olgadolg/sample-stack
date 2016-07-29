@@ -5,6 +5,7 @@ import $ from 'jquery';
 import styles from './styles/styles.css';
 import SceneListItem from '../SceneListItem';
 import { updateView } from '../../../../../../actions/views';
+import { selectTool } from '../../../../../../actions/controls';
 
 export default class SceneList extends Component {
 
@@ -23,6 +24,7 @@ export default class SceneList extends Component {
 	}
 
 	onSelectChange (event) {
+		this.props.dispatch(selectTool('selectAll'));
 		this.props.dispatch(updateView(event.currentTarget.value));
 	}
 

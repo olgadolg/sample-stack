@@ -474,9 +474,9 @@ export default class DrawVectors extends Component {
 		this.state.mouseDown = true;
 		this.state.selectedNode = false;
 		this.state.nodeIsDragged = false;
+		this.state.viewUpdate = false;
 
 		if (this.state.nodes.length === 0 || this.state.nodes[this.settings.clickarea - 1].length === 0 || d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1) {
-			console.log('tooooooooool', this.state.tool)
 			if (this.state.tool === 'pen') {
 				this.state.init = true;
 				this.state.mouseDown = false;
@@ -1154,11 +1154,9 @@ export default class DrawVectors extends Component {
 		const self = this;
 		const selected = d3.selectAll('.overlay.selected').node();
 
-		if (selected === null) return;
+		if (selected === null || this.state.viewUpdate === true) return;
 
 		const box = selected.getBBox();
-
-		console.log(box)
 
 		self.pathBox = d3.selectAll('svg')
 			.append('rect')
@@ -1293,34 +1291,33 @@ export default class DrawVectors extends Component {
 
 	setFigureState () {
 		switch (this.state.tool) {
-			case 'pen':
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
-				d3.select('.handle').on('click mousedown', null);
-				if (typeof this.pathBox !== 'undefined') {
-					this.pathBox.remove();
-				}
+		case 'pen':
+			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			d3.select('.handle').on('click mousedown', null);
+			if (typeof this.pathBox !== 'undefined') {
+				this.pathBox.remove();
+			}
 			break;
-			case 'select':
-				if (this.state.shapeIsSelected) {
-					d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
-						.classed('invisible', false);
-				}
-				if (typeof this.pathBox !== 'undefined') {
-					this.pathBox.remove();
-				}
-			break;
-			case 'selectAll':
-				console.log('shape', this.state.shapeIsSelected)
-				if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
-					if (typeof this.pathBox !== 'undefined') {
-						this.pathBox.remove();
-					}
-					this.createDragBox();
-				}
-
+		case 'select':
+			if (this.state.shapeIsSelected) {
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
-					.classed('invisible', true);
-				d3.select('.handle').on('click mousedown', null);
+					.classed('invisible', false);
+			}
+			if (typeof this.pathBox !== 'undefined') {
+				this.pathBox.remove();
+			}
+			break;
+		case 'selectAll':
+			if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
+				if (typeof this.pathBox !== 'undefined') {
+					this.pathBox.remove();
+				}
+				this.createDragBox();
+			}
+
+			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
+				.classed('invisible', true);
+			d3.select('.handle').on('click mousedown', null);
 			break;
 		}
 	}

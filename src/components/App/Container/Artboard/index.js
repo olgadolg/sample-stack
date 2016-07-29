@@ -48,16 +48,6 @@ export default class Artboard extends Component {
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
-		if (this.props.currentView === nextProps.currentView) {
-			if (artState.tool !== tool) {
-				artState.tool = tool;
-				this.artist.update();
-			}
-		} else {
-			artState.tool = 'selectAll';
-			this.artist.removeBBRect();
-		}
-
 		this.setState({
 			views: views,
 			fill: fill,
@@ -68,11 +58,16 @@ export default class Artboard extends Component {
 			backgroundImg: views[currentView],
 			tool: tool
 		}, () => {
+			if (artState.tool !== tool) {
+				artState.tool = tool;
+				this.artist.update();
+			}
 
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
 				this.props.currentView !== nextProps.currentView) {
 				this.createNewArtist(nextProps);
+				artState.viewUpdate = true;
 			}
 
 			if (nextProps.viewUpdate === true) {
