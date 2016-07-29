@@ -24,7 +24,7 @@ export default class SceneList extends Component {
 	}
 
 	onSelectChange (event) {
-		this.props.dispatch(selectTool('selectAll'));
+		this.props.dispatch(selectTool('pen'));
 		this.props.dispatch(updateView(event.currentTarget.value));
 	}
 

@@ -21,7 +21,7 @@ export default class DrawVectors extends Component {
 			edges: [],
 			handelsize: null,
 			shapes: 0,
-			tool: 'selectAll',
+			tool: 'pen',
 			freezedNodes: [],
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
@@ -269,6 +269,10 @@ export default class DrawVectors extends Component {
 
 		this.dragClickarea = d3.behavior.drag()
 			.on('drag', function (d, i) {
+				if (self.state.tool === 'pen') {
+					return;
+				}
+
 				$('.bbRect').remove();
 				delete self.pathBox;
 				self.updateClickarea();
@@ -406,6 +410,14 @@ export default class DrawVectors extends Component {
 			return;
 		}
 
+		if (d3.event.target.tagName === 'path' && d3.event.target.attributes.d.nodeValue.indexOf('z') > -1) {
+			return;
+		}
+
+		if (this.state.nodes.length === 0 && this.state.tool !== 'pen') {
+			return;
+		}
+
 		this.state.mouseDown = true;
 		this.state.selectedNode = false;
 		this.state.nodeIsDragged = false;
@@ -501,7 +513,11 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	svgMouseUp () {
-		if ($('.canvasIcon').length === 0) {
+		if (Object.keys(this.state.props.views).length === 0) {
+			return;
+		}
+
+		if (this.state.nodes.length === 0 && this.state.tool !== 'pen') {
 			return;
 		}
 
@@ -866,9 +882,16 @@ export default class DrawVectors extends Component {
 						return self.lineCreator(self.state.nodes[i]) + z;
 					})
 					.on('click', function (d, i) {
+						if (self.state.tool === 'pen') {
+							return;
+						}
 						d3.select(this).classed('selected', true);
 					})
 					.on('mousedown', function () {
+						if (self.state.tool === 'pen') {
+							return;
+						}
+
 						if (self.state.multipleHandles.length < 2) {
 							self.state.multipleHandles = [];
 						}

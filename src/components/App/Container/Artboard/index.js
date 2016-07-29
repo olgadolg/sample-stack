@@ -49,6 +49,12 @@ export default class Artboard extends Component {
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
+		if (this.props.currentView !== nextProps.currentView) {
+			this.artist.state.shapeIsSelected = false;
+			$('.tool').css({'background-color': '#fff'});
+			$('.penIcon').css({'background-color': '#6EC2B3'});
+		}
+
 		this.setState({
 			views: views,
 			fill: fill,
@@ -59,10 +65,15 @@ export default class Artboard extends Component {
 			backgroundImg: views[currentView],
 			tool: tool
 		}, () => {
+
+			console.log('here', artState.tool, tool)
+
 			if (artState.tool !== tool) {
 				artState.tool = tool;
 				this.artist.update();
 			}
+
+			console.log('and here', artState.tool);
 
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
@@ -71,13 +82,7 @@ export default class Artboard extends Component {
 				artState.viewUpdate = true;
 			}
 
-			if (nextProps.viewUpdate === true) {
-				this.artist.state.shapeIsSelected = false;
-				$('.tool').css({'background-color': '#fff'});
-				$('.selectAllIcon').css({'background-color': '#6EC2B3'});
-			}
-
-			if (nextProps.clickareas.isNew === true || nextProps.viewUpdate === true) {
+			if (nextProps.clickareas.isNew === true) {
 				artState.currentView = views[index].viewId;
 
 				this.props.dispatch(makeClickarea(
@@ -87,7 +92,7 @@ export default class Artboard extends Component {
 					artState.edges
 				));
 
-				this.openClickarea();
+				this.openClickarea(nextProps);
 			}
 
 			if (typeof this.props.clickareas.isNew !== undefined) {
@@ -111,10 +116,10 @@ export default class Artboard extends Component {
 		this.artist.update();
 	}
 
-	openClickarea () {
-		this.artist.createClickarea();
-		//this.artist.animateNewClickarea(80, 0, 1500, 250,
-			//'bounce', this.artist.createClickarea);
+	openClickarea (nextProps) {
+		if (nextProps.tool === 'pen') {
+			this.artist.createClickarea();
+		}
 	}
 
 	render () {
