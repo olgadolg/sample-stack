@@ -26,6 +26,14 @@ export default class Toolbox extends Component {
 
 		$('.handle').removeClass('selected');
 
+		for (var item in this.state) {
+			if (type === item) {
+				obj[type] = true;
+			} else {
+				obj[item] = false;
+			}
+		}
+
 		this.setState(obj, () => {
 			var isSelected;
 
