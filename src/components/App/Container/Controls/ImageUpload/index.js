@@ -43,7 +43,7 @@ export default class ImageUpload extends Component {
 					activeClassName={styles.activeDropzone}
 					ref="dropzone"
 					onDrop={this.handleDrop.bind(this)}>
-					<div className={styles.dropText}>Drop image here to create a new view</div>
+					<div className={styles.dropText}>Drop image to create a new view layer</div>
 				</Dropzone>
 			</div>
 		);
