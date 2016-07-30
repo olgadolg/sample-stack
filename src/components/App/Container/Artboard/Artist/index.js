@@ -311,7 +311,7 @@ export default class DrawVectors extends Component {
 			}
 
 			if (this.state.shapeIsSelected === true) {
-				if (confirm('Are you sure you want to remove this clickarea?')) {
+				//if (confirm('Are you sure you want to remove this clickarea?')) {
 					d3.selectAll('.overlay' + parseInt(this.settings.clickarea)).remove();
 					this.state.nodes.splice(this.settings.clickarea - 1, 1);
 					this.state.edges.splice(this.settings.clickarea - 1, 1);
@@ -321,9 +321,9 @@ export default class DrawVectors extends Component {
 					this.removeClickarea(this.settings.clickarea - 1);
 					this.pathBox.remove();
 					this.update();
-				}
+				//}
 			} else if (selectedNode) {
-				if (confirm('Are you sure you want to remove this point?')) {
+				//if (confirm('Are you sure you want to remove this point?')) {
 					this.state.nodes[this.settings.clickarea - 1]
 						.splice(this.state.nodes[this.settings.clickarea - 1]
 						.indexOf(selectedNode), 1);
@@ -333,10 +333,22 @@ export default class DrawVectors extends Component {
 					this.state.shapeIsSelected = true;
 					this.updateClickarea();
 					this.update();
-				}
+				//}
 			}
 			break;
 		}
+	}
+
+	removePoint (point) {
+		this.state.nodes[this.settings.clickarea - 1]
+			.splice(this.state.nodes[this.settings.clickarea - 1]
+			.indexOf(point), 1);
+
+		this.spliceLinksForNode(point);
+		this.state.selectedNode = null;
+		this.state.shapeIsSelected = true;
+		this.updateClickarea();
+		this.update();
 	}
 
 	/**
@@ -517,8 +529,13 @@ export default class DrawVectors extends Component {
 
 			let prevNode = this.state.selectedNode;
 
+			if (this.state.tool === 'penRemove') {
+
+			}
+
 			if (!prevNode || prevNode.id !== d.id) {
-				this.replaceSelectNode(d3node, d);
+				//this.replaceSelectNode(d3node, d);
+				//this.removePoint(d);
 			} else {
 				this.removeSelectFromNode();
 			}
@@ -726,6 +743,11 @@ export default class DrawVectors extends Component {
 
 				if (d3.select('.clickarea' + self.settings.clickarea).attr('d').indexOf('z') > -1) {
 					self.state.shapeIsSelected = false;
+				}
+
+				if (self.state.tool === 'penRemove') {
+					self.state.selectedNode = d;
+					self.removePoint(d);
 				}
 
 				if (self.state.tool !== 'pen') {
@@ -1167,6 +1189,14 @@ export default class DrawVectors extends Component {
 				this.pathBox.remove();
 			}
 			break;
+
+		case 'penRemove':
+			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			if (typeof this.pathBox !== 'undefined') {
+				this.pathBox.remove();
+			}
+			break;
+
 		case 'select':
 			if (this.state.shapeIsSelected) {
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
@@ -1177,7 +1207,6 @@ export default class DrawVectors extends Component {
 			}
 			break;
 		case 'selectAll':
-			//$('svg').css('cursor', 'default');
 			if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
 				if (typeof this.pathBox !== 'undefined') {
 					this.pathBox.remove();

@@ -26,12 +26,6 @@ export default class Toolbox extends Component {
 
 		$('.handle').removeClass('selected');
 
-		if (type === 'pen' || type === 'penAdd' || type === 'penRemove') {
-			$('svg').css('cursor', 'crosshair');
-		} else {
-			$('svg').css('cursor', 'default');
-		}
-
 		for (var item in this.state) {
 			if (type === item) {
 				obj[type] = true;

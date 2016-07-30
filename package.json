@@ -20,6 +20,7 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-2": "^6.11.0",
     "babel-register": "^6.9.0",
+    "bootflat": "^2.0.4",
     "classnames": "^2.2.5",
     "config": "^1.21.0",
     "css-loader": "^0.23.1",
