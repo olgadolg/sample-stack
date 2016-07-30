@@ -878,7 +878,7 @@ export default class DrawVectors extends Component {
 
 				if (isBetween === true && self.state.tool === 'penAdd') {
 					if (self.state.multiple === true) {
-						self.state.nodes[self.settings.clickarea - 1].splice(i, 0, {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
+						self.state.nodes[self.settings.clickarea - 1].push({x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
 						self.state.multiple = false;
 						self.update();
 						console.log(i);
