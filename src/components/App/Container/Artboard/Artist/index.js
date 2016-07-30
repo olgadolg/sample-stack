@@ -28,6 +28,7 @@ export default class DrawVectors extends Component {
 			props: null,
 			coords: null,
 			remove: false,
+			multiple: true,
 			selectedNode: null,
 			selectedEdge: null,
 			mouseDown: false,
@@ -415,9 +416,7 @@ export default class DrawVectors extends Component {
 		if (d3.event.target.tagName === 'path' && d3.event.target.attributes.d.nodeValue.indexOf('z') > -1) {
 			if (self.state.edges.length > 0) {
 				//console.log(self.state.edges, self.state.nodes)
-
 			}
-
 			return;
 		}
 
@@ -429,6 +428,7 @@ export default class DrawVectors extends Component {
 		this.state.selectedNode = false;
 		this.state.nodeIsDragged = false;
 		this.state.viewUpdate = false;
+		this.state.multiple = true;
 
 		if (this.state.nodes.length === 0 || this.state.nodes[this.settings.clickarea - 1].length === 0 || d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1) {
 			if (this.state.tool === 'pen') {
@@ -448,7 +448,7 @@ export default class DrawVectors extends Component {
 				d3.selectAll('.bbRect').remove();
 			}
 
-			if (this.state.tool !== 'pen') {
+			if (this.state.tool !== 'pen' && this.state.tool !== 'penAdd') {
 				d3.selectAll('.handle').classed('invisible', true);
 				d3.selectAll('.bbRect').remove();
 				this.state.shapeIsSelected = false;
@@ -528,15 +528,7 @@ export default class DrawVectors extends Component {
 			return;
 		}
 
-		for (var i = 0; i < this.state.nodes[this.settings.clickarea - 1].length; i++) {
-			if (i !== this.state.nodes[this.settings.clickarea - 1].length - 1) {
-				let isBetween = this.isBetween(this.state.nodes[this.settings.clickarea - 1][i], this.state.nodes[this.settings.clickarea - 1][i + 1], {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]}, 15);
-				console.log(isBetween);
-			} else {
-				let isBetween = this.isBetween(this.state.nodes[this.settings.clickarea - 1][i], this.state.nodes[this.settings.clickarea - 1][0], {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]}, 15);
-				console.log(isBetween);
-			}
-		}
+		this.makePenAddPoint();
 
 		if (this.state.mouseDown && this.state.tool === 'pen') {
 			if (this.settings.clickarea == null) {
@@ -811,7 +803,7 @@ export default class DrawVectors extends Component {
 			.enter()
 			.append('circle')
 			.attr('class', function (d, i) {
-				let visible = (d.clickarea === self.settings.clickarea && self.state.isSelected === false) ? '' : 'invisible';
+				let visible = (self.state.tool === 'penadd' || d.clickarea === self.settings.clickarea && self.state.isSelected === false) ? '' : 'invisible';
 				return 'handle' + ' ' + 'handle' + parseInt(i + 1) + ' ' + visible;
 			})
 			.attr('r', String(self.settings.nodeRadius))
@@ -863,6 +855,47 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
+	makePenAddPoint (self) {
+		self = self || this;
+
+		for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+			if (i !== self.state.nodes[self.settings.clickarea - 1].length - 1) {
+				let isBetween = self.isBetween(self.state.nodes[self.settings.clickarea - 1][i], self.state.nodes[self.settings.clickarea - 1][i + 1], {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]}, 15);
+
+				console.log(self.state.tool)
+
+				if (isBetween === true && self.state.tool === 'penAdd') {
+					if (self.state.multiple === true) {
+						self.state.nodes[self.settings.clickarea - 1].splice(i + 1, 0, {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
+						self.state.multiple = false;
+						self.update();
+						console.log(i);
+						console.log(self.state.tool);
+					}
+				}
+			} else {
+				let isBetween = self.isBetween(self.state.nodes[self.settings.clickarea - 1][i], self.state.nodes[self.settings.clickarea - 1][0], {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]}, 15);
+
+				if (isBetween === true && self.state.tool === 'penAdd') {
+					if (self.state.multiple === true) {
+						self.state.nodes[self.settings.clickarea - 1].splice(i, 0, {x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
+						self.state.multiple = false;
+						self.update();
+						console.log(i);
+						console.log(self.state.tool);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * remove edges associated with a node
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	createPath () {
 		const self = this;
 		const views = this.state.props.views;
@@ -905,6 +938,8 @@ export default class DrawVectors extends Component {
 						d3.select(this).classed('selected', true);
 					})
 					.on('mousedown', function () {
+						self.state.multiple = true;
+
 						if (self.state.tool === 'pen') {
 							return;
 						}
@@ -940,6 +975,7 @@ export default class DrawVectors extends Component {
 					})
 					.on('mouseup', function (d) {
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
+						self.makePenAddPoint(self);
 					})
 					.call(self.dragClickarea);
 			});
