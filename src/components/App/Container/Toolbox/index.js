@@ -26,30 +26,6 @@ export default class Toolbox extends Component {
 
 		$('.handle').removeClass('selected');
 
-		for (var item in this.state) {
-			if (type === item) {
-				obj[type] = true;
-				$('.' + [type] + 'Icon').css({
-					'box-shadow': 'inset 1px 1px 1px 0px rgba(50, 50, 50, 0.75), inset -1px -1px 0px 0px rgba(224, 229, 231, 0.75',
-					'border': 'none',
-					'background-color': 'rgba(110, 194, 179, 0.7)',
-					'margin-top': '1px',
-					'height': '42px',
-					'width': '42px'
-				});
-
-			} else {
-				obj[item] = false;
-				$('.' + [item] + 'Icon').css({
-					'box-shadow': 'none',
-					'background-color': 'transparent',
-					'border': '1px solid #fff',
-					'height': '40px',
-					'width': '40px'
-				});
-			}
-		}
-
 		this.setState(obj, () => {
 			var isSelected;
 
