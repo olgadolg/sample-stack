@@ -642,7 +642,7 @@ export default class DrawVectors extends Component {
 		var edges = this.state.edges;
 		var dataIndex = this.settings.clickarea - 1;
 
-		if (i === 0 && nodes[dataIndex].length > 2 && multiSelection === false) {
+		if (i === 0 && nodes[dataIndex].length > 2) {
 			if (this.state.tool === 'pen') {
 				for (let j = 0; j < edges[dataIndex].length; j++) {
 					edges[dataIndex][j].closed = true;
