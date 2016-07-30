@@ -803,7 +803,12 @@ export default class DrawVectors extends Component {
 			.enter()
 			.append('circle')
 			.attr('class', function (d, i) {
-				let visible = (self.state.tool === 'penadd' || d.clickarea === self.settings.clickarea && self.state.isSelected === false) ? '' : 'invisible';
+				var visible = (d.clickarea === self.settings.clickarea && self.state.isSelected === false) ? '' : 'invisible';
+
+				if (self.state.tool === 'penadd') {
+					visible = '';
+				}
+
 				return 'handle' + ' ' + 'handle' + parseInt(i + 1) + ' ' + visible;
 			})
 			.attr('r', String(self.settings.nodeRadius))
@@ -1303,6 +1308,13 @@ export default class DrawVectors extends Component {
 	setFigureState () {
 		switch (this.state.tool) {
 		case 'pen':
+			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			d3.select('.handle').on('click mousedown', null);
+			if (typeof this.pathBox !== 'undefined') {
+				this.pathBox.remove();
+			}
+			break;
+		case 'penAdd':
 			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
 			d3.select('.handle').on('click mousedown', null);
 			if (typeof this.pathBox !== 'undefined') {
