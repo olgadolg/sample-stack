@@ -3,15 +3,16 @@
 	margin-bottom: 20px;
 	position: relative;
 	height: 100px;
-	background: #E2F3F0;
+	background: #f6f6f6;
 	border-radius: 3px;
 	border: 2px dashed #013B2D;
 	color: #013B2D;
 }
 
 :local(.activeDropzone) {
-	background: rgba(255, 255, 255, 0.9);
-	color: #4bb2a0;
+	color: #fff;
+	background: #013B2D;
+	border: 2px dashed #fff;
 }
 
 :local(.dropText) {

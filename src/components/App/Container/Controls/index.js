@@ -5,9 +5,7 @@ import $ from 'jquery';
 import Checkbox from '../Checkbox';
 import CreateForm from './CreateForm';
 import ImageUpload from './ImageUpload';
-import Toolbox from './Toolbox';
 import SceneList from './Scene/SceneList';
-import Button from '../Button';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
 import checkboxStyles from '../Checkbox/styles/styles.css';
@@ -64,7 +62,6 @@ export default class ControlsContainer extends Component {
 				</div>
 				<ImageUpload />
 				<SceneList />
-				<Toolbox />
 				<CreateForm />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
 				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">

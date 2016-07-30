@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
-import { selectTool } from '../../../../../actions/controls';
+import { selectTool } from '../../../../actions/controls';
 
 export default class Toolbox extends Component {
 
@@ -11,7 +11,7 @@ export default class Toolbox extends Component {
 		super();
 
 		this.state = {
-			pen: false,
+			pen: true,
 			penAdd: false,
 			penRemove: false,
 			select: false,
@@ -21,23 +21,38 @@ export default class Toolbox extends Component {
 		this.handelClick = this.handleClick.bind(this);
 	}
 
-	componentDidMount () {
-		$('.' + this.props.controls.tool + 'Icon')
-			.css({'background-color': '#6EC2B3'});
-	}
-
 	handleClick (event, type) {
 		var obj = {};
 
 		$('.handle').removeClass('selected');
 
+		if (type === 'pen' || type === 'penAdd' || type === 'penRemove') {
+			$('svg').css('cursor', 'crosshair');
+		} else {
+			$('svg').css('cursor', 'default');
+		}
+
 		for (var item in this.state) {
 			if (type === item) {
 				obj[type] = true;
-				$('.' + [type] + 'Icon').css({'background-color': '#6EC2B3'});
+				$('.' + [type] + 'Icon').css({
+					'box-shadow': 'inset 1px 1px 1px 0px rgba(50, 50, 50, 0.75), inset -1px -1px 0px 0px rgba(224, 229, 231, 0.75',
+					'border': 'none',
+					'background-color': 'rgba(110, 194, 179, 0.7)',
+					'margin-top': '1px',
+					'height': '42px',
+					'width': '42px'
+				});
+
 			} else {
 				obj[item] = false;
-				$('.' + [item] + 'Icon').css({'background-color': '#ffffff'});
+				$('.' + [item] + 'Icon').css({
+					'box-shadow': 'none',
+					'background-color': 'transparent',
+					'border': '1px solid #fff',
+					'height': '40px',
+					'width': '40px'
+				});
 			}
 		}
 

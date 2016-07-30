@@ -4,7 +4,8 @@
 	margin: 0;
 	height: 570px;
 	width: 250px;
-	background: #6EC2B3;
+	background: rgba(110, 194, 179, 1);
+	border-right: 1px solid #aaa;
 	box-sizing: border-box;
 	padding: 25px;
 	box-sizing: border-box;
@@ -16,6 +17,6 @@
 	height: 33px;
 	position: absolute;
 	right: 22px;
-	top: 22px;
+	top: 16px;
 	z-index: 1;
 }

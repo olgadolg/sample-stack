@@ -41,6 +41,7 @@
     "react": "^15.1.0",
     "react-addons-css-transition-group": "^15.2.1",
     "react-dom": "^15.1.0",
+    "react-draggable": "^2.2.0",
     "react-dropzone": "^3.5.3",
     "react-fa": "^4.1.2",
     "react-fontawesome": "^1.1.0",

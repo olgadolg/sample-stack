@@ -51,8 +51,7 @@ export default class Artboard extends Component {
 
 		if (this.props.currentView !== nextProps.currentView) {
 			this.artist.state.shapeIsSelected = false;
-			$('.tool').css({'background-color': '#fff'});
-			$('.penIcon').css({'background-color': '#6EC2B3'});
+
 		}
 
 		this.setState({
@@ -107,7 +106,6 @@ export default class Artboard extends Component {
 			this.props.dispatch
 		);
 
-		//$('.canvasIcon').attr('src', require('../../../../images/' + this.state.currentView));
 		this.artist.setState(this.state, nextProps.clickareas);
 		this.artist.update();
 	}

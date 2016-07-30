@@ -1177,6 +1177,7 @@ export default class DrawVectors extends Component {
 			}
 			break;
 		case 'selectAll':
+			//$('svg').css('cursor', 'default');
 			if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
 				if (typeof this.pathBox !== 'undefined') {
 					this.pathBox.remove();
