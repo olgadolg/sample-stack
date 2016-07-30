@@ -29,9 +29,7 @@ export default class Toolbox extends Component {
 		for (var item in this.state) {
 			if (type === item) {
 				obj[type] = true;
-				$('.' + type + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 			} else {
-				//$('.' + type + 'Icon').css({'box-shadow': 'none'});
 				obj[item] = false;
 			}
 		}
@@ -42,6 +40,9 @@ export default class Toolbox extends Component {
 			for (var tool in this.state) {
 				if (this.state[tool] === true) {
 					isSelected = tool;
+					$('.' + tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+				} else {
+					$('.' + tool + 'Icon').css({'box-shadow': 'none'});
 				}
 			}
 

@@ -20,6 +20,7 @@
 	margin-right: 12px;
 	float: left;
 	background-color: #fff;
+	box-shadow: inset 0px 0px 0px 4px rgba(110, 194, 179, 1);
 }
 
 :local(.penAddIcon) {
