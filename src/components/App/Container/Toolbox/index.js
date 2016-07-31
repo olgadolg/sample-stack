@@ -91,6 +91,13 @@ export default class Toolbox extends Component {
 			[styles.selectAllIcon]: true
 		});
 
+		const layerIcon = classnames({
+			'tool': true,
+			'layerIcon': true,
+			[styles.tool]: true,
+			[styles.layerIcon]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div onClick={(e) => this.handleClick(e, 'pen')} className={penIcon}></div>
@@ -98,6 +105,7 @@ export default class Toolbox extends Component {
 				<div onClick={(e) => this.handleClick(e, 'penRemove')} className={penRemoveIcon}></div>
 				<div onClick={(e) => this.handleClick(e, 'select')} className={selectIcon}></div>
 				<div onClick={(e) => this.handleClick(e, 'selectAll')} className={selectAllIcon}></div>
+				<div onClick={(e) => this.handleClick(e, 'layer')} className={layerIcon}></div>
 			</div>
 		);
 	}

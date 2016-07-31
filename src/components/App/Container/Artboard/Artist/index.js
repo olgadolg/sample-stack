@@ -288,6 +288,12 @@ export default class DrawVectors extends Component {
 			});
 	}
 
+	svgKeyUp () {
+		if (d3.event.shiftKey === false) {
+			this.state.shiftKey = false;
+		}
+	}
+
 	/**
 	 * Triggers on theme selected
 	 *
@@ -298,6 +304,10 @@ export default class DrawVectors extends Component {
 	svgKeyDown () {
 		if (Object.keys(this.state.props.views).length === 0) {
 			return;
+		}
+
+		if (d3.event.shiftKey === true) {
+			this.state.shiftKey = true;
 		}
 
 		const selectedNode = this.state.selectedNode;
@@ -311,31 +321,16 @@ export default class DrawVectors extends Component {
 			}
 
 			if (this.state.shapeIsSelected === true) {
-				//if (confirm('Are you sure you want to remove this clickarea?')) {
-					d3.selectAll('.overlay' + parseInt(this.settings.clickarea)).remove();
-					this.state.nodes.splice(this.settings.clickarea - 1, 1);
-					this.state.edges.splice(this.settings.clickarea - 1, 1);
-					this.state.shapes--;
-					this.state.shapeIsSelected = false;
-					this.cleanupElements();
-					this.removeClickarea(this.settings.clickarea - 1);
-					this.pathBox.remove();
-					this.update();
-				//}
-			} else if (selectedNode) {
-				//if (confirm('Are you sure you want to remove this point?')) {
-					this.state.nodes[this.settings.clickarea - 1]
-						.splice(this.state.nodes[this.settings.clickarea - 1]
-						.indexOf(selectedNode), 1);
-
-					this.spliceLinksForNode(selectedNode);
-					this.state.selectedNode = null;
-					this.state.shapeIsSelected = true;
-					this.updateClickarea();
-					this.update();
-				//}
+				d3.selectAll('.overlay' + parseInt(this.settings.clickarea)).remove();
+				this.state.nodes.splice(this.settings.clickarea - 1, 1);
+				this.state.edges.splice(this.settings.clickarea - 1, 1);
+				this.state.shapes--;
+				this.state.shapeIsSelected = false;
+				this.cleanupElements();
+				this.removeClickarea(this.settings.clickarea - 1);
+				this.pathBox.remove();
+				this.update();
 			}
-			break;
 		}
 	}
 
