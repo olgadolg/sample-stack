@@ -12,13 +12,13 @@
 }
 
 .handle {
-  fill: #fff;
+  fill: rgb(6, 141, 242);
   opacity: 1;
   pointer-events: all;
 }
 
 .handle.selected {
-  fill: #E90086;
+  fill: rgb(6, 141, 242);
 }
 
 .handle.invisible {
@@ -27,7 +27,7 @@
 }
 
 .clickarea {
-  fill: #E90086;
+  fill: #6EC2B3;
   stroke: #fff;
   stroke-width: 2px;
   cursor: default;

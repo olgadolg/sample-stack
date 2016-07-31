@@ -19,7 +19,6 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
-			handelsize: null,
 			shapes: 0,
 			tool: 'pen',
 			freezedNodes: [],
@@ -30,6 +29,7 @@ export default class DrawVectors extends Component {
 			selectedNode: null,
 			selectedEdge: null,
 			mouseDown: false,
+			shiftKey: false,
 			shapeIsSelected: false,
 			nodeIsDragged: false,
 			init: true,
@@ -45,10 +45,9 @@ export default class DrawVectors extends Component {
 			removeOverlayFn: removeOverlayFn,
 			createOverlayFn: createOverlayFn,
 			selectedClass: 'selected',
-			containerclass: 'overlay selected overlay' + self.state.shapes.toString(),
+			containerclass: 'overlay overlay' + self.state.shapes.toString(),
 			backspace_key: 8,
 			delete_key: 46,
-			alt_key: 18,
 			nodeRadius: 3
 		};
 
@@ -130,7 +129,7 @@ export default class DrawVectors extends Component {
 		this.state.shapeIsSelected = true;
 
 		this.svgG = this.svg.append('g')
-			.classed('overlay selected overlay' + this.state.shapes.toString(), true);
+			.classed('overlay overlay' + this.state.shapes.toString(), true);
 
 		let x = d3.mouse(d3.select('svg').node())[0];
 		let y = d3.mouse(d3.select('svg').node())[1];
@@ -169,6 +168,10 @@ export default class DrawVectors extends Component {
 
 		let newG = this.svg.append('g')
 			.classed('overlay overlay ' + this.settings.containerclass, true);
+
+		if (index === this.state.shapes -1) {
+			//newG.classed('selected', true);
+		}
 
 		this.svgG = newG;
 
@@ -233,7 +236,7 @@ export default class DrawVectors extends Component {
 
 		this.win
 			.on('keydown', function () { self.svgKeyDown(); })
-			.on('keyup', function () { this.svgKeyUp(); });
+			.on('keyup', function () { self.svgKeyUp(); });
 	}
 
 	/**
@@ -273,10 +276,9 @@ export default class DrawVectors extends Component {
 					self.state.nodes[self.settings.clickarea - 1][i].y += d3.event.dy;
 				}
 
-				$('.bbRect').remove();
-				delete self.pathBox;
-
 				if (self.state.tool === 'selectAll') {
+					$('.bbRect').remove();
+					delete self.pathBox;
 					self.createDragBox();
 				}
 
@@ -310,8 +312,6 @@ export default class DrawVectors extends Component {
 			this.state.shiftKey = true;
 		}
 
-		const selectedNode = this.state.selectedNode;
-
 		switch (d3.event.keyCode) {
 		case this.settings.backspace_key:
 		case this.settings.delete_key:
@@ -321,19 +321,37 @@ export default class DrawVectors extends Component {
 			}
 
 			if (this.state.shapeIsSelected === true) {
-				d3.selectAll('.overlay' + parseInt(this.settings.clickarea)).remove();
-				this.state.nodes.splice(this.settings.clickarea - 1, 1);
-				this.state.edges.splice(this.settings.clickarea - 1, 1);
-				this.state.shapes--;
-				this.state.shapeIsSelected = false;
-				this.cleanupElements();
-				this.removeClickarea(this.settings.clickarea - 1);
-				this.pathBox.remove();
-				this.update();
+				this.removeFigure();
 			}
 		}
 	}
 
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	removeFigure () {
+		d3.selectAll('.overlay' + parseInt(this.settings.clickarea)).remove();
+		this.state.nodes.splice(this.settings.clickarea - 1, 1);
+		this.state.edges.splice(this.settings.clickarea - 1, 1);
+		this.state.shapes--;
+		this.state.shapeIsSelected = false;
+		this.cleanupElements();
+		this.removeClickarea(this.settings.clickarea - 1);
+		this.pathBox.remove();
+		this.update();
+	}
+
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	removePoint (point) {
 		this.state.nodes[this.settings.clickarea - 1]
 			.splice(this.state.nodes[this.settings.clickarea - 1]
@@ -683,8 +701,6 @@ export default class DrawVectors extends Component {
 						self.state.nodes[self.settings.clickarea - 1].push({x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
 						self.state.multiple = false;
 						self.update();
-						console.log(i);
-						console.log(self.state.tool);
 					}
 				}
 			}
@@ -784,15 +800,16 @@ export default class DrawVectors extends Component {
 				d3.select(this)
 					.append('path')
 					.attr('data-id', function (d) {
-						if (Object.keys(views[currentView].clickareas).length > 0) {
-							return views[currentView].clickareas[i].goTo;
-						}
+						//if (Object.keys(views[currentView].clickareas).length > 0) {
+							//return views[currentView].clickareas[i].goTo;
+						//}
+						return 'foo';
 					})
 					.attr('class', function (d) {
 						return 'clickarea ' + 'clickarea' + parseInt(i + 1);
 					})
 					.attr('fill-opacity', function (d) {
-						return (self.state.props.fill === true) ? 0.5 : 0;
+						return (self.state.props.fill === true) ? 0.6 : 0;
 					})
 					.attr('d', function (d, k) {
 						if (d.length === 0) {
@@ -889,8 +906,8 @@ export default class DrawVectors extends Component {
 
 		for (let i = 0; i < this.state.edges.length; i++) {
 			this.createContainer(i);
-			d3.selectAll('.overlay' + parseInt(i + 1))
-				.classed('selected', i < this.state.edges.length - 1);
+			//d3.selectAll('.overlay' + parseInt(i + 1))
+				//.classed('selected', i < this.state.edges.length - 1);
 		}
 	}
 
@@ -992,6 +1009,7 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	freezeNodes (self, box) {
+		// Bestäm vilka noder som ska vara orörliga
 		self.state.freezedNodes = self.state.nodes[self.settings.clickarea - 1]
 			.filter(function (node, i) {
 				switch (self.state.direction) {
@@ -1093,7 +1111,7 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	moveNonFreezedNodes (self) {
+	moveNonFreezedNodes (self, box) {
 		let nodes = self.state.nodes;
 		let dataIndex = self.settings.clickarea - 1;
 		let direction = self.state.direction;
@@ -1104,15 +1122,38 @@ export default class DrawVectors extends Component {
 			if ('deltaX' in node || 'deltaY' in node) {
 				let deltaX = node.deltaX;
 				let deltaY = node.deltaY;
+				self.scaleFigure(direction, deltaX, deltaY, node, self);
+			}
+		}
+	}
 
-				if (direction === 'e' || direction === 'w') {
-					node.x += d3.event.dx * deltaX;
-				} else if (direction === 'n' || direction === 's') {
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	scaleFigure (direction, deltaX, deltaY, node, self) {
+		// scale horizontal / vertical
+		if (direction === 'e' || direction === 'w') {
+			node.x += d3.event.dx * deltaX;
+		} else if (direction === 'n' || direction === 's') {
+			node.y += d3.event.dy * deltaY;
+		// scale diagonaly
+		} else if (direction === 'se' || direction === 'sw' || direction === 'nw' || direction === 'ne') {
+			// scale diagonaly and lock ratio
+			if (self.state.shiftKey === true) {
+				if (direction === 'se' || direction === 'nw') {
+					node.x += (d3.event.dy * deltaX) * self.state.ratio;
 					node.y += d3.event.dy * deltaY;
-				} else if (direction === 'se' || direction === 'sw' || direction === 'nw' || direction === 'ne') {
-					node.x += d3.event.dx * deltaX;
+				} else if (direction === 'ne' || direction === 'sw') {
+					node.x += (d3.event.dy * deltaX) * -(self.state.ratio);
 					node.y += d3.event.dy * deltaY;
 				}
+			} else {
+				node.x += d3.event.dx * deltaX;
+				node.y += d3.event.dy * deltaY;
 			}
 		}
 	}
@@ -1131,6 +1172,7 @@ export default class DrawVectors extends Component {
 		if (selected === null || this.state.viewUpdate === true) return;
 
 		const box = selected.getBBox();
+		self.state.resizeBBox = box;
 
 		self.pathBox = d3.selectAll('svg')
 			.append('rect')
@@ -1148,6 +1190,13 @@ export default class DrawVectors extends Component {
 			.directions(['e', 'w', 'n', 's', 'nw', 'ne', 'se', 'sw'])
 			.on('resizestart', function (d, i) {
 				self.state.direction = self.whichborder(d3.mouse(this), this);
+
+				if (box.width / box.height) {
+					self.state.ratio = box.width / box.height;
+				} else {
+					self.state.ratio = box.height / box.width;
+				}
+
 				self.freezeNodes(self, box);
 				self.applyFreezedNodes(self, box);
 			})
@@ -1156,6 +1205,8 @@ export default class DrawVectors extends Component {
 				self.update();
 			})
 			.on('resizeend', function (d, i) {
+				self.state.resizeBBox = d3.selectAll('.overlay.selected').node().getBBox();
+
 				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaX;
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaY;

@@ -11,7 +11,7 @@ export default class Toolbox extends Component {
 		super();
 
 		this.state = {
-			pen: true,
+			pen: false,
 			penAdd: false,
 			penRemove: false,
 			select: false,
@@ -19,6 +19,12 @@ export default class Toolbox extends Component {
 		};
 
 		this.handelClick = this.handleClick.bind(this);
+	}
+
+	componentWillReceiveProps (nextProps) {
+		console.log('nextProps', nextProps);
+		$('.tool').css({'box-shadow': 'none'});
+		$('.' + nextProps.tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 	}
 
 	handleClick (event, type) {
@@ -36,6 +42,8 @@ export default class Toolbox extends Component {
 
 		this.setState(obj, () => {
 			var isSelected;
+
+			console.log(this.state, isSelected)
 
 			for (var tool in this.state) {
 				if (this.state[tool] === true) {
@@ -111,5 +119,10 @@ export default class Toolbox extends Component {
 	}
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+	return {
+		tool: state.controls.tool
+	};
+};
+
 export default connect(mapStateToProps)(Toolbox);

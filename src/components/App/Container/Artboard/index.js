@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import Artist from './Artist';
 import { updateClickarea, removeClickarea, makeClickarea, createClickarea } from '../../../../actions/clickarea';
+import { selectTool } from '../../../../actions/controls';
 
 export default class Artboard extends Component {
 
@@ -44,14 +44,12 @@ export default class Artboard extends Component {
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
 		const tool = nextProps.tool;
 		let artState = this.artist.state;
-		let lastView = this.props.currentView;
 
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
 		if (this.props.currentView !== nextProps.currentView) {
 			this.artist.state.shapeIsSelected = false;
-
 		}
 
 		this.setState({
@@ -73,8 +71,13 @@ export default class Artboard extends Component {
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
 				this.props.currentView !== nextProps.currentView) {
-				this.createNewArtist(nextProps);
+				this.createNewArtist(nextProps, tool);
+				artState.tool = tool;
 				artState.viewUpdate = true;
+			}
+
+			if (this.state.currentView !== null && this.props.currentView !== nextProps.currentView) {
+				this.props.dispatch(selectTool('pen'));
 			}
 
 			if (nextProps.clickareas.isNew === true) {
@@ -97,7 +100,7 @@ export default class Artboard extends Component {
 		});
 	}
 
-	createNewArtist (nextProps) {
+	createNewArtist (nextProps, tool) {
 		this.artist = new Artist(
 			this.refs.svgWrapper,
 			updateClickarea,
@@ -107,6 +110,7 @@ export default class Artboard extends Component {
 		);
 
 		this.artist.setState(this.state, nextProps.clickareas);
+		this.artist.state.tool = tool;
 		this.artist.update();
 	}
 
