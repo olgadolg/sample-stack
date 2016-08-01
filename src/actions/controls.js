@@ -10,3 +10,10 @@ export const selectTool = (tool) => (dispatch) => {
 		data: tool
 	});
 };
+
+export const selectColor = (color) => (dispatch) => {
+	dispatch({
+		type: 'SELECT_COLOR',
+		data: color
+	});
+};

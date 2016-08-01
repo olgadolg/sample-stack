@@ -19,6 +19,7 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
+			color: '#6ec2b3',
 			shapes: 0,
 			tool: 'pen',
 			freezedNodes: [],
@@ -111,6 +112,7 @@ export default class DrawVectors extends Component {
 		this.state.isSelected = state.isSelected;
 		this.state.currentView = state.image;
 		this.state.props = clickareas;
+		this.state.color = state.color;
 		this.state.changeView = true;
 	}
 
@@ -819,8 +821,9 @@ export default class DrawVectors extends Component {
 					.attr('class', function (d) {
 						return 'clickarea ' + 'clickarea' + parseInt(i + 1);
 					})
+					.attr('fill', self.state.color)
 					.attr('fill-opacity', function (d) {
-						return (self.state.props.fill === true) ? 0.6 : 0;
+						return (self.state.props.fill === true) ? 0.7 : 0;
 					})
 					.attr('d', function (d, k) {
 						if (d.length === 0) {
@@ -1212,9 +1215,6 @@ export default class DrawVectors extends Component {
 				self.applyFreezedNodes(self, box);
 			})
 			.on('resizemove', function (d, i) {
-
-				console.log(d, i)
-
 				self.moveNonFreezedNodes(self);
 				self.update();
 			})

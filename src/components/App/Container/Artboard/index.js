@@ -75,10 +75,16 @@ export default class Artboard extends Component {
 			edges: views[image].edges,
 			currentView: currentView,
 			backgroundImg: views[currentView],
-			tool: drawingTool
+			tool: drawingTool,
+			color: nextProps.color
 		}, () => {
 			if (artState.tool !== drawingTool) {
 				artState.tool = drawingTool;
+				this.artist.update();
+			}
+
+			if (artState.color !== nextProps.color) {
+				artState.color = nextProps.color;
 				this.artist.update();
 			}
 
@@ -153,7 +159,6 @@ export default class Artboard extends Component {
 		reader.readAsDataURL(file);
 	}
 
-
 	render () {
 		const dropzone = classnames({
 			'dropzone': true,
@@ -186,7 +191,8 @@ const mapStateToProps = (state) => {
 		isSelected: state.clickareas.isSelected,
 		viewUpdate: state.clickareas.viewUpdate,
 		clickarea: state.clickareas.clickarea,
-		tool: state.controls.tool
+		tool: state.controls.tool,
+		color: state.controls.color
 	};
 };
 

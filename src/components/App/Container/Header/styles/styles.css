@@ -1,9 +1,9 @@
 :local(.header) {
-	height: 60px;
+	height: 80px;
 	background-color: #013B2D;
 }
 
 :local(.header img) {
-	height: 60px;
+	height: 80px;
 	margin-left: 55px;
 }

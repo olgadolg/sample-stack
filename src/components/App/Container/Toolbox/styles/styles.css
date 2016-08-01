@@ -1,7 +1,7 @@
 :local(.toolBox) {
 	position: absolute;
-	top: 9px;
-    right: 485px;
+	top: 18px;
+    right: 700px;
 }
 
 :local(.tool) {

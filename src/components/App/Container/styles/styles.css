@@ -19,7 +19,7 @@
 	top: 50%;
 	bottom: 0;
 	width: 1274px;
-	height: 630px;
+	height: 650px;
 	transform: translate(-50%, -50%);
 	border: 1px solid #555;
 	background: #ddd;
@@ -39,7 +39,7 @@
 
 :global(svg) {
   position: absolute;
-  top: 60px;
+  top: 80px;
   left: 250px;
 }
 

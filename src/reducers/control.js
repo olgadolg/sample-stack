@@ -14,8 +14,15 @@ export default handleActions({
 			...state,
 			tool: action.data
 		};
+	},
+	SELECT_COLOR: (state, action) => {
+		return {
+			...state,
+			color: action.data.hex
+		};
 	}
 }, {
 	initialized: false,
-	tool: 'pen'
+	tool: 'pen',
+	color: '#6ec2b3'
 });

@@ -4,7 +4,6 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import Checkbox from '../Checkbox';
 import CreateForm from './CreateForm';
-import ImageUpload from './ImageUpload';
 import SceneList from './Scene/SceneList';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
@@ -57,7 +56,7 @@ export default class ControlsContainer extends Component {
 						labelClass={labelClass}
 						onChange={this.fillChange.bind(this)}
 						checked={this.state.fillChecked}
-						label="Color fill"
+						label="Apply color"
 					/>
 				</div>
 				<SceneList />
