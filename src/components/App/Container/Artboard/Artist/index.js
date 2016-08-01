@@ -1212,6 +1212,9 @@ export default class DrawVectors extends Component {
 				self.applyFreezedNodes(self, box);
 			})
 			.on('resizemove', function (d, i) {
+
+				console.log(d, i)
+
 				self.moveNonFreezedNodes(self);
 				self.update();
 			})

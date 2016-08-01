@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
+import { Scrollbars } from 'react-custom-scrollbars';
 import styles from './styles/styles.css';
 import SceneListItem from '../SceneListItem';
 import { updateView } from '../../../../../../actions/views';
@@ -41,6 +42,13 @@ export default class SceneList extends Component {
 
 	render () {
 		const self = this;
+		const layerWrapper = {
+			height: '400px'
+		};
+		const list = {
+			height: '100%',
+			borderRadius: '5px'
+		};
 		const headingStyle = {
 			color: '#013B2D',
 			textTransform: 'uppercase',
@@ -62,14 +70,17 @@ export default class SceneList extends Component {
 		});
 
 		return (
-			<div>
+			<div style={layerWrapper}>
 				<span style={headingStyle}>Layers</span>
-				<ul
-					id="sceneSelect"
-					className={styles.select}
-				>
-					{this.scenes}
-				</ul>
+				<Scrollbars>
+					<ul
+						style={list}
+						id="sceneSelect"
+						className={styles.select}
+					>
+						{this.scenes}
+					</ul>
+				</Scrollbars>
 			</div>
 		);
 	}
