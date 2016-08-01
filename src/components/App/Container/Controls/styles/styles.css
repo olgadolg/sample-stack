@@ -13,10 +13,10 @@
 }
 
 :local(.lockFillWrapper) {
-	width: 302px;
+	width: 138px;
 	height: 33px;
 	position: absolute;
-	right: 22px;
+	right: 92px;
 	top: 16px;
 	z-index: 1;
 }
