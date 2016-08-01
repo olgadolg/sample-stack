@@ -17,12 +17,17 @@ export default class Header extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
+	componentWillReceiveProps (newProps) {
+		this.setState({
+			color: newProps.color
+		});
+	}
+
 	handleChange (event) {
 		this.setState({
 			background: event.hex
 		});
 		this.props.dispatch(selectColor(event));
-
 	}
 
 	render () {
@@ -49,4 +54,9 @@ export default class Header extends Component {
 	}
 }
 
-export default connect()(Header);
+const mapStateToProps = (state) => {
+	return {
+		color: state.controls.color
+	};
+};
+export default connect(mapStateToProps)(Header);

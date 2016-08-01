@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import $ from 'jquery';
 import Checkbox from '../Checkbox';
+import Button from '../Button';
 import CreateForm from './CreateForm';
 import SceneList from './Scene/SceneList';
 import Modal from '../Modal';
@@ -61,6 +62,9 @@ export default class ControlsContainer extends Component {
 				</div>
 				<SceneList />
 				<CreateForm />
+				<Button label="Load Project" />
+				<Button label="Save Project" />
+				<Button label="Export Project" />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
 				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
 					<h5>Please add a view before creating clickareas</h5>

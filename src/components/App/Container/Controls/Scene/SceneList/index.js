@@ -43,10 +43,10 @@ export default class SceneList extends Component {
 	render () {
 		const self = this;
 		const layerWrapper = {
-			height: '400px'
+			height: '350px'
 		};
 		const list = {
-			height: '100%',
+			height: '91%',
 			borderRadius: '5px'
 		};
 		const headingStyle = {
