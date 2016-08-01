@@ -99,6 +99,67 @@ export default handleActions({
 		};
 	},
 
+	INIT_LAYER: (state, action) => {
+		let views = {...state.views};
+		let isNew = [...state.isNew];
+		let viewUpdate = [...state.viewUpdate];
+		let currentView = [...state.currentView];
+
+		isNew = false;
+		viewUpdate = true;
+		currentView = action.data.image;
+
+		delete 	views[action.data.currentView];
+
+		views[action.data.fileName] = {
+			viewId: action.data.fileName,
+			image: action.data.image,
+			fileData: action.data.fileData,
+			nodes: [],
+			edges: [],
+			clickareas: {}
+
+		};
+
+		return {
+			...state,
+			views,
+			isNew,
+			currentView,
+			viewUpdate
+		};
+	},
+
+	ADD_LAYER: (state, action) => {
+		let views = {...state.views};
+		let currentView = [...state.currentView];
+		let viewUpdate = [...state.viewUpdate];
+		let isNew = [...state.isNew];
+
+		isNew = false;
+		viewUpdate = true;
+		currentView = 'untitled ' + parseInt(Object.keys(views).length + 1);
+
+		views[currentView] = {
+			viewId: currentView,
+			image: currentView,
+			//viewId: action.data.fileName,
+			//image: action.data.image,
+			//fileData: action.data.fileData,
+			nodes: [],
+			edges: [],
+			clickareas: {}
+		};
+
+		return {
+			...state,
+			views,
+			isNew,
+			viewUpdate,
+			currentView
+		};
+	},
+
 	ADD_VIEW: (state, action) => {
 		let views = {...state.views};
 		let currentView = [...state.currentView];
@@ -110,9 +171,10 @@ export default handleActions({
 		currentView = action.data.image;
 
 		views[action.data.fileName] = {
-			viewId: action.data.fileName,
-			image: action.data.image,
-			fileData: action.data.fileData,
+			viewId: 'untitled ' + parseInt(Object.keys(views).length + 1),
+			//viewId: action.data.fileName,
+			//image: action.data.image,
+			//fileData: action.data.fileData,
 			nodes: [],
 			edges: [],
 			clickareas: {}
@@ -149,7 +211,7 @@ export default handleActions({
 	}
 }, {
 	views: {},
-	currentView: 0,
+	currentView: '',
 	fill: false,
 	isNew: false,
 	isSelected: false,

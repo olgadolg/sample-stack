@@ -81,10 +81,21 @@ export default class DrawVectors extends Component {
 	createCanvas (el) {
 		this.svg = d3.select(el)
 			.append('svg')
+			.attr('id', 'svg')
 			.attr({
 				height: this.settings.height,
 				width: this.settings.width
 			});
+	}
+
+	showCanvas () {
+		d3.selectAll('svg')
+			.style({display: 'block'});
+	}
+
+	hideCanvas () {
+		d3.selectAll('svg')
+			.style({display: 'none'});
 	}
 
 	/**

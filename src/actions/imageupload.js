@@ -1,6 +1,10 @@
 import request from 'superagent';
 
 export const uploadImage = (obj) => (dispatch) => {
+
+	console.log(obj);
+
+	/*
 	dispatch({
 		type: 'ADD_VIEW',
 		data: {
@@ -9,6 +13,7 @@ export const uploadImage = (obj) => (dispatch) => {
 			fileData: obj.fileData
 		}
 	});
+	*/
 	/*
 	const req = request.post('/api/image');
 

@@ -57,10 +57,9 @@ export default class ControlsContainer extends Component {
 						labelClass={labelClass}
 						onChange={this.fillChange.bind(this)}
 						checked={this.state.fillChecked}
-						label="Toggle Fill"
+						label="Color fill"
 					/>
 				</div>
-				<ImageUpload />
 				<SceneList />
 				<CreateForm />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>

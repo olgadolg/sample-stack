@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
+import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
 
@@ -15,16 +16,32 @@ export default class Toolbox extends Component {
 			penAdd: false,
 			penRemove: false,
 			select: false,
-			selectAll: true
+			selectAll: true,
+			currentView: 'untitled 1'
 		};
 
 		this.handelClick = this.handleClick.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
-		console.log('nextProps', nextProps);
-		$('.tool').css({'box-shadow': 'none'});
-		$('.' + nextProps.tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+		this.setState({currentView: nextProps.currentView});
+
+		if (nextProps.currentView.indexOf('untitled') > -1) {
+			$('.layerIcon').css({
+				'pointer-events': 'none',
+				'opacity': '0.5'
+			});
+		} else {
+			$('.layerIcon').css({
+				'pointer-events': 'all',
+				'opacity': '1'
+			});
+		}
+
+		if (nextProps.tool !== 'layer' && typeof nextProps.tool !== 'undefined') {
+			$('.tool').css({'box-shadow': 'none'});
+			$('.' + nextProps.tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+		}
 	}
 
 	handleClick (event, type) {
@@ -35,7 +52,7 @@ export default class Toolbox extends Component {
 		for (var item in this.state) {
 			if (type === item) {
 				obj[type] = true;
-			} else {
+			} else if (item !== 'currentView') {
 				obj[item] = false;
 			}
 		}
@@ -43,18 +60,23 @@ export default class Toolbox extends Component {
 		this.setState(obj, () => {
 			var isSelected;
 
-			console.log(this.state, isSelected)
-
-			for (var tool in this.state) {
-				if (this.state[tool] === true) {
-					isSelected = tool;
-					$('.' + tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
-				} else {
-					$('.' + tool + 'Icon').css({'box-shadow': 'none'});
-				}
+			if (type === 'layer') {
+				$('.dropzone').show();
+				this.props.dispatch(addLayer());
 			}
 
-			this.props.dispatch(selectTool(isSelected));
+			if (type !== 'layer') {
+				for (var tool in this.state) {
+					if (this.state[tool] === true) {
+						isSelected = tool;
+						$('.' + tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+					} else {
+						$('.' + tool + 'Icon').css({'box-shadow': 'none'});
+					}
+				}
+
+				this.props.dispatch(selectTool(isSelected));
+			}
 		});
 	}
 
@@ -121,7 +143,8 @@ export default class Toolbox extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		tool: state.controls.tool
+		tool: state.controls.tool,
+		currentView: state.clickareas.currentView
 	};
 };
 

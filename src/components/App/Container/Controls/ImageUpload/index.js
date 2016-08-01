@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
-import { uploadImage } from '../../../../../actions/imageupload';
+import { initLayer } from '../../../../../actions/layer';
 import styles from './styles/styles.css';
 
 export default class ImageUpload extends Component {
@@ -11,12 +11,16 @@ export default class ImageUpload extends Component {
 
 		this.state = {
 			fileData: null,
-			name: null
+			name: null,
+			currentView: null
 		};
 	}
 
-	handleDrop (files) {
+	componentWillReceiveProps (nextProps) {
+		this.setState({ currentView: nextProps.currentView });
+	}
 
+	handleDrop (files) {
 		let reader = new FileReader();
 		let file = files[0];
 
@@ -26,8 +30,8 @@ export default class ImageUpload extends Component {
 					fileData: e.target.result,
 					name: theFile.name
 				}, () => {
-					console.log('state', this.state)
-					this.props.dispatch(uploadImage(this.state));
+					console.log('state', this.state);
+					this.props.dispatch(initLayer(this.state));
 				});
 			};
 		})(file);
@@ -50,4 +54,10 @@ export default class ImageUpload extends Component {
 	}
 }
 
-export default connect()(ImageUpload);
+const mapStateToProps = (state) => {
+	return {
+		currentView: state.clickareas.currentView
+	};
+};
+
+export default connect(mapStateToProps)(ImageUpload);

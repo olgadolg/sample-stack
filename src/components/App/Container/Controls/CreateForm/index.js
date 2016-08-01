@@ -35,18 +35,21 @@ export default class CreateClickarea extends Component {
 			[styles.textfield]: true
 		});
 
+		/*
+		<input
+			onChange={(e) => this.setState({ val: e.target.value })}
+			type="text"
+			name="title"
+			disabled
+			placeholder="Enter clickarea title"
+			className={textfieldClass}
+			value={this.state.val}
+		/>
+		*/
+
 		return (
 			<div>
 				<form id="createForm" className={styles.createForm}>
-					<input
-						onChange={(e) => this.setState({ val: e.target.value })}
-						type="text"
-						name="title"
-						disabled
-						placeholder="Enter clickarea title"
-						className={textfieldClass}
-						value={this.state.val}
-					/>
 				</form>
 			</div>
 		);

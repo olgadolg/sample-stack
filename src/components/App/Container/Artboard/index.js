@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
+import $ from 'jquery';
+import classnames from 'classnames';
 import Artist from './Artist';
 import { updateClickarea, removeClickarea, makeClickarea, createClickarea } from '../../../../actions/clickarea';
 import { selectTool } from '../../../../actions/controls';
+import { initLayer } from '../../../../actions/layer';
+import styles from './styles/styles.css';
 
 export default class Artboard extends Component {
 
@@ -15,7 +20,9 @@ export default class Artboard extends Component {
 			currentView: null,
 			backgroundImg: null,
 			nodes: null,
-			edges: null
+			edges: null,
+			fileData: null,
+			name: null
 		};
 	}
 
@@ -44,12 +51,19 @@ export default class Artboard extends Component {
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
 		const tool = nextProps.tool;
 		let artState = this.artist.state;
+		let drawingTool;
 
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
 		if (this.props.currentView !== nextProps.currentView) {
 			this.artist.state.shapeIsSelected = false;
+		}
+
+		if (typeof tool === 'undefined') {
+			drawingTool = 'pen';
+		} else {
+			drawingTool = tool;
 		}
 
 		this.setState({
@@ -61,17 +75,17 @@ export default class Artboard extends Component {
 			edges: views[image].edges,
 			currentView: currentView,
 			backgroundImg: views[currentView],
-			tool: tool
+			tool: drawingTool
 		}, () => {
-			if (artState.tool !== tool) {
-				artState.tool = tool;
+			if (artState.tool !== drawingTool) {
+				artState.tool = drawingTool;
 				this.artist.update();
 			}
 
 			if (nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
 				this.props.currentView !== nextProps.currentView) {
-				this.createNewArtist(nextProps, tool);
+				this.createNewArtist(nextProps, drawingTool);
 				artState.tool = tool;
 				artState.viewUpdate = true;
 			}
@@ -120,10 +134,43 @@ export default class Artboard extends Component {
 		}
 	}
 
+	handleDrop (files) {
+		let reader = new FileReader();
+		let file = files[0];
+
+		reader.onload = ((theFile) => {
+			return (e) => {
+				this.setState({
+					fileData: e.target.result,
+					name: theFile.name
+				}, () => {
+					$('.dropzone').hide();
+					this.props.dispatch(initLayer(this.state));
+				});
+			};
+		})(file);
+
+		reader.readAsDataURL(file);
+	}
+
+
 	render () {
+		const dropzone = classnames({
+			'dropzone': true,
+			[styles.dropzone]: true
+		});
+
 		return (
-			<div ref="svgWrapper">
-				<img src={this.state.imageData} className="canvasIcon" />
+			<div>
+				<Dropzone
+					className={dropzone}
+					activeClassName={styles.activeDropzone}
+					ref="dropzone"
+					onDrop={this.handleDrop.bind(this)}>
+				</Dropzone>
+				<div className="svgWrapper" ref="svgWrapper">
+					<img src={this.state.imageData} className="canvasIcon" />
+				</div>
 			</div>
 		);
 	}

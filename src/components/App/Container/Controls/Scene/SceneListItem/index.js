@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styles from './styles/styles.css';
 
 export default class SceneListItem extends Component {
 
@@ -10,14 +11,24 @@ export default class SceneListItem extends Component {
 	}
 
 	render () {
+		const itemStyle = {
+			listStyle: 'none',
+			padding: '10px 20px',
+			color: '#fff',
+			fontSize: '12px',
+			textTransform: 'uppercase',
+			borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+			textAlign: 'center',
+			cursor: 'pointer'
+		};
+
 		return (
-			<option
-				key={this.props.item}
-				value={this.props.item.image}
-				selected="selected"
-			>
+			<li
+				onClick={this.props.onClick}
+				style={itemStyle}
+				id={this.props.item.image}>
 				{this.props.item.viewId}
-			</option>
+			</li>
 		);
 	}
 }
