@@ -78,8 +78,11 @@ export default class Artboard extends Component {
 			currentView: currentView,
 			backgroundImg: views[currentView],
 			tool: drawingTool,
-			color: nextProps.color
+			color: nextProps.color,
+			colors: nextProps.colors
 		}, () => {
+			artState.colors = this.state.colors;
+
 			if (artState.tool !== drawingTool) {
 				artState.tool = drawingTool;
 				this.artist.state.toolChange = true;
@@ -174,8 +177,7 @@ export default class Artboard extends Component {
 					className={dropzone}
 					activeClassName={styles.activeDropzone}
 					ref="dropzone"
-					onDrop={this.handleDrop.bind(this)}>
-				</Dropzone>
+					onDrop={this.handleDrop.bind(this)} />
 				<div className="svgWrapper" ref="svgWrapper">
 					<img src={this.state.imageData} className="canvasIcon" />
 				</div>
@@ -195,7 +197,8 @@ const mapStateToProps = (state) => {
 		viewUpdate: state.clickareas.viewUpdate,
 		clickarea: state.clickareas.clickarea,
 		tool: state.controls.tool,
-		color: state.controls.color
+		color: state.clickareas.color,
+		colors: state.clickareas.colors
 	};
 };
 

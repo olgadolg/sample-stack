@@ -828,6 +828,18 @@ export default class DrawVectors extends Component {
 			.each(function (d, i) {
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
 
+				if (typeof self.state.colors !== 'undefined') {
+					for (var j = 0; j < self.state.colors.length; j++) {
+						if (typeof self.state.colors[j] !== 'undefined') {
+							if (self.state.colors[j].view === currentView) {
+								if (self.state.colors[j].clickarea === i) {
+									d3.select(this).style({'fill': self.state.colors[j].color});
+								}
+							}
+						}
+					}
+				}
+
 				d3.select(this)
 					.append('path')
 					.attr('data-id', function (d) {
@@ -839,7 +851,11 @@ export default class DrawVectors extends Component {
 					.attr('class', function (d) {
 						return 'clickarea ' + 'clickarea' + parseInt(i + 1);
 					})
-					.attr('fill', self.state.color)
+					.attr('fill', function (d) {
+						if (d3.select(this).style('fill') === 'rgb(0, 0, 0)') {
+							return '#6EC2B3';
+						}
+					})
 					.attr('fill-opacity', function (d) {
 						return (self.state.props.fill === true) ? 0.7 : 0;
 					})
