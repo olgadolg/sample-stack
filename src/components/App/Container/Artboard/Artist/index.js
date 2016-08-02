@@ -19,6 +19,7 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
+			toolChange: false,
 			color: '#6ec2b3',
 			shapes: 0,
 			tool: 'pen',
@@ -31,7 +32,7 @@ export default class DrawVectors extends Component {
 			selectedEdge: null,
 			mouseDown: false,
 			shiftKey: false,
-			shapeIsSelected: false,
+			shapeIsSelected: '',
 			nodeIsDragged: false,
 			init: true,
 			viewUpdate: false
@@ -179,11 +180,13 @@ export default class DrawVectors extends Component {
 		this.settings.containerclass = 'overlay' + parseInt(index + 1);
 		this.state.shapeIsSelected = true;
 
+		d3.selectAll('.overlay').classed('selected', false);
+
 		let newG = this.svg.append('g')
 			.classed('overlay overlay ' + this.settings.containerclass, true);
 
-		if (index === this.state.shapes -1) {
-			//newG.classed('selected', true);
+		if (index === this.state.shapes - 1) {
+			newG.classed('selected', true);
 		}
 
 		this.svgG = newG;
@@ -270,6 +273,9 @@ export default class DrawVectors extends Component {
 				self.state.nodeIsDragged = true;
 			})
 			.on('drag', function (d) {
+				if (self.state.tool !== 'select') {
+					return;
+				}
 				d3.select(this).classed('selected', true);
 				self.updateClickarea();
 				self.dragmove(d);
@@ -418,12 +424,23 @@ export default class DrawVectors extends Component {
 			return;
 		}
 
+		this.state.toolChange = false;
+
 		if (d3.event.target.tagName === 'path' && d3.event.target.attributes.d.nodeValue.indexOf('z') > -1) {
 			return;
 		}
 
 		if (this.state.nodes.length === 0 && this.state.tool !== 'pen') {
 			return;
+		}
+
+		if (d3.event.target.tagName !== 'rect' && this.state.tool !== 'penAdd') {
+			if (d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node() !== null) {
+				if (d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1) {
+					d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
+						.style('stroke', '#fff');
+				}
+			}
 		}
 
 		this.state.mouseDown = true;
@@ -437,13 +454,12 @@ export default class DrawVectors extends Component {
 				this.state.init = true;
 				this.state.mouseDown = false;
 				this.settings.dispatch(this.settings.createOverlayFn('Daniel'));
+				d3.selectAll('.clickarea').style('stroke', '#fff');
 			}
 		}
 
 		if (d3.event.target.tagName !== 'path' && d3.event.target.nodeName !== 'rect') {
 			d3.selectAll('.handle').classed('selected', false);
-
-			this.state.shapeIsSelected = false;
 
 			if (d3.selectAll('.clickarea' + this.settings.clickarea).attr('d').indexOf('z') > -1) {
 				delete this.pathBox;
@@ -455,6 +471,8 @@ export default class DrawVectors extends Component {
 				d3.selectAll('.bbRect').remove();
 				this.state.shapeIsSelected = false;
 				delete this.pathBox;
+			} else {
+				this.state.shapeIsSelected = true;
 			}
 		}
 	}
@@ -681,6 +699,10 @@ export default class DrawVectors extends Component {
 				for (let j = 0; j < edges[dataIndex].length; j++) {
 					edges[dataIndex][j].closed = true;
 				}
+
+				for (let j = 0; j < nodes[dataIndex].length; j++) {
+					nodes[dataIndex][j].closed = true;
+				}
 			}
 		}
 	}
@@ -765,10 +787,6 @@ export default class DrawVectors extends Component {
 				self.state.nodeIsDragged = false;
 				d3.selectAll('.handle').classed('selected', false);
 
-				if (d3.select('.clickarea' + self.settings.clickarea).attr('d').indexOf('z') > -1) {
-					self.state.shapeIsSelected = false;
-				}
-
 				if (self.state.tool === 'penRemove') {
 					self.state.selectedNode = d;
 					self.removePoint(d);
@@ -834,6 +852,25 @@ export default class DrawVectors extends Component {
 
 						return self.lineCreator(self.state.nodes[i]) + z;
 					})
+					.style('stroke', function (d, i) {
+						if (d.length === 0) {
+							if (d[0].closed === false) {
+								return 'rgb(6, 141, 242)';
+							} else {
+								return 'rgb(6, 141, 242)';
+							}
+						} else {
+							var handleClass = d3.selectAll('.overlay' + self.settings.clickarea + ' .handle').attr('class');
+
+							if (d[d.length - 1].closed === false ||
+								d[i].source.clickarea === self.settings.clickarea &&
+								handleClass.indexOf('invisible') === -1) {
+								return 'rgb(6, 141, 242)';
+							} else {
+								return '#fff';
+							}
+						}
+					})
 					.on('click', function (d, i) {
 						if (self.state.tool === 'pen') {
 							return;
@@ -856,11 +893,6 @@ export default class DrawVectors extends Component {
 								.replace('clickarea', '')
 						);
 
-						if (self.state.tool === 'select') {
-							d3.selectAll('.handle').classed('invisible', true);
-							d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('invisible', false);
-						}
-
 						self.state.shapeIsSelected = true;
 
 						d3.selectAll('.bbRect').classed('inactive', true);
@@ -869,7 +901,6 @@ export default class DrawVectors extends Component {
 
 						if (self.state.tool === 'selectAll') {
 							d3.selectAll('.bbRect.inactive').remove();
-							self.createDragBox();
 						}
 					})
 					.on('mouseup', function (d) {
@@ -920,8 +951,6 @@ export default class DrawVectors extends Component {
 
 		for (let i = 0; i < this.state.edges.length; i++) {
 			this.createContainer(i);
-			//d3.selectAll('.overlay' + parseInt(i + 1))
-				//.classed('selected', i < this.state.edges.length - 1);
 		}
 	}
 
@@ -1224,11 +1253,6 @@ export default class DrawVectors extends Component {
 				for (i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaX;
 					delete self.state.nodes[self.settings.clickarea - 1][i].deltaY;
-
-					if (self.state.tool === 'selectAll') {
-						self.pathBox.remove();
-						self.createDragBox();
-					}
 				}
 			});
 	}
@@ -1236,22 +1260,48 @@ export default class DrawVectors extends Component {
 	setFigureState () {
 		switch (this.state.tool) {
 		case 'pen':
-			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			if (d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node() !== null) {
+				if (d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') === -1) {
+					d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+				}
+			}
 			d3.select('.handle').on('click mousedown', null);
 			if (typeof this.pathBox !== 'undefined') {
 				this.pathBox.remove();
 			}
 			break;
 		case 'penAdd':
-			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
-			d3.select('.handle').on('click mousedown', null);
+			if (this.state.shapeIsSelected === true) {
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
+					.style('stroke', 'rgb(6, 141, 242)');
+
+				d3.selectAll('.overlay .handle').classed('invisible', true);
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			}
+
+			if (this.state.toolChange === false) {
+				d3.select('.handle').on('click mousedown', null);
+			}
+
 			if (typeof this.pathBox !== 'undefined') {
 				this.pathBox.remove();
 			}
 			break;
 
 		case 'penRemove':
-			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			if (this.state.shapeIsSelected === true) {
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
+					.style('stroke', 'rgb(6, 141, 242)');
+
+				d3.selectAll('.overlay .handle').classed('invisible', true);
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+			}
+
+			if (this.state.toolChange === false) {
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
+					.style('stroke', 'rgb(6, 141, 242)');
+			}
 			if (typeof this.pathBox !== 'undefined') {
 				this.pathBox.remove();
 			}
@@ -1259,22 +1309,37 @@ export default class DrawVectors extends Component {
 
 		case 'select':
 			if (this.state.shapeIsSelected) {
+				d3.selectAll('.clickarea')
+						.style('stroke', '#fff');
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
+					.style('stroke', 'rgb(6, 141, 242)');
+
+				d3.selectAll('.handle').classed('invisible', true);
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
 					.classed('invisible', false);
 			}
 			if (typeof this.pathBox !== 'undefined') {
 				this.pathBox.remove();
 			}
+
 			break;
 		case 'selectAll':
 			if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
 				if (typeof this.pathBox !== 'undefined') {
 					this.pathBox.remove();
 				}
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', true);
 				this.createDragBox();
 			}
 
-			d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', true);
+			if (this.state.shapeIsSelected) {
+				d3.selectAll('.clickarea')
+						.style('stroke', '#fff');
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
+					.style('stroke', 'rgb(6, 141, 242)');
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', true);
+			}
+
 			d3.select('.handle').on('click mousedown', null);
 			break;
 		}
@@ -1311,8 +1376,8 @@ export default class DrawVectors extends Component {
 			this.containerCreator();
 		}
 
-		this.setFigureState();
 		this.createHandles();
 		this.createPath();
+		this.setFigureState();
 	}
 }

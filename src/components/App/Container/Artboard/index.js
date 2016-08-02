@@ -39,7 +39,9 @@ export default class Artboard extends Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		this.artist.update(this.state);
+		if (this.props.tool === prevProps.tool) {
+			this.artist.update(this.state);
+		}
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -80,6 +82,7 @@ export default class Artboard extends Component {
 		}, () => {
 			if (artState.tool !== drawingTool) {
 				artState.tool = drawingTool;
+				this.artist.state.toolChange = true;
 				this.artist.update();
 			}
 

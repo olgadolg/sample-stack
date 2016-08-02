@@ -1,13 +1,10 @@
 .line {
   fill: none;
-  stroke: #7dc7f4;
-  stroke-width: 2px;
 }
 
 .no-fill {
   fill: none !important;
   stroke: #7dc7f4;
-  stroke-width: 2px;
   cursor: default;
 }
 
@@ -27,8 +24,8 @@
 }
 
 .clickarea {
-  stroke: #fff;
-  stroke-width: 2px;
+  //stroke: rgb(6, 141, 242);
+  stroke-width: 1.5px;
   cursor: default;
 }
 
