@@ -71,9 +71,9 @@ export default handleActions({
 		delete views[view].clickareas[action.data];
 
 		return {
-			...state
-			//views,
-			//isNew
+			...state,
+			views,
+			isNew
 		};
 	},
 

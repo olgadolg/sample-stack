@@ -824,11 +824,12 @@ export default class DrawVectors extends Component {
 		this.clickareas = d3.selectAll('.path')
 			.data(self.state.edges);
 
+		console.log(this.clickareas)
 		this.clickareas
 			.each(function (d, i) {
-				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
 
-				console.log(self.state.colors)
+
+				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
 
 				if (typeof self.state.colors !== 'undefined') {
 					for (var j = 0; j < self.state.colors.length; j++) {
@@ -878,16 +879,19 @@ export default class DrawVectors extends Component {
 								return 'rgb(6, 141, 242)';
 							}
 						} else {
-							var handleClass = d3.selectAll('.overlay' + self.settings.clickarea + ' .handle').attr('class');
+							var handleClass = d3.selectAll('.overlay' + self.state.shapes + ' .handle').attr('class');
 
 							if (d[d.length - 1].closed === false ||
-								d[i].source.clickarea === self.settings.clickarea &&
+								d[i].source.clickarea === self.state.shapes &&
 								handleClass.indexOf('invisible') === -1) {
 								return 'rgb(6, 141, 242)';
 							} else {
 								return '#fff';
 							}
 						}
+
+
+						return '#fff';
 					})
 					.on('click', function (d, i) {
 						if (self.state.tool === 'pen') {
