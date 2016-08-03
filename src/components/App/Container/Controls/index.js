@@ -5,7 +5,7 @@ import $ from 'jquery';
 import Checkbox from '../Checkbox';
 import Button from '../Button';
 import CreateForm from './CreateForm';
-import SceneList from './Scene/SceneList';
+import Layers from './Layers/List';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
 import checkboxStyles from '../Checkbox/styles/styles.css';
@@ -52,15 +52,7 @@ export default class ControlsContainer extends Component {
 
 		return (
 			<div className={styles.controlsContainer} >
-				<div className={lockFillWrapper}>
-					<Checkbox
-						labelClass={labelClass}
-						onChange={this.fillChange.bind(this)}
-						checked={this.state.fillChecked}
-						label="Apply color"
-					/>
-				</div>
-				<SceneList />
+				<Layers />
 				<CreateForm />
 				<Button label="Load Project" />
 				<Button label="Save Project" />

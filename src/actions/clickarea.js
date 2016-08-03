@@ -31,3 +31,10 @@ export const updateFill = (bool) => (dispatch) => {
 		data: bool
 	});
 };
+
+export const removeColor = (bool) => (dispatch) => {
+	dispatch({
+		type: 'REMOVE_COLOR',
+		data: bool
+	});
+};

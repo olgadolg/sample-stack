@@ -6,7 +6,9 @@ export default handleActions({
 	ADD_CLICKAREA: (state, action) => {
 		return update(state, {
 			clickarea: {
-				goTo: {$set: action.payload.name}
+				goTo: {$set: action.payload.name},
+				color: {$set: null},
+				fill: {$set: true}
 
 			},
 			isNew: {$set: true}
@@ -137,30 +139,13 @@ export default handleActions({
 		});
 	},
 
-	ADD_VIEW: (state, action) => {
-		let views = state.views;
-
-		views[action.data.fileName] = {
-			viewId: 'untitled ' + parseInt(Object.keys(views).length + 1),
-			nodes: [],
-			edges: [],
-			clickareas: {}
-		};
-
+	UPDATE_VIEW: (state, action) => {
 		return update(state, {
-			views: {
-				$set: {
-					[action.data.fileName]: {
-						viewId: 'untitled ' + parseInt(Object.keys(views).length + 1),
-						nodes: [],
-						edges: [],
-						clickareas: {}
-					}
-				}
-			},
 			isNew: {$set: false},
-			viewUpdae: {$set: true},
-			currentView: {$set: action.data.image}
+			isSelected: {$set: true},
+			viewUpdate: {$set: true},
+			initLayer: {$set: false},
+			currentView: {$set: action.data.view}
 		});
 	},
 
@@ -178,17 +163,27 @@ export default handleActions({
 						}
 					}
 				}
-			}
+			},
+			eraseColor: {$set: false}
 		});
 	},
 
-	UPDATE_VIEW: (state, action) => {
+	REMOVE_COLOR: (state, action) => {
+		let currentView = state.currentView;
+		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
+		let coordIndex = state.coordIndex;
+
 		return update(state, {
-			isNew: {$set: false},
-			isSelected: {$set: true},
-			viewUpdate: {$set: true},
-			initLayer: {$set: false},
-			currentView: {$set: action.data.view}
+			views: {
+				[view]: {
+					clickareas: {
+						[coordIndex]: {
+							color: {$set: 'rgba(255, 255, 255, 0)'}
+						}
+					}
+				}
+			},
+			eraseColor: {$set: true}
 		});
 	}
 }, {
@@ -198,10 +193,11 @@ export default handleActions({
 	coordIndex: 0,
 	currentView: '',
 	color: '#6ec2b3',
-	fill: false,
+	fill: true,
 	addLayer: true,
 	initLayer: false,
 	isNew: false,
+	eraseColor: false,
 	isSelected: false,
 	viewUpdate: false,
 	clickarea: { coords: null, goTo: null }

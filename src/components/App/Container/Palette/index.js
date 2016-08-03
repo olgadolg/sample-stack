@@ -9,7 +9,7 @@ import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
 
-export default class Artboard extends Component {
+export default class Palette extends Component {
 
 	constructor (props) {
 		super(props);
@@ -45,6 +45,7 @@ export default class Artboard extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
+		console.log('props')
 		const views = nextProps.views;
 		const fill = nextProps.fill;
 		const view = Object.keys(views);
@@ -82,6 +83,10 @@ export default class Artboard extends Component {
 			colors: nextProps.colors
 		}, () => {
 			artState.colors = this.state.colors;
+			if (nextProps.eraseColor !== artState.eraseColor) {
+				artState.eraseColor = nextProps.eraseColor;
+				this.artist.update();
+			}
 
 			if (nextProps.addLayer === true) {
 				this.createNewArtist(nextProps, drawingTool);
@@ -209,8 +214,9 @@ const mapStateToProps = (state) => {
 		tool: state.controls.tool,
 		color: state.clickareas.color,
 		colors: state.clickareas.colors,
+		eraseColor: state.clickareas.eraseColor,
 		addLayer: state.clickareas.addLayer
 	};
 };
 
-export default connect(mapStateToProps)(Artboard);
+export default connect(mapStateToProps)(Palette);

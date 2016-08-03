@@ -271,6 +271,11 @@ export default class DrawVectors extends Component {
 				return {x: d.x, y: d.y};
 			})
 			.on('dragstart', function (d) {
+				if (self.state.tool !== 'select') {
+					return;
+				}
+
+				d3.event.sourceEvent.preventDefault();
 				self.state.nodeIsDragged = true;
 			})
 			.on('drag', function (d) {
@@ -286,6 +291,14 @@ export default class DrawVectors extends Component {
 			});
 
 		this.dragClickarea = d3.behavior.drag()
+			.on('dragstart', function () {
+				if (self.state.tool === 'pen') {
+					return;
+				}
+
+				d3.event.sourceEvent.preventDefault();
+				d3.select(this).classed('drag', true);
+			})
 			.on('drag', function (d, i) {
 				if (self.state.tool === 'pen') {
 					return;
@@ -832,6 +845,8 @@ export default class DrawVectors extends Component {
 				if (typeof views[currentView].clickareas[i] !== 'undefined') {
 					if ('color' in views[currentView].clickareas[i]) {
 						d3.select(this).style({'fill': views[currentView].clickareas[i].color});
+					} else {
+						d3.select(this).style({'fill': 'rgba(255, 255, 255)'});
 					}
 				}
 
@@ -848,7 +863,7 @@ export default class DrawVectors extends Component {
 					})
 					.attr('fill', function (d) {
 						if (d3.select(this).style('fill') === 'rgb(0, 0, 0)') {
-							return '#6EC2B3';
+							return 'rgba(255, 255, 255, 0)';
 						}
 					})
 					.attr('fill-opacity', function (d) {

@@ -26,7 +26,6 @@
 .clickarea {
   //stroke: rgb(6, 141, 242);
   stroke-width: 1.5px;
-  cursor: default;
 }
 
 .clickarea.selected {

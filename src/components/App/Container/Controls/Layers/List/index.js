@@ -4,7 +4,7 @@ import _ from 'underscore';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import styles from './styles/styles.css';
-import SceneListItem from '../SceneListItem';
+import ListItem from '../ListItem';
 import { updateView } from '../../../../../../actions/views';
 import { selectTool } from '../../../../../../actions/controls';
 
@@ -51,7 +51,7 @@ export default class SceneList extends Component {
 
 		this.scenes = _.map(this.props.scenes, function (scene, i) {
 			return (
-				<SceneListItem
+				<ListItem
 					key={scene.viewId}
 					className={styles.layerItem}
 					onClick={(e) => self.onSelectChange(e)}

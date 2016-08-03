@@ -1,19 +1,18 @@
 import { handleActions } from 'redux-actions';
+import update from 'react-addons-update';
 
 export default handleActions({
 
 	INIT_CONTROLS: (state, action) => {
-		return {
-			...state,
-			initialized: true
-		};
+		return update(state, {
+			initialized: {$set: true}
+		});
 	},
 
 	SELECT_TOOL: (state, action) => {
-		return {
-			...state,
-			tool: action.data
-		};
+		return update(state, {
+			tool: {$set: action.data}
+		});
 	}
 }, {
 	initialized: false,
