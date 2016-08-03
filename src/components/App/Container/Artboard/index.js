@@ -83,6 +83,15 @@ export default class Artboard extends Component {
 		}, () => {
 			artState.colors = this.state.colors;
 
+			if (nextProps.addLayer === true) {
+				this.createNewArtist(nextProps, drawingTool);
+				artState.tool = tool;
+				artState.viewUpdate = true;
+				this.artist.hideCanvas();
+			} else {
+				this.artist.showCanvas();
+			}
+
 			if (artState.tool !== drawingTool) {
 				artState.tool = drawingTool;
 				this.artist.state.toolChange = true;
@@ -199,7 +208,8 @@ const mapStateToProps = (state) => {
 		clickarea: state.clickareas.clickarea,
 		tool: state.controls.tool,
 		color: state.clickareas.color,
-		colors: state.clickareas.colors
+		colors: state.clickareas.colors,
+		addLayer: state.clickareas.addLayer
 	};
 };
 

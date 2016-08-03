@@ -70,6 +70,14 @@ export default handleActions({
 		isNew = false;
 		delete views[view].clickareas[action.data];
 
+		// update keys after delete
+		for (var i in views[view].clickareas) {
+			if (i > action.data) {
+				views[view].clickareas[i - 1] = views[view].clickareas[i];
+				delete views[view].clickareas[i];
+			}
+		}
+
 		return {
 			...state,
 			views,
@@ -101,6 +109,7 @@ export default handleActions({
 					}
 				}
 			},
+			addLayer: {$set: false},
 			currentView: {$set: action.data.image}
 		});
 	},
@@ -130,13 +139,6 @@ export default handleActions({
 
 	ADD_VIEW: (state, action) => {
 		let views = state.views;
-		let currentView = state.currentView;
-		let viewUpdate = state.viewUpdate;
-		let isNew = state.isNew;
-
-		isNew = false;
-		viewUpdate = true;
-		currentView = action.data.image;
 
 		views[action.data.fileName] = {
 			viewId: 'untitled ' + parseInt(Object.keys(views).length + 1),
@@ -145,70 +147,62 @@ export default handleActions({
 			clickareas: {}
 		};
 
-		return {
-			...state,
-			views,
-			isNew,
-			viewUpdate,
-			currentView
-		};
+		return update(state, {
+			views: {
+				$set: {
+					[action.data.fileName]: {
+						viewId: 'untitled ' + parseInt(Object.keys(views).length + 1),
+						nodes: [],
+						edges: [],
+						clickareas: {}
+					}
+				}
+			},
+			isNew: {$set: false},
+			viewUpdae: {$set: true},
+			currentView: {$set: action.data.image}
+		});
 	},
 
 	SELECT_COLOR: (state, action) => {
-		let views = state.views;
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = state.coordIndex;
-		let clickarea = views[view].clickareas[coordIndex];
-		let colors = state.colors;
 
-		colors[coordIndex] = {
-			color: action.data.hex,
-			view: view,
-			clickarea: coordIndex
-		};
-
-		return {
-			...state,
-			color: action.data.hex,
-			colors
-		};
+		return update(state, {
+			views: {
+				[view]: {
+					clickareas: {
+						[coordIndex]: {
+							color: {$set: action.data.hex}
+						}
+					}
+				}
+			}
+		});
 	},
 
 	UPDATE_VIEW: (state, action) => {
-		let viewUpdate = state.viewUpdate;
-		let isNew = state.isNew;
-		let isSelected = state.isSelected;
-		let currentView = state.currentView;
-		let initLayer = state.initLayer;
-
-		isNew = false;
-		isSelected = true;
-		viewUpdate = true;
-		initLayer = false;
-		currentView = action.data.view;
-
-		return {
-			...state,
-			isNew,
-			isSelected,
-			viewUpdate,
-			currentView,
-			initLayer
-		};
+		return update(state, {
+			isNew: {$set: false},
+			isSelected: {$set: true},
+			viewUpdate: {$set: true},
+			initLayer: {$set: false},
+			currentView: {$set: action.data.view}
+		});
 	}
 }, {
 	views: {},
+	clickareas: {},
 	colors: [],
+	coordIndex: 0,
 	currentView: '',
+	color: '#6ec2b3',
 	fill: false,
 	addLayer: true,
 	initLayer: false,
 	isNew: false,
-	coordIndex: 0,
 	isSelected: false,
 	viewUpdate: false,
-	color: '#6ec2b3',
-	clickareas: {},
 	clickarea: { coords: null, goTo: null }
 });

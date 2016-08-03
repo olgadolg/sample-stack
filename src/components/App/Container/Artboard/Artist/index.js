@@ -96,6 +96,7 @@ export default class DrawVectors extends Component {
 	}
 
 	hideCanvas () {
+		console.log('hides.........')
 		d3.selectAll('svg')
 			.style({display: 'none'});
 	}
@@ -360,8 +361,8 @@ export default class DrawVectors extends Component {
 		this.state.shapeIsSelected = false;
 		this.cleanupElements();
 		this.removeClickarea(this.settings.clickarea - 1);
-		//this.pathBox.remove();
-		//this.update();
+		this.pathBox.remove();
+		this.update();
 	}
 
 	/**
@@ -824,22 +825,13 @@ export default class DrawVectors extends Component {
 		this.clickareas = d3.selectAll('.path')
 			.data(self.state.edges);
 
-		console.log(this.clickareas)
 		this.clickareas
 			.each(function (d, i) {
-
-
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
 
-				if (typeof self.state.colors !== 'undefined') {
-					for (var j = 0; j < self.state.colors.length; j++) {
-						if (typeof self.state.colors[j] !== 'undefined') {
-							if (self.state.colors[j].view === currentView) {
-								if (self.state.colors[j].clickarea === i) {
-									d3.select(this).style({'fill': self.state.colors[j].color});
-								}
-							}
-						}
+				if (typeof views[currentView].clickareas[i] !== 'undefined') {
+					if ('color' in views[currentView].clickareas[i]) {
+						d3.select(this).style({'fill': views[currentView].clickareas[i].color});
 					}
 				}
 
@@ -882,16 +874,13 @@ export default class DrawVectors extends Component {
 							var handleClass = d3.selectAll('.overlay' + self.state.shapes + ' .handle').attr('class');
 
 							if (d[d.length - 1].closed === false ||
-								d[i].source.clickarea === self.state.shapes &&
+								d[i].source.clickarea === self.settings.clickarea &&
 								handleClass.indexOf('invisible') === -1) {
 								return 'rgb(6, 141, 242)';
 							} else {
 								return '#fff';
 							}
 						}
-
-
-						return '#fff';
 					})
 					.on('click', function (d, i) {
 						if (self.state.tool === 'pen') {
