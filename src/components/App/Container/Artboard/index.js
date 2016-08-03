@@ -40,6 +40,7 @@ export default class Artboard extends Component {
 
 	componentDidUpdate (prevProps) {
 		if (this.props.tool === prevProps.tool) {
+			console.log('prev', prevProps, this.state)
 			this.artist.update(this.state);
 		}
 	}
@@ -54,6 +55,8 @@ export default class Artboard extends Component {
 		const tool = nextProps.tool;
 		let artState = this.artist.state;
 		let drawingTool;
+
+		console.log(nextProps)
 
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
@@ -137,6 +140,7 @@ export default class Artboard extends Component {
 
 		this.artist.setState(this.state, nextProps.clickareas);
 		this.artist.state.tool = tool;
+		this.artist.state.colors = this.state.colors;
 		this.artist.update();
 	}
 

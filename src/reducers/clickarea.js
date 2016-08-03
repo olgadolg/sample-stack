@@ -1,74 +1,64 @@
 import { handleActions } from 'redux-actions';
+import update from 'react-addons-update';
 
 export default handleActions({
 
 	ADD_CLICKAREA: (state, action) => {
-		let clickarea = state.clickarea;
-		let isNew = state.isNew;
+		return update(state, {
+			clickarea: {
+				goTo: {$set: action.payload.name}
 
-		clickarea.goTo = action.payload.name;
-		isNew = true;
-
-		return {
-			...state,
-			clickarea,
-			isNew
-		};
+			},
+			isNew: {$set: true}
+		});
 	},
 
 	CREATE_CLICKAREA: (state, action) => {
 		let views = state.views;
-		let viewUpdate = state.viewUpdate;
-		let isNew = state.isNew;
-		let isSelected = state.isSelected;
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
+		let coordIndex = Object.keys(views[view].clickareas).length;
 
-		views[view].nodes = action.data.nodes;
-		views[view].edges = action.data.edges;
-		views[view]['clickareas'][Object.keys(views[view].clickareas).length] = action.data.clickarea;
-
-		isNew = false;
-		isSelected = false;
-		viewUpdate = false;
-
-		return {
-			...state,
-			views,
-			currentView,
-			isSelected,
-			viewUpdate,
-			isNew
-		};
+		return update(state, {
+			views: {
+				[view]: {
+					nodes: {$set: action.data.nodes},
+					edges: {$set: action.data.edges},
+					clickareas: {
+						[coordIndex]: {
+							$set: action.data.clickarea
+						}
+					}
+				}
+			},
+			isSelected: {$set: false},
+			isNew: {$set: false},
+			viewUpdate: {$set: false}
+		});
 	},
 
 	UPDATE_CLICKAREA: (state, action) => {
-		let views = state.views;
-		let viewUpdate = state.viewUpdate;
-		let isNew = state.isNew;
-		let isSelected = state.isSelected;
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
-		let coordIndex = state.coordIndex;
+		let coordIndex = action.data.index;
 
-		isNew = false;
-		viewUpdate = false;
-		isSelected = false;
-		coordIndex = action.data.index;
-
-		views[view].nodes = action.data.nodes;
-		views[view].edges = action.data.edges;
-		views[view].clickareas[action.data.index].coords = action.data.coords;
-
-		return {
-			...state,
-			views,
-			currentView,
-			viewUpdate,
-			isNew,
-			isSelected,
-			coordIndex
-		};
+		return update(state, {
+			views: {
+				[view]: {
+					nodes: {$set: action.data.nodes},
+					edges: {$set: action.data.edges},
+					clickareas: {
+						[coordIndex]: {
+							coords: {$set: action.data.coords}
+						}
+					}
+				}
+			},
+			viewUpdate: {$set: false},
+			isNew: {$set: false},
+			isSelected: {$set: false},
+			coordIndex: {$set: action.data.index}
+		});
 	},
 
 	REMOVE_CLICKAREA: (state, action) => {
@@ -81,86 +71,61 @@ export default handleActions({
 		delete views[view].clickareas[action.data];
 
 		return {
-			...state,
-			views,
-			isNew
+			...state
+			//views,
+			//isNew
 		};
 	},
 
 	UPDATE_FILL: (state, action) => {
-		let isNew = state.isNew;
-
-		isNew = false;
-
-		return {
-			...state,
-			fill: action.data,
-			isNew
-		};
+		return update(state, {
+			fill: {$set: action.data},
+			isNew: {$set: false}
+		});
 	},
 
 	INIT_LAYER: (state, action) => {
 		let views = state.views;
-		let isNew = state.isNew;
-		let viewUpdate = state.viewUpdate;
-		let currentView = state.currentView;
-		let initLayer = state.initLayer;
+		delete views[action.data.currentView];
 
-		isNew = false;
-		initLayer = true;
-		viewUpdate = true;
-		currentView = action.data.image;
-
-		delete 	views[action.data.currentView];
-
-		views[action.data.fileName] = {
-			viewId: action.data.fileName,
-			image: action.data.image,
-			fileData: action.data.fileData,
-			nodes: [],
-			edges: [],
-			clickareas: {}
-
-		};
-
-		return {
-			...state,
-			views,
-			isNew,
-			initLayer,
-			currentView,
-			viewUpdate
-		};
+		return update(state, {
+			views: {
+				[action.data.fileName]: {
+					$set: {
+						viewId: action.data.fileName,
+						image: action.data.image,
+						fileData: action.data.fileData,
+						nodes: [],
+						edges: [],
+						clickareas: {}
+					}
+				}
+			},
+			currentView: {$set: action.data.image}
+		});
 	},
 
 	ADD_LAYER: (state, action) => {
 		let views = state.views;
-		let currentView = state.currentView;
-		let viewUpdate = state.viewUpdate;
-		let isNew = state.isNew;
-		let addLayer = state.addLayer;
+		let currentView = 'untitled ' + parseInt(Object.keys(views).length + 1);
 
-		isNew = false;
-		addLayer = true;
-		viewUpdate = true;
-		currentView = 'untitled ' + parseInt(Object.keys(views).length + 1);
-
-		views[currentView] = {
-			viewId: currentView,
-			image: currentView,
-			nodes: [],
-			edges: [],
-			clickareas: {}
-		};
-
-		return {
-			...state,
-			views,
-			isNew,
-			viewUpdate,
-			currentView,
-			addLayer
-		};
+		return update(state, {
+			views: {
+				[currentView]: {
+					$set: {
+						viewId: currentView,
+						image: currentView,
+						nodes: [],
+						edges: [],
+						clickareas: {}
+					}
+				}
+			},
+			isNew: {$set: false},
+			addLayer: {$set: true},
+			viewUpade: {$set: true},
+			currentView: {$set: currentView}
+		});
 	},
 
 	ADD_VIEW: (state, action) => {
@@ -244,5 +209,6 @@ export default handleActions({
 	isSelected: false,
 	viewUpdate: false,
 	color: '#6ec2b3',
+	clickareas: {},
 	clickarea: { coords: null, goTo: null }
 });

@@ -360,8 +360,8 @@ export default class DrawVectors extends Component {
 		this.state.shapeIsSelected = false;
 		this.cleanupElements();
 		this.removeClickarea(this.settings.clickarea - 1);
-		this.pathBox.remove();
-		this.update();
+		//this.pathBox.remove();
+		//this.update();
 	}
 
 	/**
@@ -827,6 +827,8 @@ export default class DrawVectors extends Component {
 		this.clickareas
 			.each(function (d, i) {
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
+
+				console.log(self.state.colors)
 
 				if (typeof self.state.colors !== 'undefined') {
 					for (var j = 0; j < self.state.colors.length; j++) {
