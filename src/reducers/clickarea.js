@@ -6,7 +6,6 @@ export default handleActions({
 	ADD_CLICKAREA: (state, action) => {
 		return update(state, {
 			clickarea: {
-				goTo: {$set: action.payload.name},
 				color: {$set: null},
 				fill: {$set: true}
 
@@ -39,6 +38,12 @@ export default handleActions({
 		});
 	},
 
+	UNSELECT_CLICKAREA: (state, action) => {
+		return update(state, {
+			isSelected: {$set: false}
+		});
+	},
+
 	UPDATE_CLICKAREA: (state, action) => {
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
@@ -58,8 +63,26 @@ export default handleActions({
 			},
 			viewUpdate: {$set: false},
 			isNew: {$set: false},
-			isSelected: {$set: false},
+			isSelected: {$set: action.data.selected},
 			coordIndex: {$set: action.data.index}
+		});
+	},
+
+	TITLE_CLICKAREA: (state, action) => {
+		let currentView = state.currentView;
+		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
+		let coordIndex = state.coordIndex;
+
+		return update(state, {
+			views: {
+				[view]: {
+					clickareas: {
+						[coordIndex]: {
+							goTo: {$set: action.data}
+						}
+					}
+				}
+			}
 		});
 	},
 
@@ -111,6 +134,7 @@ export default handleActions({
 					}
 				}
 			},
+			initLayer: {$set: true},
 			addLayer: {$set: false},
 			currentView: {$set: action.data.image}
 		});

@@ -18,6 +18,8 @@ export default class SceneList extends Component {
 
 	componentWillReceiveProps (nextProps) {
 		$('#sceneSelect li:first-child').css('border-radius', '5px 5px 0 0');
+		$('li').css({'background-color': '#013B2D'});
+		$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 	}
 
 	onSelectChange (event) {
@@ -34,7 +36,8 @@ export default class SceneList extends Component {
 	render () {
 		const self = this;
 		const layerWrapper = {
-			height: '350px'
+			height: '270px',
+			marginBottom: '20px'
 		};
 		const list = {
 			height: '91%',

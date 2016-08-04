@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import { createClickarea } from '../../../../../actions/clickarea';
+import { titleClickarea } from '../../../../../actions/clickarea';
 import classnames from 'classnames';
+import ContentEditable from 'react-contenteditable';
 import styles from './styles/styles.css';
-import Button from '../../Button';
 
 export default class CreateClickarea extends Component {
 
@@ -12,21 +12,44 @@ export default class CreateClickarea extends Component {
 		super(props);
 
 		this.state = {
-			val: ''
+			html: 'Untitled Figure',
+			disabled: true
 		};
+
+		this.handleChange = this.handleChange.bind(this);
+		this.handleBlur = this.handleBlur.bind(this);
+		this.handleFocus = this.handleFocus.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
-		$('.textfield, .button')
-			.removeAttr('disabled');
-
-		$('#createForm').css('opacity', 1);
+		if (nextProps.isSelected === true) {
+			this.setState({disabled: !nextProps.isSelected}, () => {
+				var el = document.getElementById('editable');
+				var range = document.createRange();
+				var sel = window.getSelection();
+				range.setStart(el.childNodes[0], el.childNodes[0].length);
+				range.collapse(true);
+				sel.removeAllRanges();
+				sel.addRange(range);
+				el.focus();
+			});
+		}
 	}
 
-	handleSubmit () {
-		event.preventDefault();
-		this.props.dispatch(createClickarea(this.state.val));
-		this.setState({ val: '' });
+	handleChange (e) {
+		e.preventDefault();
+		this.setState({ html: e.target.value }, () => {
+			this.props.dispatch(titleClickarea(this.state.html));
+		});
+	}
+
+	handleBlur (e) {
+		e.preventDefault();
+		console.log(e.target);
+	}
+
+	handleFocus (e) {
+		e.preventDefault();
 	}
 
 	render () {
@@ -35,22 +58,22 @@ export default class CreateClickarea extends Component {
 			[styles.textfield]: true
 		});
 
-		/*
-		<input
-			onChange={(e) => this.setState({ val: e.target.value })}
-			type="text"
-			name="title"
-			disabled
-			placeholder="Enter clickarea title"
-			className={textfieldClass}
-			value={this.state.val}
-		/>
-		*/
+		const titleWrapper = classnames({
+			'titleWrapper': true,
+			[styles.titleWrapper]: true
+		});
 
 		return (
-			<div>
-				<form id="createForm" className={styles.createForm}>
-				</form>
+			<div className={titleWrapper}>
+				<ContentEditable
+					id="editable"
+					disabled={this.state.disabled}
+					html={this.state.html}
+					onChange={(e) => this.handleChange(e)}
+					onFocus={(e) => this.handleFocus(e)}
+					onBlur={(e) => this.handleBlur(e)}
+					className={textfieldClass}
+				/>
 			</div>
 		);
 	}
@@ -62,7 +85,7 @@ CreateClickarea.propTypes = {
 
 const mapStateToProps = (state) => {
 	return {
-		state: state
+		isSelected: state.clickareas.isSelected
 	};
 };
 

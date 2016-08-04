@@ -43,6 +43,8 @@
     "react-addons-css-transition-group": "^15.2.1",
     "react-addons-update": "^15.3.0",
     "react-color": "^2.2.2",
+    "react-content-editable": "^1.0.1",
+    "react-contenteditable": "^1.1.0",
     "react-custom-scrollbars": "^4.0.0",
     "react-dom": "^15.1.0",
     "react-draggable": "^2.2.0",

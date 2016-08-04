@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import $ from 'jquery';
-import Checkbox from '../Checkbox';
 import Button from '../Button';
 import CreateForm from './CreateForm';
 import Layers from './Layers/List';
@@ -40,23 +39,17 @@ export default class ControlsContainer extends Component {
 	}
 
 	render () {
-		const lockFillWrapper = classnames({
-			'lockFillWrapper': true,
-			[styles.lockFillWrapper]: true
-		});
-
-		const labelClass = classnames({
-			'checkboxLabel': true,
-			[checkboxStyles.checkboxLabel]: true
-		});
+		const btnStyle = {
+			backgroundColor: '#E90086'
+		};
 
 		return (
 			<div className={styles.controlsContainer} >
-				<Layers />
 				<CreateForm />
+				<Layers />
 				<Button label="Load Project" />
 				<Button label="Save Project" />
-				<Button label="Export Project" />
+				<Button btnStyle={btnStyle} label="Export Project" />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
 				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
 					<h5>Please add a view before creating clickareas</h5>

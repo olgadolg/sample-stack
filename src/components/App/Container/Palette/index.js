@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import $ from 'jquery';
 import classnames from 'classnames';
 import Artist from './Artist';
-import { updateClickarea, removeClickarea, makeClickarea, createClickarea } from '../../../../actions/clickarea';
+import { updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea} from '../../../../actions/clickarea';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
@@ -32,6 +32,7 @@ export default class Palette extends Component {
 			updateClickarea,
 			removeClickarea,
 			createClickarea,
+			unselectClickarea,
 			this.props.dispatch
 		);
 
@@ -45,7 +46,6 @@ export default class Palette extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		console.log('props')
 		const views = nextProps.views;
 		const fill = nextProps.fill;
 		const view = Object.keys(views);
@@ -132,11 +132,6 @@ export default class Palette extends Component {
 
 				this.openClickarea(nextProps);
 			}
-
-			if (typeof this.props.clickareas.isNew !== undefined) {
-				const form = document.getElementById('createForm');
-				form.style.display = 'block';
-			}
 		});
 	}
 
@@ -146,6 +141,7 @@ export default class Palette extends Component {
 			updateClickarea,
 			removeClickarea,
 			createClickarea,
+			unselectClickarea,
 			this.props.dispatch
 		);
 
