@@ -853,10 +853,9 @@ export default class DrawVectors extends Component {
 				d3.select(this)
 					.append('path')
 					.attr('data-id', function (d) {
-						//if (Object.keys(views[currentView].clickareas).length > 0) {
-							//return views[currentView].clickareas[i].goTo;
-						//}
-						return 'foo';
+						if (Object.keys(views[currentView].clickareas).length > 0) {
+							return views[currentView].clickareas[i].goTo;
+						}
 					})
 					.attr('class', function (d) {
 						return 'clickarea ' + 'clickarea' + parseInt(i + 1);
@@ -942,9 +941,11 @@ export default class DrawVectors extends Component {
 			.each(function (d, i) {
 				d3.select(this)
 					.append('path')
-					.attr('data-id', function (d) {
+					.attr('data-id', function (d, j) {
 						if (Object.keys(views[currentView].clickareas).length > 0) {
-							return views[currentView].clickareas[i].goTo;
+							return views[currentView].clickareas[j].goTo;
+						} else {
+							return 'Untitled Figure';
 						}
 					})
 					.attr('class', 'clickarea')

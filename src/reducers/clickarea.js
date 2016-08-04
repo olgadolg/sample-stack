@@ -82,7 +82,8 @@ export default handleActions({
 						}
 					}
 				}
-			}
+			},
+			clickareaName: {$set: action.data}
 		});
 	},
 
@@ -142,7 +143,7 @@ export default handleActions({
 
 	ADD_LAYER: (state, action) => {
 		let views = state.views;
-		let currentView = 'untitled ' + parseInt(Object.keys(views).length + 1);
+		let currentView = 'Layer ' + parseInt(Object.keys(views).length + 1);
 
 		return update(state, {
 			views: {
@@ -224,5 +225,5 @@ export default handleActions({
 	eraseColor: false,
 	isSelected: false,
 	viewUpdate: false,
-	clickarea: { coords: null, goTo: null }
+	clickarea: { coords: null, goTo: 'Figure title' }
 });

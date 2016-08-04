@@ -26,7 +26,7 @@ export default class SceneList extends Component {
 		$('li').css({'background-color': '#013B2D'});
 		$(event.currentTarget).css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 
-		($(event.currentTarget).html().indexOf('untitled') > -1)
+		($(event.currentTarget).html().indexOf('Layer') > -1)
 			? $('.dropzone').show() : $('.dropzone').hide();
 
 		this.props.dispatch(selectTool('pen'));

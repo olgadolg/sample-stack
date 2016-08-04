@@ -12,7 +12,7 @@ export default class CreateClickarea extends Component {
 		super(props);
 
 		this.state = {
-			html: 'Untitled Figure',
+			html: 'Figure Title',
 			disabled: true
 		};
 
@@ -22,8 +22,14 @@ export default class CreateClickarea extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
+
+		console.log(nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex])
+
 		if (nextProps.isSelected === true) {
-			this.setState({disabled: !nextProps.isSelected}, () => {
+			this.setState({
+				disabled: false,
+				html: nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo
+			}, () => {
 				var el = document.getElementById('editable');
 				var range = document.createRange();
 				var sel = window.getSelection();
@@ -33,13 +39,20 @@ export default class CreateClickarea extends Component {
 				sel.addRange(range);
 				el.focus();
 			});
+		} else {
+			this.setState({
+				disabled: true,
+				html: 'Figure Title'
+			});
 		}
 	}
 
 	handleChange (e) {
 		e.preventDefault();
 		this.setState({ html: e.target.value }, () => {
-			this.props.dispatch(titleClickarea(this.state.html));
+			if (this.state.html !== 'Figure Title') {
+				this.props.dispatch(titleClickarea(this.state.html));
+			}
 		});
 	}
 
@@ -85,7 +98,10 @@ CreateClickarea.propTypes = {
 
 const mapStateToProps = (state) => {
 	return {
-		isSelected: state.clickareas.isSelected
+		coordIndex: state.clickareas.coordIndex,
+		currentView: state.clickareas.currentView,
+		isSelected: state.clickareas.isSelected,
+		views: state.clickareas.views
 	};
 };
 

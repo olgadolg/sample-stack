@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
+import { unselectClickarea} from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
@@ -26,7 +27,7 @@ export default class Toolbox extends Component {
 	componentWillReceiveProps (nextProps) {
 		this.setState({currentView: nextProps.currentView});
 
-		if (nextProps.currentView.indexOf('untitled') > -1) {
+		if (nextProps.currentView.indexOf('Layer') > -1) {
 			$('.layerIcon').css({
 				'pointer-events': 'none',
 				'opacity': '0.5'
@@ -63,6 +64,7 @@ export default class Toolbox extends Component {
 			if (type === 'layer') {
 				$('.dropzone').show();
 				this.props.dispatch(addLayer());
+				this.props.dispatch(unselectClickarea());
 			}
 
 			if (type !== 'layer') {
