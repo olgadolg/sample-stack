@@ -23,12 +23,13 @@ export default class CreateClickarea extends Component {
 
 	componentWillReceiveProps (nextProps) {
 
-		console.log(nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex])
+		let title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
+			? 'Figure Title' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
 
-		if (nextProps.isSelected === true) {
+		if (nextProps.isSelected === true && nextProps.addLayer === false && nextProps.initLayer === false && nextProps.viewUpdate === false) {
 			this.setState({
 				disabled: false,
-				html: nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo
+				html: title
 			}, () => {
 				var el = document.getElementById('editable');
 				var range = document.createRange();
@@ -101,7 +102,10 @@ const mapStateToProps = (state) => {
 		coordIndex: state.clickareas.coordIndex,
 		currentView: state.clickareas.currentView,
 		isSelected: state.clickareas.isSelected,
-		views: state.clickareas.views
+		views: state.clickareas.views,
+		addLayer: state.clickareas.addLayer,
+		initLayer: state.clickareas.initLayer,
+		viewUpdate: state.clickareas.viewUpdate
 	};
 };
 

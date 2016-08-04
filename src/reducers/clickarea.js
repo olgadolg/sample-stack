@@ -64,7 +64,8 @@ export default handleActions({
 			viewUpdate: {$set: false},
 			isNew: {$set: false},
 			isSelected: {$set: action.data.selected},
-			coordIndex: {$set: action.data.index}
+			coordIndex: {$set: action.data.index},
+			initLayer: {$set: false}
 		});
 	},
 

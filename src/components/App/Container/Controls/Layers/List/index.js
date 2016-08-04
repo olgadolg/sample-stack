@@ -17,9 +17,11 @@ export default class SceneList extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		$('#sceneSelect li:first-child').css('border-radius', '5px 5px 0 0');
-		$('li').css({'background-color': '#013B2D'});
-		$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+		if (nextProps.viewupdate === false) {
+			$('#sceneSelect li:first-child').css('border-radius', '5px 5px 0 0');
+			$('li').css({'background-color': '#013B2D'});
+			$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+		}
 	}
 
 	onSelectChange (event) {
@@ -85,7 +87,8 @@ const mapStateToProps = (state) => {
 		scenes: state.clickareas.views,
 		currentView: state.clickareas.currentView,
 		addLayer: state.clickareas.addLayer,
-		initLayer: state.clickareas.initLayer
+		initLayer: state.clickareas.initLayer,
+		viewUpdate: state.clickareas.viewUpdate
 	};
 };
 
