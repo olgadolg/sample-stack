@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import $ from 'jquery';
 import classnames from 'classnames';
 import Artist from './Artist';
-import { updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea} from '../../../../actions/clickarea';
+import { updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';

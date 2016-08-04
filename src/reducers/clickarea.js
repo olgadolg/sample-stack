@@ -38,12 +38,6 @@ export default handleActions({
 		});
 	},
 
-	UNSELECT_CLICKAREA: (state, action) => {
-		return update(state, {
-			isSelected: {$set: false}
-		});
-	},
-
 	UPDATE_CLICKAREA: (state, action) => {
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
@@ -66,25 +60,6 @@ export default handleActions({
 			isSelected: {$set: action.data.selected},
 			coordIndex: {$set: action.data.index},
 			initLayer: {$set: false}
-		});
-	},
-
-	TITLE_CLICKAREA: (state, action) => {
-		let currentView = state.currentView;
-		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
-		let coordIndex = state.coordIndex;
-
-		return update(state, {
-			views: {
-				[view]: {
-					clickareas: {
-						[coordIndex]: {
-							goTo: {$set: action.data}
-						}
-					}
-				}
-			},
-			clickareaName: {$set: action.data}
 		});
 	},
 
@@ -112,10 +87,28 @@ export default handleActions({
 		};
 	},
 
-	UPDATE_FILL: (state, action) => {
+	UNSELECT_CLICKAREA: (state, action) => {
 		return update(state, {
-			fill: {$set: action.data},
-			isNew: {$set: false}
+			isSelected: {$set: false}
+		});
+	},
+
+	TITLE_CLICKAREA: (state, action) => {
+		let currentView = state.currentView;
+		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
+		let coordIndex = state.coordIndex;
+
+		return update(state, {
+			views: {
+				[view]: {
+					clickareas: {
+						[coordIndex]: {
+							goTo: {$set: action.data}
+						}
+					}
+				}
+			},
+			clickareaName: {$set: action.data}
 		});
 	},
 
@@ -191,6 +184,13 @@ export default handleActions({
 				}
 			},
 			eraseColor: {$set: false}
+		});
+	},
+
+	UPDATE_FILL: (state, action) => {
+		return update(state, {
+			fill: {$set: action.data},
+			isNew: {$set: false}
 		});
 	},
 

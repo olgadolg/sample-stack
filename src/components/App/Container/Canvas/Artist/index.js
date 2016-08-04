@@ -282,11 +282,11 @@ export default class DrawVectors extends Component {
 					return;
 				}
 				d3.select(this).classed('selected', true);
-				//self.updateClickarea();
+				self.updateClickarea();
 				self.dragmove(d);
 			})
 			.on('dragend', function (d) {
-				//self.updateClickarea();
+				self.updateClickarea();
 			});
 
 		this.dragClickarea = d3.behavior.drag()
@@ -349,12 +349,10 @@ export default class DrawVectors extends Component {
 		case this.settings.backspace_key:
 		case this.settings.delete_key:
 
-			//if ($('[contenteditable]').is(':focus') === false) {
-				d3.event.preventDefault();
-				if (this.state.shapeIsSelected === true) {
-					this.removeFigure();
-				}
-			//}
+			d3.event.preventDefault();
+			if (this.state.shapeIsSelected === true) {
+				this.removeFigure();
+			}
 		}
 	}
 

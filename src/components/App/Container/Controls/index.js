@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import $ from 'jquery';
 import Button from '../Button';
-import CreateForm from './CreateForm';
-import Layers from './Layers/List';
+import CreateForm from '../Title';
+import Layers from '../Layers/List';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
-import checkboxStyles from '../Checkbox/styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
 
 export default class ControlsContainer extends Component {

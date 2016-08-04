@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
-import { titleClickarea } from '../../../../../actions/clickarea';
+import { titleClickarea } from '../../../../actions/clickarea';
 import classnames from 'classnames';
 import ContentEditable from 'react-contenteditable';
 import styles from './styles/styles.css';
@@ -22,7 +21,6 @@ export default class CreateClickarea extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-
 		let title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
 			? 'Figure Title' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
 

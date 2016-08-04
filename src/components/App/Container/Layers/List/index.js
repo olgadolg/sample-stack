@@ -5,8 +5,8 @@ import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
-import { updateView } from '../../../../../../actions/views';
-import { selectTool } from '../../../../../../actions/controls';
+import { updateView } from '../../../../../actions/views';
+import { selectTool } from '../../../../../actions/controls';
 
 export default class SceneList extends Component {
 

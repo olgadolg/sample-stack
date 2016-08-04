@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import Toolbox from '../Toolbox';
+import Toolbox from '../Tools';
 import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
 import { removeColor } from '../../../../actions/clickarea';
