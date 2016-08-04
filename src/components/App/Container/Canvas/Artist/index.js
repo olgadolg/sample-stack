@@ -291,7 +291,9 @@ export default class DrawVectors extends Component {
 
 		this.dragClickarea = d3.behavior.drag()
 			.on('dragstart', function () {
-				if (self.state.tool === 'pen') {
+				if (self.state.tool === 'pen' ||
+					self.state.tool === 'penRemove' ||
+					self.state.tool === 'penAdd') {
 					return;
 				}
 

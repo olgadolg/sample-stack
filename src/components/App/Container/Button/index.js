@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -10,7 +11,11 @@ export default class Button extends Component {
 		});
 
 		return (
-			<button id={this.props.btnType} style={this.props.btnStyle} className={btnClass} onClick={this.props.onClick}>
+			<button
+				id={this.props.btnType}
+				style={this.props.btnStyle}
+				className={btnClass}
+				onClick={this.props.onClick}>
 				{this.props.label}
 			</button>
 		);

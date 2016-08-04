@@ -9,7 +9,7 @@ import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
 
-export default class Palette extends Component {
+export default class Canvas extends Component {
 
 	constructor (props) {
 		super(props);
@@ -215,4 +215,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(Palette);
+export default connect(mapStateToProps)(Canvas);

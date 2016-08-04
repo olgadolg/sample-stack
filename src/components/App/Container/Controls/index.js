@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import Button from '../Button';
-import CreateForm from '../Title';
+import Title from '../Title';
 import Layers from '../Layers/List';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
+import { saveProject } from '../../../../actions/file';
+
 
 export default class ControlsContainer extends Component {
 
@@ -17,6 +19,8 @@ export default class ControlsContainer extends Component {
 			fillChecked: false,
 			isModalOpen: false
 		};
+
+		this.saveProject = this.saveProject.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -25,6 +29,15 @@ export default class ControlsContainer extends Component {
 		}
 
 		this.setState({opacity: this.props.opacity});
+	}
+
+	saveProject () {
+		let stateToSave = {
+			controls: this.props.controls,
+			clickareas: this.props.clickareas
+		};
+
+		this.props.dispatch(saveProject(stateToSave));
 	}
 
 	fillChange () {
@@ -43,10 +56,10 @@ export default class ControlsContainer extends Component {
 
 		return (
 			<div className={styles.controlsContainer} >
-				<CreateForm />
+				<Title />
 				<Layers />
 				<Button label="Load Project" />
-				<Button label="Save Project" />
+				<Button onClick={this.saveProject} label="Save Project" />
 				<Button btnStyle={btnStyle} label="Export Project" />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
 				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
