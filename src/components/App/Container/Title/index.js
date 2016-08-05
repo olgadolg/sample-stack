@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import { titleClickarea } from '../../../../actions/clickarea';
 import classnames from 'classnames';
 import ContentEditable from 'react-contenteditable';
@@ -11,8 +12,9 @@ export default class CreateClickarea extends Component {
 		super(props);
 
 		this.state = {
-			html: 'Figure Title',
-			disabled: true
+			html: '',
+			disabled: false,
+			scope: 'project'
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -20,15 +22,26 @@ export default class CreateClickarea extends Component {
 		this.handleFocus = this.handleFocus.bind(this);
 	}
 
-	componentWillReceiveProps (nextProps) {
-		let title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
-			? 'Figure Title' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
+	componentDidMount () {
+		document.getElementById('editable')
+			.setAttribute('placeholder', 'Name ' + this.props.scope);
+	}
 
-		if (nextProps.isSelected === true && nextProps.addLayer === false && nextProps.initLayer === false && nextProps.viewUpdate === false) {
-			this.setState({
-				disabled: false,
-				html: title
-			}, () => {
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.scope === 'project') {
+			var title = nextProps.projectName;
+		} else {
+			title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
+				? 'Figure Title' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
+		}
+
+		document.getElementById('editable')
+			.setAttribute('placeholder', 'Name ' + nextProps.scope);
+
+		this.setState({
+			html: title
+		}, () => {
+			if (title !== '') {
 				var el = document.getElementById('editable');
 				var range = document.createRange();
 				var sel = window.getSelection();
@@ -37,27 +50,25 @@ export default class CreateClickarea extends Component {
 				sel.removeAllRanges();
 				sel.addRange(range);
 				el.focus();
-			});
-		} else {
-			this.setState({
-				disabled: true,
-				html: 'Figure Title'
-			});
-		}
+			}
+		});
 	}
 
 	handleChange (e) {
 		e.preventDefault();
-		this.setState({ html: e.target.value }, () => {
-			if (this.state.html !== 'Figure Title') {
-				this.props.dispatch(titleClickarea(this.state.html));
-			}
+		let scope = ($('.overlay').hasClass('selected'))
+			? 'figure' : 'project';
+
+		this.setState({
+			html: e.target.value,
+			scope: scope
+		}, () => {
+			this.props.dispatch(titleClickarea(this.state));
 		});
 	}
 
 	handleBlur (e) {
 		e.preventDefault();
-		console.log(e.target);
 	}
 
 	handleFocus (e) {
@@ -103,7 +114,9 @@ const mapStateToProps = (state) => {
 		views: state.clickareas.views,
 		addLayer: state.clickareas.addLayer,
 		initLayer: state.clickareas.initLayer,
-		viewUpdate: state.clickareas.viewUpdate
+		viewUpdate: state.clickareas.viewUpdate,
+		scope: state.clickareas.scope,
+		projectName: state.clickareas.projectName
 	};
 };
 

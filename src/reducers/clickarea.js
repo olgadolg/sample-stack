@@ -37,7 +37,8 @@ export default handleActions({
 			isSelected: {$set: false},
 			isNew: {$set: false},
 			viewUpdate: {$set: false},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			scope: {$set: 'figure'}
 		});
 	},
 
@@ -63,7 +64,8 @@ export default handleActions({
 			isSelected: {$set: action.data.selected},
 			coordIndex: {$set: action.data.index},
 			initLayer: {$set: false},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			scope: {$set: 'figure'}
 		});
 	},
 
@@ -96,7 +98,8 @@ export default handleActions({
 	UNSELECT_CLICKAREA: (state, action) => {
 		return update(state, {
 			isSelected: {$set: false},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			scope: {$set: 'project'}
 		});
 	},
 
@@ -105,19 +108,27 @@ export default handleActions({
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = state.coordIndex;
 
-		return update(state, {
-			views: {
-				[view]: {
-					clickareas: {
-						[coordIndex]: {
-							goTo: {$set: action.data}
+		if (action.data.scope === 'figure') {
+			return update(state, {
+				views: {
+					[view]: {
+						clickareas: {
+							[coordIndex]: {
+								goTo: {$set: action.data.html}
+							}
 						}
 					}
-				}
-			},
-			clickareaName: {$set: action.data},
-			loadProject: {$set: false}
-		});
+				},
+				clickareaName: {$set: action.data.html},
+				loadProject: {$set: false},
+				scope: {$set: action.data.scope}
+			});
+		} else {
+			return update(state, {
+				projectName: {$set: action.data.html},
+				scope: {$set: action.data.scope}
+			});
+		}
 	},
 
 	INIT_LAYER: (state, action) => {
@@ -253,7 +264,9 @@ export default handleActions({
 			loadProject: {$set: true},
 			tool: {$set: action.data.tool},
 			viewUpdate: {$set: action.data.viewUpdate},
-			views: {$set: action.data.views}
+			views: {$set: action.data.views},
+			projectName: {$set: action.data.projectName},
+			scope: {$set: action.data.scope}
 		});
 	}
 }, {
@@ -272,5 +285,7 @@ export default handleActions({
 	isSelected: false,
 	viewUpdate: false,
 	loadProject: false,
-	clickarea: { coords: null, goTo: 'Figure title' }
+	projectName: '',
+	scope: 'project',
+	clickarea: { coords: null, goTo: '' }
 });

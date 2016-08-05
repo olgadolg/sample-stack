@@ -452,8 +452,8 @@ export default class DrawVectors extends Component {
 		if (d3.event.target.tagName !== 'rect' && this.state.tool !== 'penAdd') {
 			if (d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node() !== null) {
 				if (d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1) {
-					d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
-						.style('stroke', '#fff');
+					d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').style('stroke', '#fff');
+					d3.selectAll('.overlay').classed('selected', false);
 				}
 			}
 		}

@@ -40,7 +40,8 @@ export default class Toolbox extends Component {
 		}
 
 		if (nextProps.tool !== 'layer' && typeof nextProps.tool !== 'undefined') {
-			$('.tool').css({'box-shadow': 'none'});
+			$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px #fff'});
+			$('.tool:hover').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 			$('.' + nextProps.tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 		}
 	}
@@ -68,12 +69,12 @@ export default class Toolbox extends Component {
 			}
 
 			if (type !== 'layer') {
+				$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px #fff'});
+				$('.tool:hover').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 				for (var tool in this.state) {
 					if (this.state[tool] === true) {
 						isSelected = tool;
 						$('.' + tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
-					} else {
-						$('.' + tool + 'Icon').css({'box-shadow': 'none'});
 					}
 				}
 
