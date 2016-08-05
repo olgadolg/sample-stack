@@ -20,3 +20,17 @@ export const load = (data) => (dispatch) => {
 		data: data
 	});
 };
+
+export const exportProject = (stateToExport) => (dispatch) => {
+	request
+		.post('/api/project/export')
+		.send(stateToExport)
+		.set('Accept', 'application/json')
+		.end(function (err, res) {
+			if (err || !res.ok) {
+				alert('Oh no! error');
+			} else {
+				alert('yay got ' + JSON.stringify(res.body));
+			}
+		});
+};

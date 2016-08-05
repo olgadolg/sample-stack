@@ -23,5 +23,11 @@
 	color: #fff;
 }
 
-:local(.createForm) {
+:local(.titleLabel) {
+	color: rgb(1, 59, 45);
+	text-transform: uppercase;
+	font-size: 12px;
+	margin-bottom: 5px;
+	display: block;
+	margin-left: 5px;
 }

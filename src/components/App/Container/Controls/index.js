@@ -7,7 +7,7 @@ import Layers from '../Layers/List';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
-import { save, load } from '../../../../actions/project';
+import { exportProject, save, load } from '../../../../actions/project';
 
 export default class ControlsContainer extends Component {
 
@@ -22,6 +22,7 @@ export default class ControlsContainer extends Component {
 
 		this.saveProject = this.saveProject.bind(this);
 		this.loadProject = this.loadProject.bind(this);
+		this.exportProject = this.exportProject.bind(this);
 	}
 
 	componentDidMount () {
@@ -36,9 +37,16 @@ export default class ControlsContainer extends Component {
 		this.setState({opacity: this.props.opacity});
 	}
 
+	exportProject () {
+		let stateToExport = {
+			clickareas: this.props.clickareas
+		};
+
+		this.props.dispatch(exportProject(stateToExport));
+	}
+
 	saveProject () {
 		let stateToSave = {
-			controls: this.props.controls,
 			clickareas: this.props.clickareas
 		};
 
@@ -89,7 +97,7 @@ export default class ControlsContainer extends Component {
 				/>
 				<label for="file">Load Project</label>
 				<Button onClick={this.saveProject} label="Save Project" />
-				<Button btnStyle={btnStyle} label="Export Project" />
+				<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
 				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
 				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
 					<h5>Please add a view before creating clickareas</h5>

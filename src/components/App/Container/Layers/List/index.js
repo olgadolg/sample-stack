@@ -39,7 +39,8 @@ export default class SceneList extends Component {
 		const self = this;
 		const layerWrapper = {
 			height: '270px',
-			marginBottom: '20px'
+			marginBottom: '20px',
+			marginTop: '20px'
 		};
 		const list = {
 			height: '91%',

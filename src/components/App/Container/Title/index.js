@@ -24,7 +24,7 @@ export default class CreateClickarea extends Component {
 
 	componentDidMount () {
 		document.getElementById('editable')
-			.setAttribute('placeholder', 'Name ' + this.props.scope);
+			.setAttribute('placeholder', 'Please name ' + this.props.scope);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -36,10 +36,11 @@ export default class CreateClickarea extends Component {
 		}
 
 		document.getElementById('editable')
-			.setAttribute('placeholder', 'Name ' + nextProps.scope);
+			.setAttribute('placeholder', 'Please name ' + nextProps.scope);
 
 		this.setState({
-			html: title
+			html: title,
+			scope: nextProps.scope
 		}, () => {
 			if (title !== '') {
 				var el = document.getElementById('editable');
@@ -86,8 +87,14 @@ export default class CreateClickarea extends Component {
 			[styles.titleWrapper]: true
 		});
 
+		const titleLabel = classnames({
+			'titleLabel': true,
+			[styles.titleLabel]: true
+		});
+
 		return (
 			<div className={titleWrapper}>
+				<label className={titleLabel}>{this.state.scope}</label>
 				<ContentEditable
 					id="editable"
 					disabled={this.state.disabled}

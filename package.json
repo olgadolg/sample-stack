@@ -36,6 +36,7 @@
     "jquery": "^3.1.0",
     "jsx-control-statements": "^3.1.2",
     "keymirror": "^0.1.1",
+    "mkdirp": "^0.5.1",
     "mongoose": "^4.5.3",
     "multiparty": "^4.1.2",
     "object-assign": "^4.1.0",
