@@ -1,0 +1,22 @@
+{
+    "nature": {
+        "typeAptId": "0",
+        "viewId": "0",
+        "floor": "0",
+        "rooms": "0",
+        "size": "0",
+        "price": "0",
+        "fee": "0",
+        "available": ""
+    },
+    "city": {
+        "typeAptId": "0",
+        "viewId": "0",
+        "floor": "0",
+        "rooms": "0",
+        "size": "0",
+        "price": "0",
+        "fee": "0",
+        "available": ""
+    }
+}

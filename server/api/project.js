@@ -14,15 +14,48 @@ const saveProject = (request, reply) => {
 };
 
 const exportProject = (request, reply) => {
+	var stateObj = request.payload;
 	var json = JSON.stringify(request.payload, null, 2);
 	var projectName = request.payload.clickareas.projectName;
+	var apts = {};
+	var views = {};
+
+	for (var view in stateObj.clickareas.views) {
+		// cleanup
+		for (var item in stateObj.clickareas.views[view].clickareas) {
+			delete stateObj.clickareas.views[view].clickareas[item].color;
+			delete stateObj.clickareas.views[view].clickareas[item].fill;
+		}
+
+		views[view] = {
+			viewId: stateObj.clickareas.views[view].viewId,
+			clickarea: stateObj.clickareas.views[view].clickareas
+		};
+	}
+
+	for (var apt in stateObj.clickareas.views) {
+		apts[apt] = {
+			typeAptId: '0',
+			viewId: '0',
+			floor: '0',
+			rooms: '0',
+			size: '0',
+			price: '0',
+			fee: '0',
+			available: ''
+		};
+	}
 
 	mkdirp('./projects/' + projectName + '/n5assets_' + projectName + '/views', function (err) {
 		if (err) return reply().code(401);
 
-		fs.writeFile('./projects/' + projectName + '/settings.json', json, function (err) {
+		fs.writeFile('./projects/' + projectName + '/intApt.json', JSON.stringify(apts, null, 4), function (err) {
 			if (err) return reply().code(401);
+			return reply().code(200);
+		});
 
+		fs.writeFile('./projects/' + projectName + '/settings.json', JSON.stringify(views, null, 4), function (err) {
+			if (err) return reply().code(401);
 			return reply().code(200);
 		});
 	});
