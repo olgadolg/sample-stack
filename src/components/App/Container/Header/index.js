@@ -69,7 +69,7 @@ export default class Header extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		color: state.controls.color
+		color: state.clickareas.color
 	};
 };
 export default connect(mapStateToProps)(Header);

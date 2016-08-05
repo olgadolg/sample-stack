@@ -1,13 +1,13 @@
-import Path from 'path'
-import Hapi from 'hapi'
-import Inert from 'inert'
-import mongoose from 'mongoose'
-import config from 'config'
-import base from './base'
-import image from './api/image'
+import Path from 'path';
+import Hapi from 'hapi';
+import Inert from 'inert';
+import mongoose from 'mongoose';
+import config from 'config';
+import base from './base';
+import project from './api/project';
 
-mongoose.connect(config.get('database.host'))
-mongoose.connection.on('error', console.error.bind(console, 'db error:'))
+mongoose.connect(config.get('database.host'));
+mongoose.connection.on('error', console.error.bind(console, 'db error:'));
 
 const server = new Hapi.Server({
 	connections: {
@@ -17,17 +17,17 @@ const server = new Hapi.Server({
 			}
 		}
 	}
-})
+});
 
 server.connection({
 	host: 'localhost',
 	port: process.env.PORT || 8001
-})
+});
 
 if (process.env.NODE_ENV === 'development') {
-	const webpack = require('webpack')
-	const WebpackPlugin = require('hapi-webpack-plugin')
-	const wpconfig = require('../webpack/config.dev')
+	const webpack = require('webpack');
+	const WebpackPlugin = require('hapi-webpack-plugin');
+	const wpconfig = require('../webpack/config.dev');
 
 	server.register({
 		register: WebpackPlugin,
@@ -41,7 +41,7 @@ if (process.env.NODE_ENV === 'development') {
 		}
 	}, (error) => {
 		if (error) throw error;
-	})
+	});
 }
 
 server.register([
@@ -52,12 +52,12 @@ server.register([
 		register: base
 	},
 	{
-		register: image
+		register: project
 	}
 ], (error) => {
-	if (error) throw error
+	if (error) throw error;
 
 	server.start(() => {
-		console.info('Sample stack listening at:', server.info.uri)
-	})
-})
+		console.info('Sample stack listening at:', server.info.uri);
+	});
+});

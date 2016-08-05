@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import config from 'config';
-import Image from '../models/image';
 
 const addImage = (request, reply) => {
 	const dir = path.join(__dirname, '..', '..', 'src', config.get('image_dir'));
-	fs.writeFile(dir + request.payload.filename, request.payload.img_attach._data, function(error){
+	fs.writeFile(dir + request.payload.filename, request.payload.img_attach._data, function (error) {
 		if (error) return reply(error);
 		return reply().code(200);
 	});
@@ -17,19 +16,19 @@ exports.register = (server, options, next) => {
 			method: 'POST',
 			path: '/api/image',
 			config: {
-				payload:{
+				payload: {
 					maxBytes: 209715200,
-					output:'stream',
+					output: 'stream',
 					parse: true
 				},
 				handler: addImage
 			}
 		}
-	])
+	]);
 
-	next()
-}
+	next();
+};
 
 exports.register.attributes = {
 	name: 'image'
-}
+};

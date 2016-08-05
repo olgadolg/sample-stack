@@ -21,3 +21,27 @@
 	top: 22px;
 	z-index: 1;
 }
+
+:local(.inputfile) {
+	width: 200px;
+	height: 40px;
+	overflow: hidden;
+	position: absolute;
+	color: transparent;
+	position: absolute;
+	opacity: 0;
+}
+
+:local(.inputfile + label) {
+	width: 200px;
+	height: 40px;
+    font-size: 14px;
+	line-height: 40px;
+	text-align: center;
+	text-transform: uppercase;
+    color: white;
+    background-color: #013B2D;
+    display: inline-block;
+	cursor: pointer;
+	margin-bottom: 5px;
+}

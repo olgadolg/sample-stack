@@ -10,7 +10,9 @@ export default handleActions({
 				fill: {$set: true}
 
 			},
-			isNew: {$set: true}
+			isNew: {$set: true},
+			loadProject: {$set: false}
+
 		});
 	},
 
@@ -34,7 +36,8 @@ export default handleActions({
 			},
 			isSelected: {$set: false},
 			isNew: {$set: false},
-			viewUpdate: {$set: false}
+			viewUpdate: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -59,7 +62,8 @@ export default handleActions({
 			isNew: {$set: false},
 			isSelected: {$set: action.data.selected},
 			coordIndex: {$set: action.data.index},
-			initLayer: {$set: false}
+			initLayer: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -68,6 +72,7 @@ export default handleActions({
 		let isNew = state.isNew;
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
+		let loadProject = false;
 
 		isNew = false;
 		delete views[view].clickareas[action.data];
@@ -83,13 +88,15 @@ export default handleActions({
 		return {
 			...state,
 			views,
-			isNew
+			isNew,
+			loadProject
 		};
 	},
 
 	UNSELECT_CLICKAREA: (state, action) => {
 		return update(state, {
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -108,7 +115,8 @@ export default handleActions({
 					}
 				}
 			},
-			clickareaName: {$set: action.data}
+			clickareaName: {$set: action.data},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -131,7 +139,8 @@ export default handleActions({
 			},
 			initLayer: {$set: true},
 			addLayer: {$set: false},
-			currentView: {$set: action.data.image}
+			currentView: {$set: action.data.image},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -154,7 +163,8 @@ export default handleActions({
 			isNew: {$set: false},
 			addLayer: {$set: true},
 			viewUpade: {$set: true},
-			currentView: {$set: currentView}
+			currentView: {$set: currentView},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -164,7 +174,8 @@ export default handleActions({
 			isSelected: {$set: true},
 			viewUpdate: {$set: true},
 			initLayer: {$set: false},
-			currentView: {$set: action.data.view}
+			currentView: {$set: action.data.view},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -183,14 +194,16 @@ export default handleActions({
 					}
 				}
 			},
-			eraseColor: {$set: false}
+			eraseColor: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
 	UPDATE_FILL: (state, action) => {
 		return update(state, {
 			fill: {$set: action.data},
-			isNew: {$set: false}
+			isNew: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -209,7 +222,38 @@ export default handleActions({
 					}
 				}
 			},
-			eraseColor: {$set: true}
+			eraseColor: {$set: true},
+			loadProject: {$set: false}
+		});
+	},
+
+	SELECT_TOOL: (state, action) => {
+		return update(state, {
+			tool: {$set: action.data},
+			loadProject: {$set: false}
+		});
+	},
+
+	LOAD_PROJECT: (state, action) => {
+		action.data = action.data.clickareas;
+
+		return update(state, {
+			addLayer: {$set: action.data.addLayer},
+			artistState: {$set: action.data.artistState},
+			artistSettings: {$set: action.data.artistSettings},
+			clickarea: {$set: action.data.clickarea},
+			clickareas: {$set: action.data.clickareas},
+			coordIndex: {$set: action.data.coordIndex},
+			currentView: {$set: action.data.currentView},
+			eraseColor: {$set: action.data.eraseColor},
+			fill: {$set: action.data.fill},
+			initLayer: {$set: action.data.initLayer},
+			isNew: {$set: action.data.isNew},
+			isSelected: {$set: action.data.isSelected},
+			loadProject: {$set: true},
+			tool: {$set: action.data.tool},
+			viewUpdate: {$set: action.data.viewUpdate},
+			views: {$set: action.data.views}
 		});
 	}
 }, {
@@ -219,6 +263,7 @@ export default handleActions({
 	coordIndex: 0,
 	currentView: '',
 	color: '#6ec2b3',
+	tool: 'pen',
 	fill: true,
 	addLayer: true,
 	initLayer: false,
@@ -226,5 +271,6 @@ export default handleActions({
 	eraseColor: false,
 	isSelected: false,
 	viewUpdate: false,
+	loadProject: false,
 	clickarea: { coords: null, goTo: 'Figure title' }
 });

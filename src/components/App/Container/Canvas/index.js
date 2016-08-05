@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import $ from 'jquery';
 import classnames from 'classnames';
 import Artist from './Artist';
-import { updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveArtistState, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
@@ -73,9 +73,9 @@ export default class Canvas extends Component {
 			views: views,
 			fill: fill,
 			image: image,
-			imageData: views[image].fileData,
-			nodes: views[image].nodes,
-			edges: views[image].edges,
+			imageData: (typeof views[image] === 'undefined') ? '' : views[image].fileData,
+			nodes: (typeof views[image] === 'undefined') ? '' : views[image].nodes,
+			edges: (typeof views[image] === 'undefined') ? '' : views[image].edges,
 			currentView: currentView,
 			backgroundImg: views[currentView],
 			tool: drawingTool,
@@ -86,6 +86,13 @@ export default class Canvas extends Component {
 			if (nextProps.eraseColor !== artState.eraseColor) {
 				artState.eraseColor = nextProps.eraseColor;
 				this.artist.update();
+			}
+
+			if (nextProps.prepareSave === true) {
+				this.props.dispatch(saveArtistState(
+					this.artist.state,
+					this.artist.settings
+				));
 			}
 
 			if (nextProps.addLayer === true) {
@@ -108,7 +115,8 @@ export default class Canvas extends Component {
 				this.artist.update();
 			}
 
-			if (nextProps.viewUpdate === true ||
+			if (nextProps.loadProject === true ||
+				nextProps.viewUpdate === true ||
 				this.state.currentView !== null &&
 				this.props.currentView !== nextProps.currentView) {
 				this.createNewArtist(nextProps, drawingTool);
@@ -207,11 +215,15 @@ const mapStateToProps = (state) => {
 		isSelected: state.clickareas.isSelected,
 		viewUpdate: state.clickareas.viewUpdate,
 		clickarea: state.clickareas.clickarea,
-		tool: state.controls.tool,
+		tool: state.clickareas.tool,
 		color: state.clickareas.color,
 		colors: state.clickareas.colors,
 		eraseColor: state.clickareas.eraseColor,
-		addLayer: state.clickareas.addLayer
+		addLayer: state.clickareas.addLayer,
+		loadProject: state.clickareas.loadProject,
+		prepareSave: state.clickareas.prepareSave,
+		artistState: state.clickareas.artistState,
+		artistSettings: state.clickareas.artistSettings
 	};
 };
 
