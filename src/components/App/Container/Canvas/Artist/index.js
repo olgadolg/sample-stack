@@ -6,7 +6,7 @@ import './styles/styles.css';
 
 export default class DrawVectors extends Component {
 
-	constructor (el, updateOverlayFn, removeOverlayFn, createOverlayFn, unselectOverlayFn, saveCopyFn, dispatch) {
+	constructor (el, updateOverlayFn, removeOverlayFn, createOverlayFn, unselectOverlayFn, saveCopyFn, setColorFn, dispatch) {
 		super();
 
 		const self = this;
@@ -47,6 +47,7 @@ export default class DrawVectors extends Component {
 			removeOverlayFn: removeOverlayFn,
 			createOverlayFn: createOverlayFn,
 			unselectOverlayFn: unselectOverlayFn,
+			setColorFn: setColorFn,
 			saveCopyFn: saveCopyFn,
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
@@ -290,7 +291,7 @@ export default class DrawVectors extends Component {
 					return;
 				}
 				d3.select(this).classed('selected', true);
-				self.updateClickarea();
+				//self.updateClickarea();
 				self.dragmove(d);
 			})
 			.on('dragend', function (d) {
@@ -324,7 +325,7 @@ export default class DrawVectors extends Component {
 					self.createDragBox();
 				}
 
-				self.updateClickarea();
+				//self.updateClickarea();
 				self.update();
 			})
 			.on('dragend', function (d, i) {
@@ -477,6 +478,7 @@ export default class DrawVectors extends Component {
 			if (this.state.tool === 'pen') {
 				this.state.init = true;
 				this.state.mouseDown = false;
+				this.settings.setColorFn('rgba(255, 255, 255, 0)');
 				this.settings.dispatch(this.settings.createOverlayFn('Daniel'));
 				d3.selectAll('.clickarea').style('stroke', '#fff');
 			}
@@ -934,6 +936,8 @@ export default class DrawVectors extends Component {
 					})
 					.on('mouseup', function (d) {
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
+						self.state.color = d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill');
+						self.settings.setColorFn(d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill'));
 						self.makePenAddPoint(self);
 					})
 					.call(self.dragClickarea);
@@ -1031,9 +1035,6 @@ export default class DrawVectors extends Component {
 
 	saveCopy () {
 		this.settings.dispatch(
-
-
-
 			this.settings.saveCopyFn(
 				{
 					nodes: this.state.nodes[this.settings.clickarea - 1],

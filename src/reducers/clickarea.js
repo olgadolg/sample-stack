@@ -228,7 +228,7 @@ export default handleActions({
 			fill: {$set: action.data},
 			isNew: {$set: false},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
 		});
 	},
 

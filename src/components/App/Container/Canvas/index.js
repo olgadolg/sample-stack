@@ -4,10 +4,10 @@ import Dropzone from 'react-dropzone';
 import $ from 'jquery';
 import classnames from 'classnames';
 import Artist from './Artist';
-import { saveCopy, saveArtistState, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
+import { saveCopy, saveArtistState, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 
 export default class Canvas extends Component {
 
@@ -19,11 +19,16 @@ export default class Canvas extends Component {
 			fill: false,
 			currentView: null,
 			backgroundImg: null,
+			backgroundColor: '#000',
 			nodes: null,
 			edges: null,
 			fileData: null,
-			name: null
+			name: null,
+			color: null,
+			colorClick: false
 		};
+
+		this.setColor = this.setColor.bind(this);
 	}
 
 	componentDidMount () {
@@ -34,6 +39,7 @@ export default class Canvas extends Component {
 			createClickarea,
 			unselectClickarea,
 			saveCopy,
+			this.setColor,
 			this.props.dispatch
 		);
 
@@ -85,17 +91,20 @@ export default class Canvas extends Component {
 			copy: nextProps.saveCopy
 		}, () => {
 			artState.colors = this.state.colors;
+
 			if (nextProps.eraseColor !== artState.eraseColor) {
 				artState.eraseColor = nextProps.eraseColor;
 				this.artist.update();
 			}
 
+			/*
 			if (nextProps.prepareSave === true) {
 				this.props.dispatch(saveArtistState(
 					this.artist.state,
 					this.artist.settings
 				));
 			}
+			*/
 
 			if (nextProps.addLayer === true) {
 				this.createNewArtist(nextProps, drawingTool);
@@ -106,57 +115,35 @@ export default class Canvas extends Component {
 				this.artist.showCanvas();
 			}
 
+			if (this.state.colorClick === false) {
+				this.setState({backgroundColor: nextProps.color});
+			}
+
+			if (artState.color !== nextProps.color) {
+				artState.color = nextProps.color;
+				this.setState({
+					backgroundColor: nextProps.color,
+					colorClick: false
+				});
+				this.artist.update();
+			}
+
 			if (drawingTool === 'copy' && nextProps.getCopy === true) {
 				this.artist.saveCopy();
 			}
 
-			if (nextProps.getCopy == false && nextProps.saveCopy === true) {
-
-				var arr = [];
-
-				for (var i = 0; i < this.artist.state.nodes.length; i++) {
-					arr.push(this.artist.state.nodes[i]);
-				}
-
-				/*
-				var array = [
-
-					[
-						{
-							x: 40,
-							y: 30
-						},
-						{
-							x: 80,
-							y: 90
-						}
-					],
-					[
-						{
-							x: 40,
-							y: 30
-						},
-						{
-							x: 80,
-							y: 90
-						}
-					]
-				]
-				*/
-
+			if (nextProps.getCopy === false && nextProps.saveCopy === true) {
 				var newArray = [];
 
-
-				for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea -1].length; i++) {
+				for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
 					var obj = {
-						x: this.artist.state.nodes[this.artist.settings.clickarea -1][i].x + 30,
-						y: this.artist.state.nodes[this.artist.settings.clickarea -1][i].y,
+						x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
+						y: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].y,
 						closed: true
-					}
+					};
 
 					newArray.push(obj);
 				}
-
 
 				var nodes = this.artist.state.nodes.concat([newArray]);
 				var edges = this.artist.state.edges.concat([nextProps.copy.edges]);
@@ -171,12 +158,13 @@ export default class Canvas extends Component {
 					createClickarea,
 					unselectClickarea,
 					saveCopy,
+					this.setColor,
 					this.props.dispatch
 				);
 
 				this.props.dispatch(makeClickarea(
 					{
-						color: nextProps.color,
+						color: this.state.backgroundColor,
 						coords: null,
 						goTo: 'Figure',
 						fill: true
@@ -190,18 +178,11 @@ export default class Canvas extends Component {
 				this.artist.update();
 				this.artist.updateClickarea();
 				this.artist.update();
-
 			}
 
 			if (artState.tool !== drawingTool) {
 				artState.tool = drawingTool;
 				this.artist.state.toolChange = true;
-
-				this.artist.update();
-			}
-
-			if (artState.color !== nextProps.color) {
-				artState.color = nextProps.color;
 				this.artist.update();
 			}
 
@@ -233,6 +214,13 @@ export default class Canvas extends Component {
 		});
 	}
 
+	setColor (color) {
+		this.setState({
+			backgroundColor: color,
+			colorClick: true
+		});
+	}
+
 	createNewArtist (nextProps, tool, nodes, edges) {
 		this.artist = new Artist(
 			this.refs.svgWrapper,
@@ -241,9 +229,9 @@ export default class Canvas extends Component {
 			createClickarea,
 			unselectClickarea,
 			saveCopy,
+			this.setColor,
 			this.props.dispatch
 		);
-
 
 		this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 		this.artist.state.tool = tool;
@@ -299,8 +287,6 @@ export default class Canvas extends Component {
 }
 
 const mapStateToProps = (state) => {
-
-
 	return {
 		clickareas: state.clickareas,
 		views: state.clickareas.views,
