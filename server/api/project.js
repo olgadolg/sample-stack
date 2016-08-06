@@ -1,5 +1,6 @@
 import fs from 'fs';
 import mkdirp from 'mkdirp';
+import config from 'config';
 
 const saveProject = (request, reply) => {
 	var json = JSON.stringify(request.payload);
@@ -15,7 +16,6 @@ const saveProject = (request, reply) => {
 
 const exportProject = (request, reply) => {
 	var stateObj = request.payload;
-	var json = JSON.stringify(request.payload, null, 2);
 	var projectName = request.payload.clickareas.projectName;
 	var apts = {};
 	var views = {};
@@ -31,23 +31,27 @@ const exportProject = (request, reply) => {
 			viewId: stateObj.clickareas.views[view].viewId,
 			clickarea: stateObj.clickareas.views[view].clickareas
 		};
+
+		for (var clickarea in stateObj.clickareas.views[view].clickareas) {
+			apts[stateObj.clickareas.views[view].clickareas[clickarea].goTo] = {
+				typeAptId: '0',
+				viewId: '0',
+				floor: '0',
+				rooms: '0',
+				size: '0',
+				price: '0',
+				fee: '0',
+				available: ''
+			};
+		}
 	}
 
-	for (var apt in stateObj.clickareas.views) {
-		apts[apt] = {
-			typeAptId: '0',
-			viewId: '0',
-			floor: '0',
-			rooms: '0',
-			size: '0',
-			price: '0',
-			fee: '0',
-			available: ''
-		};
-	}
-
-	mkdirp('./projects/' + projectName + '/n5assets_' + projectName + '/views', function (err) {
+	mkdirp(config.get('project_dir') + projectName + '/n5assets_' + projectName + '/views', function (err) {
 		if (err) return reply().code(401);
+
+		for (var view in stateObj.clickareas.views) {
+			fs.createReadStream('./assets/images/' + stateObj.clickareas.views[view].image).pipe(fs.createWriteStream('./projects/' + projectName + '/n5assets_' + projectName + '/views/' + stateObj.clickareas.views[view].image));
+		}
 
 		fs.writeFile('./projects/' + projectName + '/intApt.json', JSON.stringify(apts, null, 4), function (err) {
 			if (err) return reply().code(401);

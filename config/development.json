@@ -1,5 +1,7 @@
 {
-  "image_dir": "images/",
+  "image_dir": "./assets/images/",
+  "project_dir": "./projects/",
+
   "database": {
     "host": "mongodb://localhost/sample-stack"
   }
