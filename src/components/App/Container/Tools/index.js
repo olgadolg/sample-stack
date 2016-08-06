@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
-import { unselectClickarea } from '../../../../actions/clickarea';
+import { getCopy, unselectClickarea } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
@@ -18,6 +18,7 @@ export default class Toolbox extends Component {
 			penRemove: false,
 			select: false,
 			selectAll: true,
+			copy: false,
 			currentView: 'untitled 1'
 		};
 
@@ -59,6 +60,10 @@ export default class Toolbox extends Component {
 			}
 		}
 
+		if (type === 'copy') {
+			this.props.dispatch(getCopy());
+		}
+
 		this.setState(obj, () => {
 			var isSelected;
 
@@ -78,7 +83,9 @@ export default class Toolbox extends Component {
 					}
 				}
 
-				this.props.dispatch(selectTool(isSelected));
+				//if (type !== 'copy') {
+					this.props.dispatch(selectTool(isSelected));
+				//}
 			}
 		});
 	}

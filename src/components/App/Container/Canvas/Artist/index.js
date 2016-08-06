@@ -6,7 +6,7 @@ import './styles/styles.css';
 
 export default class DrawVectors extends Component {
 
-	constructor (el, updateOverlayFn, removeOverlayFn, createOverlayFn, unselectOverlayFn, dispatch) {
+	constructor (el, updateOverlayFn, removeOverlayFn, createOverlayFn, unselectOverlayFn, saveCopyFn, dispatch) {
 		super();
 
 		const self = this;
@@ -47,6 +47,7 @@ export default class DrawVectors extends Component {
 			removeOverlayFn: removeOverlayFn,
 			createOverlayFn: createOverlayFn,
 			unselectOverlayFn: unselectOverlayFn,
+			saveCopyFn: saveCopyFn,
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
 			backspace_key: 27,
@@ -108,9 +109,17 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	setState (state, clickareas) {
-		this.state.nodes = state.nodes;
-		this.state.edges = state.edges;
+	setState (state, clickareas, nodes, edges) {
+
+		if (typeof nodes !== 'undefined') {
+			this.settings.clickarea++;
+			this.state.nodes = nodes;
+			this.state.edges = edges;
+		} else {
+			this.state.nodes = state.nodes;
+			this.state.edges = state.edges;
+		}
+
 		this.state.isSelected = state.isSelected;
 		this.state.currentView = state.image;
 		this.state.props = clickareas;
@@ -843,6 +852,7 @@ export default class DrawVectors extends Component {
 
 				if (typeof views[currentView].clickareas[i] !== 'undefined') {
 					if ('color' in views[currentView].clickareas[i]) {
+						self.state.color = views[currentView].clickareas[i].color;
 						d3.select(this).style({'fill': views[currentView].clickareas[i].color});
 					} else {
 						d3.select(this).style({'fill': 'rgba(255, 255, 255)'});
@@ -976,7 +986,7 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	updateClickarea () {
-		this.state.pathData = d3.select('.clickarea' + this.settings.clickarea).attr('d');
+		this.state.pathData = d3.selectAll('.clickarea' + this.settings.clickarea).node().attributes.getNamedItem('d').value;
 		this.settings.dispatch(
 			this.settings.updateOverlayFn(
 				this.state.pathData,
@@ -1017,6 +1027,26 @@ export default class DrawVectors extends Component {
 				this.state.edges
 			)
 		);
+	}
+
+	saveCopy () {
+		this.settings.dispatch(
+
+
+
+			this.settings.saveCopyFn(
+				{
+					nodes: this.state.nodes[this.settings.clickarea - 1],
+					edges: this.state.edges[this.settings.clickarea - 1]
+				}
+			)
+		);
+	}
+
+	pasteClickarea (nodes, edges) {
+		this.state.nodes.push(nodes);
+		this.state.edges.push(edges);
+		this.update();
 	}
 
 	/**
@@ -1385,8 +1415,13 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	update (props) {
+	update (props, nodes, edges) {
 		this.state.props = props || this.state.props;
+
+		if (typeof nodes !== 'undefined') {
+			this.state.nodes = nodes;
+			this.state.edges = edges;
+		}
 
 		if (typeof this.state.nodes === 'undefined') {
 			return;

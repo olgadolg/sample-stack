@@ -51,3 +51,17 @@ export const removeColor = (bool) => (dispatch) => {
 		data: bool
 	});
 };
+
+export const getCopy = (copy) => (dispatch) => {
+	dispatch({
+		type: 'GET_COPY'
+	});
+};
+
+
+export const saveCopy = (copy) => (dispatch) => {
+	dispatch({
+		type: 'SAVE_COPY',
+		data: copy
+	});
+};

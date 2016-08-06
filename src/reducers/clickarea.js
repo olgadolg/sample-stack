@@ -11,7 +11,8 @@ export default handleActions({
 
 			},
 			isNew: {$set: true},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
 
 		});
 	},
@@ -21,6 +22,8 @@ export default handleActions({
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = Object.keys(views[view].clickareas).length;
+
+		console.log('coordIndex', coordIndex, action.data.clickarea);
 
 		return update(state, {
 			views: {
@@ -38,7 +41,8 @@ export default handleActions({
 			isNew: {$set: false},
 			viewUpdate: {$set: false},
 			loadProject: {$set: false},
-			scope: {$set: 'figure'}
+			scope: {$set: 'figure'},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -65,7 +69,8 @@ export default handleActions({
 			coordIndex: {$set: action.data.index},
 			initLayer: {$set: false},
 			loadProject: {$set: false},
-			scope: {$set: 'figure'}
+			scope: {$set: 'figure'},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -99,7 +104,8 @@ export default handleActions({
 		return update(state, {
 			isSelected: {$set: false},
 			loadProject: {$set: false},
-			scope: {$set: 'project'}
+			scope: {$set: 'project'},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -121,12 +127,14 @@ export default handleActions({
 				},
 				clickareaName: {$set: action.data.html},
 				loadProject: {$set: false},
-				scope: {$set: action.data.scope}
+				scope: {$set: action.data.scope},
+				saveCopy: {$set: false}
 			});
 		} else {
 			return update(state, {
 				projectName: {$set: action.data.html},
-				scope: {$set: action.data.scope}
+				scope: {$set: action.data.scope},
+				saveCopy: {$set: false}
 			});
 		}
 	},
@@ -151,7 +159,8 @@ export default handleActions({
 			initLayer: {$set: true},
 			addLayer: {$set: false},
 			currentView: {$set: action.data.image},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -175,7 +184,8 @@ export default handleActions({
 			addLayer: {$set: true},
 			viewUpade: {$set: true},
 			currentView: {$set: currentView},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -186,7 +196,8 @@ export default handleActions({
 			viewUpdate: {$set: true},
 			initLayer: {$set: false},
 			currentView: {$set: action.data.view},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -206,7 +217,9 @@ export default handleActions({
 				}
 			},
 			eraseColor: {$set: false},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false},
+			color: {$set: action.data.hex}
 		});
 	},
 
@@ -214,7 +227,8 @@ export default handleActions({
 		return update(state, {
 			fill: {$set: action.data},
 			isNew: {$set: false},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
 		});
 	},
 
@@ -234,14 +248,42 @@ export default handleActions({
 				}
 			},
 			eraseColor: {$set: true},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
 		});
 	},
 
 	SELECT_TOOL: (state, action) => {
 		return update(state, {
 			tool: {$set: action.data},
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			saveCopy: {$set: false}
+		});
+	},
+
+	SAVE_COPY: (state, action) => {
+
+		console.log('action2', action.data.nodes)
+
+		return update(state, {
+			copy: {$set: action.data},
+			isNew: {$set: false},
+			isSelected: {$set: false},
+			viewUpdate: {$set: false},
+			initLayer: {$set: false},
+			loadProject: {$set: false},
+			saveCopy: {$set: true},
+			getCopy: {$set: false},
+			coordIndex: {$set: state.coordIndex++}
+		});
+	},
+
+	GET_COPY: (state, action) => {
+		return update(state, {
+			saveCopy: {$set: false},
+			getCopy: {$set: true},
+			copy: {$set: {}}
+
 		});
 	},
 
@@ -287,5 +329,8 @@ export default handleActions({
 	loadProject: false,
 	projectName: '',
 	scope: 'project',
+	copy: {},
+	saveCopy: false,
+	getCopy: false,
 	clickarea: { coords: null, goTo: '' }
 });

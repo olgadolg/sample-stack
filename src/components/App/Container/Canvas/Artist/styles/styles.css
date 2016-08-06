@@ -28,10 +28,6 @@
   stroke-width: 1.5px;
 }
 
-.clickarea.selected {
-  cursor: move;
-}
-
 .d3-tooltip {
 	position: absolute;
 	background: #fff;

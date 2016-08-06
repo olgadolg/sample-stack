@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import $ from 'jquery';
 import classnames from 'classnames';
 import Artist from './Artist';
-import { saveArtistState, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveCopy, saveArtistState, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
@@ -33,6 +33,7 @@ export default class Canvas extends Component {
 			removeClickarea,
 			createClickarea,
 			unselectClickarea,
+			saveCopy,
 			this.props.dispatch
 		);
 
@@ -80,7 +81,8 @@ export default class Canvas extends Component {
 			backgroundImg: views[currentView],
 			tool: drawingTool,
 			color: nextProps.color,
-			colors: nextProps.colors
+			colors: nextProps.colors,
+			copy: nextProps.saveCopy
 		}, () => {
 			artState.colors = this.state.colors;
 			if (nextProps.eraseColor !== artState.eraseColor) {
@@ -104,9 +106,97 @@ export default class Canvas extends Component {
 				this.artist.showCanvas();
 			}
 
+			if (drawingTool === 'copy' && nextProps.getCopy === true) {
+				this.artist.saveCopy();
+			}
+
+			if (nextProps.getCopy == false && nextProps.saveCopy === true) {
+
+				var arr = [];
+
+				for (var i = 0; i < this.artist.state.nodes.length; i++) {
+					arr.push(this.artist.state.nodes[i]);
+				}
+
+				/*
+				var array = [
+
+					[
+						{
+							x: 40,
+							y: 30
+						},
+						{
+							x: 80,
+							y: 90
+						}
+					],
+					[
+						{
+							x: 40,
+							y: 30
+						},
+						{
+							x: 80,
+							y: 90
+						}
+					]
+				]
+				*/
+
+				var newArray = [];
+
+
+				for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea -1].length; i++) {
+					var obj = {
+						x: this.artist.state.nodes[this.artist.settings.clickarea -1][i].x + 30,
+						y: this.artist.state.nodes[this.artist.settings.clickarea -1][i].y,
+						closed: true
+					}
+
+					newArray.push(obj);
+				}
+
+
+				var nodes = this.artist.state.nodes.concat([newArray]);
+				var edges = this.artist.state.edges.concat([nextProps.copy.edges]);
+
+				$('.overlay').remove();
+				this.props.dispatch(createClickarea());
+
+				this.artist = new Artist(
+					this.refs.svgWrapper,
+					updateClickarea,
+					removeClickarea,
+					createClickarea,
+					unselectClickarea,
+					saveCopy,
+					this.props.dispatch
+				);
+
+				this.props.dispatch(makeClickarea(
+					{
+						color: nextProps.color,
+						coords: null,
+						goTo: 'Figure',
+						fill: true
+					},
+					this.state.currentView,
+					nodes,
+					edges
+				));
+
+				this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
+				this.artist.update();
+				this.artist.updateClickarea();
+				this.artist.update();
+
+			}
+
 			if (artState.tool !== drawingTool) {
 				artState.tool = drawingTool;
 				this.artist.state.toolChange = true;
+
 				this.artist.update();
 			}
 
@@ -143,17 +233,19 @@ export default class Canvas extends Component {
 		});
 	}
 
-	createNewArtist (nextProps, tool) {
+	createNewArtist (nextProps, tool, nodes, edges) {
 		this.artist = new Artist(
 			this.refs.svgWrapper,
 			updateClickarea,
 			removeClickarea,
 			createClickarea,
 			unselectClickarea,
+			saveCopy,
 			this.props.dispatch
 		);
 
-		this.artist.setState(this.state, nextProps.clickareas);
+
+		this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 		this.artist.state.tool = tool;
 		this.artist.state.colors = this.state.colors;
 		this.artist.update();
@@ -207,6 +299,8 @@ export default class Canvas extends Component {
 }
 
 const mapStateToProps = (state) => {
+
+
 	return {
 		clickareas: state.clickareas,
 		views: state.clickareas.views,
@@ -224,7 +318,10 @@ const mapStateToProps = (state) => {
 		loadProject: state.clickareas.loadProject,
 		prepareSave: state.clickareas.prepareSave,
 		artistState: state.clickareas.artistState,
-		artistSettings: state.clickareas.artistSettings
+		artistSettings: state.clickareas.artistSettings,
+		copy: state.clickareas.copy,
+		saveCopy: state.clickareas.saveCopy,
+		getCopy: state.clickareas.getCopy
 	};
 };
 
