@@ -172,6 +172,7 @@ export default class Canvas extends Component {
 		reader.onload = ((theFile) => {
 			return (e) => {
 				this.setState({
+					files: files,
 					fileData: e.target.result,
 					name: theFile.name
 				}, () => {

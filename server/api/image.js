@@ -3,11 +3,20 @@ import path from 'path';
 import config from 'config';
 
 const addImage = (request, reply) => {
-	const dir = path.join(__dirname, '..', '..', 'src', config.get('image_dir'));
+
+	console.log(request.payload)
+
+	/*
+	const dir = path.join(__dirname, '..', '..', 'src', '/assets/images');
 	fs.writeFile(dir + request.payload.filename, request.payload.img_attach._data, function (error) {
 		if (error) return reply(error);
+		console.log(error)
+
 		return reply().code(200);
 	});
+	*/
+
+	return reply().code(200);
 };
 
 exports.register = (server, options, next) => {
