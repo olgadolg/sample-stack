@@ -7,7 +7,7 @@ import Artist from './Artist';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
-import { saveCopy, saveArtistState, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 
 export default class Canvas extends Component {
 
@@ -31,19 +31,6 @@ export default class Canvas extends Component {
 		this.setColor = this.setColor.bind(this);
 	}
 
-	createArtist () {
-		this.artist = new Artist(
-			this.refs.svgWrapper,
-			updateClickarea,
-			removeClickarea,
-			createClickarea,
-			unselectClickarea,
-			saveCopy,
-			this.setColor,
-			this.props.dispatch
-		);
-	}
-
 	componentDidMount () {
 		this.createArtist();
 		this.artist.update(this.state);
@@ -63,20 +50,14 @@ export default class Canvas extends Component {
 		const currentView = nextProps.currentView;
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
 		const tool = nextProps.tool;
-		let artState = this.artist.state;
-		let drawingTool;
+		const artState = this.artist.state;
+		const drawingTool = (typeof tool === 'undefined') ? 'pen' : tool;
 
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
 		if (this.props.currentView !== nextProps.currentView) {
 			this.artist.state.shapeIsSelected = false;
-		}
-
-		if (typeof tool === 'undefined') {
-			drawingTool = 'pen';
-		} else {
-			drawingTool = tool;
 		}
 
 		this.setState({
@@ -93,15 +74,7 @@ export default class Canvas extends Component {
 			colors: nextProps.colors,
 			copy: nextProps.saveCopy
 		}, () => {
-			if (nextProps.addLayer === true) {
-				this.createArtist();
-				this.updateArtist(nextProps, drawingTool);
-				this.artist.setState(this.state, nextProps.clickareas);
-				this.artist.state.tool = tool;
-				this.artist.hideCanvas();
-			} else {
-				this.artist.showCanvas();
-			}
+			this.addLayer(nextProps, drawingTool, tool);
 
 			if (this.state.colorClick === false) {
 				this.setState({backgroundColor: nextProps.color});
@@ -114,67 +87,113 @@ export default class Canvas extends Component {
 				});
 			}
 
-			if (drawingTool === 'copy' && nextProps.getCopy === true) {
-				this.artist.saveCopy();
-			}
-
-			if (nextProps.getCopy === false && nextProps.saveCopy === true) {
-				let clone = this.createClone(nextProps);
-
-				this.props.dispatch(createClickarea());
-				this.createArtist();
-				this.props.dispatch(makeClickarea(
-					{
-						color: this.state.backgroundColor,
-						coords: null,
-						goTo: 'Figure',
-						fill: true
-					},
-					this.state.currentView,
-					clone.nodes,
-					clone.edges
-				));
-
-				this.artist.setState(this.state, nextProps.clickareas, clone.nodes, clone.edges);
-				this.artist.update();
-				this.artist.updateClickarea();
-				this.artist.update();
-			}
-
-			if (artState.tool !== drawingTool) {
-				artState.tool = drawingTool;
-				this.artist.state.toolChange = true;
-				this.artist.update();
-			}
-
-			if (nextProps.loadProject === true ||
-				nextProps.viewUpdate === true ||
-				this.state.currentView !== null &&
-				this.props.currentView !== nextProps.currentView) {
-				this.createArtist();
-				this.updateArtist(nextProps, drawingTool);
-				artState.tool = tool;
-				artState.viewUpdate = true;
-			}
-
-			if (this.state.currentView !== null &&
-				this.props.currentView !== nextProps.currentView) {
-				this.props.dispatch(selectTool('pen'));
-			}
-
-			if (nextProps.clickareas.isNew === true) {
-				artState.currentView = views[index].viewId;
-
-				this.props.dispatch(makeClickarea(
-					nextProps.clickarea,
-					this.state.currentView,
-					artState.nodes,
-					artState.edges
-				));
-
-				this.openClickarea(nextProps);
-			}
+			this.saveCopy(nextProps, drawingTool);
+			this.addCopy(nextProps);
+			this.changeTool(drawingTool, artState);
+			this.loadLayers(nextProps, drawingTool, artState, tool);
+			this.resetTool(nextProps);
+			this.createNewFigure(nextProps, views, index, artState);
 		});
+	}
+
+	createArtist () {
+		this.artist = new Artist(
+			this.refs.svgWrapper,
+			updateClickarea,
+			removeClickarea,
+			createClickarea,
+			unselectClickarea,
+			saveCopy,
+			this.setColor,
+			this.props.dispatch
+		);
+	}
+
+	saveCopy (nextProps, drawingTool) {
+		if (drawingTool === 'copy' && nextProps.getCopy === true) {
+			this.artist.saveCopy();
+		}
+	}
+
+	createNewFigure (nextProps, views, index, artState) {
+		if (nextProps.clickareas.isNew === true) {
+			artState.currentView = views[index].viewId;
+
+			this.props.dispatch(makeClickarea(
+				nextProps.clickarea,
+				this.state.currentView,
+				artState.nodes,
+				artState.edges
+			));
+
+			if (nextProps.tool === 'pen') {
+				this.artist.createClickarea();
+			}
+		}
+	}
+
+	loadLayers (nextProps, drawingTool, artState, tool) {
+		if (nextProps.loadProject === true ||
+			nextProps.viewUpdate === true ||
+			this.state.currentView !== null &&
+			this.props.currentView !== nextProps.currentView) {
+			this.createArtist();
+			this.updateArtist(nextProps, drawingTool);
+			artState.tool = tool;
+			artState.viewUpdate = true;
+		}
+	}
+
+	resetTool (nextProps) {
+		if (this.state.currentView !== null &&
+			this.props.currentView !== nextProps.currentView) {
+			this.props.dispatch(selectTool('pen'));
+		}
+	}
+
+	changeTool (drawingTool, artState) {
+		if (artState.tool !== drawingTool) {
+			artState.tool = drawingTool;
+			this.artist.state.toolChange = true;
+			this.artist.update();
+		}
+	}
+
+	addCopy (nextProps) {
+		if (nextProps.getCopy === false && nextProps.saveCopy === true) {
+			let clone = this.createClone(nextProps);
+
+			this.props.dispatch(createClickarea());
+			this.createArtist();
+			this.props.dispatch(makeClickarea(
+				{
+					color: this.state.backgroundColor,
+					coords: null,
+					goTo: 'Figure',
+					fill: true
+				},
+				this.state.currentView,
+				clone.nodes,
+				clone.edges
+			));
+
+			this.artist.setState(this.state, nextProps.clickareas, clone.nodes, clone.edges);
+			this.artist.update();
+			this.artist.updateClickarea();
+			this.artist.update();
+		}
+	}
+
+	addLayer (nextProps, drawingTool, tool) {
+		if (nextProps.addLayer === true) {
+			this.createArtist();
+			this.updateArtist(nextProps, drawingTool);
+			this.artist.setState(this.state, nextProps.clickareas);
+			this.artist.state.tool = tool;
+			this.artist.hideCanvas();
+		} else {
+			this.artist.showCanvas();
+		}
 	}
 
 	setColor (color) {
@@ -207,12 +226,6 @@ export default class Canvas extends Component {
 		this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 		this.artist.state.tool = tool;
 		this.artist.update();
-	}
-
-	openClickarea (nextProps) {
-		if (nextProps.tool === 'pen') {
-			this.artist.createClickarea();
-		}
 	}
 
 	handleDrop (files) {
