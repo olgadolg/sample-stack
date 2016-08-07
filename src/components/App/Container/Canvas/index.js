@@ -28,7 +28,8 @@ export default class Canvas extends Component {
 			colorClick: false
 		};
 
-		this.setColor = this.setColor.bind(this);
+		this.updateColor = this.updateColor.bind(this);
+		this.setColoronFigureClick = this.setColoronFigureClick.bind(this);
 	}
 
 	componentDidMount () {
@@ -75,18 +76,8 @@ export default class Canvas extends Component {
 			copy: nextProps.saveCopy
 		}, () => {
 			this.addLayer(nextProps, drawingTool, tool);
-
-			if (this.state.colorClick === false) {
-				this.setState({backgroundColor: nextProps.color});
-			}
-
-			if (artState.color !== nextProps.color) {
-				this.setState({
-					backgroundColor: nextProps.color,
-					colorClick: false
-				});
-			}
-
+			this.updateColor(nextProps);
+			this.setColor(nextProps, artState);
 			this.saveCopy(nextProps, drawingTool);
 			this.addCopy(nextProps);
 			this.changeTool(drawingTool, artState);
@@ -104,7 +95,7 @@ export default class Canvas extends Component {
 			createClickarea,
 			unselectClickarea,
 			saveCopy,
-			this.setColor,
+			this.setColoronFigureClick,
 			this.props.dispatch
 		);
 	}
@@ -196,7 +187,22 @@ export default class Canvas extends Component {
 		}
 	}
 
-	setColor (color) {
+	updateColor (nextProps) {
+		if (this.state.colorClick === false) {
+			this.setState({backgroundColor: nextProps.color});
+		}
+	}
+
+	setColor (nextProps, artState) {
+		if (artState.color !== nextProps.color) {
+			this.setState({
+				backgroundColor: nextProps.color,
+				colorClick: false
+			});
+		}
+	}
+
+	setColoronFigureClick (color) {
 		this.setState({
 			backgroundColor: color,
 			colorClick: true
