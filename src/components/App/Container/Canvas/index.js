@@ -74,7 +74,6 @@ export default class Canvas extends Component {
 			color: nextProps.color,
 			copy: nextProps.saveCopy
 		}, () => {
-			this.pasteClickarea(nextProps, drawingTool);
 			this.cutFigure(nextProps, drawingTool);
 			this.addLayer(nextProps, drawingTool, tool);
 			this.updateColor(nextProps);
@@ -85,6 +84,7 @@ export default class Canvas extends Component {
 			this.loadLayers(nextProps, drawingTool, artState, tool);
 			this.resetTool(nextProps);
 			this.createNewFigure(nextProps, views, index, artState);
+			this.pasteClickarea(nextProps, drawingTool);
 		});
 	}
 
@@ -173,8 +173,13 @@ export default class Canvas extends Component {
 
 	pasteClickarea (nextProps) {
 		if (nextProps.pasteClickarea === true) {
+
+			console.log('is here.............')
+
 			let nodes = this.artist.state.nodes.concat(nextProps.cutItem.nodes);
 			let edges = this.artist.state.edges.concat(nextProps.cutItem.edges);
+
+			console.log('nodesssssssss', nodes)
 
 			this.props.dispatch(createClickarea());
 			this.createArtist();

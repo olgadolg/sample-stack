@@ -1420,6 +1420,8 @@ export default class DrawVectors extends Component {
 	update (props) {
 		this.state.props = props || this.state.props;
 
+		console.log('fdskljdklsfjfdskdfs', this.state.nodes)
+
 		if (typeof this.state.nodes === 'undefined' ||
 			this.state.nodes.length === 0) {
 			return;

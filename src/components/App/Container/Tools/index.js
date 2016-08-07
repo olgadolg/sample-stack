@@ -68,8 +68,10 @@ export default class Toolbox extends Component {
 			$('.cutIcon').toggleClass('paste');
 
 			if ($('.cutIcon').hasClass('paste')) {
+				console.log('hasclasspaste')
 				this.props.dispatch(cutClickarea());
 			} else {
+				console.log('hasnot....classpaste')
 				this.props.dispatch(pasteClickarea());
 			}
 		}
