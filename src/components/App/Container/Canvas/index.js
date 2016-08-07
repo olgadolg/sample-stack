@@ -72,7 +72,6 @@ export default class Canvas extends Component {
 			backgroundImg: views[currentView],
 			tool: drawingTool,
 			color: nextProps.color,
-			colors: nextProps.colors,
 			copy: nextProps.saveCopy
 		}, () => {
 			this.addLayer(nextProps, drawingTool, tool);
@@ -287,11 +286,8 @@ const mapStateToProps = (state) => {
 		clickarea: state.clickareas.clickarea,
 		tool: state.clickareas.tool,
 		color: state.clickareas.color,
-		colors: state.clickareas.colors,
-		eraseColor: state.clickareas.eraseColor,
 		addLayer: state.clickareas.addLayer,
 		loadProject: state.clickareas.loadProject,
-		prepareSave: state.clickareas.prepareSave,
 		artistState: state.clickareas.artistState,
 		artistSettings: state.clickareas.artistSettings,
 		copy: state.clickareas.copy,

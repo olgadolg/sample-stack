@@ -43,7 +43,7 @@ export default class Header extends Component {
 			width: '450px',
 			height: 'auto',
 			position: 'absolute',
-			right: '155px',
+			right: '125px',
 			top: '16px'
 		};
 
