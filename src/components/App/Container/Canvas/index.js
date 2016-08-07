@@ -7,7 +7,7 @@ import Artist from './Artist';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
-import { saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 
 export default class Canvas extends Component {
 
@@ -74,6 +74,7 @@ export default class Canvas extends Component {
 			color: nextProps.color,
 			copy: nextProps.saveCopy
 		}, () => {
+			this.cutFigure(nextProps, drawingTool);
 			this.addLayer(nextProps, drawingTool, tool);
 			this.updateColor(nextProps);
 			this.setColor(nextProps, artState);
@@ -97,6 +98,29 @@ export default class Canvas extends Component {
 			this.setColoronFigureClick,
 			this.props.dispatch
 		);
+	}
+
+	cutFigure (nextProps, drawingTool) {
+		if (nextProps.cut === true) {
+			var self = this;
+			$.when(this.createDfClone(nextProps))
+				.then(function (clone) {
+					let classList = $('.overlay.selected').attr('class');
+					let index = parseInt(classList.replace(/^\D+/g, ''));
+
+					console.log('index......', index);
+
+					let cutNodes = self.artist.state.nodes.splice(index - 1, 1);
+					let cutEdges = self.artist.state.edges.splice(index - 1, 1);
+
+					self.props.dispatch(saveCut(cutNodes, cutEdges));
+
+					self.createArtist();
+					self.updateArtist(nextProps, drawingTool);
+					self.artist.update();
+				}
+			);
+		}
 	}
 
 	saveCopy (nextProps, drawingTool) {
@@ -227,6 +251,28 @@ export default class Canvas extends Component {
 		};
 	}
 
+	createDfClone (nextProps) {
+		var df = $.Deferred();
+		var newArray = [];
+
+		for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
+			var obj = {
+				x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
+				y: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].y,
+				closed: true
+			};
+
+			newArray.push(obj);
+		}
+
+		df.resolve({
+			nodes: this.artist.state.nodes.concat([newArray]),
+			edges: this.artist.state.edges.concat([nextProps.copy.edges])
+		});
+
+		return df.promise();
+	}
+
 	updateArtist (nextProps, tool, nodes, edges) {
 		this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 		this.artist.state.tool = tool;
@@ -292,7 +338,10 @@ const mapStateToProps = (state) => {
 		artistSettings: state.clickareas.artistSettings,
 		copy: state.clickareas.copy,
 		saveCopy: state.clickareas.saveCopy,
-		getCopy: state.clickareas.getCopy
+		getCopy: state.clickareas.getCopy,
+		cut: state.clickareas.cut,
+		paste: state.clickareas.paste,
+		cutItem: state.clickareas.cutItem
 	};
 };
 

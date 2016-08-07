@@ -12,7 +12,9 @@ export default handleActions({
 			},
 			isNew: {$set: true},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 
 		});
 	},
@@ -22,8 +24,6 @@ export default handleActions({
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = Object.keys(views[view].clickareas).length;
-
-		console.log('coordIndex', coordIndex, action.data.clickarea);
 
 		return update(state, {
 			views: {
@@ -42,7 +42,9 @@ export default handleActions({
 			viewUpdate: {$set: false},
 			loadProject: {$set: false},
 			scope: {$set: 'figure'},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -70,7 +72,9 @@ export default handleActions({
 			initLayer: {$set: false},
 			loadProject: {$set: false},
 			scope: {$set: 'figure'},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -105,7 +109,9 @@ export default handleActions({
 			isSelected: {$set: false},
 			loadProject: {$set: false},
 			scope: {$set: 'project'},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -128,13 +134,17 @@ export default handleActions({
 				clickareaName: {$set: action.data.html},
 				loadProject: {$set: false},
 				scope: {$set: action.data.scope},
-				saveCopy: {$set: false}
+				saveCopy: {$set: false},
+				cut: {$set: false},
+				paste: {$set: false}
 			});
 		} else {
 			return update(state, {
 				projectName: {$set: action.data.html},
 				scope: {$set: action.data.scope},
-				saveCopy: {$set: false}
+				saveCopy: {$set: false},
+				cut: {$set: false},
+				paste: {$set: false}
 			});
 		}
 	},
@@ -160,7 +170,9 @@ export default handleActions({
 			addLayer: {$set: false},
 			currentView: {$set: action.data.image},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -185,7 +197,9 @@ export default handleActions({
 			viewUpade: {$set: true},
 			currentView: {$set: currentView},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -197,7 +211,9 @@ export default handleActions({
 			initLayer: {$set: false},
 			currentView: {$set: action.data.view},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -219,7 +235,9 @@ export default handleActions({
 			eraseColor: {$set: false},
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
-			color: {$set: action.data.hex}
+			color: {$set: action.data.hex},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -229,6 +247,8 @@ export default handleActions({
 			isNew: {$set: false},
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -249,7 +269,9 @@ export default handleActions({
 			},
 			eraseColor: {$set: true},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -257,14 +279,13 @@ export default handleActions({
 		return update(state, {
 			tool: {$set: action.data},
 			loadProject: {$set: false},
-			saveCopy: {$set: false}
+			saveCopy: {$set: false},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
 	SAVE_COPY: (state, action) => {
-
-		console.log('action2', action.data.nodes)
-
 		return update(state, {
 			copy: {$set: action.data},
 			isNew: {$set: false},
@@ -274,7 +295,9 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: true},
 			getCopy: {$set: false},
-			coordIndex: {$set: state.coordIndex++}
+			coordIndex: {$set: state.coordIndex++},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 
@@ -282,8 +305,51 @@ export default handleActions({
 		return update(state, {
 			saveCopy: {$set: false},
 			getCopy: {$set: true},
-			copy: {$set: {}}
+			copy: {$set: {}},
+			cut: {$set: false},
+			paste: {$set: false}
 
+		});
+	},
+
+	CUT_CLICKAREA: (state, action) => {
+		let views = state.views;
+		let currentView = state.currentView;
+		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
+
+		delete views[view].clickareas[state.coordIndex];
+
+		// update keys after delete
+		for (var i in views[view].clickareas) {
+			if (i > state.coordIndex) {
+				views[view].clickareas[i - 1] = views[view].clickareas[i];
+				delete views[view].clickareas[i];
+			}
+		}
+
+		return update(state, {
+			cut: {$set: true},
+			cutItem: {$set: {}},
+			paste: {$set: false}
+
+		});
+	},
+
+	SAVE_CUT: (state, action) => {
+		return update(state, {
+			cutItem: {$set: {
+				nodes: action.data.nodes,
+				edges: action.data.edges
+			}},
+			cut: {$set: false},
+			paste: {$set: false}
+		});
+	},
+
+	PASTE_CUT: (state, action) => {
+		return update(state, {
+			paste: {$set: true},
+			cut: {$set: false}
 		});
 	},
 
@@ -332,5 +398,8 @@ export default handleActions({
 	copy: {},
 	saveCopy: false,
 	getCopy: false,
+	cut: false,
+	paste: false,
+	cutItem: {},
 	clickarea: { coords: null, goTo: '' }
 });

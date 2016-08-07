@@ -1417,15 +1417,11 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	update (props, nodes, edges) {
+	update (props) {
 		this.state.props = props || this.state.props;
 
-		if (typeof nodes !== 'undefined') {
-			this.state.nodes = nodes;
-			this.state.edges = edges;
-		}
-
-		if (typeof this.state.nodes === 'undefined') {
+		if (typeof this.state.nodes === 'undefined' ||
+			this.state.nodes.length === 0) {
 			return;
 		}
 

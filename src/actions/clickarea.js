@@ -58,10 +58,31 @@ export const getCopy = (copy) => (dispatch) => {
 	});
 };
 
-
 export const saveCopy = (copy) => (dispatch) => {
 	dispatch({
 		type: 'SAVE_COPY',
 		data: copy
+	});
+};
+
+export const cutClickarea = () => (dispatch) => {
+	dispatch({
+		type: 'CUT_CLICKAREA'
+	});
+};
+
+export const saveCut = (nodes, edges) => (dispatch) => {
+	dispatch({
+		type: 'SAVE_CUT',
+		data: {
+			nodes: nodes,
+			edges: edges
+		}
+	});
+};
+
+export const pasteCut = () => (dispatch) => {
+	dispatch({
+		type: 'PASTE_CUT'
 	});
 };

@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
-import { getCopy, unselectClickarea } from '../../../../actions/clickarea';
+import { getCopy, cutClickarea, unselectClickarea } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
@@ -19,7 +19,8 @@ export default class Toolbox extends Component {
 			select: false,
 			selectAll: true,
 			copy: false,
-			currentView: 'untitled 1'
+			currentView: 'untitled 1',
+			cut: false
 		};
 
 		this.handelClick = this.handleClick.bind(this);
@@ -55,13 +56,20 @@ export default class Toolbox extends Component {
 		for (var item in this.state) {
 			if (type === item) {
 				obj[type] = true;
-			} else if (item !== 'currentView') {
+			} else if (item !== 'currentView' && item !== 'cut') {
 				obj[item] = false;
 			}
 		}
 
 		if (type === 'copy') {
 			this.props.dispatch(getCopy());
+		}
+
+		if (type === 'cut') {
+			//this.setState({cut: !this.state.cut}, () => {
+
+			//});
+			this.props.dispatch(cutClickarea());
 		}
 
 		this.setState(obj, () => {
