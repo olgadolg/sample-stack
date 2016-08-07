@@ -86,3 +86,9 @@ export const pasteCut = () => (dispatch) => {
 		type: 'PASTE_CUT'
 	});
 };
+
+export const pasteClickarea = () => (dispatch) => {
+	dispatch({
+		type: 'PASTE_CLICKAREA'
+	});
+};

@@ -74,6 +74,7 @@ export default class Canvas extends Component {
 			color: nextProps.color,
 			copy: nextProps.saveCopy
 		}, () => {
+			this.pasteClickarea(nextProps, drawingTool);
 			this.cutFigure(nextProps, drawingTool);
 			this.addLayer(nextProps, drawingTool, tool);
 			this.updateColor(nextProps);
@@ -107,9 +108,6 @@ export default class Canvas extends Component {
 				.then(function (clone) {
 					let classList = $('.overlay.selected').attr('class');
 					let index = parseInt(classList.replace(/^\D+/g, ''));
-
-					console.log('index......', index);
-
 					let cutNodes = self.artist.state.nodes.splice(index - 1, 1);
 					let cutEdges = self.artist.state.edges.splice(index - 1, 1);
 
@@ -169,6 +167,33 @@ export default class Canvas extends Component {
 		if (artState.tool !== drawingTool) {
 			artState.tool = drawingTool;
 			this.artist.state.toolChange = true;
+			this.artist.update();
+		}
+	}
+
+	pasteClickarea (nextProps) {
+		if (nextProps.pasteClickarea === true) {
+			let nodes = this.artist.state.nodes.concat(nextProps.cutItem.nodes);
+			let edges = this.artist.state.edges.concat(nextProps.cutItem.edges);
+
+			this.props.dispatch(createClickarea());
+			this.createArtist();
+
+			this.props.dispatch(makeClickarea(
+				{
+					color: this.state.backgroundColor,
+					coords: null,
+					goTo: 'Figure',
+					fill: true
+				},
+				this.state.currentView,
+				nodes,
+				edges
+			));
+
+			this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
+			this.artist.update();
+			this.artist.updateClickarea();
 			this.artist.update();
 		}
 	}
@@ -341,7 +366,8 @@ const mapStateToProps = (state) => {
 		getCopy: state.clickareas.getCopy,
 		cut: state.clickareas.cut,
 		paste: state.clickareas.paste,
-		cutItem: state.clickareas.cutItem
+		cutItem: state.clickareas.cutItem,
+		pasteClickarea: state.clickareas.pasteClickarea
 	};
 };
 

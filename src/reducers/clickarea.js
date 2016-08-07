@@ -14,8 +14,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
-
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -44,7 +44,8 @@ export default handleActions({
 			scope: {$set: 'figure'},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -74,7 +75,8 @@ export default handleActions({
 			scope: {$set: 'figure'},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -111,7 +113,8 @@ export default handleActions({
 			scope: {$set: 'project'},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -136,7 +139,8 @@ export default handleActions({
 				scope: {$set: action.data.scope},
 				saveCopy: {$set: false},
 				cut: {$set: false},
-				paste: {$set: false}
+				paste: {$set: false},
+				pasteClickarea: {$set: false}
 			});
 		} else {
 			return update(state, {
@@ -144,7 +148,8 @@ export default handleActions({
 				scope: {$set: action.data.scope},
 				saveCopy: {$set: false},
 				cut: {$set: false},
-				paste: {$set: false}
+				paste: {$set: false},
+				pasteClickarea: {$set: false}
 			});
 		}
 	},
@@ -172,7 +177,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -199,7 +205,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -213,7 +220,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -237,7 +245,8 @@ export default handleActions({
 			saveCopy: {$set: false},
 			color: {$set: action.data.hex},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -248,7 +257,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -271,7 +281,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -281,7 +292,8 @@ export default handleActions({
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -297,7 +309,8 @@ export default handleActions({
 			getCopy: {$set: false},
 			coordIndex: {$set: state.coordIndex++},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -307,8 +320,8 @@ export default handleActions({
 			getCopy: {$set: true},
 			copy: {$set: {}},
 			cut: {$set: false},
-			paste: {$set: false}
-
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -330,8 +343,8 @@ export default handleActions({
 		return update(state, {
 			cut: {$set: true},
 			cutItem: {$set: {}},
-			paste: {$set: false}
-
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
@@ -342,14 +355,24 @@ export default handleActions({
 				edges: action.data.edges
 			}},
 			cut: {$set: false},
-			paste: {$set: false}
+			paste: {$set: false},
+			pasteClickarea: {$set: false}
 		});
 	},
 
 	PASTE_CUT: (state, action) => {
 		return update(state, {
 			paste: {$set: true},
-			cut: {$set: false}
+			cut: {$set: false},
+			pasteClickarea: {$set: false}
+		});
+	},
+
+	PASTE_CLICKAREA: (state, action) => {
+		return update(state, {
+			pasteClickarea: {$set: true},
+			cut: {$set: false},
+			paste: {$set: false}
 		});
 	},
 

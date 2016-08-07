@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
-import { getCopy, cutClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
@@ -19,8 +19,7 @@ export default class Toolbox extends Component {
 			select: false,
 			selectAll: true,
 			copy: false,
-			currentView: 'untitled 1',
-			cut: false
+			currentView: 'untitled 1'
 		};
 
 		this.handelClick = this.handleClick.bind(this);
@@ -56,7 +55,7 @@ export default class Toolbox extends Component {
 		for (var item in this.state) {
 			if (type === item) {
 				obj[type] = true;
-			} else if (item !== 'currentView' && item !== 'cut') {
+			} else if (item !== 'currentView') {
 				obj[item] = false;
 			}
 		}
@@ -66,10 +65,13 @@ export default class Toolbox extends Component {
 		}
 
 		if (type === 'cut') {
-			//this.setState({cut: !this.state.cut}, () => {
+			$('.cutIcon').toggleClass('paste');
 
-			//});
-			this.props.dispatch(cutClickarea());
+			if ($('.cutIcon').hasClass('paste')) {
+				this.props.dispatch(cutClickarea());
+			} else {
+				this.props.dispatch(pasteClickarea());
+			}
 		}
 
 		this.setState(obj, () => {
