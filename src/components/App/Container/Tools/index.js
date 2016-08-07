@@ -66,14 +66,9 @@ export default class Toolbox extends Component {
 
 		if (type === 'cut') {
 			$('.cutIcon').toggleClass('paste');
-
-			if ($('.cutIcon').hasClass('paste')) {
-				console.log('hasclasspaste')
-				this.props.dispatch(cutClickarea());
-			} else {
-				console.log('hasnot....classpaste')
-				this.props.dispatch(pasteClickarea());
-			}
+			$('.cutIcon').hasClass('paste')
+				? this.props.dispatch(cutClickarea())
+				: this.props.dispatch(pasteClickarea());
 		}
 
 		this.setState(obj, () => {
@@ -95,9 +90,7 @@ export default class Toolbox extends Component {
 					}
 				}
 
-				//if (type !== 'copy') {
-					this.props.dispatch(selectTool(isSelected));
-				//}
+				this.props.dispatch(selectTool(isSelected));
 			}
 		});
 	}

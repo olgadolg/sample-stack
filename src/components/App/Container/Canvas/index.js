@@ -173,17 +173,11 @@ export default class Canvas extends Component {
 
 	pasteClickarea (nextProps) {
 		if (nextProps.pasteClickarea === true) {
-
-			console.log('is here.............')
-
 			let nodes = this.artist.state.nodes.concat(nextProps.cutItem.nodes);
 			let edges = this.artist.state.edges.concat(nextProps.cutItem.edges);
 
-			console.log('nodesssssssss', nodes)
-
 			this.props.dispatch(createClickarea());
 			this.createArtist();
-
 			this.props.dispatch(makeClickarea(
 				{
 					color: this.state.backgroundColor,
