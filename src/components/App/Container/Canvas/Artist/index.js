@@ -306,6 +306,7 @@ export default class DrawVectors extends Component {
 					return;
 				}
 
+				self.updateClickarea();
 				d3.event.sourceEvent.preventDefault();
 				d3.select(this).classed('drag', true);
 			})
