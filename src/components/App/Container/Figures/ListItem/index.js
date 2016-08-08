@@ -17,12 +17,18 @@ export default class ListItem extends Component {
 			[styles.figureItem]: true
 		});
 
+		const hideIcon = classnames({
+			'hideIcon': true,
+			[styles.hideIcon]: true
+		});
+
 		return (
 			<li
 				onClick={this.props.onClick}
 				className={itemStyle}
 				id={this.props.item.image}>
 				{this.props.item.goTo}
+				<div className={hideIcon}></div>
 			</li>
 		);
 	}

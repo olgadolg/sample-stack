@@ -1,11 +1,13 @@
 :local(.layerItem) {
+	position: relative;
 	list-style: none;
 	padding: 10px 20px;
+	height: 15px;
 	color: #fff;
 	font-size: 12px;
 	text-transform: uppercase;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-	text-align: center;
+	text-align: left;
 }
 
 :local(.layerItem:first-child) {
