@@ -424,5 +424,5 @@ export default handleActions({
 	cut: false,
 	paste: false,
 	cutItem: {},
-	clickarea: { coords: null, goTo: '' }
+	clickarea: { coords: null, goTo: 'Figure' }
 });

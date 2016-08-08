@@ -67,18 +67,13 @@ export default class SceneList extends Component {
 		});
 
 		return (
-			<div style={layerWrapper}>
-				<span style={headingStyle}>Layers</span>
-				<Scrollbars>
-					<ul
-						style={list}
-						id="sceneSelect"
-						className={styles.select}
-					>
-						{this.scenes}
-					</ul>
-				</Scrollbars>
-			</div>
+			<ul
+				style={list}
+				id="sceneSelect"
+				className={styles.select}
+			>
+				{this.scenes}
+			</ul>
 		);
 	}
 }

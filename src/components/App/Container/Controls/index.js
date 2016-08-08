@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import Button from '../Button';
 import Title from '../Title';
-import Layers from '../Layers/List';
+import List from '../List';
 import Modal from '../Modal';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
@@ -87,7 +87,7 @@ export default class ControlsContainer extends Component {
 		return (
 			<div className={styles.controlsContainer} >
 				<Title />
-				<Layers />
+				<List />
 				<input
 					type="file"
 					name="file"
