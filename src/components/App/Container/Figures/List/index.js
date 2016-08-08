@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
-import { Scrollbars } from 'react-custom-scrollbars';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
-import { updateView } from '../../../../../actions/views';
-import { selectTool } from '../../../../../actions/controls';
 
-export default class FigureList extends Component {
+export default class List extends Component {
 
 	constructor (props) {
 		super(props);
@@ -16,34 +13,23 @@ export default class FigureList extends Component {
 		this.state = {};
 	}
 
-	componentWillReceiveProps (nextProps) {
+	componentWillReceiveProps (nextProps) {}
 
-	}
-
-	onSelectChange (event) {
-
-	}
+	onSelectChange (event) {}
 
 	render () {
-
 		if (Object.keys(this.props.scenes).length === 0 || this.props.currentView === '') {
 			return null;
 		}
 
-		console.log('layers', this.props.scenes, 'current', this.props.currentView)
-
 		this.figures = _.map(this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas, function (figure, i) {
-
-			console.log('figure', figure);
-
 			return (
 				<ListItem
-					onClick={(e) => self.onSelectChange(e)}
+					onClick={(e) => this.onSelectChange(e)}
 					item={figure}
 				/>
 			);
 		});
-
 
 		return (
 			<ul
@@ -66,4 +52,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(FigureList);
+export default connect(mapStateToProps)(List);

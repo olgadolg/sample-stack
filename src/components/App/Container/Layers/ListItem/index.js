@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import styles from './styles/styles.css';
 
-export default class SceneListItem extends Component {
+export default class ListItem extends Component {
 
 	constructor (props) {
 		super(props);
@@ -11,21 +12,15 @@ export default class SceneListItem extends Component {
 	}
 
 	render () {
-		const itemStyle = {
-			listStyle: 'none',
-			padding: '10px 20px',
-			color: '#fff',
-			fontSize: '12px',
-			textTransform: 'uppercase',
-			borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
-			textAlign: 'center',
-			cursor: 'pointer'
-		};
+		const itemStyle = classnames({
+			'layerItem': true,
+			[styles.layerItem]: true
+		});
 
 		return (
 			<li
 				onClick={this.props.onClick}
-				style={itemStyle}
+				className={itemStyle}
 				id={this.props.item.image}>
 				{this.props.item.viewId}
 			</li>
@@ -33,4 +28,4 @@ export default class SceneListItem extends Component {
 	}
 }
 
-export default connect()(SceneListItem);
+export default connect()(ListItem);

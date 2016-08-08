@@ -4,7 +4,7 @@ import Figures from '../Figures/List';
 import $ from 'jquery';
 import classnames from 'classnames';
 import { Scrollbars } from 'react-custom-scrollbars';
-import styles from '../styles/styles.css';
+import styles from './styles/styles.css';
 
 export default class List extends Component {
 
@@ -35,43 +35,40 @@ export default class List extends Component {
 			[styles.select]: true
 		});
 
-		const layerWrapper = {
-			height: '270px',
-			marginBottom: '20px',
-			marginTop: '20px'
-		};
+		const headingLayerClass = classnames({
+			'heading': true,
+			'layerHeading': true,
+			[styles.heading]: true
+		});
 
-		const list = {
-			height: '250px',
-			borderRadius: '5px',
-			marginBottom: '20px'
-		};
+		const headingFigureClass = classnames({
+			'heading': true,
+			'figureHeading': true,
+			[styles.heading]: true
+		});
 
-		const headingStyle = {
-			color: '#013B2D',
-			textTransform: 'uppercase',
-			fontSize: '12px',
-			marginTop: '20px',
-			marginBottom: '5px',
-			display: 'block',
-			marginLeft: '5px',
-			float: 'left',
-			marginRight: '10px',
-			cursor: 'pointer'
-		};
-
-		const headingWrapperStyle = {
-			overflow: 'hidden',
-			marginBottom: '5px'
-		};
+		const headingWrapperClass = classnames({
+			'headingWrapper': true,
+			[styles.headingWrapper]: true
+		});
 
 		return (
 			<div>
-				<div style={headingWrapperStyle}>
-					<span onClick={(e) => this.handleClick(e)} className="layerHeading" style={headingStyle}>Layers</span>
-					<span onClick={(e) => this.handleClick(e)} className="figureHeading" style={headingStyle}>Figures</span>
+				<div className={headingWrapperClass}>
+					<span
+						onClick={(e) => this.handleClick(e)}
+						className={headingLayerClass}
+					>
+					Layers
+					</span>
+					<span
+						onClick={(e) => this.handleClick(e)}
+						className={headingFigureClass}
+					>
+					Figures
+					</span>
 				</div>
-				<div style={list} className={wrapperClass}>
+				<div className={wrapperClass}>
 					<Scrollbars>
 						<Layers />
 						<Figures />
