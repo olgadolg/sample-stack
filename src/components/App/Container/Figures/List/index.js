@@ -14,9 +14,9 @@ export default class List extends Component {
 		this.state = {};
 	}
 
-	onSelectChange (event) {}
-
 	render () {
+		const self = this;
+
 		if (Object.keys(this.props.scenes).length === 0 || this.props.currentView === '') {
 			return null;
 		}
@@ -34,8 +34,8 @@ export default class List extends Component {
 		this.figures = _.map(this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas, function (figure, i) {
 			return (
 				<ListItem
-					onClick={(e) => this.onSelectChange(e)}
 					item={figure}
+					index={i}
 				/>
 			);
 		});

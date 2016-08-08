@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
+import { Scrollbars } from 'react-custom-scrollbars';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
-import { updateView } from '../../../../../actions/views';
-import { selectTool } from '../../../../../actions/controls';
+import { updateView } from '../../../../../../actions/views';
+import { selectTool } from '../../../../../../actions/controls';
 
 export default class SceneList extends Component {
 
@@ -27,6 +28,7 @@ export default class SceneList extends Component {
 	onSelectChange (event) {
 		$('li').css({'background-color': '#013B2D'});
 		$(event.currentTarget).css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+
 		($(event.currentTarget).html().indexOf('Layer') > -1)
 			? $('.dropzone').show() : $('.dropzone').hide();
 
@@ -36,24 +38,46 @@ export default class SceneList extends Component {
 
 	render () {
 		const self = this;
+		const layerWrapper = {
+			height: '270px',
+			marginBottom: '20px'
+		};
+		const list = {
+			height: '91%',
+			borderRadius: '5px'
+		};
+		const headingStyle = {
+			color: '#013B2D',
+			textTransform: 'uppercase',
+			fontSize: '12px',
+			marginBottom: '5px',
+			display: 'block',
+			marginLeft: '5px'
+		};
+
 		this.scenes = _.map(this.props.scenes, function (scene, i) {
 			return (
 				<ListItem
 					key={scene.viewId}
 					className={styles.layerItem}
-					onClick={(e) => self.onSelectChange(e)}
 					item={scene}
 				/>
 			);
 		});
 
 		return (
-			<ul
-				id="sceneSelect"
-				className="layerList"
-			>
-				{this.scenes}
-			</ul>
+			<div style={layerWrapper}>
+				<span style={headingStyle}>Layers</span>
+				<Scrollbars>
+					<ul
+						style={list}
+						id="sceneSelect"
+						className={styles.select}
+					>
+						{this.scenes}
+					</ul>
+				</Scrollbars>
+			</div>
 		);
 	}
 }

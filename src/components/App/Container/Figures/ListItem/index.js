@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -9,6 +10,21 @@ export default class ListItem extends Component {
 		super(props);
 
 		this.state = {};
+
+		this.handleVisibility = this.handleVisibility.bind(this);
+	}
+
+	handleVisibility (e) {
+		const index = $(e.target).attr('data-index');
+		const figure = document.getElementsByClassName('overlay' + (parseInt(index) + 1));
+
+		if (figure[0].style.display === '') {
+			figure[0].style.display = 'none';
+			$(e.target).css('opacity', 0.5);
+		} else {
+			figure[0].style.display = '';
+			$(e.target).css('opacity', 1);
+		}
 	}
 
 	render () {
@@ -28,7 +44,12 @@ export default class ListItem extends Component {
 				className={itemStyle}
 				id={this.props.item.image}>
 				{this.props.item.goTo}
-				<div className={hideIcon}></div>
+				<div
+					data-index={this.props.index}
+					className={hideIcon}
+					onClick={(e) => this.handleVisibility(e)}
+				>
+				</div>
 			</li>
 		);
 	}
