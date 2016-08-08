@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -9,6 +10,18 @@ export default class ListItem extends Component {
 		super(props);
 
 		this.state = {};
+
+		this.handleRemove = this.handleRemove.bind(this);
+	}
+
+	handleRemove (e) {
+		const index = $(e.target).attr('id');
+		const view = $(e.target).attr('data-id');
+
+		if (confirm('Are you sure you want to remove this layer?')) {
+			//$(e.target).parent('li').remove();
+			this.props.removeView(index, view);
+		}
 	}
 
 	render () {
@@ -29,9 +42,10 @@ export default class ListItem extends Component {
 				id={this.props.item.image}>
 				{this.props.item.viewId}
 				<div
-					data-id={this.props.viewId}
+					id={this.props.item.viewId}
+					data-id={this.props.item.viewId}
 					className={removeIcon}
-					onClick={(e) => this.handleVisibility(e)}
+					onClick={(e) => this.handleRemove(e)}
 				>
 				</div>
 			</li>

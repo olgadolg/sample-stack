@@ -6,6 +6,7 @@ import styles from './styles/styles.css';
 import ListItem from '../ListItem';
 import { updateView } from '../../../../../actions/views';
 import { selectTool } from '../../../../../actions/controls';
+import { removeView } from '../../../../../actions/views';
 
 export default class SceneList extends Component {
 
@@ -14,9 +15,13 @@ export default class SceneList extends Component {
 
 		this.state = {};
 		this.onSelectChange = this.onSelectChange.bind(this);
+		this.removeView = this.removeView.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
+
+		console.log('nextProps', nextProps)
+
 		if (nextProps.viewupdate === false) {
 			$('#sceneSelect li:first-child').css('border-radius', '5px 5px 0 0');
 			$('li').css({'background-color': '#013B2D'});
@@ -25,6 +30,10 @@ export default class SceneList extends Component {
 	}
 
 	onSelectChange (event) {
+		if ($(event.target).hasClass('removeIcon')) {
+			return;
+		}
+
 		$('li').css({'background-color': '#013B2D'});
 		$(event.currentTarget).css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 		($(event.currentTarget).html().indexOf('Layer') > -1)
@@ -34,7 +43,14 @@ export default class SceneList extends Component {
 		this.props.dispatch(updateView(event.currentTarget.id));
 	}
 
+	removeView (index, view) {
+		this.props.dispatch(removeView(index, view));
+	}
+
 	render () {
+
+		console.log('render')
+
 		const self = this;
 		this.scenes = _.map(this.props.scenes, function (scene, i) {
 			return (
@@ -42,6 +58,7 @@ export default class SceneList extends Component {
 					key={scene.viewId}
 					className={styles.layerItem}
 					onClick={(e) => self.onSelectChange(e)}
+					removeView={self.removeView}
 					item={scene}
 				/>
 			);
@@ -64,7 +81,8 @@ const mapStateToProps = (state) => {
 		currentView: state.clickareas.currentView,
 		addLayer: state.clickareas.addLayer,
 		initLayer: state.clickareas.initLayer,
-		viewUpdate: state.clickareas.viewUpdate
+		viewUpdate: state.clickareas.viewUpdate,
+		viewRemoved: state.clickareas.viewRemoved
 	};
 };
 

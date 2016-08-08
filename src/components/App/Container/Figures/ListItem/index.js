@@ -14,6 +14,10 @@ export default class ListItem extends Component {
 		this.handleVisibility = this.handleVisibility.bind(this);
 	}
 
+	componentDidMount () {
+		$('.hideIcon').show();
+	}
+
 	handleVisibility (e) {
 		const index = $(e.target).attr('data-index');
 		const figure = document.getElementsByClassName('overlay' + (parseInt(index) + 1));
