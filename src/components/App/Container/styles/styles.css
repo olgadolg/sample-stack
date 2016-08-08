@@ -125,7 +125,7 @@
 	opacity: 0.4;
 }
 
-:global('.figureItem') {
+:global(.figureItem) {
 	list-style: none;
 	padding: 10px 20px;
 	color: #fff;
@@ -134,4 +134,8 @@
 	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 	text-align: center;
 	border-top: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+:global(.figureList) {
+	display: none;
 }

@@ -70,7 +70,7 @@ export default class SceneList extends Component {
 			<ul
 				style={list}
 				id="sceneSelect"
-				className={styles.select}
+				className="layerList"
 			>
 				{this.scenes}
 			</ul>

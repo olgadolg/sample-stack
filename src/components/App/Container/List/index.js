@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import Layers from '../Layers/List';
 import Figures from '../Figures/List';
+import $ from 'jquery';
 import classnames from 'classnames';
 import { Scrollbars } from 'react-custom-scrollbars';
 import styles from '../styles/styles.css';
 
-export default class Container extends Component {
+export default class List extends Component {
+
+	constructor () {
+		super();
+
+		this.state = {
+			layers: 'display: block',
+			figures: 'display: none'
+		};
+
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick (e) {
+		if ($(e.target).hasClass('figureHeading')) {
+			$('.layerList').hide();
+			$('.figureList').show();
+		} else {
+			$('.layerList').show();
+			$('.figureList').hide();
+		}
+	}
 
 	render () {
 		const wrapperClass = classnames({
@@ -32,16 +54,26 @@ export default class Container extends Component {
 			marginTop: '20px',
 			marginBottom: '5px',
 			display: 'block',
-			marginLeft: '5px'
+			marginLeft: '5px',
+			float: 'left',
+			marginRight: '10px',
+			cursor: 'pointer'
 		};
 
-		console.log(styles)
+		const headingWrapperStyle = {
+			overflow: 'hidden',
+			marginBottom: '5px'
+		};
 
 		return (
 			<div>
-				<span style={headingStyle}>Layers</span>
+				<div style={headingWrapperStyle}>
+					<span onClick={(e) => this.handleClick(e)} className="layerHeading" style={headingStyle}>Layers</span>
+					<span onClick={(e) => this.handleClick(e)} className="figureHeading" style={headingStyle}>Figures</span>
+				</div>
 				<div style={list} className={wrapperClass}>
 					<Scrollbars>
+						<Layers />
 						<Figures />
 					</Scrollbars>
 				</div>

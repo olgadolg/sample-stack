@@ -48,6 +48,7 @@ export default class FigureList extends Component {
 		return (
 			<ul
 				id="sceneSelect"
+				className="figureList"
 			>
 				{this.figures}
 			</ul>
