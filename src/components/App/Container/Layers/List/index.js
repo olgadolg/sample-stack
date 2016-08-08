@@ -7,7 +7,7 @@ import ListItem from '../ListItem';
 import { updateView } from '../../../../../actions/views';
 import { selectTool } from '../../../../../actions/controls';
 
-export default class List extends Component {
+export default class SceneList extends Component {
 
 	constructor (props) {
 		super(props);
@@ -67,4 +67,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(List);
+export default connect(mapStateToProps)(SceneList);

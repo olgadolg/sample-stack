@@ -99,10 +99,3 @@
 	padding: 0;
 	margin: 0;
 }
-
-
-
-
-:global(.figureList) {
-	display: none;
-}

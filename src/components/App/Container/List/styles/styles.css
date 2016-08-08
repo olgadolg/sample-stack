@@ -45,6 +45,7 @@
 
 :local(.heading:first-child) {
 	margin-right: 18px;
+	text-decoration: underline;
 }
 
 :local(.heading:first-child:after) {

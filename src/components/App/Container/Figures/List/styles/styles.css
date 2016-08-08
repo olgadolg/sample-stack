@@ -27,8 +27,24 @@
 	margin-bottom: 5px;
 	display: block;
 	margin-left: 5px;
+	text-decoration: underline;
 }
 
 :local('.layerWrapper') {
 	height: 300px;
+}
+
+:local(.figureWrapper) {
+	display: none;
+}
+
+:local(.figureHeading) {
+	color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: normal;
+    text-align: center;
+    margin: 0;
+    padding: 10px 0 7px 0;
+    background-color: rgba(255, 255, 255, 0.2);
 }

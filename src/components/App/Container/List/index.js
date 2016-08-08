@@ -20,12 +20,15 @@ export default class List extends Component {
 	}
 
 	handleClick (e) {
+		$('.heading').css('text-decoration', 'none');
+		$(e.target).css('text-decoration', 'underline');
+
 		if ($(e.target).hasClass('figureHeading')) {
 			$('.layerList').hide();
-			$('.figureList').show();
+			$('.figureWrapper').show();
 		} else {
 			$('.layerList').show();
-			$('.figureList').hide();
+			$('.figureWrapper').hide();
 		}
 	}
 
