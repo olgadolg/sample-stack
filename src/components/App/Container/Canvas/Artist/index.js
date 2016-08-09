@@ -845,8 +845,6 @@ export default class DrawVectors extends Component {
 		const currentView = this.state.currentView;
 		var z;
 
-		console.log('?????', views, currentView);
-
 		this.clickareas = d3.selectAll('.path')
 			.data(self.state.edges);
 
@@ -854,12 +852,14 @@ export default class DrawVectors extends Component {
 			.each(function (d, i) {
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
 
-				if (typeof views[currentView].clickareas[i] !== 'undefined') {
-					if ('color' in views[currentView].clickareas[i]) {
-						self.state.color = views[currentView].clickareas[i].color;
-						d3.select(this).style({'fill': views[currentView].clickareas[i].color});
-					} else {
-						d3.select(this).style({'fill': 'rgba(255, 255, 255)'});
+				if (typeof views[currentView] !== 'undefined') {
+					if (typeof views[currentView].clickareas[i] !== 'undefined') {
+						if ('color' in views[currentView].clickareas[i]) {
+							self.state.color = views[currentView].clickareas[i].color;
+							d3.select(this).style({'fill': views[currentView].clickareas[i].color});
+						} else {
+							d3.select(this).style({'fill': 'rgba(255, 255, 255)'});
+						}
 					}
 				}
 
