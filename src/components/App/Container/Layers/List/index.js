@@ -20,12 +20,12 @@ export default class SceneList extends Component {
 
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.addLayer === true) {
-			$('li').css({'background-color': '#013B2D'});
+			$('.layerList li').css({'background-color': '#013B2D'});
 		}
 
 		if (nextProps.removeView === true || nextProps.resetRemoveView === true) {
-			$('li').css({'background-color': '#013B2D'});
-			$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+			$('.layerList li').css({'background-color': '#013B2D'});
+			$('.layerList li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 		}
 	}
 
@@ -34,7 +34,7 @@ export default class SceneList extends Component {
 			return;
 		}
 
-		$('li').css({'background-color': '#013B2D'});
+		$('.layerList li').css({'background-color': '#013B2D'});
 		$(event.currentTarget).css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 
 		($(event.currentTarget).html().indexOf('Layer') > -1)
@@ -46,7 +46,7 @@ export default class SceneList extends Component {
 
 	removeView (index, view) {
 		this.props.dispatch(removeView(index, view));
-		$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+		$('.layerList li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 	}
 
 	render () {
