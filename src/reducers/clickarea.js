@@ -247,9 +247,13 @@ export default handleActions({
 		let views = state.views;
 		delete views[action.data];
 
+		let currentView = (Object.keys(views).length)
+			? Object.keys(views)[Object.keys(views).length - 1]
+			: '';
+
 		return update(state, {
 			viewRemoved: {$set: true},
-			currentView: {$set: Object.keys(views)[Object.keys(views).length - 1]}
+			currentView: {$set: currentView}
 		});
 	},
 
@@ -454,6 +458,16 @@ export default handleActions({
 			projectName: {$set: action.data.projectName},
 			scope: {$set: action.data.scope}
 		});
+	},
+	SHOW_DIALOG: (state, action) => {
+		return update(state, {
+			show: {$set: true},
+			content: {$set: action.data}
+		});
+	},
+
+	HIDE_DIALOG: (state, action) => {
+
 	}
 }, {
 	views: {},
@@ -480,6 +494,8 @@ export default handleActions({
 	cut: false,
 	paste: false,
 	resetRemoved: false,
+	show: false,
+	content: {},
 	cutItem: {},
 	clickarea: { coords: null, goTo: 'Figure' }
 });

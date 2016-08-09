@@ -98,11 +98,6 @@ export default class ControlsContainer extends Component {
 				<label for="file">Load Project</label>
 				<Button onClick={this.saveProject} label="Save Project" />
 				<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
-				<button className="openModal" onClick={this.openModal.bind(this)}>Open modal</button>
-				<Modal isOpen={this.state.isModalOpen} transitionName="modal-anim">
-					<h5>Please add a view before creating clickareas</h5>
-					<button>Close modal</button>
-				</Modal>
 			</div>
 		);
 	}

@@ -9,32 +9,61 @@ export default class Modal extends Component {
 	constructor () {
 		super();
 
+		this.state = {
+			isOpen: false
+		};
+
 		this.onCancel = this.onCancel.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.handleModal = this.handleModal.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
-		console.log(nextProps.content);
+		this.handleModal(nextProps);
 	}
 
-	onCancel () {}
+	handleModal (nextProps) {
+		this.setState({isOpen: nextProps.show});
+	}
 
-	onSubmit () {}
+	onCancel () {
+		this.setState({ isOpen: false });
+	}
+
+	onSubmit (nextProps) {
+		this.setState({ isOpen: false });
+
+		this.props.dispatch(
+			this.props.content.callback.func.apply(
+				null, this.props.content.callback.params
+			)
+		);
+	}
 
 	render () {
+		const revealOverlay = classnames({
+			'revealOverlay': true,
+			[styles.revealOverlay]: true
+		});
+
 		const modalWrapper = classnames({
 			'modalWrapper': true,
 			[styles.modalWrapper]: true
 		});
 
+		if (this.state.isOpen === false) {
+			return null;
+		}
+
 		return (
-			<div className={modalWrapper}>
-				<Dialog
-					header={this.props.content.body}
-					body={this.props.content.accept}
-					onCancel={this.onCancel}
-					onSubmit={this.onSubmit}
-				/>
+			<div className={revealOverlay}>
+				<div className={modalWrapper}>
+					<Dialog
+						content={this.props.content}
+						onCancel={this.onCancel}
+						onSubmit={this.onSubmit}
+					/>
+				</div>
 			</div>
 		);
 	}
@@ -42,7 +71,8 @@ export default class Modal extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		content: state.dialog.content
+		content: state.dialog.content,
+		show: state.dialog.show
 	};
 };
 

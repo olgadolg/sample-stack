@@ -8,6 +8,15 @@
 	background: #ffff;
 }
 
+:global(h2) {
+	font-size: 2.4em;
+	margin-top: 0;
+}
+
+:global(.body) {
+	font-size: 16px;
+}
+
 :global([contenteditable="false"]) {
 	margin-left: 40px;
 	display: block;
@@ -37,13 +46,13 @@
 	position: absolute;
 	background-size: 500px;
 	background-repeat: no-repeat;
-	left: 50%;
+	left: 0;
 	right: 0;
-	top: 50%;
+	top: 0;
 	bottom: 0;
+	margin: 40px auto;
 	width: 1274px;
 	height: 650px;
-	transform: translate(-50%, -50%);
 	border: 1px solid #555;
 	background: #ddd;
 }

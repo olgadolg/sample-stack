@@ -1,11 +1,7 @@
-export const showDialog = (body, accept, cancel) => (dispatch) => {
+export const showDialog = (data) => (dispatch) => {
 	dispatch({
 		type: 'SHOW_DIALOG',
-		data: {
-			body: body,
-			accept: accept,
-			cancel: cancel
-		}
+		data: data
 	});
 };
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import classnames from 'classnames';
 import { showDialog } from '../../../../../actions/dialog';
+import { removeView } from '../../../../../actions/views';
 import styles from './styles/styles.css';
 
 export default class ListItem extends Component {
@@ -29,13 +30,22 @@ export default class ListItem extends Component {
 		const index = $(e.target).attr('id');
 		const view = $(e.target).attr('data-id');
 
-		const header = "Are your sure?";
-		const body = "You want to remove this layer.";
-		this.props.dispatch(showDialog(header, body));
+		const data = {
+			text: {
+				header: 'Are your sure?',
+				body: 'You want to remove this layer.'
+			},
+			buttons: {
+				cancel: 'Cancel',
+				proceed: 'Yes'
+			},
+			callback: {
+				func: removeView,
+				params: [index, view]
+			}
+		};
 
-		//if (confirm('Are you sure you want to remove this layer?')) {
-			//this.props.removeView(index, view);
-		//}
+		this.props.dispatch(showDialog(data));
 	}
 
 	render () {

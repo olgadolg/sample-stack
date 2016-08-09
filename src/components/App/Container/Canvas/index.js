@@ -108,6 +108,9 @@ export default class Canvas extends Component {
 			const image = document.getElementsByClassName('canvasIcon');
 			const keys = Object.keys(nextProps.views);
 			const length = keys.length;
+
+			if (length === 0) return;
+
 			image[0].src = nextProps.views[keys[length - 1]].fileData;
 
 			this.props.dispatch(resetRemoveView());
