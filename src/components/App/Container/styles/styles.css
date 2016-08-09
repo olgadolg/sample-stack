@@ -13,6 +13,10 @@
 	margin-top: 0;
 }
 
+:global(input[type="file"]) {
+	cursor: pointer;
+}
+
 :global(.body) {
 	font-size: 16px;
 }

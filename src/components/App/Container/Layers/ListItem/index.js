@@ -35,10 +35,16 @@ export default class ListItem extends Component {
 				header: 'Are your sure?',
 				body: 'You want to remove this layer.'
 			},
-			buttons: {
-				cancel: 'Cancel',
-				proceed: 'Yes'
-			},
+			buttons: [
+				{
+					value: 'Cancel',
+					action: 'onCancel'
+				},
+				{
+					value: 'Yes',
+					action: 'onSubmit'
+				}
+			],
 			callback: {
 				func: removeView,
 				params: [index, view]

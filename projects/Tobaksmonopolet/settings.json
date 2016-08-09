@@ -1,0 +1,11 @@
+{
+    "cat": {
+        "viewId": "cat",
+        "clickarea": {
+            "0": {
+                "coords": "M143.5,139L259.5,248L275.5,71z",
+                "goTo": "Figure"
+            }
+        }
+    }
+}

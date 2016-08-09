@@ -44,7 +44,8 @@ export default class Header extends Component {
 			height: 'auto',
 			position: 'absolute',
 			right: '110px',
-			top: '16px'
+			top: '16px',
+			cursor: 'pointer'
 		};
 
 		const removeIcon = classnames({

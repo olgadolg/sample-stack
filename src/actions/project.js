@@ -1,15 +1,29 @@
 import request from 'superagent';
+import { showDialog } from './dialog';
 
 export const save = (stateToSave) => (dispatch) => {
 	request
 		.post('/api/project')
 		.send(stateToSave)
 		.set('Accept', 'application/json')
-		.end(function (err, res) {
+		.end((err, res) => {
 			if (err || !res.ok) {
 				alert('Oh no! error');
 			} else {
-				alert('yay got ' + JSON.stringify(res.body));
+				const data = {
+					text: {
+						header: 'Project - Export',
+						body: 'Project was successfully exported.'
+					},
+					buttons: [
+						{
+							value: 'OK',
+							action: 'onConfirm'
+						}
+					]
+				};
+
+				dispatch(showDialog(data));
 			}
 		});
 };

@@ -15,6 +15,7 @@ export default class Modal extends Component {
 
 		this.onCancel = this.onCancel.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
+		this.onConfirm = this.onConfirm.bind(this);
 		this.handleModal = this.handleModal.bind(this);
 	}
 
@@ -27,6 +28,10 @@ export default class Modal extends Component {
 	}
 
 	onCancel () {
+		this.setState({ isOpen: false });
+	}
+
+	onConfirm () {
 		this.setState({ isOpen: false });
 	}
 
@@ -62,6 +67,7 @@ export default class Modal extends Component {
 						content={this.props.content}
 						onCancel={this.onCancel}
 						onSubmit={this.onSubmit}
+						onConfirm={this.onConfirm}
 					/>
 				</div>
 			</div>

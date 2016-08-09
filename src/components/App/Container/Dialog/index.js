@@ -24,22 +24,26 @@ export default class Dialog extends Component {
 				? this.props.content.text.body : '';
 		}
 
+		var buttons = this.props.content.buttons.map((button) => {
+
+			console.log(button.action)
+
+			return (
+				<button
+					onClick={this.props[button.action]}
+					className={modalBtn}>
+					{button.value}
+				</button>
+			);
+		});
+
 		return (
 			<div className={modalContent}>
 				<h2>{header}</h2>
 				<div className="body">
 					<p>{body}</p>
 				</div>
-				<button
-					onClick={this.props.onSubmit}
-					className={modalBtn}>
-					Cancel
-				</button>
-				<button
-					onClick={this.props.onSubmit}
-					className={modalBtn}>
-					Yes
-				</button>
+				{buttons}
 			</div>
 		);
 	}
