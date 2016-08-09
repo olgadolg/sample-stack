@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import classnames from 'classnames';
+import { showDialog } from '../../../../../actions/dialog';
 import styles from './styles/styles.css';
 
 export default class ListItem extends Component {
@@ -28,9 +29,13 @@ export default class ListItem extends Component {
 		const index = $(e.target).attr('id');
 		const view = $(e.target).attr('data-id');
 
-		if (confirm('Are you sure you want to remove this layer?')) {
-			this.props.removeView(index, view);
-		}
+		const header = "Are your sure?";
+		const body = "You want to remove this layer.";
+		this.props.dispatch(showDialog(header, body));
+
+		//if (confirm('Are you sure you want to remove this layer?')) {
+			//this.props.removeView(index, view);
+		//}
 	}
 
 	render () {
