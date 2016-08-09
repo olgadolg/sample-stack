@@ -8,7 +8,20 @@ export const save = (stateToSave) => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (err || !res.ok) {
-				alert('Oh no! error');
+				const data = {
+					text: {
+						header: 'Project - Export',
+						body: 'Export unfortunately failed.'
+					},
+					buttons: [
+						{
+							value: 'OK',
+							action: 'onConfirm'
+						}
+					]
+				};
+
+				dispatch(showDialog(data));
 			} else {
 				const data = {
 					text: {
@@ -42,9 +55,35 @@ export const exportProject = (stateToExport) => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end(function (err, res) {
 			if (err || !res.ok) {
-				alert('Oh no! error');
+				const data = {
+					text: {
+						header: 'Project - Save',
+						body: 'Project was unfortunately not saved.'
+					},
+					buttons: [
+						{
+							value: 'OK',
+							action: 'onConfirm'
+						}
+					]
+				};
+
+				dispatch(showDialog(data));
 			} else {
-				alert('yay got ' + JSON.stringify(res.body));
+				const data = {
+					text: {
+						header: 'Project - Save',
+						body: 'Project was succesfully saved.'
+					},
+					buttons: [
+						{
+							value: 'OK',
+							action: 'onConfirm'
+						}
+					]
+				};
+
+				dispatch(showDialog(data));
 			}
 		});
 };
