@@ -112,3 +112,10 @@
 	padding: 0;
 	margin: 0;
 }
+
+:global([draggable=true]) {
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+}

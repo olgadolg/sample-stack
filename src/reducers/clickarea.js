@@ -239,7 +239,8 @@ export default handleActions({
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
-			resetRemoved: {$set: false}
+			resetRemoved: {$set: false},
+			addLayer: {$set: false}
 		});
 	},
 
@@ -340,7 +341,8 @@ export default handleActions({
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
-			resetRemoved: {$set: false}
+			resetRemoved: {$set: false},
+			addLayer: {$set: false}
 		});
 	},
 

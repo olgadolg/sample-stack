@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import styles from './styles/styles.css';
 
 export default class Dialog extends Component {
-
+	
 	render () {
 		const modalBtn = classnames({
 			'modalBtn': true,
@@ -25,9 +25,6 @@ export default class Dialog extends Component {
 		}
 
 		var buttons = this.props.content.buttons.map((button) => {
-
-			console.log(button.action)
-
 			return (
 				<button
 					onClick={this.props[button.action]}

@@ -29,7 +29,6 @@ export default class ListItem extends Component {
 	handleRemove (e) {
 		const index = $(e.target).attr('id');
 		const view = $(e.target).attr('data-id');
-
 		const data = {
 			text: {
 				header: 'Are your sure?',
