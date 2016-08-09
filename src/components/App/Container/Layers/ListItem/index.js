@@ -9,9 +9,19 @@ export default class ListItem extends Component {
 	constructor (props) {
 		super(props);
 
-		this.state = {};
+		this.state = {
+			backgroundClass: ''
+		};
 
 		this.handleRemove = this.handleRemove.bind(this);
+	}
+
+	componentDidMount () {
+		if (this.props.members.indexOf(this.props.member) === this.props.members.length - 1) {
+			this.setState({ backgroundClass: 'filled' });
+		} else {
+			this.setState({ backgroundClass: '' });
+		}
 	}
 
 	handleRemove (e) {
@@ -38,6 +48,7 @@ export default class ListItem extends Component {
 			<li
 				onClick={this.props.onClick}
 				className={itemStyle}
+				data-custom-attribute={this.state.backgroundClass}
 				id={this.props.item.image}>
 				{this.props.item.viewId}
 				<div

@@ -10,6 +10,10 @@
 	text-align: left;
 }
 
+:local([data-custom-attribute="filled"]) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 :local(.layerItem:first-child) {
 	border-radius: 5px 5px 0 0;
 	border-top: none;

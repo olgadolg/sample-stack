@@ -19,8 +19,11 @@ export default class SceneList extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		if (nextProps.viewupdate === false) {
-			$('#sceneSelect li:first-child').css('border-radius', '5px 5px 0 0');
+		if (nextProps.addLayer === true) {
+			$('li').css({'background-color': '#013B2D'});
+		}
+
+		if (nextProps.removeView === true || nextProps.resetRemoveView === true) {
 			$('li').css({'background-color': '#013B2D'});
 			$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 		}
@@ -33,6 +36,7 @@ export default class SceneList extends Component {
 
 		$('li').css({'background-color': '#013B2D'});
 		$(event.currentTarget).css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+
 		($(event.currentTarget).html().indexOf('Layer') > -1)
 			? $('.dropzone').show() : $('.dropzone').hide();
 
@@ -42,17 +46,20 @@ export default class SceneList extends Component {
 
 	removeView (index, view) {
 		this.props.dispatch(removeView(index, view));
+		$('li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
 	}
 
 	render () {
-		const self = this;
-		this.scenes = _.map(this.props.scenes, function (scene, i) {
+		this.scenes = _.map(this.props.scenes, (scene, i) => {
 			return (
 				<ListItem
 					key={scene.viewId}
+					members={Object.keys(this.props.scenes)}
+					member={i}
+					viewUpdate={this.props.viewUpdate}
 					className={styles.layerItem}
-					onClick={(e) => self.onSelectChange(e)}
-					removeView={self.removeView}
+					onClick={(e) => this.onSelectChange(e)}
+					removeView={this.removeView}
 					item={scene}
 				/>
 			);
@@ -76,7 +83,8 @@ const mapStateToProps = (state) => {
 		addLayer: state.clickareas.addLayer,
 		initLayer: state.clickareas.initLayer,
 		viewUpdate: state.clickareas.viewUpdate,
-		viewRemoved: state.clickareas.viewRemoved
+		viewRemoved: state.clickareas.viewRemoved,
+		resetRemoveView: state.clickareas.resetRemoved
 	};
 };
 

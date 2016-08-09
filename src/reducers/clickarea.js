@@ -16,7 +16,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -47,7 +48,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -79,7 +81,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -118,7 +121,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -145,7 +149,8 @@ export default handleActions({
 				cut: {$set: false},
 				paste: {$set: false},
 				pasteClickarea: {$set: false},
-				viewRemoved: {$set: false}
+				viewRemoved: {$set: false},
+				resetRemoved: {$set: false}
 			});
 		} else {
 			return update(state, {
@@ -155,7 +160,8 @@ export default handleActions({
 				cut: {$set: false},
 				paste: {$set: false},
 				pasteClickarea: {$set: false},
-				viewRemoved: {$set: false}
+				viewRemoved: {$set: false},
+				resetRemoved: {$set: false}
 			});
 		}
 	},
@@ -185,7 +191,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -207,14 +214,15 @@ export default handleActions({
 			},
 			isNew: {$set: false},
 			addLayer: {$set: true},
-			viewUpade: {$set: true},
+			viewUpdate: {$set: false},
 			currentView: {$set: currentView},
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -230,7 +238,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -246,7 +255,8 @@ export default handleActions({
 
 	RESET_REMOVE_VIEW: (state, action) => {
 		return update(state, {
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: true}
 		});
 	},
 
@@ -272,7 +282,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -285,7 +296,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -310,7 +322,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -322,7 +335,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -340,7 +354,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -352,7 +367,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -376,7 +392,8 @@ export default handleActions({
 			cutItem: {$set: {}},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -389,7 +406,8 @@ export default handleActions({
 			cut: {$set: false},
 			paste: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -398,7 +416,8 @@ export default handleActions({
 			paste: {$set: true},
 			cut: {$set: false},
 			pasteClickarea: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -407,7 +426,8 @@ export default handleActions({
 			pasteClickarea: {$set: true},
 			cut: {$set: false},
 			paste: {$set: false},
-			viewRemoved: {$set: false}
+			viewRemoved: {$set: false},
+			resetRemoved: {$set: false}
 		});
 	},
 
@@ -459,6 +479,7 @@ export default handleActions({
 	getCopy: false,
 	cut: false,
 	paste: false,
+	resetRemoved: false,
 	cutItem: {},
 	clickarea: { coords: null, goTo: 'Figure' }
 });
