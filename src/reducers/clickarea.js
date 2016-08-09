@@ -236,11 +236,17 @@ export default handleActions({
 
 	REMOVE_VIEW: (state, action) => {
 		let views = state.views;
-		let index = Object.keys(views[action.data]);
 		delete views[action.data];
 
 		return update(state, {
-			viewRemoved: {$set: true}
+			viewRemoved: {$set: true},
+			currentView: {$set: Object.keys(views)[Object.keys(views).length - 1]}
+		});
+	},
+
+	RESET_REMOVE_VIEW: (state, action) => {
+		return update(state, {
+			viewRemoved: {$set: false}
 		});
 	},
 

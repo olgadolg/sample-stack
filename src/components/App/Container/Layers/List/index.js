@@ -19,9 +19,6 @@ export default class SceneList extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-
-		console.log('nextProps', nextProps)
-
 		if (nextProps.viewupdate === false) {
 			$('#sceneSelect li:first-child').css('border-radius', '5px 5px 0 0');
 			$('li').css({'background-color': '#013B2D'});
@@ -48,9 +45,6 @@ export default class SceneList extends Component {
 	}
 
 	render () {
-
-		console.log('render')
-
 		const self = this;
 		this.scenes = _.map(this.props.scenes, function (scene, i) {
 			return (

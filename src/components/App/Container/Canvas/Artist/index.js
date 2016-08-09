@@ -111,7 +111,6 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	setState (state, clickareas, nodes, edges) {
-
 		if (typeof nodes !== 'undefined') {
 			this.settings.clickarea++;
 			this.state.nodes = nodes;
@@ -846,6 +845,8 @@ export default class DrawVectors extends Component {
 		const currentView = this.state.currentView;
 		var z;
 
+		console.log('?????', views, currentView);
+
 		this.clickareas = d3.selectAll('.path')
 			.data(self.state.edges);
 
@@ -1419,8 +1420,6 @@ export default class DrawVectors extends Component {
 	 */
 	update (props) {
 		this.state.props = props || this.state.props;
-
-		console.log('fdskljdklsfjfdskdfs', this.state.nodes)
 
 		if (typeof this.state.nodes === 'undefined' ||
 			this.state.nodes.length === 0) {

@@ -19,7 +19,6 @@ export default class ListItem extends Component {
 		const view = $(e.target).attr('data-id');
 
 		if (confirm('Are you sure you want to remove this layer?')) {
-			//$(e.target).parent('li').remove();
 			this.props.removeView(index, view);
 		}
 	}

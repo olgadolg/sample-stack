@@ -11,3 +11,9 @@ export const removeView = (view) => (dispatch) => {
 		data: view
 	});
 };
+
+export const resetRemoveView = () => (dispatch) => {
+	dispatch({
+		type: 'RESET_REMOVE_VIEW'
+	});
+};

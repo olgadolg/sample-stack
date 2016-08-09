@@ -7,6 +7,7 @@ import Artist from './Artist';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
+import { resetRemoveView } from '../../../../actions/views';
 import { saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 
 export default class Canvas extends Component {
@@ -85,6 +86,7 @@ export default class Canvas extends Component {
 			this.resetTool(nextProps);
 			this.createNewFigure(nextProps, views, index, artState);
 			this.pasteClickarea(nextProps, drawingTool);
+			this.updateBackgroundImage(nextProps);
 		});
 	}
 
@@ -99,6 +101,21 @@ export default class Canvas extends Component {
 			this.setColoronFigureClick,
 			this.props.dispatch
 		);
+	}
+
+	updateBackgroundImage (nextProps, drawingTool) {
+		if (nextProps.viewRemoved === true) {
+			const image = document.getElementsByClassName('canvasIcon');
+			const keys = Object.keys(nextProps.views);
+			const length = keys.length;
+			image[0].src = nextProps.views[keys[length - 1]].fileData;
+
+			this.props.dispatch(resetRemoveView());
+			this.createArtist();
+			this.updateArtist(nextProps, drawingTool, nextProps.views[keys[length - 1]].nodes, nextProps.views[keys[length - 1]].edges);
+			this.artist.state.currentView = nextProps.currentView;
+			this.artist.update();
+		}
 	}
 
 	cutFigure (nextProps, drawingTool) {
@@ -366,7 +383,8 @@ const mapStateToProps = (state) => {
 		cut: state.clickareas.cut,
 		paste: state.clickareas.paste,
 		cutItem: state.clickareas.cutItem,
-		pasteClickarea: state.clickareas.pasteClickarea
+		pasteClickarea: state.clickareas.pasteClickarea,
+		viewRemoved: state.clickareas.viewRemoved
 	};
 };
 
