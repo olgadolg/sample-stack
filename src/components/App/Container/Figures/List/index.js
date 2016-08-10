@@ -15,8 +15,6 @@ export default class List extends Component {
 	}
 
 	render () {
-		const self = this;
-
 		if (Object.keys(this.props.scenes).length === 0 || this.props.currentView === '') {
 			return null;
 		}

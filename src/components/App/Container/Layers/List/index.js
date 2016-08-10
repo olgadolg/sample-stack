@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
-import $ from 'jquery';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
 import { updateView } from '../../../../../actions/views';

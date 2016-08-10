@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -15,19 +14,25 @@ export default class ListItem extends Component {
 	}
 
 	componentDidMount () {
-		$('.hideIcon').show();
+		const hideIcons = document.getElementsByClassName('hideIcon');
+
+		if (hideIcons.length) {
+			for (var i = 0; i < hideIcons.length; i++) {
+				hideIcons[i].style.opacity = 1;
+			}
+		}
 	}
 
 	handleVisibility (e) {
-		const index = $(e.target).attr('data-index');
+		const index = e.target.getAttribute('data-index');
 		const figure = document.getElementsByClassName('overlay' + (parseInt(index) + 1));
 
 		if (figure[0].style.display === '') {
 			figure[0].style.display = 'none';
-			$(e.target).css('opacity', 0.5);
+			e.target.style.opacity = 0.5;
 		} else {
 			figure[0].style.display = '';
-			$(e.target).css('opacity', 1);
+			e.target.style.opacity = 1;
 		}
 	}
 
