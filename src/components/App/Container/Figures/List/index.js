@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
-import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
+import { selectTool } from '../../../../../actions/controls';
+import Utilities from '../../../../../Utilities';
 
 export default class List extends Component {
 
@@ -13,9 +14,8 @@ export default class List extends Component {
 
 		this.state = {};
 
+		this.utilites = new Utilities();
 		this.handleClick = this.handleClick.bind(this);
-		this.mouseEvent = this.mouseEvent.bind(this);
-		this.dispatchEvent = this.dispatchEvent.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -26,74 +26,27 @@ export default class List extends Component {
 		const id = parseInt(event.target.id);
 		const figure = document.querySelector('.clickarea' + (id + 1));
 		const bbox = this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[id].bbox;
-		const mousedown = this.mouseEvent('mousedown', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
-		const mouseup = this.mouseEvent('mouseup', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
+		const mousedown = this.utilites.mouseEvent('mousedown', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
+		const mouseup = this.utilites.mouseEvent('mouseup', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
 		let listItems = document.querySelectorAll('.figureList li');
+
+		this.props.dispatch(selectTool('selectAll'));
 
 		if (listItems.length) {
 			this.removeBackgroundColor(listItems);
+			event.target.classList.add('layerfill');
 		}
 
-		event.target.classList.add('layerfill');
-		this.dispatchEvent(figure, 'mousedown', mousedown);
-		this.dispatchEvent(figure, 'mouseup', mouseup);
+		this.utilites.dispatchEvent(figure, 'mousedown', mousedown);
+		this.utilites.dispatchEvent(figure, 'mouseup', mouseup);
 	}
 
 	removeBackgroundColor (nodes) {
 		if (nodes.length) {
 			for (var i = 0; i < nodes.length; i++) {
 				nodes[i].classList.remove('layerfill');
-				nodes[i].classList.add('no-layerfill');
 			}
 		}
-	}
-
-	mouseEvent (type, sx, sy, cx, cy) {
-		var evt;
-		var e = {
-			bubbles: true,
-			cancelable: (type !== 'mousemove'),
-			view: window,
-			detail: 0,
-			screenX: sx,
-			screenY: sy,
-			clientX: cx,
-			clientY: cy,
-			ctrlKey: false,
-			altKey: false,
-			shiftKey: false,
-			metaKey: false,
-			button: 0,
-			relatedTarget: undefined
-		};
-
-		if (typeof document.createEvent === 'function') {
-			evt = document.createEvent('MouseEvents');
-			evt.initMouseEvent(type,
-			e.bubbles, e.cancelable, e.view, e.detail,
-			e.screenX, e.screenY, e.clientX, e.clientY,
-			e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
-			e.button, document.body.parentNode);
-		} else if (document.createEventObject) {
-			evt = document.createEventObject();
-
-			for (var prop in evt) {
-				evt[prop] = e[prop];
-			}
-
-			evt.button = { 0: 1, 1: 4, 2: 2 }[evt.button] || evt.button;
-		}
-
-		return evt;
-	}
-
-	dispatchEvent (el, type, evt) {
-		if (el.dispatchEvent) {
-			el.dispatchEvent(evt);
-		} else if (el.fireEvent) {
-			el.fireEvent('on' + type, evt);
-		}
-		return evt;
 	}
 
 	render () {

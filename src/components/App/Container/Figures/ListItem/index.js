@@ -9,7 +9,6 @@ export default class ListItem extends Component {
 		super(props);
 
 		this.state = {};
-
 		this.handleVisibility = this.handleVisibility.bind(this);
 	}
 
@@ -26,13 +25,22 @@ export default class ListItem extends Component {
 	handleVisibility (e) {
 		const index = e.target.getAttribute('data-index');
 		const figure = document.getElementsByClassName('overlay' + (parseInt(index) + 1));
+		const bbRect = document.getElementsByClassName('bbRect');
+		const targetStyle = e.target.style;
+		const parentClasses = e.target.parentNode.classList;
 
 		if (figure[0].style.display === '') {
 			figure[0].style.display = 'none';
-			e.target.style.opacity = 0.5;
+			if (parentClasses.value.indexOf('layerfill') > -1) {
+				bbRect[0].style.display = 'none';
+			}
+			targetStyle.opacity = 0.5;
 		} else {
 			figure[0].style.display = '';
-			e.target.style.opacity = 1;
+			if (parentClasses.value.indexOf('layerfill') > -1) {
+				bbRect[0].style.display = '';
+			}
+			targetStyle.opacity = 1;
 		}
 	}
 
