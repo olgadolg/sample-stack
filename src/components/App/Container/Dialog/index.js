@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import styles from './styles/styles.css';
 
 export default class Dialog extends Component {
-	
+
 	render () {
 		const modalBtn = classnames({
 			'modalBtn': true,
@@ -36,11 +36,13 @@ export default class Dialog extends Component {
 
 		return (
 			<div className={modalContent}>
-				<h2>{header}</h2>
-				<div className="body">
-					<p>{body}</p>
+				<div>
+					<h2>{header}</h2>
+					<div className="body">
+						<p>{body}</p>
+					</div>
+					{buttons}
 				</div>
-				{buttons}
 			</div>
 		);
 	}
