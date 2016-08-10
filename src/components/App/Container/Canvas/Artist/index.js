@@ -290,7 +290,6 @@ export default class DrawVectors extends Component {
 					return;
 				}
 				d3.select(this).classed('selected', true);
-				//self.updateClickarea();
 				self.dragmove(d);
 			})
 			.on('dragend', function (d) {
@@ -310,7 +309,9 @@ export default class DrawVectors extends Component {
 				d3.select(this).classed('drag', true);
 			})
 			.on('drag', function (d, i) {
-				if (self.state.tool === 'pen') {
+				if (self.state.tool === 'pen' ||
+					self.state.tool === 'penRemove' ||
+					self.state.tool === 'penAdd') {
 					return;
 				}
 
@@ -909,8 +910,6 @@ export default class DrawVectors extends Component {
 							return;
 						}
 						d3.select(this).classed('selected', true);
-
-						console.log('fsdkjlkfjlfsdkl', d3.selectAll('.figureItem'));
 					})
 					.on('mousedown', function () {
 						self.state.multiple = true;

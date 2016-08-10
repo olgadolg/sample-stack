@@ -7,7 +7,7 @@ import { updateView } from '../../../../../actions/views';
 import { selectTool } from '../../../../../actions/controls';
 import { removeView } from '../../../../../actions/views';
 
-export default class SceneList extends Component {
+export default class List extends Component {
 
 	constructor (props) {
 		super(props);
@@ -65,17 +65,17 @@ export default class SceneList extends Component {
 	}
 
 	render () {
-		this.scenes = _.map(this.props.scenes, (scene, i) => {
+		this.layers = _.map(this.props.layers, (layer, i) => {
 			return (
 				<ListItem
-					key={scene.viewId}
-					members={Object.keys(this.props.scenes)}
+					key={layer.viewId}
+					members={Object.keys(this.props.layers)}
 					member={i}
 					viewUpdate={this.props.viewUpdate}
 					className={styles.layerItem}
 					onClick={(e) => this.onSelectChange(e)}
 					removeView={this.removeView}
-					item={scene}
+					item={layer}
 				/>
 			);
 		});
@@ -85,7 +85,7 @@ export default class SceneList extends Component {
 				id="sceneSelect"
 				className="layerList"
 			>
-				{this.scenes}
+				{this.layers}
 			</ul>
 		);
 	}
@@ -93,14 +93,14 @@ export default class SceneList extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		scenes: state.clickareas.views,
-		currentView: state.clickareas.currentView,
-		addLayer: state.clickareas.addLayer,
+		layers: state.clickareas.views,
 		initLayer: state.clickareas.initLayer,
+		addLayer: state.clickareas.addLayer,
+		currentView: state.clickareas.currentView,
 		viewUpdate: state.clickareas.viewUpdate,
 		viewRemoved: state.clickareas.viewRemoved,
 		resetRemoveView: state.clickareas.resetRemoved
 	};
 };
 
-export default connect(mapStateToProps)(SceneList);
+export default connect(mapStateToProps)(List);

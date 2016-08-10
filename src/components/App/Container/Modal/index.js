@@ -56,8 +56,6 @@ export default class Modal extends Component {
 			[styles.modalWrapper]: true
 		});
 
-		console.log('isOpen', this.state.isOpen);
-
 		if (this.state.isOpen === false) {
 			return null;
 		}
