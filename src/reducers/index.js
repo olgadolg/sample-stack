@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
 import { routeReducer } from 'redux-simple-router';
 import clickareas from './clickarea';
-import dialog from './dialog';
 
 export default combineReducers({
 	routeReducer,
-	clickareas,
-	dialog
+	clickareas
 });

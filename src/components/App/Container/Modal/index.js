@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Dialog from '../Dialog';
+import { hideDialog } from '../../../../actions/dialog';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -29,10 +30,12 @@ export default class Modal extends Component {
 
 	onCancel () {
 		this.setState({ isOpen: false });
+		this.props.dispatch(hideDialog());
 	}
 
 	onConfirm () {
 		this.setState({ isOpen: false });
+		this.props.dispatch(hideDialog());
 	}
 
 	onSubmit (nextProps) {
@@ -43,6 +46,8 @@ export default class Modal extends Component {
 				null, this.props.content.callback.params
 			)
 		);
+
+		this.props.dispatch(hideDialog());
 	}
 
 	render () {

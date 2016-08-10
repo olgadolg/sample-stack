@@ -1,5 +1,5 @@
 {
-    "A002": {
+    "A003": {
         "typeAptId": "0",
         "viewId": "0",
         "floor": "0",
@@ -9,7 +9,7 @@
         "fee": "0",
         "available": ""
     },
-    "A001": {
+    "A004": {
         "typeAptId": "0",
         "viewId": "0",
         "floor": "0",
@@ -19,7 +19,7 @@
         "fee": "0",
         "available": ""
     },
-    "B001": {
+    "": {
         "typeAptId": "0",
         "viewId": "0",
         "floor": "0",

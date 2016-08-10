@@ -4,7 +4,6 @@ import $ from 'jquery';
 import Button from '../Button';
 import Title from '../Title';
 import List from '../List';
-import Modal from '../Modal';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
 import { exportProject, save, load } from '../../../../actions/project';

@@ -499,7 +499,9 @@ export default handleActions({
 	},
 
 	HIDE_DIALOG: (state, action) => {
-
+		return update(state, {
+			show: {$set: false}
+		});
 	}
 }, {
 	views: {},
