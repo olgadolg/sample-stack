@@ -1,14 +1,4 @@
 {
-    "A001": {
-        "typeAptId": "0",
-        "viewId": "0",
-        "floor": "0",
-        "rooms": "0",
-        "size": "0",
-        "price": "0",
-        "fee": "0",
-        "available": ""
-    },
     "A002": {
         "typeAptId": "0",
         "viewId": "0",
@@ -19,7 +9,7 @@
         "fee": "0",
         "available": ""
     },
-    "a003": {
+    "A001": {
         "typeAptId": "0",
         "viewId": "0",
         "floor": "0",

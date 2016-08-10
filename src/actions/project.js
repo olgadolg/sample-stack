@@ -32,34 +32,10 @@ export const exportProject = (stateToExport) => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end(function (err, res) {
 			if (err || !res.ok) {
-				const data = {
-					text: {
-						header: 'Project - Save',
-						body: 'Project was unfortunately not saved.'
-					},
-					buttons: [
-						{
-							value: 'OK',
-							action: 'onConfirm'
-						}
-					]
-				};
-
+				const data = config.dialogs.exportFailed;
 				dispatch(showDialog(data));
 			} else {
-				const data = {
-					text: {
-						header: 'Project - Save',
-						body: 'Project was succesfully saved.'
-					},
-					buttons: [
-						{
-							value: 'OK',
-							action: 'onConfirm'
-						}
-					]
-				};
-
+				const data = config.dialogs.exportSuccess;
 				dispatch(showDialog(data));
 			}
 		});

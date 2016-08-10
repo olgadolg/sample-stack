@@ -1,5 +1,29 @@
 {
 	"dialogs": {
+		"exportSuccess": {
+			"text": {
+				"header": "Project - Export",
+				"body": "Project was sucessfully exported."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
+		"exportFailed": {
+			"text": {
+				"header": "Project - Export",
+				"body": "Project was unfortunately not exported."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
 		"saveSuccess": {
 			"text": {
 				"header": "Project - Save",
