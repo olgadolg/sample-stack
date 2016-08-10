@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -25,7 +26,7 @@ export default class ListItem extends Component {
 	handleVisibility (e) {
 		const index = e.target.getAttribute('data-index');
 		const figure = document.getElementsByClassName('overlay' + (parseInt(index) + 1));
-		const bbRect = document.getElementsByClassName('bbRect');
+		var bbRect = document.getElementsByClassName('bbRect');
 		const targetStyle = e.target.style;
 		const parentClasses = e.target.parentNode.classList;
 

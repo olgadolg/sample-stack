@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
+import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
@@ -19,18 +20,28 @@ export default class List extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		console.log(nextProps);
+		let listItems = document.querySelectorAll('.figureList li');
+
+		if (nextProps.isSelected === true) {
+			this.removeBackgroundColor(listItems);
+			let figureItem = document.getElementById(nextProps.coordIndex);
+			figureItem.classList.add('layerfill');
+		}
 	}
 
 	handleClick (event) {
-		const id = parseInt(event.target.id);
+		if (event.target.classList.value.indexOf('hideIcon') > -1) {
+			return;
+		}
+
+		this.props.dispatch(selectTool('selectAll'));
+
+		const id = parseInt(event.target.id) || 0;
 		const figure = document.querySelector('.clickarea' + (id + 1));
 		const bbox = this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[id].bbox;
 		const mousedown = this.utilites.mouseEvent('mousedown', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
 		const mouseup = this.utilites.mouseEvent('mouseup', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
 		let listItems = document.querySelectorAll('.figureList li');
-
-		this.props.dispatch(selectTool('selectAll'));
 
 		if (listItems.length) {
 			this.removeBackgroundColor(listItems);
@@ -40,6 +51,7 @@ export default class List extends Component {
 		this.utilites.dispatchEvent(figure, 'mousedown', mousedown);
 		this.utilites.dispatchEvent(figure, 'mouseup', mouseup);
 	}
+
 
 	removeBackgroundColor (nodes) {
 		if (nodes.length) {
@@ -97,7 +109,9 @@ const mapStateToProps = (state) => {
 		addLayer: state.clickareas.addLayer,
 		initLayer: state.clickareas.initLayer,
 		viewUpdate: state.clickareas.viewUpdate,
-		cut: state.clickareas.cut
+		cut: state.clickareas.cut,
+		isSelected: state.clickareas.isSelected,
+		coordIndex: state.clickareas.coordIndex
 	};
 };
 

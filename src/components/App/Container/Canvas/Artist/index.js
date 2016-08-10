@@ -909,6 +909,8 @@ export default class DrawVectors extends Component {
 							return;
 						}
 						d3.select(this).classed('selected', true);
+
+						console.log('fsdkjlkfjlfsdkl', d3.selectAll('.figureItem'));
 					})
 					.on('mousedown', function () {
 						self.state.multiple = true;
