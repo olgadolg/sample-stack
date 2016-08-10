@@ -51,7 +51,7 @@ export default class ListItem extends Component {
 			<li
 				onClick={this.props.onClick}
 				className={itemStyle}
-				id={this.props.item.image}>
+				id={this.props.index}>
 				{this.props.item.goTo}
 				<div
 					data-index={this.props.index}

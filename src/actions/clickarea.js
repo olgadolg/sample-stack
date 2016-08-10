@@ -11,10 +11,10 @@ export const makeClickarea = (clickarea, view, nodes, edges) => (dispatch) => {
 	});
 };
 
-export const updateClickarea = (coords, index, view, nodes, edges, selected) => (dispatch) => {
+export const updateClickarea = (coords, index, view, nodes, edges, selected, bbox) => (dispatch) => {
 	dispatch({
 		type: 'UPDATE_CLICKAREA',
-		data: {coords, index, view, nodes, edges, selected}
+		data: {coords, index, view, nodes, edges, selected, bbox}
 	});
 };
 

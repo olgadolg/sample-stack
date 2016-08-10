@@ -67,7 +67,8 @@ export default handleActions({
 					edges: {$set: action.data.edges},
 					clickareas: {
 						[coordIndex]: {
-							coords: {$set: action.data.coords}
+							coords: {$set: action.data.coords},
+							bbox: {$set: action.data.bbox}
 						}
 					}
 				}
@@ -134,6 +135,8 @@ export default handleActions({
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = state.coordIndex;
+
+		console.log('html', action.data.html);
 
 		if (action.data.scope === 'figure') {
 			return update(state, {
@@ -519,6 +522,5 @@ export default handleActions({
 	content: {},
 	cutItem: {},
 	viewRemvoved: false,
-	resetRemoved: false,
-	clickarea: { coords: null, goTo: 'Figure' }
+	clickarea: {coords: null, goTo: 'Figure', bbox: {}}
 });

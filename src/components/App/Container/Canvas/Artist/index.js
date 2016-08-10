@@ -992,6 +992,8 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	updateClickarea () {
+		var bbox = d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node().getBBox();
+
 		this.state.pathData = d3.selectAll('.clickarea' + this.settings.clickarea).node().attributes.getNamedItem('d').value;
 		this.settings.dispatch(
 			this.settings.updateOverlayFn(
@@ -1000,7 +1002,8 @@ export default class DrawVectors extends Component {
 				this.state.currentView,
 				this.state.nodes,
 				this.state.edges,
-				this.state.shapeIsSelected
+				this.state.shapeIsSelected,
+				bbox
 			)
 		);
 	}
