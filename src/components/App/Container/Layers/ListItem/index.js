@@ -29,7 +29,7 @@ export default class ListItem extends Component {
 	handleRemove (e) {
 		const index = e.target.id;
 		const view = e.target.getAttribute('data-id');
-		const data = config.dialogs.confirm;
+		const data = config.dialogs.removeLayer;
 
 		data.callback = {
 			func: removeView,

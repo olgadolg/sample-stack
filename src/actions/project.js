@@ -1,5 +1,6 @@
 import request from 'superagent';
 import { showDialog } from './dialog';
+import config from 'json!../../assets/json/dialogs.json';
 
 export const save = (stateToSave) => (dispatch) => {
 	request
@@ -8,34 +9,10 @@ export const save = (stateToSave) => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (err || !res.ok) {
-				const data = {
-					text: {
-						header: 'Project - Export',
-						body: 'Export unfortunately failed.'
-					},
-					buttons: [
-						{
-							value: 'OK',
-							action: 'onConfirm'
-						}
-					]
-				};
-
+				const data = config.dialogs.saveFailed;
 				dispatch(showDialog(data));
 			} else {
-				const data = {
-					text: {
-						header: 'Project - Export',
-						body: 'Project was successfully exported.'
-					},
-					buttons: [
-						{
-							value: 'OK',
-							action: 'onConfirm'
-						}
-					]
-				};
-
+				const data = config.dialogs.saveSuccess;
 				dispatch(showDialog(data));
 			}
 		});

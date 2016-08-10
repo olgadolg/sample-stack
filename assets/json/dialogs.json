@@ -1,6 +1,30 @@
 {
 	"dialogs": {
-		"confirm": {
+		"saveSuccess": {
+			"text": {
+				"header": "Project - Save",
+				"body": "Project was succesfully saved."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
+		"saveFailed": {
+			"text": {
+				"header": "Project - Export",
+				"body": "Export unfortunately failed."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
+		"removeLayer": {
 			"text": {
 				"header": "Are your sure?",
 				"body": "You want to remove this layer."
