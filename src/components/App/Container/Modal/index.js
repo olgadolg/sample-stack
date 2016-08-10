@@ -56,6 +56,8 @@ export default class Modal extends Component {
 			[styles.modalWrapper]: true
 		});
 
+		console.log('isOpen', this.state.isOpen);
+
 		if (this.state.isOpen === false) {
 			return null;
 		}
@@ -77,8 +79,8 @@ export default class Modal extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		content: state.dialog.content,
-		show: state.dialog.show
+		content: state.clickareas.content,
+		show: state.clickareas.show
 	};
 };
 

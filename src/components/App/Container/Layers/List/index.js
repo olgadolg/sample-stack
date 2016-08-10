@@ -16,27 +16,44 @@ export default class SceneList extends Component {
 		this.state = {};
 		this.onSelectChange = this.onSelectChange.bind(this);
 		this.removeView = this.removeView.bind(this);
+		this.removeBackgroundColor = this.removeBackgroundColor.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
+		let listItems = document.querySelectorAll('.layerList li');
+
 		if (nextProps.addLayer === true) {
-			$('.layerList li').css({'background-color': '#013B2D'});
+			this.removeBackgroundColor(listItems);
 		}
 
 		if (nextProps.removeView === true || nextProps.resetRemoveView === true) {
-			$('.layerList li').css({'background-color': '#013B2D'});
-			$('.layerList li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+			this.removeBackgroundColor(listItems);
+			listItems[listItems.length - 1].classList.add('layerfill');
+		}
+	}
+
+	removeBackgroundColor (nodes) {
+		if (nodes.length) {
+			for (var i = 0; i < nodes.length; i++) {
+				nodes[i].classList.remove('layerfill');
+				nodes[i].classList.add('no-layerfill');
+			}
 		}
 	}
 
 	onSelectChange (event) {
-		if ($(event.target).hasClass('removeIcon')) {
+		if (event.target.classList.value.indexOf('removeIcon') > -1) {
 			return;
 		}
 
-		$('.layerList li').css({'background-color': '#013B2D'});
-		$(event.currentTarget).css({'background-color': 'rgba(255, 255, 255, 0.2)'});
-		($(event.currentTarget).html().indexOf('Layer') > -1) ? $('.dropzone').show() : $('.dropzone').hide();
+		let listItems = document.querySelectorAll('.layerList li');
+		let dropZone = document.getElementsByClassName('dropzone')[0];
+
+		this.removeBackgroundColor(listItems);
+		event.target.classList.add('layerfill');
+
+		(event.currentTarget.innerHTML.indexOf('Layer') > -1)
+		? dropZone.style.display = '' : dropZone.style.display = 'none';
 
 		this.props.dispatch(selectTool('pen'));
 		this.props.dispatch(updateView(event.currentTarget.id));
@@ -44,7 +61,8 @@ export default class SceneList extends Component {
 
 	removeView (index, view) {
 		this.props.dispatch(removeView(index, view));
-		$('.layerList li:last-child').css({'background-color': 'rgba(255, 255, 255, 0.2)'});
+		let listItems = document.querySelectorAll('.layerList li');
+		listItems[listItems.length - 1].classList.add('layerfill');
 	}
 
 	render () {
