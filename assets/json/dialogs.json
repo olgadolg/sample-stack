@@ -1,0 +1,20 @@
+{
+	"dialogs": {
+		"confirm": {
+			"text": {
+				"header": "Are your sure?",
+				"body": "You want to remove this layer."
+			},
+			"buttons": [
+				{
+					"value": "Cancel",
+					"action": "onCancel"
+				},
+				{
+					"value": "Yes",
+					"action": "onSubmit"
+				}
+			]
+		}
+	}
+}

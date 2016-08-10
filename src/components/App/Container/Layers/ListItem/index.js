@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import classnames from 'classnames';
 import { showDialog } from '../../../../../actions/dialog';
 import { removeView } from '../../../../../actions/views';
+import config from 'json!../../../../../../assets/json/dialogs.json';
 import styles from './styles/styles.css';
 
 export default class ListItem extends Component {
@@ -27,27 +27,13 @@ export default class ListItem extends Component {
 	}
 
 	handleRemove (e) {
-		const index = $(e.target).attr('id');
-		const view = $(e.target).attr('data-id');
-		const data = {
-			text: {
-				header: 'Are your sure?',
-				body: 'You want to remove this layer.'
-			},
-			buttons: [
-				{
-					value: 'Cancel',
-					action: 'onCancel'
-				},
-				{
-					value: 'Yes',
-					action: 'onSubmit'
-				}
-			],
-			callback: {
-				func: removeView,
-				params: [index, view]
-			}
+		const index = e.target.id;
+		const view = e.target.getAttribute('data-id');
+		const data = config.dialogs.confirm;
+
+		data.callback = {
+			func: removeView,
+			params: [index, view]
 		};
 
 		this.props.dispatch(showDialog(data));
