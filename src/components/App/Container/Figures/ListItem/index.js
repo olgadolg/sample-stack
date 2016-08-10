@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 

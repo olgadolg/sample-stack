@@ -1,5 +1,17 @@
 {
 	"dialogs": {
+		"layerCopy": {
+			"text": {
+				"header": "Layer - Error",
+				"body": "Layer name has to be unique"
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
 		"exportSuccess": {
 			"text": {
 				"header": "Project - Export",

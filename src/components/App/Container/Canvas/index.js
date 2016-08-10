@@ -7,7 +7,9 @@ import Artist from './Artist';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
+import { showDialog } from '../../../../actions/dialog';
 import { resetRemoveView } from '../../../../actions/views';
+import config from 'json!../../../../../assets/json/dialogs.json';
 import { saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 
 export default class Canvas extends Component {
@@ -324,8 +326,16 @@ export default class Canvas extends Component {
 	}
 
 	handleDrop (files) {
-		let reader = new FileReader();
-		let file = files[0];
+		const reader = new FileReader();
+		const file = files[0];
+		const layers = Object.keys(this.props.clickareas.views);
+		const fileName = files[0].name.replace(/(.*)\.(.*?)$/, '$1');
+		const data = config.dialogs.layerCopy;
+
+		if (layers.indexOf(fileName) > -1) {
+			this.props.dispatch(showDialog(data));
+			return;
+		}
 
 		reader.onload = ((theFile) => {
 			return (e) => {

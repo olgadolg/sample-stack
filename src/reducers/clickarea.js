@@ -18,7 +18,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
@@ -75,7 +76,7 @@ export default handleActions({
 			},
 			viewUpdate: {$set: false},
 			isNew: {$set: false},
-			isSelected: {$set: action.data.selected},
+			isSelected: {$set: false},
 			coordIndex: {$set: action.data.index},
 			initLayer: {$set: false},
 			loadProject: {$set: false},
@@ -136,8 +137,6 @@ export default handleActions({
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = state.coordIndex;
 
-		console.log('html', action.data.html);
-
 		if (action.data.scope === 'figure') {
 			return update(state, {
 				views: {
@@ -158,7 +157,8 @@ export default handleActions({
 				pasteClickarea: {$set: false},
 				viewRemoved: {$set: false},
 				resetRemoved: {$set: false},
-				show: {$set: false}
+				show: {$set: false},
+				isSelected: {$set: false}
 			});
 		} else {
 			return update(state, {
@@ -170,7 +170,8 @@ export default handleActions({
 				pasteClickarea: {$set: false},
 				viewRemoved: {$set: false},
 				resetRemoved: {$set: false},
-				show: {$set: false}
+				show: {$set: false},
+				isSelected: {$set: false}
 			});
 		}
 	},
@@ -233,14 +234,15 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
 	UPDATE_VIEW: (state, action) => {
 		return update(state, {
 			isNew: {$set: false},
-			isSelected: {$set: true},
+			isSelected: {$set: false},
 			viewUpdate: {$set: true},
 			initLayer: {$set: false},
 			currentView: {$set: action.data.view},
@@ -273,7 +275,8 @@ export default handleActions({
 		return update(state, {
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: true},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
@@ -301,7 +304,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
@@ -316,7 +320,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
@@ -343,7 +348,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
@@ -358,7 +364,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			addLayer: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 
@@ -433,7 +440,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			isSelected: {$set: false}
 		});
 	},
 

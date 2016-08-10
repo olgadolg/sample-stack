@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'underscore';
-import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 import ListItem from '../ListItem';
@@ -14,7 +13,6 @@ export default class List extends Component {
 		super(props);
 
 		this.state = {};
-
 		this.utilites = new Utilities();
 		this.handleClick = this.handleClick.bind(this);
 	}
@@ -41,6 +39,7 @@ export default class List extends Component {
 		const bbox = this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[id].bbox;
 		const mousedown = this.utilites.mouseEvent('mousedown', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
 		const mouseup = this.utilites.mouseEvent('mouseup', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
+
 		let listItems = document.querySelectorAll('.figureList li');
 
 		if (listItems.length) {
@@ -51,7 +50,6 @@ export default class List extends Component {
 		this.utilites.dispatchEvent(figure, 'mousedown', mousedown);
 		this.utilites.dispatchEvent(figure, 'mouseup', mouseup);
 	}
-
 
 	removeBackgroundColor (nodes) {
 		if (nodes.length) {
