@@ -84,6 +84,8 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 300px;
+	position: absolute;
+	left: 0;
 }
 
 :global(#dark) {
