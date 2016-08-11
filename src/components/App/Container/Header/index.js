@@ -41,13 +41,13 @@ export default class Header extends Component {
 	}
 
 	onStart () {
-		let svg = document.getElementById('svg');
-		svg.style.zIndex = -1;
+		let header = document.getElementById('header');
+		header.style.zIndex = '99999999';
 	}
 
 	onStop () {
-		let svg = document.getElementById('svg');
-		svg.style.zIndex = 0;
+		let header = document.getElementById('header');
+		header.style.zIndex = '9';
 	}
 
 	render () {
@@ -71,7 +71,7 @@ export default class Header extends Component {
 
 		return (
 			<Draggable zIndex={9999999} {...dragHandlers}>
-				<header className={styles.header}>
+				<header id="header" className={styles.header}>
 					<img src={logo} alt="logo" />
 					<Toolbox />
 					<div style={sliderStyle}>

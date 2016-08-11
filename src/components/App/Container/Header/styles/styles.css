@@ -1,7 +1,7 @@
 :local(.header) {
 	position: absolute;
 	left: 0;
-	width: 1276px;
+	width: 1274px;
 	height: 80px;
 	background-color: #013B2D;
 	z-index: 9999999;

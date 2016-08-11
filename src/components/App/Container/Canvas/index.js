@@ -354,7 +354,18 @@ export default class Canvas extends Component {
 		reader.readAsDataURL(file);
 	}
 
+	onStart () {
+		let canvasWrapper = document.getElementById('canvasWrapper');
+		canvasWrapper.style.zIndex = '99999999';
+	}
+
+	onStop () {
+		let canvasWrapper = document.getElementById('canvasWrapper');
+		canvasWrapper.style.zIndex = '9';
+	}
+
 	render () {
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const canvasWrapper = classnames({
 			'canvasWrapper': true,
 			[styles.canvasWrapper]: true
@@ -366,8 +377,8 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable zIndex={9999999}>
-				<div className={canvasWrapper}>
+			<Draggable zIndex={9999999} {...dragHandlers}>
+				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}
 						activeClassName={styles.activeDropzone}

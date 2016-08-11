@@ -79,14 +79,25 @@ export default class ControlsContainer extends Component {
 		this.setState({ isModalOpen: true });
 	}
 
+	onStart () {
+		let controlsContainer = document.getElementById('controlsContainer');
+		controlsContainer.style.zIndex = '99999999';
+	}
+
+	onStop () {
+		let controlsContainer = document.getElementById('controlsContainer');
+		controlsContainer.style.zIndex = '9';
+	}
+
 	render () {
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const btnStyle = {
 			backgroundColor: '#E90086'
 		};
 
 		return (
-			<Draggable zIndex={9999999}>
-				<div className={styles.controlsContainer} >
+			<Draggable zIndex={9999999} {...dragHandlers}>
+				<div id="controlsContainer" className={styles.controlsContainer} >
 					<Title />
 					<List />
 					<input
