@@ -309,6 +309,10 @@ export default class DrawVectors extends Component {
 				d3.select(this).classed('drag', true);
 			})
 			.on('drag', function (d, i) {
+				if (self.mouseup === true) {
+					return;
+				}
+
 				if (self.state.tool === 'pen' ||
 					self.state.tool === 'penRemove' ||
 					self.state.tool === 'penAdd') {
@@ -326,7 +330,6 @@ export default class DrawVectors extends Component {
 					self.createDragBox();
 				}
 
-				//self.updateClickarea();
 				self.update();
 			})
 			.on('dragend', function (d, i) {
@@ -913,6 +916,8 @@ export default class DrawVectors extends Component {
 					})
 					.on('mousedown', function () {
 						self.state.multiple = true;
+						self.mousedown = true;
+						self.mouseup = false;
 
 						if (self.state.tool === 'pen') {
 							return;
@@ -938,6 +943,9 @@ export default class DrawVectors extends Component {
 						}
 					})
 					.on('mouseup', function (d) {
+						self.mouseup = true;
+						self.mousedown = false;
+
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
 						self.state.color = d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill');
 						self.settings.setColorFn(d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill'));

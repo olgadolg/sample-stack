@@ -9,7 +9,7 @@ export default class Utilities extends Component {
 	mouseEvent (type, sx, sy, cx, cy) {
 		var evt;
 		var e = {
-			bubbles: true,
+			bubbles: false,
 			cancelable: (type !== 'mousemove'),
 			view: window,
 			detail: 0,
@@ -46,6 +46,9 @@ export default class Utilities extends Component {
 	}
 
 	dispatchEvent (el, type, evt) {
+
+		console.log(el, type, evt)
+
 		if (el.dispatchEvent) {
 			el.dispatchEvent(evt);
 		} else if (el.fireEvent) {
