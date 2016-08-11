@@ -502,6 +502,16 @@ export default handleActions({
 		return update(state, {
 			show: {$set: false}
 		});
+	},
+
+	SAVE_WORKSPACE: (state, action) => {
+		var element = action.data.name;
+
+		return update(state, {
+			workspace: {
+				[element]: {$set: {x: action.data.x, y: action.data.y}}
+			}
+		});
 	}
 }, {
 	views: {},
@@ -531,6 +541,20 @@ export default handleActions({
 	show: false,
 	content: {},
 	cutItem: {},
+	workspace: {
+		canvasWrapper: {
+			x: 0,
+			y: 80
+		},
+		header: {
+			x: 0,
+			y: 0
+		},
+		controlsWrapper: {
+			x: 0,
+			y: 80
+		}
+	},
 	viewRemvoved: false,
 	clickarea: {coords: null, goTo: 'Figure', bbox: {}}
 });

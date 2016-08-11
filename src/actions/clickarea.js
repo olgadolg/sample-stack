@@ -1,3 +1,4 @@
+import request from 'superagent';
 import { addClickarea } from './addclickarea';
 
 export const createClickarea = (name) => (dispatch) => {
@@ -11,10 +12,10 @@ export const makeClickarea = (clickarea, view, nodes, edges) => (dispatch) => {
 	});
 };
 
-export const updateClickarea = (coords, index, view, nodes, edges, selected, bbox) => (dispatch) => {
+export const updateClickarea = (coords, index, view, nodes, edges, selected) => (dispatch) => {
 	dispatch({
 		type: 'UPDATE_CLICKAREA',
-		data: {coords, index, view, nodes, edges, selected, bbox}
+		data: {coords, index, view, nodes, edges, selected}
 	});
 };
 
@@ -90,5 +91,12 @@ export const pasteCut = () => (dispatch) => {
 export const pasteClickarea = () => (dispatch) => {
 	dispatch({
 		type: 'PASTE_CLICKAREA'
+	});
+};
+
+export const saveWorkspace = (workspace) => (dispatch) => {
+	dispatch({
+		type: 'SAVE_WORKSPACE',
+		data: workspace
 	});
 };

@@ -11,7 +11,7 @@ import styles from './styles/styles.css';
 import { showDialog } from '../../../../actions/dialog';
 import { resetRemoveView } from '../../../../actions/views';
 import config from 'json!../../../../../assets/json/dialogs.json';
-import { saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveWorkspace, saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
 
 export default class Canvas extends Component {
 
@@ -34,6 +34,7 @@ export default class Canvas extends Component {
 
 		this.updateColor = this.updateColor.bind(this);
 		this.setColoronFigureClick = this.setColoronFigureClick.bind(this);
+		this.handleDrag = this.handleDrag.bind(this);
 	}
 
 	componentDidMount () {
@@ -363,6 +364,16 @@ export default class Canvas extends Component {
 		header.style.zIndex = '9';
 	}
 
+	handleDrag (e, ui) {
+		let element = {
+			name: ui.node.id,
+			x: e.clientX,
+			y: e.clientY
+		};
+
+		this.props.dispatch(saveWorkspace(element));
+	}
+
 	render () {
 		const dragHandlers = {onStart: this.onStart};
 		const canvasWrapper = classnames({
@@ -376,7 +387,7 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable zIndex={9999999} {...dragHandlers}>
+			<Draggable onDrag={this.handleDrag} {...dragHandlers}>
 				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}

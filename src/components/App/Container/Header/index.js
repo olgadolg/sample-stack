@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import Toolbox from '../Tools';
 import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
-import { removeColor } from '../../../../actions/clickarea';
+import { saveWorkspace, removeColor } from '../../../../actions/clickarea';
 import Draggable, {DraggableCore} from 'react-draggable';
 import styles from './styles/styles.css';
 
@@ -20,6 +20,7 @@ export default class Header extends Component {
 		this.handleRemoveColor = this.handleRemoveColor.bind(this);
 		this.handleColorChange = this.handleColorChange.bind(this);
 		this.onStart = this.onStart.bind(this);
+		this.handleDrag = this.handleDrag.bind(this);
 	}
 
 	componentWillReceiveProps (newProps) {
@@ -48,6 +49,16 @@ export default class Header extends Component {
 		canvasWrapper.style.zIndex = '9';
 	}
 
+	handleDrag (e, ui) {
+		let element = {
+			name: ui.node.id,
+			x: e.clientX,
+			y: e.clientY
+		};
+
+		this.props.dispatch(saveWorkspace(element));
+	}
+
 	render () {
 		const dragHandlers = {onStart: this.onStart};
 		const logo = require('../../../../images/logo.png');
@@ -63,7 +74,7 @@ export default class Header extends Component {
 		});
 
 		return (
-			<Draggable {...dragHandlers}>
+			<Draggable onDrag={this.handleDrag} {...dragHandlers}>
 				<header id="header" className={styles.header}>
 					<img src={logo} alt="logo" />
 					<Toolbox />

@@ -5,7 +5,7 @@ import Button from '../Button';
 import Title from '../Title';
 import List from '../List';
 import styles from './styles/styles.css';
-import { updateFill } from '../../../../actions/clickarea';
+import { saveWorkspace, updateFill } from '../../../../actions/clickarea';
 import Draggable, {DraggableCore} from 'react-draggable';
 import { exportProject, save, load } from '../../../../actions/project';
 
@@ -23,6 +23,7 @@ export default class ControlsContainer extends Component {
 		this.saveProject = this.saveProject.bind(this);
 		this.loadProject = this.loadProject.bind(this);
 		this.exportProject = this.exportProject.bind(this);
+		this.handleDrag = this.handleDrag.bind(this);
 	}
 
 	componentDidMount () {
@@ -88,6 +89,16 @@ export default class ControlsContainer extends Component {
 		header.style.zIndex = '9';
 	}
 
+	handleDrag (e, ui) {
+		let element = {
+			name: ui.node.id,
+			x: e.clientX,
+			y: e.clientY
+		};
+
+		this.props.dispatch(saveWorkspace(element));
+    }
+
 	render () {
 		const dragHandlers = {onStart: this.onStart};
 		const btnStyle = {
@@ -95,7 +106,7 @@ export default class ControlsContainer extends Component {
 		};
 
 		return (
-			<Draggable zIndex={9999999} {...dragHandlers}>
+			<Draggable onDrag={this.handleDrag} {...dragHandlers}>
 				<div id="controlsContainer" className={styles.controlsContainer} >
 					<Title />
 					<List />

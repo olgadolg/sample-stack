@@ -6,6 +6,7 @@ import config from 'config';
 import base from './base';
 import project from './api/project';
 import image from './api/image';
+import workspace from './api/workspace';
 
 mongoose.connect(config.get('database.host'));
 mongoose.connection.on('error', console.error.bind(console, 'db error:'));
@@ -57,6 +58,9 @@ server.register([
 	},
 	{
 		register: image
+	},
+	{
+		register: workspace
 	}
 ], (error) => {
 	if (error) throw error;
