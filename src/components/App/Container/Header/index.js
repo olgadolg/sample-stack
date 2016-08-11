@@ -5,6 +5,7 @@ import Toolbox from '../Tools';
 import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
 import { removeColor } from '../../../../actions/clickarea';
+import Draggable, {DraggableCore} from 'react-draggable';
 import styles from './styles/styles.css';
 
 export default class Header extends Component {
@@ -18,6 +19,8 @@ export default class Header extends Component {
 
 		this.handleRemoveColor = this.handleRemoveColor.bind(this);
 		this.handleColorChange = this.handleColorChange.bind(this);
+		this.onStart = this.onStart.bind(this);
+		this.onStop = this.onStop.bind(this);
 	}
 
 	componentWillReceiveProps (newProps) {
@@ -37,15 +40,28 @@ export default class Header extends Component {
 		this.props.dispatch(selectColor(event));
 	}
 
+	onStart () {
+		let svg = document.getElementById('svg');
+		svg.style.zIndex = -1;
+	}
+
+	onStop () {
+		let svg = document.getElementById('svg');
+		svg.style.zIndex = 0;
+	}
+
 	render () {
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const logo = require('../../../../images/logo.png');
 		const sliderStyle = {
 			width: '450px',
 			height: 'auto',
-			position: 'absolute',
+			float: 'left',
 			right: '110px',
 			top: '16px',
-			cursor: 'pointer'
+			cursor: 'pointer',
+			marginLeft: '33px',
+			marginTop: '15px'
 		};
 
 		const removeIcon = classnames({
@@ -54,16 +70,18 @@ export default class Header extends Component {
 		});
 
 		return (
-			<header draggable className={styles.header}>
-				<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
-				<div style={sliderStyle}>
-					<SliderPicker
-						color={this.state.color}
-						onChange={this.handleColorChange}/>
-				</div>
-				<Toolbox />
-				<img src={logo} alt="logo" />
-			</header>
+			<Draggable zIndex={9999999} {...dragHandlers}>
+				<header className={styles.header}>
+					<img src={logo} alt="logo" />
+					<Toolbox />
+					<div style={sliderStyle}>
+						<SliderPicker
+							color={this.state.color}
+							onChange={this.handleColorChange}/>
+					</div>
+					<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
+				</header>
+			</Draggable>
 		);
 	}
 }
