@@ -81,16 +81,15 @@ export default class ControlsContainer extends Component {
 
 	onStart () {
 		let controlsContainer = document.getElementById('controlsContainer');
+		let header = document.getElementById('header');
+		let canvasWrapper = document.getElementById('canvasWrapper');
 		controlsContainer.style.zIndex = '99999999';
-	}
-
-	onStop () {
-		let controlsContainer = document.getElementById('controlsContainer');
-		controlsContainer.style.zIndex = '9';
+		canvasWrapper.style.zIndex = '9';
+		header.style.zIndex = '9';
 	}
 
 	render () {
-		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
+		const dragHandlers = {onStart: this.onStart};
 		const btnStyle = {
 			backgroundColor: '#E90086'
 		};

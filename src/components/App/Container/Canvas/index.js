@@ -356,16 +356,15 @@ export default class Canvas extends Component {
 
 	onStart () {
 		let canvasWrapper = document.getElementById('canvasWrapper');
+		let controlsContainer = document.getElementById('controlsContainer');
+		let header = document.getElementById('header');
 		canvasWrapper.style.zIndex = '99999999';
-	}
-
-	onStop () {
-		let canvasWrapper = document.getElementById('canvasWrapper');
-		canvasWrapper.style.zIndex = '9';
+		controlsContainer.style.zIndex = '9';
+		header.style.zIndex = '9';
 	}
 
 	render () {
-		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
+		const dragHandlers = {onStart: this.onStart};
 		const canvasWrapper = classnames({
 			'canvasWrapper': true,
 			[styles.canvasWrapper]: true
