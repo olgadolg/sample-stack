@@ -19,14 +19,23 @@ export default class Toolbox extends Component {
 			select: false,
 			selectAll: true,
 			copy: false,
-			currentView: 'untitled 1'
+			currentView: 'untitled 1',
+			tool: 'Pen Tool'
 		};
 
-		this.handelClick = this.handleClick.bind(this);
+		this.handleClick = this.handleClick.bind(this);
+		this.handleMouseEnter = this.handleMouseEnter.bind(this);
+		this.handleMouseLeave = this.handleMouseLeave.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
 		this.setState({currentView: nextProps.currentView});
+
+		if (nextProps.initLayer === true) {
+			let selectedtool = document.getElementById('selectedtool');
+			this.setState({tool: 'Pen Tool'});
+			selectedtool.innerHTML = 'Pen Tool';
+		}
 
 		if (nextProps.currentView.indexOf('Layer') > -1) {
 			$('.layerIcon').css({
@@ -47,6 +56,16 @@ export default class Toolbox extends Component {
 		}
 	}
 
+	handleMouseEnter (e, label) {
+		let selectedTool = document.getElementById('selectedtool');
+		selectedTool.innerHTML = label;
+	}
+
+	handleMouseLeave (e) {
+		let selectedTool = document.getElementById('selectedtool');
+		selectedTool.innerHTML = this.state.tool;
+	}
+
 	handleClick (event, type) {
 		var obj = {};
 
@@ -59,6 +78,8 @@ export default class Toolbox extends Component {
 				obj[item] = false;
 			}
 		}
+
+		obj.tool = event.target.id;
 
 		if (type === 'copy') {
 			this.props.dispatch(getCopy());
@@ -166,15 +187,60 @@ export default class Toolbox extends Component {
 
 		return (
 			<div className={toolBox}>
-				<div onClick={(e) => this.handleClick(e, 'pen')} className={penIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'penAdd')} className={penAddIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'penRemove')} className={penRemoveIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'select')} className={selectIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'selectAll')} className={selectAllIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'copy')} className={copyIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'cut')} className={cutIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'layer')} className={layerIcon}></div>
-				<div onClick={(e) => this.handleClick(e, 'layer')} className={workspaceIcon}></div>
+				<div id="Pen Tool"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Pen Tool')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'pen')}
+					className={penIcon}>
+				</div>
+				<div id="Add Point"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Add Point')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'penAdd')}
+					className={penAddIcon}>
+				</div>
+				<div id="Remove Point"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Remove Point')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'penRemove')}
+					className={penRemoveIcon}>
+				</div>
+				<div id="Select"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Select')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'select')}
+					className={selectIcon}>
+				</div>
+				<div id="Select All"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Select All')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'selectAll')}
+					className={selectAllIcon}>
+				</div>
+				<div id="Copy Figure"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Copy Figure')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'copy')}
+					className={copyIcon}>
+				</div>
+				<div id="Cut / Paste"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Cut / Paste')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'cut')}
+					className={cutIcon}>
+				</div>
+				<div id="New Layer"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'New Layer')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'layer')}
+					className={layerIcon}>
+				</div>
+				<div id="Save Workspace"
+					onMouseEnter={(e) => this.handleMouseEnter(e, 'Save Workspace')}
+					onMouseLeave={this.handleMouseLeave}
+					onClick={(e) => this.handleClick(e, 'workspace')}
+					className={workspaceIcon}>
+				</div>
 			</div>
 		);
 	}
@@ -183,7 +249,8 @@ export default class Toolbox extends Component {
 const mapStateToProps = (state) => {
 	return {
 		tool: state.clickareas.tool,
-		currentView: state.clickareas.currentView
+		currentView: state.clickareas.currentView,
+		initLayer: state.clickareas.initLayer
 	};
 };
 

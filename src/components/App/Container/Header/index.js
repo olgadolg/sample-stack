@@ -89,8 +89,8 @@ export default class Header extends Component {
 					<img src={logo} alt="logo" />
 					<Toolbox />
 					<div className={tooldescWrapper}>
-						<p>Tool :
-							<span id="selectedtool" className={selectedTool}> Pen</span>
+						<p>
+							<span id="selectedtool" className={selectedTool}> Pen Tool</span>
 						</p>
 					</div>
 					<div className={slider}>
