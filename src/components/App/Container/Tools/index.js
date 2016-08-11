@@ -157,6 +157,13 @@ export default class Toolbox extends Component {
 			[styles.cutIcon]: true
 		});
 
+		const workspaceIcon = classnames({
+			'tool': true,
+			'workspaceIcon': true,
+			[styles.tool]: true,
+			[styles.workspaceIcon]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div onClick={(e) => this.handleClick(e, 'pen')} className={penIcon}></div>
@@ -167,6 +174,7 @@ export default class Toolbox extends Component {
 				<div onClick={(e) => this.handleClick(e, 'copy')} className={copyIcon}></div>
 				<div onClick={(e) => this.handleClick(e, 'cut')} className={cutIcon}></div>
 				<div onClick={(e) => this.handleClick(e, 'layer')} className={layerIcon}></div>
+				<div onClick={(e) => this.handleClick(e, 'layer')} className={workspaceIcon}></div>
 			</div>
 		);
 	}
