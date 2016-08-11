@@ -11,6 +11,10 @@
 	cursor: pointer;
 }
 
+:local(.layerItem:hover) {
+	background: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 :local([data-custom-attribute="filled"]) {
   background: rgba(255, 255, 255, 0.2);
 }

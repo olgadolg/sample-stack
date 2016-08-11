@@ -5,14 +5,15 @@ import config from 'config';
 const saveProject = (request, reply) => {
 	var json = JSON.stringify(request.payload);
 	var currentdate = new Date();
-	var datetime = currentdate.getDate() + '/' +
-		(currentdate.getMonth() + 1) + '/' +
-		currentdate.getFullYear() + '-' +
-		currentdate.getHours() + ':' +
-		currentdate.getMinutes() + ':' +
-		currentdate.getSeconds();
+	var minutes = (currentdate.getMinutes() < 10)
+	? '0' + currentdate.getMinutes() : currentdate.getMinutes();
 
-	fs.writeFile('./downloads/project' + datetime + '.json', json, function (err) {
+	var datetime = currentdate.getFullYear().toString() +
+		('0' + (currentdate.getMonth() + 1)).slice(-2).toString() +
+		('0' + currentdate.getDate()).slice(-2).toString() + '-' +
+		currentdate.getHours() + ':' + minutes + ':' + currentdate.getSeconds();
+
+	fs.writeFile(config.get('downloads') + 'project_' + datetime + '.json', json, function (err) {
 		if (err) return reply().code(401);
 
 		return reply().code(200);
@@ -55,19 +56,19 @@ const exportProject = (request, reply) => {
 		}
 	}
 
-	mkdirp(config.get('project_dir') + (projectName.charAt(0).toUpperCase() + projectName.slice(1)) + '/n5assets_' + (projectName.charAt(0).toUpperCase() + projectName.slice(1)) + '/views', function (err) {
+	mkdirp(config.get('projects') + (projectName.charAt(0).toUpperCase() + projectName.slice(1)) + '/n5assets_' + (projectName.charAt(0).toUpperCase() + projectName.slice(1)) + '/views', function (err) {
 		if (err) return reply().code(401);
 
 		for (var view in stateObj.clickareas.views) {
 			fs.createReadStream('./assets/images/' + stateObj.clickareas.views[view].image).pipe(fs.createWriteStream('./projects/' + projectName + '/n5assets_' + projectName + '/views/' + stateObj.clickareas.views[view].image));
 		}
 
-		fs.writeFile('./projects/' + projectName + '/intApt.json', JSON.stringify(apts, null, 4), function (err) {
+		fs.writeFile(config.get('projects') + projectName + '/intApt.json', JSON.stringify(apts, null, 4), function (err) {
 			if (err) return reply().code(401);
 			return reply().code(200);
 		});
 
-		fs.writeFile('./projects/' + projectName + '/settings.json', JSON.stringify(views, null, 4), function (err) {
+		fs.writeFile(config.get('projects') + projectName + '/settings.json', JSON.stringify(views, null, 4), function (err) {
 			if (err) return reply().code(401);
 			return reply().code(200);
 		});

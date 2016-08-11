@@ -16,6 +16,7 @@
 
 :local(.titleWrapper) {
 	height: 55px;
+	margin-bottom: 5px;
 }
 
 :local(.button:hover) {

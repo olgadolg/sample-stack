@@ -8,6 +8,11 @@
 	text-transform: uppercase;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 	text-align: left;
+	cursor: pointer;
+}
+
+:local(.figureItem:hover) {
+	background: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 :local(.figureItem:first-child) {
@@ -25,4 +30,5 @@
 	right: 15px;
 	top: 9px;
 	z-index: 99999;
+	cursor: pointer
 }

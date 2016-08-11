@@ -3,7 +3,7 @@ import path from 'path';
 import config from 'config';
 
 const addImage = (request, reply) => {
-	const dir = path.join(__dirname, '..', '..', config.get('image_dir'));
+	const dir = path.join(__dirname, '..', '..', config.get('images'));
 	fs.writeFile(dir + request.payload.filename, request.payload.img_attach._data, function (error) {
 		if (error) return reply(error);
 
