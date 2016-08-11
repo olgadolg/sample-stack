@@ -6,6 +6,7 @@ import Title from '../Title';
 import List from '../List';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
+import Draggable, {DraggableCore} from 'react-draggable';
 import { exportProject, save, load } from '../../../../actions/project';
 
 export default class ControlsContainer extends Component {
@@ -84,20 +85,22 @@ export default class ControlsContainer extends Component {
 		};
 
 		return (
-			<div className={styles.controlsContainer} >
-				<Title />
-				<List />
-				<input
-					type="file"
-					name="file"
-					id="file"
-					onChange={(e) => this.loadProject(e)}
-					className={styles.inputfile}
-				/>
-				<label for="file">Load Project</label>
-				<Button onClick={this.saveProject} label="Save Project" />
-				<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
-			</div>
+			<Draggable zIndex={9999999}>
+				<div className={styles.controlsContainer} >
+					<Title />
+					<List />
+					<input
+						type="file"
+						name="file"
+						id="file"
+						onChange={(e) => this.loadProject(e)}
+						className={styles.inputfile}
+					/>
+					<label for="file">Load Project</label>
+					<Button onClick={this.saveProject} label="Save Project" />
+					<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
+				</div>
+			</Draggable>
 		);
 	}
 }

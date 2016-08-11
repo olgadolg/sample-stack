@@ -1,4 +1,6 @@
 :local(.controlsContainer) {
+	position: absolute;
+	top: 80px;
 	float: left;
 	display: inline-block;
 	margin: 0;
@@ -10,7 +12,6 @@
 	padding: 25px;
 	box-sizing: border-box;
 	background-position: center;
-	box-shadow: 13px 0px 16px -5px rgba(0,0,0,0.56);
 }
 
 :local(.lockFillWrapper) {

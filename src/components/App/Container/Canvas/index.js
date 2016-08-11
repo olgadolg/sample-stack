@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import $ from 'jquery';
+import Draggable, {DraggableCore} from 'react-draggable';
 import classnames from 'classnames';
 import Artist from './Artist';
 import { selectTool } from '../../../../actions/controls';
@@ -354,22 +355,29 @@ export default class Canvas extends Component {
 	}
 
 	render () {
+		const canvasWrapper = classnames({
+			'canvasWrapper': true,
+			[styles.canvasWrapper]: true
+		});
+
 		const dropzone = classnames({
 			'dropzone': true,
 			[styles.dropzone]: true
 		});
 
 		return (
-			<div>
-				<Dropzone
-					className={dropzone}
-					activeClassName={styles.activeDropzone}
-					ref="dropzone"
-					onDrop={this.handleDrop.bind(this)} />
-				<div className="svgWrapper" ref="svgWrapper">
-					<img src={this.state.imageData} className="canvasIcon" />
+			<Draggable zIndex={9999999}>
+				<div className={canvasWrapper}>
+					<Dropzone
+						className={dropzone}
+						activeClassName={styles.activeDropzone}
+						ref="dropzone"
+						onDrop={this.handleDrop.bind(this)} />
+					<div className="svgWrapper" ref="svgWrapper">
+						<img src={this.state.imageData} className="canvasIcon" />
+					</div>
 				</div>
-			</div>
+			</Draggable>
 		);
 	}
 }
