@@ -19,7 +19,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -52,7 +53,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -76,7 +78,7 @@ export default handleActions({
 			},
 			viewUpdate: {$set: false},
 			isNew: {$set: false},
-			isSelected: {$set: false},
+			isSelected: {$set: true},
 			coordIndex: {$set: action.data.index},
 			initLayer: {$set: false},
 			loadProject: {$set: false},
@@ -87,7 +89,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -128,7 +131,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -158,7 +162,8 @@ export default handleActions({
 				viewRemoved: {$set: false},
 				resetRemoved: {$set: false},
 				show: {$set: false},
-				isSelected: {$set: false}
+				isSelected: {$set: false},
+				loadWorkspace: {$set: false}
 			});
 		} else {
 			return update(state, {
@@ -171,7 +176,8 @@ export default handleActions({
 				viewRemoved: {$set: false},
 				resetRemoved: {$set: false},
 				show: {$set: false},
-				isSelected: {$set: false}
+				isSelected: {$set: false},
+				loadWorkspace: {$set: false}
 			});
 		}
 	},
@@ -203,7 +209,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -235,7 +242,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -253,7 +261,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			addLayer: {$set: false}
+			addLayer: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -276,7 +285,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: true},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -305,7 +315,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -321,7 +332,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -349,7 +361,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -385,7 +398,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -399,7 +413,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -425,7 +440,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -441,7 +457,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -452,7 +469,8 @@ export default handleActions({
 			pasteClickarea: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -463,7 +481,8 @@ export default handleActions({
 			paste: {$set: false},
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
-			show: {$set: false}
+			show: {$set: false},
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -488,7 +507,8 @@ export default handleActions({
 			viewUpdate: {$set: action.data.viewUpdate},
 			views: {$set: action.data.views},
 			projectName: {$set: action.data.projectName},
-			scope: {$set: action.data.scope}
+			scope: {$set: action.data.scope},
+			loadWorkspace: {$set: false}
 		});
 	},
 	SHOW_DIALOG: (state, action) => {
@@ -504,14 +524,33 @@ export default handleActions({
 		});
 	},
 
-	SAVE_WORKSPACE: (state, action) => {
-		var element = action.data.name;
-
+	LOAD_WORKSPACE: (state, action) => {
 		return update(state, {
-			workspace: {
-				[element]: {$set: {x: action.data.x, y: action.data.y}}
-			}
+			loadWorkspace: {$set: true}
 		});
+	},
+
+	SAVE_WORKSPACE: (state, action) => {
+		var element = action.data.workspace.name;
+
+		if (action.data.load === false && typeof element !== 'undefined') {
+			return update(state, {
+				workspace: {
+					[element]: {$set: {
+						x: action.data.workspace.x,
+						y: action.data.workspace.y}
+					}
+				},
+				loadWorkspace: {$set: false},
+				onload: {$set: action.data.onload}
+			});
+		} else {
+			return update(state, {
+				workspace: {$set: action.data.workspace.workspace},
+				loadWorkspace: {$set: false},
+				onload: {$set: action.data.onload}
+			});
+		}
 	}
 }, {
 	views: {},
@@ -541,9 +580,10 @@ export default handleActions({
 	show: false,
 	content: {},
 	cutItem: {},
+	onload: false,
 	workspace: {
 		canvasWrapper: {
-			x: 0,
+			x: 250,
 			y: 80
 		},
 		header: {

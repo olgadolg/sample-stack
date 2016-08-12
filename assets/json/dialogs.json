@@ -1,5 +1,17 @@
 {
 	"dialogs": {
+		"saveWorkspace": {
+			"text": {
+				"header": "Your workspace...",
+				"body": "Has been succesfully saved."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
 		"layerCopy": {
 			"text": {
 				"header": "Layer - Error",

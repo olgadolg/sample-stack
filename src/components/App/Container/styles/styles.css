@@ -21,6 +21,13 @@
 	font-size: 16px;
 }
 
+:global(.notransition) {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
 :global([contenteditable="false"]) {
 	margin-left: 40px;
 	display: block;
@@ -45,8 +52,8 @@
 }
 
 :global(.wrapper) {
+	position: relative;
 	background-position: center;
-	position: absolute;
 	background-size: 500px;
 	background-repeat: no-repeat;
 	left: 0;

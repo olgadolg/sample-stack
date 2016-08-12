@@ -2,8 +2,32 @@ import { Component } from 'react';
 
 export default class Utilities extends Component {
 
-	constructor () {
-		super();
+	translatePos (style) {
+		var transZRegex = /\.*translate\((.*)\)/i;
+		var y = transZRegex.exec(style)[1];
+
+		return y;
+	}
+
+	calculateDistance (posArr, props) {
+		var x, y;
+
+		if (posArr[0] <= props.workspace.header.x) {
+			x = props.workspace.header.x - Math.abs(posArr[0]);
+		} else if (posArr[0] >= props.workspace.header.x) {
+			x = props.workspace.header.x + Math.abs(posArr[0]);
+		}
+
+		if (posArr[1] <= props.workspace.header.y) {
+			y = props.workspace.header.y - Math.abs(posArr[1]);
+		} else if (posArr[1] >= props.workspace.header.y) {
+			y = props.workspace.header.y + Math.abs(posArr[1]);
+		}
+
+		return {
+			x: x,
+			y: y
+		};
 	}
 
 	mouseEvent (type, sx, sy, cx, cy) {
@@ -46,9 +70,6 @@ export default class Utilities extends Component {
 	}
 
 	dispatchEvent (el, type, evt) {
-
-		console.log(el, type, evt)
-
 		if (el.dispatchEvent) {
 			el.dispatchEvent(evt);
 		} else if (el.fireEvent) {

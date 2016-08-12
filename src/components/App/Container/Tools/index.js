@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
-import { pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
+import { updateWorkspace, removeWorkspace, loadWorkspace, pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
@@ -26,6 +26,7 @@ export default class Toolbox extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleMouseEnter = this.handleMouseEnter.bind(this);
 		this.handleMouseLeave = this.handleMouseLeave.bind(this);
+		this.handleDoubleClick = this.handleDoubleClick.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -33,26 +34,17 @@ export default class Toolbox extends Component {
 
 		if (nextProps.initLayer === true) {
 			let selectedtool = document.getElementById('selectedtool');
-			this.setState({tool: 'Pen Tool'});
 			selectedtool.innerHTML = 'Pen Tool';
 		}
 
 		if (nextProps.currentView.indexOf('Layer') > -1) {
-			$('.layerIcon').css({
-				'pointer-events': 'none',
-				'opacity': '0.5'
-			});
+			let layerIcon = document.getElementsByClassName('layerIcon');
+			layerIcon[0].style.pointerEvents = 'none';
+			layerIcon[0].style.opacity = 0.5;
 		} else {
-			$('.layerIcon').css({
-				'pointer-events': 'all',
-				'opacity': '1'
-			});
-		}
-
-		if (nextProps.tool !== 'layer' && typeof nextProps.tool !== 'undefined') {
-			$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px #fff'});
-			$('.tool:hover').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
-			$('.' + nextProps.tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+			let layerIcon = document.getElementsByClassName('layerIcon');
+			layerIcon[0].style.pointerEvents = 'all';
+			layerIcon[0].style.opacity = 1;
 		}
 	}
 
@@ -66,12 +58,16 @@ export default class Toolbox extends Component {
 		selectedTool.innerHTML = this.state.tool;
 	}
 
+	handleDoubleClick (event, type) {
+		this.props.dispatch(removeWorkspace());
+	}
+
 	handleClick (event, type) {
-		var obj = {};
+		let obj = {};
+		let toolSelected = document.getElementById('selectedtool');
+		toolSelected.innerHTML = event.target.id;
 
-		$('.handle').removeClass('selected');
-
-		for (var item in this.state) {
+		for (let item in this.state) {
 			if (type === item) {
 				obj[type] = true;
 			} else if (item !== 'currentView') {
@@ -79,13 +75,28 @@ export default class Toolbox extends Component {
 			}
 		}
 
-		obj.tool = event.target.id;
+		if (type === 'workspace') {
+			this.props.dispatch(loadWorkspace(
+				{workspace: this.props.workspace},
+				true, false)
+			);
+		}
 
 		if (type === 'copy') {
+			$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(255, 255, 255, 1)'});
+			$('.copyIcon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+			if ($('.clickarea').length === 0) return;
 			this.props.dispatch(getCopy());
 		}
 
 		if (type === 'cut') {
+			$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(255, 255, 255, 1)'});
+			$('.cutIcon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
+
+			if ($('.cutIcon').hasClass('paste')) {
+				if ($('.clickarea').length === 0) return;
+			}
+
 			$('.cutIcon').toggleClass('paste');
 			$('.cutIcon').hasClass('paste')
 				? this.props.dispatch(cutClickarea())
@@ -96,6 +107,8 @@ export default class Toolbox extends Component {
 			var isSelected;
 
 			if (type === 'layer') {
+				$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(255, 255, 255, 1)'});
+				$('.layerIcon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 				$('.dropzone').show();
 				this.props.dispatch(addLayer());
 				this.props.dispatch(unselectClickarea());
@@ -103,7 +116,6 @@ export default class Toolbox extends Component {
 
 			if (type !== 'layer') {
 				$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px #fff'});
-				$('.tool:hover').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 				for (var tool in this.state) {
 					if (this.state[tool] === true) {
 						isSelected = tool;
@@ -188,56 +200,39 @@ export default class Toolbox extends Component {
 		return (
 			<div className={toolBox}>
 				<div id="Pen Tool"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Pen Tool')}
-					onMouseLeave={this.handleMouseLeave}
 					onClick={(e) => this.handleClick(e, 'pen')}
 					className={penIcon}>
 				</div>
 				<div id="Add Point"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Add Point')}
-					onMouseLeave={this.handleMouseLeave}
 					onClick={(e) => this.handleClick(e, 'penAdd')}
 					className={penAddIcon}>
 				</div>
 				<div id="Remove Point"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Remove Point')}
-					onMouseLeave={this.handleMouseLeave}
 					onClick={(e) => this.handleClick(e, 'penRemove')}
 					className={penRemoveIcon}>
 				</div>
-				<div id="Select"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Select')}
-					onMouseLeave={this.handleMouseLeave}
+				<div id="Select Point"
 					onClick={(e) => this.handleClick(e, 'select')}
 					className={selectIcon}>
 				</div>
-				<div id="Select All"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Select All')}
-					onMouseLeave={this.handleMouseLeave}
+				<div id="Select Figure"
 					onClick={(e) => this.handleClick(e, 'selectAll')}
 					className={selectAllIcon}>
 				</div>
 				<div id="Copy Figure"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Copy Figure')}
-					onMouseLeave={this.handleMouseLeave}
 					onClick={(e) => this.handleClick(e, 'copy')}
 					className={copyIcon}>
 				</div>
 				<div id="Cut / Paste"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Cut / Paste')}
-					onMouseLeave={this.handleMouseLeave}
 					onClick={(e) => this.handleClick(e, 'cut')}
 					className={cutIcon}>
 				</div>
 				<div id="New Layer"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'New Layer')}
-					onMouseLeave={this.handleMouseLeave}
 					onClick={(e) => this.handleClick(e, 'layer')}
 					className={layerIcon}>
 				</div>
 				<div id="Save Workspace"
-					onMouseEnter={(e) => this.handleMouseEnter(e, 'Save Workspace')}
-					onMouseLeave={this.handleMouseLeave}
+					onDoubleClick={(e) => this.handleDoubleClick(e, 'workspace')}
 					onClick={(e) => this.handleClick(e, 'workspace')}
 					className={workspaceIcon}>
 				</div>
@@ -247,10 +242,14 @@ export default class Toolbox extends Component {
 }
 
 const mapStateToProps = (state) => {
+
+	console.log('state', state)
+
 	return {
 		tool: state.clickareas.tool,
 		currentView: state.clickareas.currentView,
-		initLayer: state.clickareas.initLayer
+		initLayer: state.clickareas.initLayer,
+		workspace: state.clickareas.workspace
 	};
 };
 

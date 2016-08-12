@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Toolbox from '../Tools';
+import $ from 'jquery';
 import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
 import { saveWorkspace, removeColor } from '../../../../actions/clickarea';
 import Draggable, {DraggableCore} from 'react-draggable';
+import Utilities from '../../../../Utilities';
 import styles from './styles/styles.css';
 
 export default class Header extends Component {
@@ -15,12 +17,16 @@ export default class Header extends Component {
 
 		this.state = {
 			color: '#6ec2b3'
+
 		};
+
+		this.utilities = new Utilities();
 
 		this.handleRemoveColor = this.handleRemoveColor.bind(this);
 		this.handleColorChange = this.handleColorChange.bind(this);
 		this.onStart = this.onStart.bind(this);
-		this.handleDrag = this.handleDrag.bind(this);
+		this.onStop = this.onStop.bind(this);
+		this.onDrag = this.onDrag.bind(this);
 	}
 
 	componentWillReceiveProps (newProps) {
@@ -34,13 +40,22 @@ export default class Header extends Component {
 	}
 
 	handleColorChange (event) {
-		this.setState({
-			color: event.hex
-		});
+		this.setState({color: event.hex});
 		this.props.dispatch(selectColor(event));
 	}
 
-	onStart () {
+	onDrag (e, ui) {
+		const {x, y} = this.state;
+
+		if (e.target.id === 'header') {
+			this.setState({
+				x: x + ui.deltaX,
+				y: y + ui.deltaY
+			});
+		}
+	}
+
+	onStart (e, ui) {
 		let header = document.getElementById('header');
 		let controlsContainer = document.getElementById('controlsContainer');
 		let canvasWrapper = document.getElementById('canvasWrapper');
@@ -49,18 +64,27 @@ export default class Header extends Component {
 		canvasWrapper.style.zIndex = '9';
 	}
 
-	handleDrag (e, ui) {
-		let element = {
-			name: ui.node.id,
-			x: e.clientX,
-			y: e.clientY
-		};
+	onStop (e, ui) {
+		if (e.target.id === 'Save Workspace') {
+			return;
+		}
 
-		this.props.dispatch(saveWorkspace(element));
+		const el = document.getElementById('header');
+		const elStyle = el.getAttribute('style');
+		const pos = this.utilities.translatePos(elStyle);
+		const posArr = pos.split(',');
+
+		posArr[0] = parseInt(posArr[0].replace('px', ''));
+		posArr[1] = parseInt(posArr[1].replace('px', ''));
+
+		const dist = this.utilities.calculateDistance(posArr, this.props);
+		const position = {name: ui.node.id, x: dist.x, y: dist.y};
+
+		this.props.dispatch(saveWorkspace(position));
 	}
 
 	render () {
-		const dragHandlers = {onStart: this.onStart};
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const logo = require('../../../../images/logo.png');
 
 		const slider = classnames({
@@ -84,9 +108,9 @@ export default class Header extends Component {
 		});
 
 		return (
-			<Draggable onDrag={this.handleDrag} {...dragHandlers}>
+			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon" onDrag={this.onDrag} {...dragHandlers}>
 				<header id="header" className={styles.header}>
-					<img src={logo} alt="logo" />
+					<img className="logo" src={logo} alt="logo" />
 					<Toolbox />
 					<div className={tooldescWrapper}>
 						<p>
@@ -107,7 +131,8 @@ export default class Header extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		color: state.clickareas.color
+		color: state.clickareas.color,
+		workspace: state.clickareas.workspace
 	};
 };
 export default connect(mapStateToProps)(Header);
