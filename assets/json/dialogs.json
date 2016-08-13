@@ -1,5 +1,29 @@
 {
 	"dialogs": {
+		"saveArtboardSuccess": {
+			"text": {
+				"header": "Your artboard...",
+				"body": "Has been succesfully saved."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
+		"saveArtboardFailed": {
+			"text": {
+				"header": "Your workspace...",
+				"body": "Could unfornately not be saved."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
 		"saveWorkspace": {
 			"text": {
 				"header": "Your workspace...",

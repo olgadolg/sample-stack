@@ -6,6 +6,7 @@ import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
 import { removeWorkspace, loadWorkspace, pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
+import { saveArtboard } from '../../../../actions/artboard';
 
 export default class Toolbox extends Component {
 
@@ -69,6 +70,10 @@ export default class Toolbox extends Component {
 			} else if (item !== 'currentView' && item !== 'tool') {
 				obj[item] = false;
 			}
+		}
+
+		if (type === 'artboard') {
+			this.props.dispatch(saveArtboard(this.props.state));
 		}
 
 		if (type === 'workspace') {
@@ -192,6 +197,13 @@ export default class Toolbox extends Component {
 			[styles.resetWorkspaceIcon]: true
 		});
 
+		const artboardIcon = classnames({
+			'tool': true,
+			'artboardIcon': true,
+			[styles.tool]: true,
+			[styles.artboardIcon]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div id="Select Figure"
@@ -229,15 +241,20 @@ export default class Toolbox extends Component {
 				<div id="Save Setup"
 					onClick={(e) => this.handleClick(e, 'workspace')}
 					className={workspaceIcon}>
+
+					{(() => {
+						if (this.props.init === false) {
+							return (<div id="Reset save Workspace"
+								onClick={(e) => this.handleDoubleClick(e, 'workspace')}
+								className={resetWorkspaceIcon}>
+							</div>);
+						}
+					})()}
 				</div>
-				{(() => {
-					if (this.props.init === false) {
-						return (<div id="Reset save Workspace"
-							onClick={(e) => this.handleDoubleClick(e, 'workspace')}
-							className={resetWorkspaceIcon}>
-						</div>);
-					}
-				})()}
+				<div id="Save Artboard"
+					onClick={(e) => this.handleClick(e, 'artboard')}
+					className={artboardIcon}>
+				</div>
 			</div>
 		);
 	}
@@ -245,6 +262,7 @@ export default class Toolbox extends Component {
 
 const mapStateToProps = (state) => {
 	return {
+		state: state,
 		tool: state.clickareas.tool,
 		currentView: state.clickareas.currentView,
 		initLayer: state.clickareas.initLayer,
