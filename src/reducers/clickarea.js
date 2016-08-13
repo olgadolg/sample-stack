@@ -32,7 +32,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			initLayer: {$set: false},
 		});
 	},
 
@@ -66,7 +67,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			initLayer: {$set: false},
 		});
 	},
 
@@ -144,7 +146,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			initLayer: {$set: false},
 		});
 	},
 
@@ -390,7 +393,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			addLayer: {$set: false},
 			show: {$set: false},
-			isSelected: {$set: false}
+			isSelected: {$set: false},
+			initLayer: {$set: false}
 		});
 	},
 
@@ -571,7 +575,7 @@ export default handleActions({
 	coordIndex: 0,
 	currentView: '',
 	color: '#6ec2b3',
-	tool: 'pen',
+	tool: 'selectAll',
 	fill: true,
 	addLayer: true,
 	initLayer: false,
