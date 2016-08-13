@@ -16,19 +16,32 @@ export default class Container extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		let wrapper = document.getElementsByClassName('wrapper')[0];
 		let header = document.getElementById('header');
 		let controls = document.getElementById('controlsContainer');
 		let canvas = document.getElementById('canvasWrapper');
 
 		if (nextProps.onload === true && nextProps.init === false) {
-			header.style.top = nextProps.workspace.header.y + 'px';
-			header.style.left = nextProps.workspace.header.x + 'px';
-			controls.style.top = nextProps.workspace.controlsContainer.y + 'px';
-			controls.style.left = nextProps.workspace.controlsContainer.x + 'px';
-			canvas.style.top = nextProps.workspace.canvasWrapper.y + 'px';
-			canvas.style.left = nextProps.workspace.canvasWrapper.x + 'px';
-			wrapper.style.display = '';
+			if (nextProps.workspace.header.y) {
+				header.style.top = nextProps.workspace.header.y + 'px';
+			}
+			if (nextProps.workspace.header.x) {
+				header.style.left = nextProps.workspace.header.x + 'px';
+			}
+			if (nextProps.workspace.controlsContainer.y) {
+				controls.style.top = nextProps.workspace.controlsContainer.y + 'px';
+			}
+			if (nextProps.workspace.controlsContainer.x) {
+				controls.style.left = nextProps.workspace.controlsContainer.x + 'px';
+			}
+
+			if (nextProps.workspace.canvasWrapper.y) {
+				canvas.style.top = nextProps.workspace.canvasWrapper.y + 'px';
+			}
+
+			if (nextProps.workspace.canvasWrapper.x) {
+				canvas.style.left = nextProps.workspace.canvasWrapper.x + 'px';
+			}
+
 			$('.wrapper').show();
 		} else if (nextProps.init === true) {
 			$('.wrapper').show();
@@ -53,7 +66,8 @@ const mapStateToProps = (state) => {
 		workspace: state.clickareas.workspace,
 		loadWorkspace: state.clickareas.loadWorkspace,
 		onload: state.clickareas.onload,
-		init: state.clickareas.init
+		init: state.clickareas.init,
+		reset: state.clickareas.reset
 	};
 };
 
