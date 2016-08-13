@@ -131,9 +131,7 @@ export const loadWorkspace = (workspace, update, onload) => (dispatch) => {
 						}
 					});
 				} else {
-					dispatch({
-						type: 'INIT'
-					});
+					dispatch({ type: 'INIT' });
 				}
 
 				if (update === true) {
@@ -160,6 +158,7 @@ export const removeWorkspace = () => (dispatch) => {
 			} else {
 				const data = config.dialogs.workspaceReset;
 				dispatch(showDialog(data));
+				dispatch({ type: 'INIT' });
 			}
 		});
 };
@@ -176,6 +175,7 @@ export const storeWorkspace = (workspace) => (dispatch) => {
 			} else {
 				const data = config.dialogs.saveWorkspace;
 				dispatch(showDialog(data));
+				dispatch({ type: 'RESET_INIT' });
 			}
 		});
 };
@@ -192,6 +192,7 @@ export const updateWorkspace = (response, workspace) => (dispatch) => {
 			} else {
 				const data = config.dialogs.saveWorkspace;
 				dispatch(showDialog(data));
+				dispatch({ type: 'RESET_INIT' });
 			}
 		});
 };
