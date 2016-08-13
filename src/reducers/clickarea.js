@@ -9,6 +9,12 @@ export default handleActions({
 		});
 	},
 
+	RESET_INIT: (state, action) => {
+		return update(state, {
+			init: {$set: false}
+		});
+	},
+
 	ADD_CLICKAREA: (state, action) => {
 		return update(state, {
 			clickarea: {
