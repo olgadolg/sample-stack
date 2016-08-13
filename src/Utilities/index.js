@@ -38,6 +38,14 @@ export default class Utilities extends Component {
 			y = props.workspace[el].y + Math.abs(posArr[1]);
 		}
 
+		if (typeof y === 'undefined') {
+			y = props.workspace[el].y;
+		}
+
+		if (typeof x === 'undefined') {
+			x = props.workspace[el].x;
+		}
+
 		return {
 			x: x,
 			y: y
