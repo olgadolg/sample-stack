@@ -5,14 +5,16 @@ import Controls from './Controls';
 import $ from 'jquery';
 import Canvas from './Canvas';
 import Modal from './Modal';
-import { loadWorkspace } from '../../../actions/clickarea';
+import { loadWorkspace, init } from '../../../actions/clickarea';
 import styles from './styles/styles.css';
 
 export default class Container extends Component {
 
 	componentDidMount () {
+		this.props.dispatch(init());
 		this.props.dispatch(loadWorkspace(this.props.workspace, false, true));
 		$('.wrapper').hide();
+		$('.header').hide();
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -21,18 +23,20 @@ export default class Container extends Component {
 		let controls = document.getElementById('controlsContainer');
 		let canvas = document.getElementById('canvasWrapper');
 
-		if (nextProps.onload === true) {
-			$('.header').css('transform', 'translate(0, 0)')
+		if (nextProps.onload === true && nextProps.init === true) {
 			header.style.top = nextProps.workspace.header.y + 'px';
 			header.style.left = nextProps.workspace.header.x + 'px';
-			controls.style.top = nextProps.workspace.controlsWrapper.y + 'px';
-			controls.style.left = nextProps.workspace.controlsWrapper.x + 'px';
+			controls.style.top = nextProps.workspace.controlsContainer.y + 'px';
+			controls.style.left = nextProps.workspace.controlsContainer.x + 'px';
 			canvas.style.top = nextProps.workspace.canvasWrapper.y + 'px';
 			canvas.style.left = nextProps.workspace.canvasWrapper.x + 'px';
 			wrapper.style.display = '';
-			$('.header').show();
-		}
 
+			$('.wrapper').show();
+		} else if (nextProps.onload === false && nextProps.init === true) {
+			console.log('here....')
+			$('.wrapper').show();
+		}
 	}
 
 	render () {
@@ -48,14 +52,12 @@ export default class Container extends Component {
 }
 
 const mapStateToProps = (state) => {
-
-	console.log(state)
-
 	return {
 		state: state,
 		workspace: state.clickareas.workspace,
 		loadWorkspace: state.clickareas.loadWorkspace,
-		onload: state.clickareas.onload
+		onload: state.clickareas.onload,
+		init: state.clickareas.init
 	};
 };
 

@@ -52,6 +52,7 @@
 }
 
 :global(.wrapper) {
+	display: none;
 	position: relative;
 	background-position: center;
 	background-size: 500px;
@@ -130,4 +131,12 @@
 
 :global(.layerfill) {
 	background-color: rgba(255, 255, 255, 0.2);
+}
+
+:global(.unselectedTool) {
+	box-shadow: inset 0px 0px 0px 4px rgba(255, 255, 255, 1);
+}
+
+:global(.selectedTool) {
+	box-shadow: inset 0px 0px 0px 4px rgba(110, 194, 179, 1);
 }

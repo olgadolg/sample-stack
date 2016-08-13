@@ -106,6 +106,12 @@ export const saveWorkspace = (workspace) => (dispatch) => {
 	});
 };
 
+export const init = () => (dispatch) => {
+	dispatch({
+		type: 'INIT'
+	});
+};
+
 export const loadWorkspace = (workspace, update, onload) => (dispatch) => {
 	request
 		.get('/api/workspace')
@@ -161,7 +167,7 @@ export const storeWorkspace = (workspace) => (dispatch) => {
 			if (err || !res.ok) {
 			} else {
 				const data = config.dialogs.saveWorkspace;
-				dispatch(showDialog(data));
+				//dispatch(showDialog(data));
 			}
 		});
 };
@@ -175,7 +181,7 @@ export const updateWorkspace = (response, workspace) => (dispatch) => {
 			if (err || !res.ok) {
 			} else {
 				const data = config.dialogs.saveWorkspace;
-				dispatch(showDialog(data));
+				//dispatch(showDialog(data));
 			}
 		});
 };

@@ -70,16 +70,7 @@ export default class Header extends Component {
 		}
 
 		const el = document.getElementById('header');
-		const elStyle = el.getAttribute('style');
-		const pos = this.utilities.translatePos(elStyle);
-		const posArr = pos.split(',');
-
-		posArr[0] = parseInt(posArr[0].replace('px', ''));
-		posArr[1] = parseInt(posArr[1].replace('px', ''));
-
-		const dist = this.utilities.calculateDistance(posArr, this.props);
-		const position = {name: ui.node.id, x: dist.x, y: dist.y};
-
+		const position = this.utilities.createPosition(ui, this.props, el);
 		this.props.dispatch(saveWorkspace(position));
 	}
 
@@ -102,9 +93,9 @@ export default class Header extends Component {
 			[styles.tooldescWrapper]: true
 		});
 
-		const selectedTool = classnames({
-			'selectedTool': true,
-			[styles.selectedTool]: true
+		const selectedToolName = classnames({
+			'selectedToolName': true,
+			[styles.selectedToolName]: true
 		});
 
 		return (
@@ -114,7 +105,7 @@ export default class Header extends Component {
 					<Toolbox />
 					<div className={tooldescWrapper}>
 						<p>
-							<span id="selectedtool" className={selectedTool}> Pen Tool</span>
+							<span id="selectedtool" className={selectedToolName}> Pen Tool</span>
 						</p>
 					</div>
 					<div className={slider}>

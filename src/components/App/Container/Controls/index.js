@@ -6,6 +6,7 @@ import Title from '../Title';
 import List from '../List';
 import styles from './styles/styles.css';
 import { saveWorkspace, updateFill } from '../../../../actions/clickarea';
+import Utilities from '../../../../Utilities';
 import Draggable, {DraggableCore} from 'react-draggable';
 import { exportProject, save, load } from '../../../../actions/project';
 
@@ -20,10 +21,11 @@ export default class ControlsContainer extends Component {
 			json: ''
 		};
 
+		this.utilities = new Utilities();
 		this.saveProject = this.saveProject.bind(this);
 		this.loadProject = this.loadProject.bind(this);
 		this.exportProject = this.exportProject.bind(this);
-		this.handleDrag = this.handleDrag.bind(this);
+		this.onStop = this.onStop.bind(this);
 	}
 
 	componentDidMount () {
@@ -89,24 +91,24 @@ export default class ControlsContainer extends Component {
 		header.style.zIndex = '9';
 	}
 
-	handleDrag (e, ui) {
-		let element = {
-			name: ui.node.id,
-			x: e.clientX,
-			y: e.clientY
-		};
+	onStop (e, ui) {
+		if (e.target.id === 'Save Workspace') {
+			return;
+		}
 
-		this.props.dispatch(saveWorkspace(element));
-    }
+		const el = document.getElementById('controlsContainer');
+		const position = this.utilities.createPosition(ui, this.props, el);
+		this.props.dispatch(saveWorkspace(position));
+	}
 
 	render () {
-		const dragHandlers = {onStart: this.onStart};
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const btnStyle = {
 			backgroundColor: '#E90086'
 		};
 
 		return (
-			<Draggable onDrag={this.handleDrag} {...dragHandlers}>
+			<Draggable {...dragHandlers}>
 				<div id="controlsContainer" className={styles.controlsContainer} >
 					<Title />
 					<List />
@@ -126,5 +128,11 @@ export default class ControlsContainer extends Component {
 	}
 }
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+	return {
+		clickareas: state.clickareas,
+		workspace: state.clickareas.workspace
+	};
+};
+
 export default connect(mapStateToProps)(ControlsContainer);

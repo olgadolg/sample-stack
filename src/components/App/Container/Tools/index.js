@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
-import { updateWorkspace, removeWorkspace, loadWorkspace, pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
+import { removeWorkspace, loadWorkspace, pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
 
 export default class Toolbox extends Component {
@@ -24,8 +24,6 @@ export default class Toolbox extends Component {
 		};
 
 		this.handleClick = this.handleClick.bind(this);
-		this.handleMouseEnter = this.handleMouseEnter.bind(this);
-		this.handleMouseLeave = this.handleMouseLeave.bind(this);
 		this.handleDoubleClick = this.handleDoubleClick.bind(this);
 	}
 
@@ -48,24 +46,22 @@ export default class Toolbox extends Component {
 		}
 	}
 
-	handleMouseEnter (e, label) {
-		let selectedTool = document.getElementById('selectedtool');
-		selectedTool.innerHTML = label;
-	}
-
-	handleMouseLeave (e) {
-		let selectedTool = document.getElementById('selectedtool');
-		selectedTool.innerHTML = this.state.tool;
-	}
-
 	handleDoubleClick (event, type) {
 		this.props.dispatch(removeWorkspace());
 	}
 
 	handleClick (event, type) {
 		let obj = {};
+		let tools = document.getElementsByClassName('tool');
 		let toolSelected = document.getElementById('selectedtool');
+
 		toolSelected.innerHTML = event.target.id;
+
+		for (var i = 0; i < tools.length; i++) {
+			tools[i].classList.remove('selectedTool');
+		}
+
+		event.target.classList.add('selectedTool');
 
 		for (let item in this.state) {
 			if (type === item) {
@@ -83,17 +79,12 @@ export default class Toolbox extends Component {
 		}
 
 		if (type === 'copy') {
-			$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(255, 255, 255, 1)'});
-			$('.copyIcon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 			if ($('.clickarea').length === 0) return;
 			this.props.dispatch(getCopy());
 		}
 
 		if (type === 'cut') {
-			$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(255, 255, 255, 1)'});
-			$('.cutIcon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
-
-			if ($('.cutIcon').hasClass('paste')) {
+			if (!$('.cutIcon').hasClass('paste')) {
 				if ($('.clickarea').length === 0) return;
 			}
 
@@ -107,19 +98,15 @@ export default class Toolbox extends Component {
 			var isSelected;
 
 			if (type === 'layer') {
-				$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(255, 255, 255, 1)'});
-				$('.layerIcon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 				$('.dropzone').show();
 				this.props.dispatch(addLayer());
 				this.props.dispatch(unselectClickarea());
 			}
 
 			if (type !== 'layer') {
-				$('.tool').css({'box-shadow': 'inset 0px 0px 0px 4px #fff'});
 				for (var tool in this.state) {
 					if (this.state[tool] === true) {
 						isSelected = tool;
-						$('.' + tool + 'Icon').css({'box-shadow': 'inset 0px 0px 0px 4px rgba(110, 194, 179, 1)'});
 					}
 				}
 
@@ -137,6 +124,7 @@ export default class Toolbox extends Component {
 		const penIcon = classnames({
 			'tool': true,
 			'penIcon': true,
+			'selectedTool': true,
 			[styles.tool]: true,
 			[styles.penIcon]: true
 		});

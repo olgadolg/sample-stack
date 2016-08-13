@@ -5,6 +5,7 @@ import $ from 'jquery';
 import Draggable, {DraggableCore} from 'react-draggable';
 import classnames from 'classnames';
 import Artist from './Artist';
+import Utilities from '../../../../Utilities';
 import { selectTool } from '../../../../actions/controls';
 import { initLayer } from '../../../../actions/layer';
 import styles from './styles/styles.css';
@@ -32,9 +33,10 @@ export default class Canvas extends Component {
 			colorClick: false
 		};
 
+		this.utilities = new Utilities();
 		this.updateColor = this.updateColor.bind(this);
 		this.setColoronFigureClick = this.setColoronFigureClick.bind(this);
-		this.handleDrag = this.handleDrag.bind(this);
+		this.onStop = this.onStop.bind(this);
 	}
 
 	componentDidMount () {
@@ -364,18 +366,18 @@ export default class Canvas extends Component {
 		header.style.zIndex = '9';
 	}
 
-	handleDrag (e, ui) {
-		let element = {
-			name: ui.node.id,
-			x: e.clientX,
-			y: e.clientY
-		};
+	onStop (e, ui) {
+		if (e.target.id === 'Save Workspace') {
+			return;
+		}
 
-		this.props.dispatch(saveWorkspace(element));
+		const el = document.getElementById('canvasWrapper');
+		const position = this.utilities.createPosition(ui, this.props, el);
+		this.props.dispatch(saveWorkspace(position));
 	}
 
 	render () {
-		const dragHandlers = {onStart: this.onStart};
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const canvasWrapper = classnames({
 			'canvasWrapper': true,
 			[styles.canvasWrapper]: true
@@ -387,7 +389,7 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable onDrag={this.handleDrag} {...dragHandlers}>
+			<Draggable {...dragHandlers}>
 				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}
@@ -426,7 +428,9 @@ const mapStateToProps = (state) => {
 		paste: state.clickareas.paste,
 		cutItem: state.clickareas.cutItem,
 		pasteClickarea: state.clickareas.pasteClickarea,
-		viewRemoved: state.clickareas.viewRemoved
+		viewRemoved: state.clickareas.viewRemoved,
+		workspace: state.clickareas.workspace
+
 	};
 };
 

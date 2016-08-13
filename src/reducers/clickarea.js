@@ -3,6 +3,13 @@ import update from 'react-addons-update';
 
 export default handleActions({
 
+	INIT: (state, action) => {
+		return update(state, {
+			init: {$set: true},
+			onload: {$set: false}
+		});
+	},
+
 	ADD_CLICKAREA: (state, action) => {
 		return update(state, {
 			clickarea: {
@@ -581,18 +588,19 @@ export default handleActions({
 	content: {},
 	cutItem: {},
 	onload: false,
+	init: false,
 	workspace: {
 		canvasWrapper: {
-			x: 250,
-			y: 80
+			x: 0,
+			y: 0
 		},
 		header: {
 			x: 0,
 			y: 0
 		},
-		controlsWrapper: {
+		controlsContainer: {
 			x: 0,
-			y: 80
+			y: 0
 		}
 	},
 	viewRemvoved: false,

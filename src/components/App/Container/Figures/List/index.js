@@ -23,7 +23,9 @@ export default class List extends Component {
 		if (nextProps.isSelected === true) {
 			this.removeBackgroundColor(listItems);
 			let figureItem = document.getElementById(nextProps.coordIndex);
-			//figureItem.classList.add('layerfill');
+			if (figureItem !== null) {
+				figureItem.classList.add('layerfill');
+			}
 		}
 	}
 

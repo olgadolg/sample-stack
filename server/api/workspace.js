@@ -10,9 +10,23 @@ const resetWorkspace = (request, reply) => {
 
 const createWorkspace = (request, reply) => {
 	const workspace = new Workspace();
-	workspace.coords = request.payload;
 
-	console.log('ehhh', workspace, request.payload)
+	workspace.coords = {
+		workspace: {
+			header: {
+				x: request.payload.workspace.header.x,
+				y: request.payload.workspace.header.y
+			},
+			controlsContainer: {
+				x: request.payload.workspace.controlsContainer.x,
+				y: request.payload.workspace.controlsContainer.y + 80
+			},
+			canvasWrapper: {
+				x: request.payload.workspace.canvasWrapper.x + 250,
+				y: request.payload.workspace.canvasWrapper.y + 80
+			}
+		}
+	};
 
 	workspace.save((error, item) => {
 		if (error) return reply(error);
@@ -24,7 +38,6 @@ const createWorkspace = (request, reply) => {
 };
 
 const updateWorkspace = (request, reply) => {
-	console.log(request.payload)
 	const query = {'_id': request.payload.response._id};
 
 	Workspace.findByIdAndUpdate(

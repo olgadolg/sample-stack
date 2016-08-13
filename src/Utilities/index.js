@@ -9,19 +9,33 @@ export default class Utilities extends Component {
 		return y;
 	}
 
-	calculateDistance (posArr, props) {
+	createPosition (ui, props, el) {
+		const elStyle = el.getAttribute('style');
+		const pos = this.translatePos(elStyle);
+		const posArr = pos.split(',');
+
+		posArr[0] = parseInt(posArr[0].replace('px', ''));
+		posArr[1] = parseInt(posArr[1].replace('px', ''));
+
+		const dist = this.calculateDistance(posArr, props, ui.node.id);
+		const position = {name: ui.node.id, x: dist.x, y: dist.y};
+
+		return position;
+	}
+
+	calculateDistance (posArr, props, el) {
 		var x, y;
 
-		if (posArr[0] <= props.workspace.header.x) {
-			x = props.workspace.header.x - Math.abs(posArr[0]);
-		} else if (posArr[0] >= props.workspace.header.x) {
-			x = props.workspace.header.x + Math.abs(posArr[0]);
+		if (posArr[0] + props.workspace[el].x < props.workspace[el].x) {
+			x = props.workspace[el].x - Math.abs(posArr[0]);
+		} else if (posArr[0] + props.workspace[el].x > props.workspace[el].x) {
+			x = props.workspace[el].x + Math.abs(posArr[0]);
 		}
 
-		if (posArr[1] <= props.workspace.header.y) {
-			y = props.workspace.header.y - Math.abs(posArr[1]);
-		} else if (posArr[1] >= props.workspace.header.y) {
-			y = props.workspace.header.y + Math.abs(posArr[1]);
+		if (posArr[1] + props.workspace[el].y < props.workspace[el].y) {
+			y = props.workspace[el].y - Math.abs(posArr[1]);
+		} else if (posArr[1] + props.workspace[el].y > props.workspace[el].y) {
+			y = props.workspace[el].y + Math.abs(posArr[1]);
 		}
 
 		return {
