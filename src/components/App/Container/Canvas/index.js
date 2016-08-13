@@ -389,7 +389,7 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable {...dragHandlers}>
+			<Draggable cancel=".bbRect" {...dragHandlers}>
 				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}
