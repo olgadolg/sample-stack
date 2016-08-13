@@ -5,8 +5,7 @@ export default handleActions({
 
 	INIT: (state, action) => {
 		return update(state, {
-			init: {$set: true},
-			onload: {$set: false}
+			init: {$set: true}
 		});
 	},
 

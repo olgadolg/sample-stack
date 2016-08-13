@@ -130,6 +130,10 @@ export const loadWorkspace = (workspace, update, onload) => (dispatch) => {
 							onload: onload
 						}
 					});
+				} else {
+					dispatch({
+						type: 'INIT'
+					});
 				}
 
 				if (update === true) {

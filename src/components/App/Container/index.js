@@ -11,7 +11,6 @@ import styles from './styles/styles.css';
 export default class Container extends Component {
 
 	componentDidMount () {
-		this.props.dispatch(init());
 		this.props.dispatch(loadWorkspace(this.props.workspace, false, true));
 		$('.wrapper').hide();
 		$('.header').hide();
@@ -23,7 +22,7 @@ export default class Container extends Component {
 		let controls = document.getElementById('controlsContainer');
 		let canvas = document.getElementById('canvasWrapper');
 
-		if (nextProps.onload === true && nextProps.init === true) {
+		if (nextProps.onload === true && nextProps.init === false) {
 			header.style.top = nextProps.workspace.header.y + 'px';
 			header.style.left = nextProps.workspace.header.x + 'px';
 			controls.style.top = nextProps.workspace.controlsContainer.y + 'px';
@@ -33,7 +32,7 @@ export default class Container extends Component {
 			wrapper.style.display = '';
 
 			$('.wrapper').show();
-		} else if (nextProps.onload === false && nextProps.init === true) {
+		} else if (nextProps.init === true) {
 			console.log('here....')
 			$('.wrapper').show();
 		}
