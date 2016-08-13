@@ -230,24 +230,26 @@ export default class Toolbox extends Component {
 					onClick={(e) => this.handleClick(e, 'workspace')}
 					className={workspaceIcon}>
 				</div>
-				<div id="Reset save Workspace"
-					onClick={(e) => this.handleDoubleClick(e, 'workspace')}
-					className={resetWorkspaceIcon}>
-				</div>
+				{(() => {
+					if (this.props.init === false) {
+						return (<div id="Reset save Workspace"
+							onClick={(e) => this.handleDoubleClick(e, 'workspace')}
+							className={resetWorkspaceIcon}>
+						</div>);
+					}
+				})()}
 			</div>
 		);
 	}
 }
 
 const mapStateToProps = (state) => {
-
-	console.log('state', state)
-
 	return {
 		tool: state.clickareas.tool,
 		currentView: state.clickareas.currentView,
 		initLayer: state.clickareas.initLayer,
-		workspace: state.clickareas.workspace
+		workspace: state.clickareas.workspace,
+		init: state.clickareas.init
 	};
 };
 
