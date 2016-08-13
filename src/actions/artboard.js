@@ -35,6 +35,8 @@ export const loadArtboard = (saveState, update) => (dispatch) => {
 					}
 				}
 
+				console.log('.....', update, res.body.length)
+
 				if (update === true) {
 					if (res.body.length > 0) {
 						dispatch(updateArtboard(res.body[0], saveState));

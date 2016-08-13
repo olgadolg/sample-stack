@@ -58,6 +58,9 @@ exports.register = (server, options, next) => {
 			method: 'PUT',
 			path: '/api/artboard',
 			config: {
+				payload: {
+					maxBytes: 209715200
+				},
 				handler: updateArtboard
 			}
 		},
