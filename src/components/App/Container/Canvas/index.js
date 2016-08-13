@@ -61,8 +61,6 @@ export default class Canvas extends Component {
 		const artState = this.artist.state;
 		const drawingTool = (typeof tool === 'undefined') ? 'selectAll' : tool;
 
-		console.log('tool', tool)
-
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
@@ -140,7 +138,6 @@ export default class Canvas extends Component {
 					let cutEdges = self.artist.state.edges.splice(index - 1, 1);
 
 					self.props.dispatch(saveCut(cutNodes, cutEdges));
-
 					self.createArtist();
 					self.updateArtist(nextProps, drawingTool);
 					self.artist.update();

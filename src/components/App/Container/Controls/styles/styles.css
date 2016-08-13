@@ -1,48 +1,48 @@
 :local(.controlsContainer) {
 	position: absolute;
-	top: 80px;
-	float: left;
-	display: inline-block;
-	margin: 0;
 	height: 570px;
 	width: 250px;
-	background: rgba(110, 194, 179, 1);
-	border-right: 1px solid #aaa;
-	box-sizing: border-box;
+
 	padding: 25px;
+	margin: 0;
+	top: 80px;
+
 	box-sizing: border-box;
+	border-right: 1px solid #aaa;
+	background: rgba(110, 194, 179, 1);
 	background-position: center;
 }
 
 :local(.lockFillWrapper) {
+	position: absolute;
 	width: 150px;
 	height: 33px;
-	position: absolute;
 	right: 20px;
 	top: 22px;
 	z-index: 1;
 }
 
 :local(.inputfile) {
+	position: absolute;
 	width: 200px;
 	height: 40px;
 	overflow: hidden;
-	position: absolute;
 	color: transparent;
-	position: absolute;
 	opacity: 0;
 }
 
 :local(.inputfile + label) {
+	display: inline-block;
 	width: 200px;
 	height: 40px;
+	margin-bottom: 5px;
+
     font-size: 14px;
 	line-height: 40px;
 	text-align: center;
 	text-transform: uppercase;
     color: white;
-    background-color: #013B2D;
-    display: inline-block;
+
+	background-color: #013B2D;
 	cursor: pointer;
-	margin-bottom: 5px;
 }

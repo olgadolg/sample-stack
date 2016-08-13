@@ -1,39 +1,43 @@
 :local(.header) {
 	position: absolute;
-	left: 0;
 	width: 1274px;
 	height: 80px;
+	left: 0;
 	background-color: #013B2D;
 	z-index: 9999999;
 }
 
 :local(.header img) {
+	float: left;
 	height: 80px;
 	margin-left: 55px;
-	float: left;
 }
 
 :local(.tooldescWrapper) {
 	position: relative;
 	float: left;
-	color: #fff;
-	font-size: 13px;
-	text-transform: uppercase;
 	width: 150px;
+
 	margin-right: 10px;
 	padding-top: 14px;
+
+	font-size: 13px;
 	text-align: center;
+	text-transform: uppercase;
+	color: #fff;
 }
 
 :local(.tooldescWrapper:before) {
 	position: relative;
 	float: left;
-	color: #fff;
-	font-size: 13px;
-	text-transform: uppercase;
 	width: 150px;
 	margin-right: 10px;
 	padding-top: 14px;
+
+	font-size: 13px;
+	text-transform: uppercase;
+	color: #fff;
+
 	text-align: center;
 }
 

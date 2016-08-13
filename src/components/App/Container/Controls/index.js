@@ -103,9 +103,7 @@ export default class ControlsContainer extends Component {
 
 	render () {
 		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
-		const btnStyle = {
-			backgroundColor: '#E90086'
-		};
+		const btnStyle = { backgroundColor: '#E90086' };
 
 		return (
 			<Draggable {...dragHandlers}>

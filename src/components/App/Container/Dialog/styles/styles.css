@@ -1,25 +1,27 @@
 :local(.modalContent) {
 	position: absolute;
-	text-align: center;
-    padding: 1rem;
-	background-color: #E2F3F0;
-    border: 1px solid #cacaca;
-    border-radius: 0;
-    top: 100px;
 	width: 550px;
 	height: 300px;
-	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-    margin-left: auto;
+	top: 30%;
+
+	margin-left: auto;
     margin-right: auto;
+	padding: 1rem;
+	border: 1px solid #cacaca;
+	border-radius: 0;
+
+	text-align: center;
+	background-color: #E2F3F0;
+
     overflow-y: auto;
     z-index: 800;
+
 	-webkit-transition: opacity 500ms ease-in;
     -moz-transition: opacity 500ms ease-in;
     transition: opacity 500ms ease-in;
-	top: 30%;
     animation: bounce 500ms linear;
 }
 
@@ -32,26 +34,28 @@
 }
 
 :local(.modalBtn) {
-	border: none;
 	display: inline-block;
+	margin: 1.4rem 1.8rem;
+	padding: 1.6rem 3.6rem;
+	border: none;
+	border-radius: .3rem;
+
 	font-family: "BonavaSans Bold","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight: 400;
 	font-style: normal;
 	font-size: 1.4rem;
 	line-height: 1.4rem;
-	margin: 1.4rem 1.8rem;
-	padding: 1.6rem 3.6rem;
 	text-align: center;
 	text-decoration: none;
-	outline: 0;
-	transition: all .3s;
-	white-space: nowrap;
 	text-transform: uppercase;
-	background-color: #6EC2B3;
-	border-radius: .3rem;
-	box-shadow: 0 0 0 0 #6EC2B3;
 	color: #fff;
+	white-space: nowrap;
+
+	outline: 0;
+	background-color: #6EC2B3;
+	box-shadow: 0 0 0 0 #6EC2B3;
 	cursor: pointer;
+	transition: all .3s;
 }
 
 @-webkit-keyframes bounce {

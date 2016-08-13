@@ -61,6 +61,7 @@ export default class Toolbox extends Component {
 		}
 
 		event.target.classList.add('selectedTool');
+		toolSelected.innerHTML = event.target.id;
 
 		for (let item in this.state) {
 			if (type === item) {
@@ -112,8 +113,6 @@ export default class Toolbox extends Component {
 				this.props.dispatch(selectTool(isSelected));
 			}
 		});
-
-		toolSelected.innerHTML = event.target.id;
 	}
 
 	render () {
