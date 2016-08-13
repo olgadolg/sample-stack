@@ -31,8 +31,6 @@ const createWorkspace = (request, reply) => {
 	workspace.save((error, item) => {
 		if (error) return reply(error);
 
-		console.log('ohhh', item);
-
 		return reply(item).code(200);
 	});
 };
@@ -43,7 +41,6 @@ const updateWorkspace = (request, reply) => {
 	Workspace.findByIdAndUpdate(
 		query, {$set: {coords: request.payload.workspace}},
 		{new: true}, (error, item) => {
-			console.log('error', error)
 			if (error) return reply(error);
 
 			return reply(item).code(200);

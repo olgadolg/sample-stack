@@ -6,7 +6,7 @@ import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
 import { removeWorkspace, loadWorkspace, pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
 import { addLayer } from '../../../../actions/layer';
-import { saveArtboard } from '../../../../actions/artboard';
+import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
 
 export default class Toolbox extends Component {
 
@@ -48,6 +48,10 @@ export default class Toolbox extends Component {
 		}
 	}
 
+	handleArtboardClick (event, type) {
+		this.props.dispatch(removeArtboard());
+	}
+
 	handleDoubleClick (event, type) {
 		this.props.dispatch(removeWorkspace());
 	}
@@ -73,7 +77,8 @@ export default class Toolbox extends Component {
 		}
 
 		if (type === 'artboard') {
-			this.props.dispatch(saveArtboard(this.props.state));
+			console.log('clickareas', this.props.clickareas)
+			this.props.dispatch(loadArtboard(this.props.clickareas, true));
 		}
 
 		if (type === 'workspace') {
@@ -241,6 +246,11 @@ export default class Toolbox extends Component {
 				<div id="Save Setup"
 					onClick={(e) => this.handleClick(e, 'workspace')}
 					className={workspaceIcon}>
+				</div>
+				<div id="Save Artboard"
+					onDoubleClick={(e) => this.handleArtboardClick(e, 'artboard')}
+					onClick={(e) => this.handleClick(e, 'artboard')}
+					className={artboardIcon}>
 
 					{(() => {
 						if (this.props.init === false) {
@@ -250,10 +260,7 @@ export default class Toolbox extends Component {
 							</div>);
 						}
 					})()}
-				</div>
-				<div id="Save Artboard"
-					onClick={(e) => this.handleClick(e, 'artboard')}
-					className={artboardIcon}>
+
 				</div>
 			</div>
 		);
@@ -262,7 +269,8 @@ export default class Toolbox extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		state: state,
+		clickareas: state.clickareas,
+		views: state.views,
 		tool: state.clickareas.tool,
 		currentView: state.clickareas.currentView,
 		initLayer: state.clickareas.initLayer,

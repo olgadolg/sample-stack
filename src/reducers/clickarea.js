@@ -33,7 +33,7 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false},
+			initLayer: {$set: false}
 		});
 	},
 
@@ -503,7 +503,7 @@ export default handleActions({
 	},
 
 	LOAD_PROJECT: (state, action) => {
-		action.data = action.data.clickareas;
+		var clickareas = action.data.clickareas;
 
 		return update(state, {
 			addLayer: {$set: action.data.addLayer},

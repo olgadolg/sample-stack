@@ -6,11 +6,13 @@ import $ from 'jquery';
 import Canvas from './Canvas';
 import Modal from './Modal';
 import { loadWorkspace } from '../../../actions/clickarea';
+import { loadArtboard } from '../../../actions/artboard';
 import styles from './styles/styles.css';
 
 export default class Container extends Component {
 
 	componentDidMount () {
+		this.props.dispatch(loadArtboard(this.props.clickareas, false));
 		this.props.dispatch(loadWorkspace(this.props.workspace, false, true));
 		$('.wrapper').hide();
 	}
@@ -62,7 +64,8 @@ export default class Container extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		state: state,
+		clickareas: state.clickareas,
+		views: state.views,
 		workspace: state.clickareas.workspace,
 		loadWorkspace: state.clickareas.loadWorkspace,
 		onload: state.clickareas.onload,
