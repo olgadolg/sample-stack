@@ -12,6 +12,42 @@
 				}
 			]
 		},
+		"saveWorkspaceFail": {
+			"text": {
+				"header": "Oups..",
+				"body": "Your workspace could unfortunately not be saved."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
+		"workspaceReset": {
+			"text": {
+				"header": "Your workspace...",
+				"body": "Has been reseted to default values."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
+		"workspaceResetFail": {
+			"text": {
+				"header": "Your workspace...",
+				"body": "Could unfortunately not be reseted."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
 		"layerCopy": {
 			"text": {
 				"header": "Layer - Error",

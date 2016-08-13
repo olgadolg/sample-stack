@@ -185,6 +185,13 @@ export default class Toolbox extends Component {
 			[styles.workspaceIcon]: true
 		});
 
+		const resetWorkspaceIcon = classnames({
+			'tool': true,
+			'resetWorkspaceIcon': true,
+			[styles.tool]: true,
+			[styles.resetWorkspaceIcon]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div id="Pen Tool"
@@ -220,9 +227,12 @@ export default class Toolbox extends Component {
 					className={layerIcon}>
 				</div>
 				<div id="Save Workspace"
-					onDoubleClick={(e) => this.handleDoubleClick(e, 'workspace')}
 					onClick={(e) => this.handleClick(e, 'workspace')}
 					className={workspaceIcon}>
+				</div>
+				<div id="Reset save Workspace"
+					onClick={(e) => this.handleDoubleClick(e, 'workspace')}
+					className={resetWorkspaceIcon}>
 				</div>
 			</div>
 		);

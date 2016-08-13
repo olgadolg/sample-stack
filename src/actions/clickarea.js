@@ -155,9 +155,11 @@ export const removeWorkspace = () => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (err || !res.ok) {
-				//console.log('delete err', err);
+				const data = config.dialogs.workspaceResetFail;
+				dispatch(showDialog(data));
 			} else {
-				//console.log('deleted', res);
+				const data = config.dialogs.workspaceReset;
+				dispatch(showDialog(data));
 			}
 		});
 };
@@ -169,9 +171,11 @@ export const storeWorkspace = (workspace) => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (err || !res.ok) {
+				const data = config.dialogs.saveWorkspaceFail;
+				dispatch(showDialog(data));
 			} else {
 				const data = config.dialogs.saveWorkspace;
-				//dispatch(showDialog(data));
+				dispatch(showDialog(data));
 			}
 		});
 };
@@ -183,9 +187,11 @@ export const updateWorkspace = (response, workspace) => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (err || !res.ok) {
+				const data = config.dialogs.saveWorkspaceFail;
+				dispatch(showDialog(data));
 			} else {
 				const data = config.dialogs.saveWorkspace;
-				//dispatch(showDialog(data));
+				dispatch(showDialog(data));
 			}
 		});
 };
