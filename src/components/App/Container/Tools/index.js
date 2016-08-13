@@ -20,7 +20,8 @@ export default class Toolbox extends Component {
 			selectAll: true,
 			copy: false,
 			currentView: 'untitled 1',
-			tool: 'Pen Tool'
+			tool: 'Pen Tool',
+			toolName: 'Pen Tool'
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -32,7 +33,7 @@ export default class Toolbox extends Component {
 
 		if (nextProps.initLayer === true) {
 			let selectedtool = document.getElementById('selectedtool');
-			selectedtool.innerHTML = 'Pen Tool';
+			selectedtool.innerHTML = 'Select Figure';
 		}
 
 		if (nextProps.currentView.indexOf('Layer') > -1) {
@@ -55,8 +56,6 @@ export default class Toolbox extends Component {
 		let tools = document.getElementsByClassName('tool');
 		let toolSelected = document.getElementById('selectedtool');
 
-		toolSelected.innerHTML = event.target.id;
-
 		for (var i = 0; i < tools.length; i++) {
 			tools[i].classList.remove('selectedTool');
 		}
@@ -66,7 +65,7 @@ export default class Toolbox extends Component {
 		for (let item in this.state) {
 			if (type === item) {
 				obj[type] = true;
-			} else if (item !== 'currentView') {
+			} else if (item !== 'currentView' && item !== 'tool') {
 				obj[item] = false;
 			}
 		}
@@ -79,13 +78,13 @@ export default class Toolbox extends Component {
 		}
 
 		if (type === 'copy') {
-			if ($('.clickarea').length === 0) return;
+			if ($('.overlay.selected').length === 0) return;
 			this.props.dispatch(getCopy());
 		}
 
 		if (type === 'cut') {
 			if (!$('.cutIcon').hasClass('paste')) {
-				if ($('.clickarea').length === 0) return;
+				if ($('.overlay.selected').length === 0) return;
 			}
 
 			$('.cutIcon').toggleClass('paste');
@@ -113,6 +112,8 @@ export default class Toolbox extends Component {
 				this.props.dispatch(selectTool(isSelected));
 			}
 		});
+
+		toolSelected.innerHTML = event.target.id;
 	}
 
 	render () {
@@ -124,7 +125,6 @@ export default class Toolbox extends Component {
 		const penIcon = classnames({
 			'tool': true,
 			'penIcon': true,
-			'selectedTool': true,
 			[styles.tool]: true,
 			[styles.penIcon]: true
 		});
@@ -152,6 +152,7 @@ export default class Toolbox extends Component {
 
 		const selectAllIcon = classnames({
 			'tool': true,
+			'selectedTool': true,
 			'selectAllIcon': true,
 			[styles.tool]: true,
 			[styles.selectAllIcon]: true
@@ -194,6 +195,14 @@ export default class Toolbox extends Component {
 
 		return (
 			<div className={toolBox}>
+				<div id="Select Figure"
+					onClick={(e) => this.handleClick(e, 'selectAll')}
+					className={selectAllIcon}>
+				</div>
+				<div id="Select Point"
+					onClick={(e) => this.handleClick(e, 'select')}
+					className={selectIcon}>
+				</div>
 				<div id="Pen Tool"
 					onClick={(e) => this.handleClick(e, 'pen')}
 					className={penIcon}>
@@ -205,14 +214,6 @@ export default class Toolbox extends Component {
 				<div id="Remove Point"
 					onClick={(e) => this.handleClick(e, 'penRemove')}
 					className={penRemoveIcon}>
-				</div>
-				<div id="Select Point"
-					onClick={(e) => this.handleClick(e, 'select')}
-					className={selectIcon}>
-				</div>
-				<div id="Select Figure"
-					onClick={(e) => this.handleClick(e, 'selectAll')}
-					className={selectAllIcon}>
 				</div>
 				<div id="Copy Figure"
 					onClick={(e) => this.handleClick(e, 'copy')}
@@ -226,7 +227,7 @@ export default class Toolbox extends Component {
 					onClick={(e) => this.handleClick(e, 'layer')}
 					className={layerIcon}>
 				</div>
-				<div id="Save Workspace"
+				<div id="Save Setup"
 					onClick={(e) => this.handleClick(e, 'workspace')}
 					className={workspaceIcon}>
 				</div>

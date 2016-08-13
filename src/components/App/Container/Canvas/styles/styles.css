@@ -1,12 +1,12 @@
 
 :local(.dropzone) {
+	display: none;
 	position: absolute;
+	width: 1024px;
+    height: 570px;
     left: 0;
     top: 0;
-    width: 1024px;
-    height: 570px;
 	z-index: 99999;
-	display: none;
 }
 
 :local(.canvasWrapper) {

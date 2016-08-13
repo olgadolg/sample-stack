@@ -1,23 +1,30 @@
 :local(.button) {
 	display: inline-block;
+	width: 200px;
+
+	margin: 5px 0;
+	padding: 1.4rem 0;
+	border: none;
+	border: none;
+	border-radius: 3px;
+
 	font-family: "BonavaSans Bold","Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-weight: 400;
 	font-style: normal;
 	font-size: 1.4rem;
 	line-height: 1.4rem;
-	padding: 1.4rem 0;
+	color: #fff;
+
 	text-align: center;
 	text-decoration: none;
-	outline: 0;
-	transition: all .3s;
-	white-space: nowrap;
 	text-transform: uppercase;
+
+	white-space: nowrap;
 	background-color: #013B2D;
-	border-radius: 3px;
 	box-shadow: 0 0 0 0 #6EC2B3;
-	color: #fff;
-	margin: 5px 0;
-	width: 200px;
-	border: none;
+
+	outline: 0;
 	cursor: pointer;
+
+	transition: all .3s;
 }

@@ -59,7 +59,9 @@ export default class Canvas extends Component {
 		const image = nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1');
 		const tool = nextProps.tool;
 		const artState = this.artist.state;
-		const drawingTool = (typeof tool === 'undefined') ? 'pen' : tool;
+		const drawingTool = (typeof tool === 'undefined') ? 'selectAll' : tool;
+
+		console.log('tool', tool)
 
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
@@ -185,7 +187,7 @@ export default class Canvas extends Component {
 	resetTool (nextProps) {
 		if (this.state.currentView !== null &&
 			this.props.currentView !== nextProps.currentView) {
-			this.props.dispatch(selectTool('pen'));
+			this.props.dispatch(selectTool('selectAll'));
 		}
 	}
 
@@ -350,6 +352,8 @@ export default class Canvas extends Component {
 				}, () => {
 					$('.dropzone').hide();
 					this.props.dispatch(initLayer(this.state));
+					$('.layerIcon').removeClass('selectedTool');
+					$('.selectAllIcon').addClass('selectedTool');
 				});
 			};
 		})(file);

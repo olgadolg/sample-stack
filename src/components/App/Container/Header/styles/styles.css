@@ -19,9 +19,69 @@
 	color: #fff;
 	font-size: 13px;
 	text-transform: uppercase;
-	width: 160px;
+	width: 150px;
+	margin-right: 10px;
 	padding-top: 14px;
 	text-align: center;
+}
+
+:local(.tooldescWrapper:before) {
+	position: relative;
+	float: left;
+	color: #fff;
+	font-size: 13px;
+	text-transform: uppercase;
+	width: 150px;
+	margin-right: 10px;
+	padding-top: 14px;
+	text-align: center;
+}
+
+:local(.selectedToolNameWrapper) {
+	position: relative;
+	display: inline-block;
+}
+
+:local(.selectedToolNameWrapper:before) {
+	content: '';
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	left: 4px;
+	bottom: -6px;
+	border-bottom: 1px solid #fff;
+	border-left: 1px solid #fff;
+}
+:local(.selectedToolNameWrapper:after) {
+	content: '';
+	position: absolute;
+	width: 8px;
+    height: 8px;
+    right: 5px;
+    bottom: -6px;
+	border-bottom: 1px solid #fff;
+	border-right: 1px solid #fff;
+}
+:local(.selectedToolName:after) {
+	content: '';
+	position: absolute;
+	width: 8px;
+    height: 8px;
+    left: -12px;
+    top: -6px;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+}
+
+:local(.selectedToolName:before) {
+	content: '';
+	position: absolute;
+	width: 8px;
+    height: 8px;
+    right: -10px;
+    top: -5px;
+	border-top: 1px solid #fff;
+	border-right: 1px solid #fff;
 }
 
 :local(.selectedToolName) {
@@ -29,15 +89,7 @@
 	margin-left: 15px;
 	margin-right: 15px;
 	padding-bottom: 2px;
-	border-bottom: 1px solid #fff;
 }
-
-:local(.selectedTool:after) {
-	margin-left: 15px;
-	margin-right: 15px;
-	text-decoration: underline;
-}
-
 
 :local(.colorSlider) {
 	width: 300px;
@@ -46,7 +98,6 @@
 	height: auto;
 	float: left;
 	cursor: pointer;
-
 }
 
 :local(.removeIcon) {

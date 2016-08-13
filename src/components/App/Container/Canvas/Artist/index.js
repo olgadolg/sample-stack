@@ -22,7 +22,7 @@ export default class DrawVectors extends Component {
 			toolChange: false,
 			color: '#6ec2b3',
 			shapes: 0,
-			tool: 'pen',
+			tool: 'selectAll',
 			freezedNodes: [],
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},

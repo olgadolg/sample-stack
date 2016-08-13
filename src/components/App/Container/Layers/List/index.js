@@ -54,7 +54,7 @@ export default class List extends Component {
 		(event.currentTarget.innerHTML.indexOf('Layer') > -1)
 		? dropZone.style.display = '' : dropZone.style.display = 'none';
 
-		this.props.dispatch(selectTool('pen'));
+		this.props.dispatch(selectTool('selectAll'));
 		this.props.dispatch(updateView(event.currentTarget.id));
 	}
 
