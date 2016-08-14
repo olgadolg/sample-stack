@@ -209,6 +209,16 @@ export default class Toolbox extends Component {
 			[styles.artboardIcon]: true
 		});
 
+		const artboardWrapper = classnames({
+			'artboardWrapper': true,
+			[styles.artboardWrapper]: true
+		});
+
+		const setupWrapper = classnames({
+			'setupWrapper': true,
+			[styles.setupWrapper]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div id="Select Figure"
@@ -243,15 +253,11 @@ export default class Toolbox extends Component {
 					onClick={(e) => this.handleClick(e, 'layer')}
 					className={layerIcon}>
 				</div>
-				<div id="Save Setup"
-					onClick={(e) => this.handleClick(e, 'workspace')}
-					className={workspaceIcon}>
-				</div>
-				<div id="Save Artboard"
-					onDoubleClick={(e) => this.handleArtboardClick(e, 'artboard')}
-					onClick={(e) => this.handleClick(e, 'artboard')}
-					className={artboardIcon}>
-
+				<div className={setupWrapper}>
+					<div id="Save Setup"
+						onClick={(e) => this.handleClick(e, 'workspace')}
+						className={workspaceIcon}>
+					</div>
 					{(() => {
 						if (this.props.init === false) {
 							return (<div id="Reset save Workspace"
@@ -260,7 +266,21 @@ export default class Toolbox extends Component {
 							</div>);
 						}
 					})()}
+				</div>
+				<div className={artboardWrapper}>
+					<div id="Save Artboard"
+						onClick={(e) => this.handleClick(e, 'artboard')}
+						className={artboardIcon}>
+					</div>
 
+					{(() => {
+						if (this.props.loadProject === true) {
+							return (<div id="Reset save Artboard"
+								onClick={(e) => this.handleArtboardClick(e, 'artboard')}
+								className={resetWorkspaceIcon}>
+							</div>);
+						}
+					})()}
 				</div>
 			</div>
 		);
@@ -275,7 +295,8 @@ const mapStateToProps = (state) => {
 		currentView: state.clickareas.currentView,
 		initLayer: state.clickareas.initLayer,
 		workspace: state.clickareas.workspace,
-		init: state.clickareas.init
+		init: state.clickareas.init,
+		loadProject: state.clickareas.loadProject
 	};
 };
 

@@ -12,6 +12,16 @@
 	cursor: pointer;
 }
 
+:local(.artboardWrapper) {
+	position: relative;
+	float: left;
+}
+
+:local(.setupWrapper) {
+	position: relative;
+	float: left;
+}
+
 :local(.tool:hover) {
 	box-shadow: inset 0px 0px 0px 4px rgba(110, 194, 179, 1);
 }
@@ -21,6 +31,7 @@
 	float: left;
 	width: 41px;
     height: 41px;
+	margin-right: 12px;
 	background-color: #fff;
 }
 
@@ -28,7 +39,7 @@
 	content: '';
 	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMHB4IiBoZWlnaHQ9IjUxMHB4IiB2aWV3Qm94PSIwIDAgNTEwIDUxMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNTEwIDUxMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PGcgaWQ9ImtlZXAiPjxwYXRoIGQ9Ik0zNTcsMjU1VjUxaDI1LjVWMGgtMjU1djUxSDE1M3YyMDRsLTUxLDUxdjUxaDEzMi42djE1M2g0MC44VjM1N0g0MDh2LTUxTDM1NywyNTV6Ii8+PC9nPjwvZz48cG9seWdvbiBmaWxsPSIjRkZGRkZGIiBwb2ludHM9IjIzNC41LDQ4MiAyNTEuNSw1MDkgMTk1LjUsNTExICIvPjxwb2x5Z29uIGZpbGw9IiNGRkZGRkYiIHBvaW50cz0iMjc4LjUsNDgxIDI2MS41LDUwOCAzMTcuNSw1MTAgIi8+PC9zdmc+);
 	background-size: 29px;
-    background-position: center;
+    background-position: 6px center;
     background-repeat: no-repeat;
 	opacity: 0.7;
 	top: 0;
@@ -41,8 +52,8 @@
 :local(.workspaceIcon) {
 	position: relative;
 	float: left;
-	width: 41px;
-    height: 41px;
+	width: 40px;
+    height: 40px;
 	margin-right: 12px;
 	border-radius: 3px;
 	background-color: #fff;
@@ -52,7 +63,7 @@
 	content: "";
 	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIxMTkwLjU1cHgiIGhlaWdodD0iODQxLjg5cHgiIHZpZXdCb3g9IjAgMCAxMTkwLjU1IDg0MS44OSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTE5MC41NSA4NDEuODkiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxyZWN0IHg9IjI3LjM0NCIgeT0iODEuNTI3IiB3aWR0aD0iMTg2LjAyMSIgaGVpZ2h0PSI2OS44OTMiLz48cmVjdCB4PSIyOS40OTUiIHk9IjE2Ny42OTkiIHdpZHRoPSI4MC42NDUiIGhlaWdodD0iNzcuNDE5Ii8+PHJlY3QgeD0iMTM0LjYxMyIgeT0iMTY4LjAyMSIgd2lkdGg9Ijc2LjM0NSIgaGVpZ2h0PSI3Ny40MTkiLz48L3N2Zz4=);
 	background-size: 138px;
-    background-position: 4px 3px;
+    background-position: 6px 2px;
     background-repeat: no-repeat;
 	opacity: 0.7;
 	top: 0;
@@ -67,8 +78,25 @@
 	width: 20px;
 	height: 20px;
 	right: -14px;
-	top: -10px;
-	left: -26px;
+	top: -8px;
+	left: 26px;
+	border: 4px solid #013B2D;
+	border-radius: 3px;
+
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyNHB4IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjQgMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiNGNzBEMEQiIGQ9Ik0xMi45OSwxMi4yNzhMOC4xMDMsNy4zODlMMTIuOTksMi41djMuMzA0YzMuNjY4LDAuNDA1LDYuNTIsMy41MTQsNi41Miw3LjI4OWMwLDQuMDUtMy4yODMsNy4zMzMtNy4zMzMsNy4zMzNjLTQuMDUxLDAtNy4zMzQtMy4yODMtNy4zMzQtNy4zMzNjMC0xLjQ0OSwwLjQyMS0yLjgsMS4xNDYtMy45MzhsMi40MDYsMS41MzFjLTAuNDQzLDAuNjk1LTAuNzAxLDEuNTIxLTAuNzAxLDIuNDA3YzAsMi40NzYsMi4wMDcsNC40ODEsNC40ODIsNC40ODFjMi40NzUsMCw0LjQ4MS0yLjAwNiw0LjQ4MS00LjQ4MWMwLTIuMTk3LTEuNTgtNC4wMjQtMy42NjctNC40MDhMMTIuOTksMTIuMjc4TDEyLjk5LDEyLjI3OHoiLz48L3N2Zz4=);
+	background-size: 22px;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: #fff;
+}
+
+:local(.resetStateIcon) {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	right: -14px;
+	top: -8px;
+	left: 26px;
 	border: 4px solid #013B2D;
 	border-radius: 3px;
 

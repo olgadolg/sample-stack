@@ -8,12 +8,12 @@ export const removeArtboard = () => (dispatch) => {
 		.set('Accept', 'application/json')
 		.end((err, res) => {
 			if (err || !res.ok) {
-				const data = config.dialogs.workspaceResetFail;
-				//dispatch(showDialog(data));
+				const data = config.dialogs.resetArtboardFailed;
+				dispatch(showDialog(data));
 			} else {
-				const data = config.dialogs.workspaceReset;
-				//dispatch(showDialog(data));
-				//dispatch({ type: 'INIT' });
+				const data = config.dialogs.resetArtboard;
+				dispatch(showDialog(data));
+				dispatch({type: 'RESET_PROJECT'});
 			}
 		});
 };
@@ -35,8 +35,6 @@ export const loadArtboard = (saveState, update) => (dispatch) => {
 					}
 				}
 
-				console.log('.....', update, res.body.length)
-
 				if (update === true) {
 					if (res.body.length > 0) {
 						dispatch(updateArtboard(res.body[0], saveState));
@@ -57,10 +55,11 @@ export const updateArtboard = (res, state) => (dispatch) => {
 		.end((err, res) => {
 			if (err || !res.ok) {
 				const data = config.dialogs.saveArtboardFailed;
-				//dispatch(showDialog(data));
+				dispatch(showDialog(data));
 			} else {
 				const data = config.dialogs.saveArtboardSuccess;
-				//dispatch(showDialog(data));
+				dispatch(showDialog(data));
+				dispatch({type: 'SET_LOADPROJECT'});
 			}
 		});
 };
@@ -73,11 +72,11 @@ export const saveArtboard = (state) => (dispatch) => {
 		.end((err, res) => {
 			if (err || !res.ok) {
 				const data = config.dialogs.saveArtboardFailed;
-				//dispatch(showDialog(data));
+				dispatch(showDialog(data));
 			} else {
 				const data = config.dialogs.saveArtboardSuccess;
-				//dispatch(showDialog(data));
-				console.log('saved artboard', res);
+				dispatch(showDialog(data));
+				dispatch({type: 'SET_LOADPROJECT'});
 			}
 		});
 };

@@ -1,5 +1,29 @@
 {
 	"dialogs": {
+		"resetArtboard": {
+			"text": {
+				"header": "Your artboard...",
+				"body": "Has been succesfully reseted."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onReload"
+				}
+			]
+		},
+		"resetArtboardfailed": {
+			"text": {
+				"header": "Your artboard...",
+				"body": "Could unfornately not be reseted."
+			},
+			"buttons": [
+				{
+					"value": "OK",
+					"action": "onConfirm"
+				}
+			]
+		},
 		"saveArtboardSuccess": {
 			"text": {
 				"header": "Your artboard...",

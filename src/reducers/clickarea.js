@@ -5,13 +5,16 @@ export default handleActions({
 
 	INIT: (state, action) => {
 		return update(state, {
-			init: {$set: true}
+			init: {$set: true},
+			initState: {$set: state},
+			loadProject: {$set: false}
 		});
 	},
 
 	RESET_INIT: (state, action) => {
 		return update(state, {
-			init: {$set: false}
+			init: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -33,7 +36,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false}
+			initLayer: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -69,6 +73,7 @@ export default handleActions({
 			show: {$set: false},
 			loadWorkspace: {$set: false},
 			initLayer: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -147,7 +152,7 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false},
+			initLayer: {$set: false}
 		});
 	},
 
@@ -192,7 +197,8 @@ export default handleActions({
 				resetRemoved: {$set: false},
 				show: {$set: false},
 				isSelected: {$set: false},
-				loadWorkspace: {$set: false}
+				loadWorkspace: {$set: false},
+				loadProject: {$set: false}
 			});
 		}
 	},
@@ -258,7 +264,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -301,7 +308,8 @@ export default handleActions({
 			resetRemoved: {$set: true},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -430,7 +438,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -457,7 +466,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -474,7 +484,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -486,7 +497,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -498,13 +510,24 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			loadProject: {$set: false}
+		});
+	},
+
+	RESET_PROJECT: (state, action) => {
+		return update(state, {
+			loadProject: {$set: false}
+		});
+	},
+
+	SET_LOADPROJECT: (state, acton) => {
+		return update(state, {
+			loadProject: {$set: true}
 		});
 	},
 
 	LOAD_PROJECT: (state, action) => {
-		var clickareas = action.data.clickareas;
-
 		return update(state, {
 			addLayer: {$set: action.data.addLayer},
 			artistState: {$set: action.data.artistState},
@@ -530,7 +553,8 @@ export default handleActions({
 	SHOW_DIALOG: (state, action) => {
 		return update(state, {
 			show: {$set: true},
-			content: {$set: action.data}
+			content: {$set: action.data},
+			loadProject: {$set: false}
 		});
 	},
 
@@ -558,17 +582,20 @@ export default handleActions({
 					}
 				},
 				loadWorkspace: {$set: false},
-				onload: {$set: action.data.onload}
+				onload: {$set: action.data.onload},
+				loadProject: {$set: false}
 			});
 		} else {
 			return update(state, {
 				workspace: {$set: action.data.workspace.workspace},
 				loadWorkspace: {$set: false},
-				onload: {$set: action.data.onload}
+				onload: {$set: action.data.onload},
+				loadProject: {$set: false}
 			});
 		}
 	}
 }, {
+	initState: null,
 	views: {},
 	clickareas: {},
 	colors: [],
