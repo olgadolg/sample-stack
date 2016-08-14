@@ -481,8 +481,6 @@ export default class DrawVectors extends Component {
 			.attr('class', 'resizerect')
 			.attr('width', 0)
 			.attr('height', 0);
-
-		console.log('resizerect', this.resizeRect);
 	}
 
 	/**
