@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Toolbox from '../Tools';
-import $ from 'jquery';
 import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
-import { saveWorkspace, removeColor } from '../../../../actions/clickarea';
-import Draggable, {DraggableCore} from 'react-draggable';
+import { removeColor } from '../../../../actions/clickarea';
+import { saveWorkspace } from '../../../../actions/workspace';
+import Draggable from 'react-draggable';
 import Utilities from '../../../../Utilities';
 import styles from './styles/styles.css';
 

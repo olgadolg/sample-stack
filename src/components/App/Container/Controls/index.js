@@ -5,9 +5,10 @@ import Button from '../Button';
 import Title from '../Title';
 import List from '../List';
 import styles from './styles/styles.css';
-import { saveWorkspace, updateFill } from '../../../../actions/clickarea';
+import { updateFill } from '../../../../actions/clickarea';
+import { saveWorkspace } from '../../../../actions/workspace';
 import Utilities from '../../../../Utilities';
-import Draggable, {DraggableCore} from 'react-draggable';
+import Draggable from 'react-draggable';
 import { exportProject, save, load } from '../../../../actions/project';
 
 export default class ControlsContainer extends Component {

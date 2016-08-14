@@ -2,6 +2,16 @@ import request from 'superagent';
 import { showDialog } from './dialog';
 import config from 'json!../../assets/json/dialogs.json';
 
+export const saveWorkspace = (workspace) => (dispatch) => {
+	dispatch({
+		type: 'SAVE_WORKSPACE',
+		data: {
+			workspace: workspace,
+			load: false
+		}
+	});
+};
+
 export const loadWorkspace = (workspace, update, onload) => (dispatch) => {
 	request
 		.get('/api/workspace')

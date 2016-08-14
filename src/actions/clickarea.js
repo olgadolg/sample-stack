@@ -96,16 +96,6 @@ export const pasteClickarea = () => (dispatch) => {
 	});
 };
 
-export const saveWorkspace = (workspace) => (dispatch) => {
-	dispatch({
-		type: 'SAVE_WORKSPACE',
-		data: {
-			workspace: workspace,
-			load: false
-		}
-	});
-};
-
 export const init = () => (dispatch) => {
 	dispatch({
 		type: 'INIT'

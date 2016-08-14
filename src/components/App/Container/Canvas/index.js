@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Dropzone from 'react-dropzone';
 import $ from 'jquery';
-import Draggable, {DraggableCore} from 'react-draggable';
+import Draggable from 'react-draggable';
 import classnames from 'classnames';
 import Artist from './Artist';
 import Utilities from '../../../../Utilities';
@@ -12,7 +12,8 @@ import styles from './styles/styles.css';
 import { showDialog } from '../../../../actions/dialog';
 import { resetRemoveView } from '../../../../actions/views';
 import config from 'json!../../../../../assets/json/dialogs.json';
-import { saveWorkspace, saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveCut, saveCopy, updateClickarea, removeClickarea, makeClickarea, createClickarea, unselectClickarea } from '../../../../actions/clickarea';
+import { saveWorkspace } from '../../../../actions/workspace';
 
 export default class Canvas extends Component {
 
