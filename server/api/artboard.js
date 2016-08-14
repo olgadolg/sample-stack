@@ -22,7 +22,7 @@ const updateArtboard = (request, reply) => {
 	const query = {'_id': request.payload.result._id};
 
 	Artboard.findByIdAndUpdate(
-		query, {$set: {clickareas: request.payload.state}},
+		query, {$set: {clickareas: JSON.stringify(request.payload.state)}},
 		{new: true}, (error, item) => {
 			if (error) return reply(error);
 
