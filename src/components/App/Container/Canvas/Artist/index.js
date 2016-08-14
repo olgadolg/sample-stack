@@ -291,8 +291,6 @@ export default class DrawVectors extends Component {
 			.on('drag', function (d) {
 				self.box = d3.selectAll('.resizerect').node().getBBox();
 
-				console.log('draaaaagggggs');
-
 				self.resizeRect
 					.attr('stroke', '#fff')
 					.attr('x', self.mousedownCoords[0])
@@ -479,7 +477,7 @@ export default class DrawVectors extends Component {
 
 		this.resizeRect = d3.selectAll('svg')
 			.append('rect')
-			.attr('fill', 'none')
+			.attr('fill', 'rgba(255, 255, 255, 0)')
 			.attr('class', 'resizerect')
 			.attr('width', 0)
 			.attr('height', 0);
@@ -510,6 +508,7 @@ export default class DrawVectors extends Component {
 		}
 
 		if (this.state.tool === 'rectangle') {
+			this.settings.dispatch(this.settings.createOverlayFn('Daniel'));
 			this.state.isNew = true;
 			this.createDragRect();
 		}
@@ -595,8 +594,10 @@ export default class DrawVectors extends Component {
 			}
 		]);
 
+		this.settings.clickarea++;
 		d3.selectAll('.resizerect').remove();
 		this.update();
+		this.updateClickarea();
 	}
 
 	/**
@@ -1104,10 +1105,8 @@ export default class DrawVectors extends Component {
 	updateClickarea () {
 		var bbox = d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node().getBBox();
 
-		console.log(bbox);
-		return;
-
 		this.state.pathData = d3.selectAll('.clickarea' + this.settings.clickarea).node().attributes.getNamedItem('d').value;
+
 		this.settings.dispatch(
 			this.settings.updateOverlayFn(
 				this.state.pathData,
