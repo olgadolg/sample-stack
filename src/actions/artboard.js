@@ -30,7 +30,7 @@ export const loadArtboard = (saveState, update) => (dispatch) => {
 					if (update === false) {
 						dispatch({
 							type: 'LOAD_PROJECT',
-							data: res.body[0].clickareas
+							data: JSON.parse(res.body[0].clickareas)
 						});
 					}
 				}
