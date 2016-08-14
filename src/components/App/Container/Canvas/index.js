@@ -191,6 +191,10 @@ export default class Canvas extends Component {
 
 	changeTool (drawingTool, artState) {
 		if (artState.tool !== drawingTool) {
+			if (drawingTool === 'rectangle') {
+				this.artist.createGhostRect();
+			}
+
 			artState.tool = drawingTool;
 			this.artist.state.toolChange = true;
 			this.artist.update();

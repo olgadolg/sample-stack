@@ -62,7 +62,7 @@ export default class DrawVectors extends Component {
 		this.initLineCreator();
 		this.bindEvents();
 		this.bindDrag();
-		//this.createGhostRect();
+		this.createGhostRect();
 	}
 
 	/**
@@ -291,6 +291,8 @@ export default class DrawVectors extends Component {
 			.on('drag', function (d) {
 				self.box = d3.selectAll('.resizerect').node().getBBox();
 
+				console.log('draaaaagggggs');
+
 				self.resizeRect
 					.attr('stroke', '#fff')
 					.attr('x', self.mousedownCoords[0])
@@ -481,6 +483,8 @@ export default class DrawVectors extends Component {
 			.attr('class', 'resizerect')
 			.attr('width', 0)
 			.attr('height', 0);
+
+		console.log('resizerect', this.resizeRect);
 	}
 
 	/**
@@ -493,8 +497,6 @@ export default class DrawVectors extends Component {
 	svgMouseDown (d) {
 		const self = this;
 
-		//this.createDragRect();
-
 		if (Object.keys(this.state.props.views).length === 0) {
 			return;
 		}
@@ -503,7 +505,13 @@ export default class DrawVectors extends Component {
 		this.state.toolChange = false;
 
 		if (d3.event.target.tagName === 'path' && d3.event.target.attributes.d.nodeValue.indexOf('z') > -1) {
+			d3.selectAll('.ghostRect').remove();
 			return;
+		}
+
+		if (this.state.tool === 'rectangle') {
+			this.state.isNew = true;
+			this.createDragRect();
 		}
 
 		if (this.state.nodes.length === 0 && this.state.tool !== 'pen') {
@@ -587,9 +595,8 @@ export default class DrawVectors extends Component {
 			}
 		]);
 
-		this.state.isNew = true;
-		this.update();
 		d3.selectAll('.resizerect').remove();
+		this.update();
 	}
 
 	/**
@@ -600,7 +607,15 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	svgMouseUp () {
-		//this.createDragRectData();
+		if (this.state.tool !== 'rectangle') {
+			d3.selectAll('.ghostRect').remove();
+		}
+
+		if (this.state.tool === 'rectangle') {
+			this.createGhostRect();
+			this.createDragRectData();
+			this.state.isNew = false;
+		}
 
 		if (Object.keys(this.state.props.views).length === 0) {
 			return;
@@ -938,15 +953,9 @@ export default class DrawVectors extends Component {
 		this.clickareas = d3.selectAll('.path')
 			.data(self.state.edges);
 
-		console.log('what here?', this.clickareas);
-
 		this.clickareas
 			.each(function (d, i) {
-
-
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
-				console.log(d3.select(this))
-
 
 				if (typeof views[currentView] !== 'undefined') {
 					if (typeof views[currentView].clickareas[i] !== 'undefined') {
@@ -959,13 +968,9 @@ export default class DrawVectors extends Component {
 					}
 				}
 
-
 				d3.select(this)
 					.append('path')
 					.attr('class', function (d) {
-
-						console.log('and here?', d)
-
 						return 'clickarea ' + 'clickarea' + parseInt(i + 1);
 					})
 					.attr('fill', function (d) {
@@ -1050,14 +1055,10 @@ export default class DrawVectors extends Component {
 					.call(self.dragClickarea);
 			});
 
-
 		this.clickareas
 			.enter()
 			.append('g')
 			.each(function (d, i) {
-
-				console.log('enters', d);
-
 				d3.select(this)
 					.append('path')
 					.attr('class', 'clickarea')
@@ -1102,6 +1103,9 @@ export default class DrawVectors extends Component {
 	 */
 	updateClickarea () {
 		var bbox = d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node().getBBox();
+
+		console.log(bbox);
+		return;
 
 		this.state.pathData = d3.selectAll('.clickarea' + this.settings.clickarea).node().attributes.getNamedItem('d').value;
 		this.settings.dispatch(

@@ -21,6 +21,7 @@ export default class Toolbox extends Component {
 			select: false,
 			selectAll: true,
 			copy: false,
+			rectangle: false,
 			currentView: 'untitled 1',
 			tool: 'Pen Tool',
 			toolName: 'Pen Tool'
@@ -75,6 +76,12 @@ export default class Toolbox extends Component {
 			} else if (item !== 'currentView' && item !== 'tool') {
 				obj[item] = false;
 			}
+		}
+
+		if (type === 'rectangle') {
+			$('.ghostRect').show();
+		} else {
+			$('.ghostRect').hide();
 		}
 
 		if (type === 'artboard') {
@@ -237,7 +244,7 @@ export default class Toolbox extends Component {
 					className={selectIcon}>
 				</div>
 				<div id="Rectangle"
-					onClick={(e) => this.handleClick(e, 'rect')}
+					onClick={(e) => this.handleClick(e, 'rectangle')}
 					className={rectIcon}>
 				</div>
 				<div id="Pen Tool"
