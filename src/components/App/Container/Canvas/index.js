@@ -38,6 +38,7 @@ export default class Canvas extends Component {
 		this.updateColor = this.updateColor.bind(this);
 		this.setColoronFigureClick = this.setColoronFigureClick.bind(this);
 		this.onStop = this.onStop.bind(this);
+		this.createInterpolation = this.createInterpolation.bind(this);
 	}
 
 	componentDidMount () {
@@ -68,6 +69,8 @@ export default class Canvas extends Component {
 		if (this.props.currentView !== nextProps.currentView) {
 			this.artist.state.shapeIsSelected = false;
 		}
+
+		this.createInterpolation (tool);
 
 		this.setState({
 			views: views,
@@ -164,7 +167,7 @@ export default class Canvas extends Component {
 				artState.edges
 			));
 
-			if (nextProps.tool === 'pen') {
+			if (nextProps.tool === 'pen' || nextProps.tool === 'stepBefore') {
 				this.artist.createClickarea();
 			}
 		}
@@ -178,6 +181,7 @@ export default class Canvas extends Component {
 			this.createArtist();
 			this.updateArtist(nextProps, drawingTool);
 			artState.tool = tool;
+			this.creatInterpolation(tool);
 			artState.viewUpdate = true;
 		}
 	}
@@ -195,6 +199,7 @@ export default class Canvas extends Component {
 				this.artist.createGhostRect();
 			}
 
+			this.createInterpolation(drawingTool);
 			artState.tool = drawingTool;
 			this.artist.state.toolChange = true;
 			this.artist.update();
@@ -223,6 +228,7 @@ export default class Canvas extends Component {
 			this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 			this.artist.update();
 			this.artist.updateClickarea();
+			this.createInterpolation(nextProps.tool);
 			this.artist.update();
 		}
 	}
@@ -258,6 +264,7 @@ export default class Canvas extends Component {
 			this.updateArtist(nextProps, drawingTool);
 			this.artist.setState(this.state, nextProps.clickareas);
 			this.artist.state.tool = tool;
+			this.createInterpolation(drawingTool);
 			this.artist.hideCanvas();
 		} else {
 			this.artist.showCanvas();
@@ -327,9 +334,25 @@ export default class Canvas extends Component {
 		return df.promise();
 	}
 
+	createInterpolation (toolName) {
+
+		console.log('???????', toolName)
+
+		switch (toolName) {
+		case 'pen':
+			this.artist.state.interpolate = 'linear';
+			break;
+
+		case 'stepBefore':
+			this.artist.state.interpolate = 'step-before';
+			break;
+		}
+	}
+
 	updateArtist (nextProps, tool, nodes, edges) {
 		this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 		this.artist.state.tool = tool;
+		this.createInterpolation(tool);
 		this.artist.update();
 	}
 
@@ -395,7 +418,7 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable cancel="svg" {...dragHandlers}>
+			<Draggable cancel=".ghostRect" {...dragHandlers}>
 				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}

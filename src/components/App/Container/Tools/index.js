@@ -22,6 +22,8 @@ export default class Toolbox extends Component {
 			selectAll: true,
 			copy: false,
 			rectangle: false,
+			stepBefore: false,
+			circle: false,
 			currentView: 'untitled 1',
 			tool: 'Pen Tool',
 			toolName: 'Pen Tool'
@@ -145,6 +147,13 @@ export default class Toolbox extends Component {
 			[styles.penIcon]: true
 		});
 
+		const stepBeforeIcon = classnames({
+			'tool': true,
+			'stepBeforeIcon': true,
+			[styles.tool]: true,
+			[styles.stepBeforeIcon]: true
+		});
+
 		const penAddIcon = classnames({
 			'tool': true,
 			'penAddIcon': true,
@@ -246,6 +255,10 @@ export default class Toolbox extends Component {
 				<div id="Rectangle"
 					onClick={(e) => this.handleClick(e, 'rectangle')}
 					className={rectIcon}>
+				</div>
+				<div id="Rounded Corners"
+					onClick={(e) => this.handleClick(e, 'stepBefore')}
+					className={stepBeforeIcon}>
 				</div>
 				<div id="Pen Tool"
 					onClick={(e) => this.handleClick(e, 'pen')}

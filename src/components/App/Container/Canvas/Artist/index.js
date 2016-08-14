@@ -19,6 +19,7 @@ export default class DrawVectors extends Component {
 		this.state = {
 			nodes: [],
 			edges: [],
+			interpolate: '',
 			toolChange: false,
 			color: '#6ec2b3',
 			shapes: 0,
@@ -73,6 +74,8 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	initLineCreator () {
+		const self = this;
+
 		this.lineCreator = d3.svg.line()
 			.x(function (d, i) { return d.x; })
 			.y(function (d) { return d.y; });
@@ -173,16 +176,16 @@ export default class DrawVectors extends Component {
 
 		this.state.nodes.push(
 			[
-				{clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
-				{clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
+				{interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
+				{interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
 			]
 		);
 
 		this.state.edges.push([
 			{
 				closed: false,
-				source: {clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
-				target: {clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
+				source: {interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
+				target: {interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
 			}
 		]);
 
@@ -567,23 +570,23 @@ export default class DrawVectors extends Component {
 		box.y = box.y.toFixed(1);
 
 		this.state.nodes.push([
-			{ clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-			{ clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height },
-			{ clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y + box.height },
-			{ clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y }
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height },
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y + box.height },
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y }
 
 		]);
 
 		this.state.edges.push([
 			{
 				closed: true,
-				source: { clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			},
 			{
 				closed: true,
-				source: { clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			},
 			{
 				closed: true,
@@ -655,9 +658,12 @@ export default class DrawVectors extends Component {
 		let node = {
 			id: this.idct++,
 			clickarea: this.settings.clickarea,
+			interpolate: this.state.interpolate,
 			x: xycoords[0],
 			y: xycoords[1]
 		};
+
+		console.log('node', node);
 
 		if (nodes[clickarea].length > 0) {
 			nodes[clickarea].push(node);
@@ -864,7 +870,7 @@ export default class DrawVectors extends Component {
 
 				if (isBetween === true && self.state.tool === 'penAdd') {
 					if (self.state.multiple === true) {
-						self.state.nodes[self.settings.clickarea - 1].push({x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
+						self.state.nodes[self.settings.clickarea - 1].push({interpolate: this.state.interpolate, x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
 						self.state.multiple = false;
 						self.update();
 					}
@@ -987,6 +993,7 @@ export default class DrawVectors extends Component {
 							z = (d[d.length - 1].closed === true) ? 'z' : '';
 						}
 
+						self.lineCreator.interpolate(self.state.nodes[i][0].interpolate);
 						return self.lineCreator(self.state.nodes[i]) + z;
 					})
 					.style('stroke', function (d, i) {
@@ -1062,6 +1069,7 @@ export default class DrawVectors extends Component {
 					.append('path')
 					.attr('class', 'clickarea')
 					.attr('d', function (d, i) {
+						self.lineCreator.interpolate(self.state.nodes[i][0].interpolate);
 						return self.lineCreator([self.state.nodes[i]]);
 					})
 					.on('click', function (d, i) {
@@ -1533,6 +1541,12 @@ export default class DrawVectors extends Component {
 	 */
 	update (props) {
 		this.state.props = props || this.state.props;
+
+		if (this.state.tool === 'stepBefore') {
+			this.state.tool = 'pen';
+		}
+
+		console.log(this.state.interpolate);
 
 		if (typeof this.state.nodes === 'undefined' ||
 			this.state.nodes.length === 0) {
