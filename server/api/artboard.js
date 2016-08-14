@@ -31,8 +31,8 @@ const updateArtboard = (request, reply) => {
 };
 
 const saveArtboard = (request, reply) => {
-	const artboard = new Artboard();
-	artboard.clickareas = request.payload;
+	const artboard = new Artboard({name: 'artboard'}, { minimize: false });
+	artboard.clickareas = JSON.stringify(request.payload);
 
 	artboard.save((error, item) => {
 		conosole.log('erroor', error);
@@ -51,6 +51,9 @@ exports.register = (server, options, next) => {
 			method: 'POST',
 			path: '/api/artboard',
 			config: {
+				payload: {
+					maxBytes: 209715200
+				},
 				handler: saveArtboard
 			}
 		},
