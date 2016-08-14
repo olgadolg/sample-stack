@@ -6,15 +6,13 @@ export default handleActions({
 	INIT: (state, action) => {
 		return update(state, {
 			init: {$set: true},
-			initState: {$set: state},
-			loadProject: {$set: false}
+			initState: {$set: state}
 		});
 	},
 
 	RESET_INIT: (state, action) => {
 		return update(state, {
-			init: {$set: false},
-			loadProject: {$set: false}
+			init: {$set: false}
 		});
 	},
 
@@ -36,8 +34,7 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false},
-			loadProject: {$set: false}
+			initLayer: {$set: false}
 		});
 	},
 
@@ -62,7 +59,6 @@ export default handleActions({
 			isSelected: {$set: false},
 			isNew: {$set: false},
 			viewUpdate: {$set: false},
-			loadProject: {$set: false},
 			scope: {$set: 'figure'},
 			saveCopy: {$set: false},
 			cut: {$set: false},
@@ -72,8 +68,7 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false},
-			loadProject: {$set: false}
+			initLayer: {$set: false}
 		});
 	},
 
@@ -197,8 +192,7 @@ export default handleActions({
 				resetRemoved: {$set: false},
 				show: {$set: false},
 				isSelected: {$set: false},
-				loadWorkspace: {$set: false},
-				loadProject: {$set: false}
+				loadWorkspace: {$set: false}
 			});
 		}
 	},
@@ -216,7 +210,8 @@ export default handleActions({
 						fileData: action.data.fileData,
 						nodes: [],
 						edges: [],
-						clickareas: {}
+						clickareas: {
+						}
 					}
 				}
 			},
@@ -264,8 +259,7 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -308,8 +302,7 @@ export default handleActions({
 			resetRemoved: {$set: true},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -438,8 +431,7 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -466,8 +458,7 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -484,8 +475,7 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -497,8 +487,7 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
@@ -510,20 +499,21 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false},
-			loadProject: {$set: false}
+			loadWorkspace: {$set: false}
 		});
 	},
 
 	RESET_PROJECT: (state, action) => {
 		return update(state, {
-			loadProject: {$set: false}
+			loadProject: {$set: false},
+			savedProject: {$set: false}
 		});
 	},
 
 	SET_LOADPROJECT: (state, acton) => {
 		return update(state, {
-			loadProject: {$set: true}
+			loadProject: {$set: true},
+			savedProject: {$set: true}
 		});
 	},
 
@@ -542,6 +532,7 @@ export default handleActions({
 			isNew: {$set: action.data.isNew},
 			isSelected: {$set: action.data.isSelected},
 			loadProject: {$set: true},
+			savedProject: {$set: true},
 			tool: {$set: action.data.tool},
 			viewUpdate: {$set: action.data.viewUpdate},
 			views: {$set: action.data.views},
@@ -553,8 +544,7 @@ export default handleActions({
 	SHOW_DIALOG: (state, action) => {
 		return update(state, {
 			show: {$set: true},
-			content: {$set: action.data},
-			loadProject: {$set: false}
+			content: {$set: action.data}
 		});
 	},
 
@@ -582,15 +572,13 @@ export default handleActions({
 					}
 				},
 				loadWorkspace: {$set: false},
-				onload: {$set: action.data.onload},
-				loadProject: {$set: false}
+				onload: {$set: action.data.onload}
 			});
 		} else {
 			return update(state, {
 				workspace: {$set: action.data.workspace.workspace},
 				loadWorkspace: {$set: false},
-				onload: {$set: action.data.onload},
-				loadProject: {$set: false}
+				onload: {$set: action.data.onload}
 			});
 		}
 	}
@@ -624,6 +612,7 @@ export default handleActions({
 	content: {},
 	cutItem: {},
 	onload: false,
+	savedProject: false,
 	init: false,
 	workspace: {
 		canvasWrapper: {

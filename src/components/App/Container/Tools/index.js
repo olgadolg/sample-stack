@@ -4,7 +4,8 @@ import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
 import { selectTool } from '../../../../actions/controls';
-import { removeWorkspace, loadWorkspace, pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
+import { pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../../../actions/clickarea';
+import { removeWorkspace, loadWorkspace } from '../../../../actions/workspace';
 import { addLayer } from '../../../../actions/layer';
 import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
 
@@ -274,7 +275,7 @@ export default class Toolbox extends Component {
 					</div>
 
 					{(() => {
-						if (this.props.loadProject === true) {
+						if (this.props.savedProject === true) {
 							return (<div id="Reset save Artboard"
 								onClick={(e) => this.handleArtboardClick(e, 'artboard')}
 								className={resetWorkspaceIcon}>
@@ -296,7 +297,7 @@ const mapStateToProps = (state) => {
 		initLayer: state.clickareas.initLayer,
 		workspace: state.clickareas.workspace,
 		init: state.clickareas.init,
-		loadProject: state.clickareas.loadProject
+		savedProject: state.clickareas.savedProject
 	};
 };
 

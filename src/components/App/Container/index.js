@@ -5,7 +5,7 @@ import Controls from './Controls';
 import $ from 'jquery';
 import Canvas from './Canvas';
 import Modal from './Modal';
-import { loadWorkspace } from '../../../actions/clickarea';
+import { loadWorkspace } from '../../../actions/workspace';
 import { loadArtboard } from '../../../actions/artboard';
 import styles from './styles/styles.css';
 
