@@ -70,7 +70,7 @@ export default class Canvas extends Component {
 			this.artist.state.shapeIsSelected = false;
 		}
 
-		this.createInterpolation (tool);
+		this.createInterpolation(tool);
 
 		this.setState({
 			views: views,
@@ -185,7 +185,7 @@ export default class Canvas extends Component {
 			this.createArtist();
 			this.updateArtist(nextProps, drawingTool);
 			artState.tool = tool;
-			this.creatInterpolation(tool);
+			this.createInterpolation(tool);
 			artState.viewUpdate = true;
 		}
 	}
