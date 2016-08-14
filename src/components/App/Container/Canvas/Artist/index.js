@@ -533,7 +533,10 @@ export default class DrawVectors extends Component {
 		this.state.viewUpdate = false;
 		this.state.multiple = true;
 
-		if (this.state.nodes.length === 0 || this.state.nodes[this.settings.clickarea - 1].length === 0 || d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1) {
+		if (this.state.nodes.length === 0 || this.state.nodes[this.settings.clickarea - 1].length === 0 ||
+			d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').attr('d').indexOf('z') > -1 ||
+			d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').classed('closed') === true
+		) {
 			if (this.state.tool === 'pen') {
 				this.state.init = true;
 				this.state.mouseDown = false;
@@ -662,8 +665,6 @@ export default class DrawVectors extends Component {
 			x: xycoords[0],
 			y: xycoords[1]
 		};
-
-		console.log('node', node);
 
 		if (nodes[clickarea].length > 0) {
 			nodes[clickarea].push(node);
@@ -987,13 +988,39 @@ export default class DrawVectors extends Component {
 						return (self.state.props.fill === true) ? 0.7 : 0;
 					})
 					.attr('d', function (d, k) {
-						if (d.length === 0) {
-							z = 'z';
-						} else {
-							z = (d[d.length - 1].closed === true) ? 'z' : '';
+						if (self.state.nodes[i][0].interpolate === 'linear') {
+							interpolate = 'linear';
+						} else if (self.state.nodes[i][0].interpolate === 'step-before') {
+							interpolate = 'step-before';
 						}
 
-						self.lineCreator.interpolate(self.state.nodes[i][0].interpolate);
+						if (self.state.nodes[i][0].interpolate === 'linear' ||
+							self.state.nodes[i][0].interpolate === 'step-before') {
+							if (d.length === 0) {
+								z = 'z';
+							} else {
+								z = (d[d.length - 1].closed === true) ? 'z' : '';
+							}
+						} else {
+							z = '';
+
+							if (d.length > 0) {
+								if (d[0].closed === true) {
+									d3.select(this).classed('closed', true);
+
+									if (self.state.nodes[i][0].interpolate === 'basis') {
+										var interpolate = 'basis-closed';
+									} else if (self.state.nodes[i][0].interpolate === 'cardinal') {
+										interpolate = 'cardinal-closed';
+									}
+								} else {
+									d3.select(this).classed('closed', false);
+									interpolate = self.state.nodes[i][0].interpolate;
+								}
+							}
+						}
+
+						self.lineCreator.interpolate(interpolate);
 						return self.lineCreator(self.state.nodes[i]) + z;
 					})
 					.style('stroke', function (d, i) {
@@ -1542,11 +1569,12 @@ export default class DrawVectors extends Component {
 	update (props) {
 		this.state.props = props || this.state.props;
 
-		if (this.state.tool === 'stepBefore') {
+		if (this.state.tool === 'stepBefore' ||
+			this.state.tool === 'bezier' ||
+			this.state.tool === 'cardinal'
+		) {
 			this.state.tool = 'pen';
 		}
-
-		console.log(this.state.interpolate);
 
 		if (typeof this.state.nodes === 'undefined' ||
 			this.state.nodes.length === 0) {

@@ -103,16 +103,19 @@ export default class Header extends Component {
 			[styles.selectedToolNameWrapper]: true
 		});
 
+		/*
+		<div className={tooldescWrapper}>
+			<p className={selectedToolNameWrapper}>
+				<span id="selectedtool" className={selectedToolName}> Select Figure</span>
+			</p>
+		</div>
+		*/
+
 		return (
 			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon" onDrag={this.onDrag} {...dragHandlers}>
 				<header id="header" className={styles.header}>
 					<img className="logo" src={logo} alt="logo" />
 					<Toolbox />
-					<div className={tooldescWrapper}>
-						<p className={selectedToolNameWrapper}>
-							<span id="selectedtool" className={selectedToolName}> Select Figure</span>
-						</p>
-					</div>
 					<div className={slider}>
 						<SliderPicker
 							color={this.state.color}

@@ -23,6 +23,8 @@ export default class Toolbox extends Component {
 			copy: false,
 			rectangle: false,
 			stepBefore: false,
+			bezier: false,
+			cardinal: false,
 			circle: false,
 			currentView: 'untitled 1',
 			tool: 'Pen Tool',
@@ -37,8 +39,8 @@ export default class Toolbox extends Component {
 		this.setState({currentView: nextProps.currentView});
 
 		if (nextProps.initLayer === true) {
-			let selectedtool = document.getElementById('selectedtool');
-			selectedtool.innerHTML = 'Select Figure';
+			//let selectedtool = document.getElementById('selectedtool');
+			//selectedtool.innerHTML = 'Select Figure';
 		}
 
 		if (nextProps.currentView.indexOf('Layer') > -1) {
@@ -63,14 +65,14 @@ export default class Toolbox extends Component {
 	handleClick (event, type) {
 		let obj = {};
 		let tools = document.getElementsByClassName('tool');
-		let toolSelected = document.getElementById('selectedtool');
+		//let toolSelected = document.getElementById('selectedtool');
 
 		for (var i = 0; i < tools.length; i++) {
 			tools[i].classList.remove('selectedTool');
 		}
 
 		event.target.classList.add('selectedTool');
-		toolSelected.innerHTML = event.target.id;
+		//toolSelected.innerHTML = event.target.id;
 
 		for (let item in this.state) {
 			if (type === item) {
@@ -225,6 +227,13 @@ export default class Toolbox extends Component {
 			[styles.artboardIcon]: true
 		});
 
+		const bezierIcon = classnames({
+			'tool': true,
+			'bezierIcon': true,
+			[styles.tool]: true,
+			[styles.bezierIcon]: true
+		});
+
 		const artboardWrapper = classnames({
 			'artboardWrapper': true,
 			[styles.artboardWrapper]: true
@@ -240,6 +249,13 @@ export default class Toolbox extends Component {
 			'tool': true,
 			[styles.tool]: true,
 			[styles.rectIcon]: true
+		});
+
+		const cardinalIcon = classnames({
+			'cardinalIcon': true,
+			'tool': true,
+			[styles.tool]: true,
+			[styles.cardinalIcon]: true
 		});
 
 		return (
@@ -263,6 +279,14 @@ export default class Toolbox extends Component {
 				<div id="Pen Tool"
 					onClick={(e) => this.handleClick(e, 'pen')}
 					className={penIcon}>
+				</div>
+				<div id="Bezier Curve"
+					onClick={(e) => this.handleClick(e, 'bezier')}
+					className={bezierIcon}>
+				</div>
+				<div id="Cardinal"
+					onClick={(e) => this.handleClick(e, 'cardinal')}
+					className={cardinalIcon}>
 				</div>
 				<div id="Add Point"
 					onClick={(e) => this.handleClick(e, 'penAdd')}

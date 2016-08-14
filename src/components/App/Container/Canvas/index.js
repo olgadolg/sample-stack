@@ -167,7 +167,11 @@ export default class Canvas extends Component {
 				artState.edges
 			));
 
-			if (nextProps.tool === 'pen' || nextProps.tool === 'stepBefore') {
+			if (nextProps.tool === 'pen' ||
+				nextProps.tool === 'stepBefore' ||
+				nextProps.tool === 'bezier' ||
+				nextProps.tool === 'cardinal'
+			) {
 				this.artist.createClickarea();
 			}
 		}
@@ -199,7 +203,6 @@ export default class Canvas extends Component {
 				this.artist.createGhostRect();
 			}
 
-			this.createInterpolation(drawingTool);
 			artState.tool = drawingTool;
 			this.artist.state.toolChange = true;
 			this.artist.update();
@@ -228,7 +231,6 @@ export default class Canvas extends Component {
 			this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 			this.artist.update();
 			this.artist.updateClickarea();
-			this.createInterpolation(nextProps.tool);
 			this.artist.update();
 		}
 	}
@@ -264,7 +266,6 @@ export default class Canvas extends Component {
 			this.updateArtist(nextProps, drawingTool);
 			this.artist.setState(this.state, nextProps.clickareas);
 			this.artist.state.tool = tool;
-			this.createInterpolation(drawingTool);
 			this.artist.hideCanvas();
 		} else {
 			this.artist.showCanvas();
@@ -298,6 +299,7 @@ export default class Canvas extends Component {
 
 		for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
 			var obj = {
+				interpolate: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].interpolate,
 				x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
 				y: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].y,
 				closed: true
@@ -318,6 +320,7 @@ export default class Canvas extends Component {
 
 		for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
 			var obj = {
+				interpolate: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].interpolate,
 				x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
 				y: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].y,
 				closed: true
@@ -335,9 +338,6 @@ export default class Canvas extends Component {
 	}
 
 	createInterpolation (toolName) {
-
-		console.log('???????', toolName)
-
 		switch (toolName) {
 		case 'pen':
 			this.artist.state.interpolate = 'linear';
@@ -346,13 +346,24 @@ export default class Canvas extends Component {
 		case 'stepBefore':
 			this.artist.state.interpolate = 'step-before';
 			break;
+
+		case 'bezier':
+			this.artist.state.interpolate = 'basis';
+			break;
+
+		case 'rectangle':
+			this.artist.state.interpolate = 'linear';
+			break;
+
+		case 'cardinal':
+			this.artist.state.interpolate = 'cardinal';
+			break;
 		}
 	}
 
 	updateArtist (nextProps, tool, nodes, edges) {
 		this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 		this.artist.state.tool = tool;
-		this.createInterpolation(tool);
 		this.artist.update();
 	}
 
@@ -418,7 +429,7 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable cancel=".ghostRect" {...dragHandlers}>
+			<Draggable cancel=".ghostRect, .bbRect" {...dragHandlers}>
 				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}
