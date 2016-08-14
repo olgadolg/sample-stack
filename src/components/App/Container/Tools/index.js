@@ -78,7 +78,6 @@ export default class Toolbox extends Component {
 		}
 
 		if (type === 'artboard') {
-			console.log('clickareas', this.props.clickareas)
 			this.props.dispatch(loadArtboard(this.props.clickareas, true));
 		}
 
@@ -220,6 +219,13 @@ export default class Toolbox extends Component {
 			[styles.setupWrapper]: true
 		});
 
+		const rectIcon = classnames({
+			'rectIcon': true,
+			'tool': true,
+			[styles.tool]: true,
+			[styles.rectIcon]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div id="Select Figure"
@@ -229,6 +235,10 @@ export default class Toolbox extends Component {
 				<div id="Select Point"
 					onClick={(e) => this.handleClick(e, 'select')}
 					className={selectIcon}>
+				</div>
+				<div id="Rectangle"
+					onClick={(e) => this.handleClick(e, 'rect')}
+					className={rectIcon}>
 				</div>
 				<div id="Pen Tool"
 					onClick={(e) => this.handleClick(e, 'pen')}
