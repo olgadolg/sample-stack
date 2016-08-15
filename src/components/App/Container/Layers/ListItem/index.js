@@ -19,7 +19,7 @@ export default class ListItem extends Component {
 	}
 
 	componentDidMount () {
-		if (this.props.members.indexOf(this.props.member) === this.props.members.length - 1) {
+		if (this.props.currentView.replace(/(.*)\.(.*?)$/, '$1') === this.props.item.viewId) {
 			this.setState({ backgroundClass: 'filled' });
 		} else {
 			this.setState({ backgroundClass: '' });

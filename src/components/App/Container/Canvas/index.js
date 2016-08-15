@@ -134,17 +134,17 @@ export default class Canvas extends Component {
 	cutFigure (nextProps, drawingTool) {
 		if (nextProps.cut === true) {
 			var self = this;
+			let classList = $('.overlay.selected').attr('class');
+			let index = parseInt(classList.replace(/^\D+/g, ''));
+
 			$.when(this.createDfClone(nextProps))
 				.then(function (clone) {
-					let classList = $('.overlay.selected').attr('class');
-					let index = parseInt(classList.replace(/^\D+/g, ''));
 					let cutNodes = self.artist.state.nodes.splice(index - 1, 1);
 					let cutEdges = self.artist.state.edges.splice(index - 1, 1);
-
 					self.props.dispatch(saveCut(cutNodes, cutEdges));
 					self.createArtist();
 					self.updateArtist(nextProps, drawingTool);
-					self.artist.update();
+					//self.artist.update();
 				}
 			);
 		}
@@ -218,7 +218,7 @@ export default class Canvas extends Component {
 			this.createArtist();
 			this.props.dispatch(makeClickarea(
 				{
-					color: this.state.backgroundColor,
+					color: nextProps.cutItem.nodes[0][0].color,
 					coords: null,
 					goTo: 'Figure',
 					fill: true
@@ -243,7 +243,7 @@ export default class Canvas extends Component {
 			this.createArtist();
 			this.props.dispatch(makeClickarea(
 				{
-					color: this.state.backgroundColor,
+					color: clone.nodes[0][0].color,
 					coords: null,
 					goTo: 'Figure',
 					fill: true
@@ -279,7 +279,15 @@ export default class Canvas extends Component {
 	}
 
 	setColor (nextProps, artState) {
-		if (artState.color !== nextProps.color) {
+		if (nextProps.selectColor === true) {
+			if (this.artist.state.nodes.length > 0 && nextProps.paste === false) {
+				for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
+					if (this.artist.settings.clickarea - 1 === nextProps.colorIndex) {
+						this.artist.state.nodes[this.artist.settings.clickarea - 1][i].color = nextProps.color;
+					}
+				}
+			}
+
 			this.setState({
 				backgroundColor: nextProps.color,
 				colorClick: false
@@ -299,6 +307,7 @@ export default class Canvas extends Component {
 
 		for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
 			var obj = {
+				color: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].color,
 				interpolate: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].interpolate,
 				x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
 				y: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].y,
@@ -320,6 +329,7 @@ export default class Canvas extends Component {
 
 		for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
 			var obj = {
+				color: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].color,
 				interpolate: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].interpolate,
 				x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
 				y: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].y,
@@ -469,8 +479,10 @@ const mapStateToProps = (state) => {
 		cutItem: state.clickareas.cutItem,
 		pasteClickarea: state.clickareas.pasteClickarea,
 		viewRemoved: state.clickareas.viewRemoved,
-		workspace: state.clickareas.workspace
-
+		workspace: state.clickareas.workspace,
+		coordIndex: state.clickareas.coordIndex,
+		colorIndex: state.clickareas.colorIndex,
+		selectColor: state.clickareas.selectColor
 	};
 };
 

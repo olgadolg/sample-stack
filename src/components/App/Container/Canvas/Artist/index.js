@@ -963,15 +963,8 @@ export default class DrawVectors extends Component {
 			.each(function (d, i) {
 				d3.selectAll('.clickarea' + parseInt(i + 1)).remove();
 
-				if (typeof views[currentView] !== 'undefined') {
-					if (typeof views[currentView].clickareas[i] !== 'undefined') {
-						if ('color' in views[currentView].clickareas[i]) {
-							self.state.color = views[currentView].clickareas[i].color;
-							d3.select(this).style({'fill': views[currentView].clickareas[i].color});
-						} else {
-							d3.select(this).style({'fill': 'rgba(255, 255, 255)'});
-						}
-					}
+				for (var j = 0; j < self.state.nodes[i].length - 1; j++) {
+					d3.select(this).style({'fill': self.state.nodes[i][0].color});
 				}
 
 				d3.select(this)
@@ -981,7 +974,7 @@ export default class DrawVectors extends Component {
 					})
 					.attr('fill', function (d) {
 						if (d3.select(this).style('fill') === 'rgb(0, 0, 0)') {
-							return 'rgba(255, 255, 255, 0)';
+							return 'rgb(110, 194, 179)';
 						}
 					})
 					.attr('fill-opacity', function (d) {
@@ -1082,7 +1075,7 @@ export default class DrawVectors extends Component {
 
 						d3.selectAll('.overlay' + parseInt(self.settings.clickarea) + ' .handle').classed('selected', false);
 						self.state.color = d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill');
-						self.settings.setColorFn(d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill'));
+						self.settings.dispatch(self.settings.setColorFn(d3.select('.overlay' + self.settings.clickarea + ' .path').style('fill')));
 						self.makePenAddPoint(self);
 					})
 					.call(self.dragClickarea);

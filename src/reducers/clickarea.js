@@ -6,13 +6,17 @@ export default handleActions({
 	INIT: (state, action) => {
 		return update(state, {
 			init: {$set: true},
-			initState: {$set: state}
+			initState: {$set: state},
+			selectColor: {$set: false}
+
 		});
 	},
 
 	RESET_INIT: (state, action) => {
 		return update(state, {
-			init: {$set: false}
+			init: {$set: false},
+			selectColor: {$set: false}
+
 		});
 	},
 
@@ -34,7 +38,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false}
+			initLayer: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -68,7 +73,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false}
+			initLayer: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -76,6 +82,8 @@ export default handleActions({
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = action.data.index;
+
+		console.log('action', action)
 
 		return update(state, {
 			views: {
@@ -104,7 +112,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -147,7 +156,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			initLayer: {$set: false}
+			initLayer: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -178,7 +188,8 @@ export default handleActions({
 				resetRemoved: {$set: false},
 				show: {$set: false},
 				isSelected: {$set: false},
-				loadWorkspace: {$set: false}
+				loadWorkspace: {$set: false},
+				selectColor: {$set: false}
 			});
 		} else {
 			return update(state, {
@@ -192,7 +203,8 @@ export default handleActions({
 				resetRemoved: {$set: false},
 				show: {$set: false},
 				isSelected: {$set: false},
-				loadWorkspace: {$set: false}
+				loadWorkspace: {$set: false},
+				selectColor: {$set: false}
 			});
 		}
 	},
@@ -226,7 +238,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -259,7 +272,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -278,7 +292,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			addLayer: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -302,7 +317,8 @@ export default handleActions({
 			resetRemoved: {$set: true},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -310,6 +326,8 @@ export default handleActions({
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = state.coordIndex;
+
+		console.log('rColor', action.data.hex)
 
 		return update(state, {
 			views: {
@@ -332,7 +350,9 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			colorIndex: {$set: coordIndex},
+			selectColor: {$set: true}
 		});
 	},
 
@@ -349,7 +369,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -378,7 +399,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -395,7 +417,8 @@ export default handleActions({
 			addLayer: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			initLayer: {$set: false}
+			initLayer: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -416,7 +439,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -431,7 +455,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -440,6 +465,7 @@ export default handleActions({
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 
+		console.log(views[view].clickareas, views[view].clickareas[state.coordIndex]);
 		delete views[view].clickareas[state.coordIndex];
 
 		// update keys after delete
@@ -458,7 +484,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -475,7 +502,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			isSelected: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -487,7 +515,8 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -499,21 +528,24 @@ export default handleActions({
 			viewRemoved: {$set: false},
 			resetRemoved: {$set: false},
 			show: {$set: false},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
 	RESET_PROJECT: (state, action) => {
 		return update(state, {
 			loadProject: {$set: false},
-			savedProject: {$set: false}
+			savedProject: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 
 	SET_LOADPROJECT: (state, acton) => {
 		return update(state, {
 			loadProject: {$set: true},
-			savedProject: {$set: true}
+			savedProject: {$set: true},
+			selectColor: {$set: false}
 		});
 	},
 
@@ -538,7 +570,8 @@ export default handleActions({
 			views: {$set: action.data.views},
 			projectName: {$set: action.data.projectName},
 			scope: {$set: action.data.scope},
-			loadWorkspace: {$set: false}
+			loadWorkspace: {$set: false},
+			selectColor: {$set: false}
 		});
 	},
 	SHOW_DIALOG: (state, action) => {
@@ -578,7 +611,8 @@ export default handleActions({
 			return update(state, {
 				workspace: {$set: action.data.workspace.workspace},
 				loadWorkspace: {$set: false},
-				onload: {$set: action.data.onload}
+				onload: {$set: action.data.onload},
+				selectColor: {$set: false}
 			});
 		}
 	}
@@ -587,6 +621,7 @@ export default handleActions({
 	views: {},
 	clickareas: {},
 	colors: [],
+	colorIndex: null,
 	coordIndex: 0,
 	currentView: '',
 	color: '#6ec2b3',
@@ -609,6 +644,7 @@ export default handleActions({
 	paste: false,
 	resetRemoved: false,
 	show: false,
+	selectColor: false,
 	content: {},
 	cutItem: {},
 	onload: false,

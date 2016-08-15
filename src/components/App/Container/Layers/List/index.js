@@ -72,6 +72,7 @@ export default class List extends Component {
 					members={Object.keys(this.props.layers)}
 					member={i}
 					viewUpdate={this.props.viewUpdate}
+					currentView={this.props.currentView}
 					className={styles.layerItem}
 					onClick={(e) => this.onSelectChange(e)}
 					removeView={this.removeView}
