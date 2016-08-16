@@ -19,6 +19,7 @@ export default class Modal extends Component {
 		this.onConfirm = this.onConfirm.bind(this);
 		this.onReload = this.onReload.bind(this);
 		this.handleModal = this.handleModal.bind(this);
+		this.onCloseOverlay = this.onCloseOverlay.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -42,7 +43,11 @@ export default class Modal extends Component {
 	onReload () {
 		this.setState({ isOpen: false });
 		this.props.dispatch(hideDialog());
-		window.location.reload();
+	}
+
+	onCloseOverlay () {
+		this.setState({ isOpen: false });
+		this.props.dispatch(hideDialog());
 	}
 
 	onSubmit (nextProps) {
@@ -60,7 +65,8 @@ export default class Modal extends Component {
 	render () {
 		const revealOverlay = classnames({
 			'revealOverlay': true,
-			[styles.revealOverlay]: true
+			[styles.revealOverlay]: true,
+			[styles[this.props.content.overlay]]: true
 		});
 
 		const modalWrapper = classnames({
@@ -81,6 +87,7 @@ export default class Modal extends Component {
 						onSubmit={this.onSubmit}
 						onConfirm={this.onConfirm}
 						onReload={this.onReload}
+						transition={this.props.content.animation}
 					/>
 				</div>
 			</div>

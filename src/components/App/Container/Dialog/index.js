@@ -13,7 +13,8 @@ export default class Dialog extends Component {
 
 		const modalContent = classnames({
 			'modalContent': true,
-			[styles.modalContent]: true
+			[styles.modalContent]: true,
+			[styles[this.props.transition]]: true
 		});
 
 		if (typeof this.props.content.text !== 'undefined') {

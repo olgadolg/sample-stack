@@ -144,7 +144,6 @@ export default class Canvas extends Component {
 					self.props.dispatch(saveCut(cutNodes, cutEdges));
 					self.createArtist();
 					self.updateArtist(nextProps, drawingTool);
-					//self.artist.update();
 				}
 			);
 		}
@@ -231,7 +230,6 @@ export default class Canvas extends Component {
 			this.artist.setState(this.state, nextProps.clickareas, nodes, edges);
 			this.artist.update();
 			this.artist.updateClickarea();
-			this.artist.update();
 		}
 	}
 
@@ -256,7 +254,6 @@ export default class Canvas extends Component {
 			this.artist.setState(this.state, nextProps.clickareas, clone.nodes, clone.edges);
 			this.artist.update();
 			this.artist.updateClickarea();
-			this.artist.update();
 		}
 	}
 
@@ -324,11 +321,11 @@ export default class Canvas extends Component {
 	}
 
 	createDfClone (nextProps) {
-		var df = $.Deferred();
-		var newArray = [];
+		const df = $.Deferred();
+		const newArray = [];
 
-		for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
-			var obj = {
+		for (let i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
+			let obj = {
 				color: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].color,
 				interpolate: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].interpolate,
 				x: this.artist.state.nodes[this.artist.settings.clickarea - 1][i].x + 30,
