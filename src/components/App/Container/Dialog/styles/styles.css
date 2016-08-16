@@ -18,11 +18,6 @@
 
     overflow-y: auto;
     z-index: 800;
-
-	-webkit-transition: opacity 500ms ease-in;
-    -moz-transition: opacity 500ms ease-in;
-    transition: opacity 500ms ease-in;
-    animation: bounce 500ms linear;
 }
 
 :local(.modalContent > div) {
@@ -56,6 +51,20 @@
 	box-shadow: 0 0 0 0 #6EC2B3;
 	cursor: pointer;
 	transition: all .3s;
+}
+
+:local(.transition) {
+	-webkit-transition: opacity 500ms ease-in;
+    -moz-transition: opacity 500ms ease-in;
+    transition: opacity 500ms ease-in;
+    animation: bounce 500ms linear;
+}
+
+:local(.no-transition) {
+	-moz-transition: none;
+    -webkit-transition: none;
+    -o-transition: color 0 ease-in;
+    transition: none;
 }
 
 @-webkit-keyframes bounce {

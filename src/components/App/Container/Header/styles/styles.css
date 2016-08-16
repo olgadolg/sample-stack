@@ -96,9 +96,10 @@
 }
 
 :local(.colorSlider) {
-	width: 215px;
+	width: 225px;
 	height: auto;
 	margin-top: 16px;
+	margin-left: 18px;
 	height: auto;
 	float: left;
 	cursor: pointer;
