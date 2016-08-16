@@ -83,8 +83,6 @@ export default handleActions({
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = action.data.index;
 
-		console.log('action', action)
-
 		return update(state, {
 			views: {
 				[view]: {
