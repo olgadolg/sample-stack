@@ -20,7 +20,6 @@ export default class DrawVectors extends Component {
 			nodes: [],
 			edges: [],
 			interpolate: '',
-			toolChange: false,
 			color: '#6ec2b3',
 			shapes: 0,
 			tool: 'selectAll',
@@ -28,15 +27,9 @@ export default class DrawVectors extends Component {
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
 			props: null,
-			multiple: true,
 			selectedNode: null,
 			selectedEdge: null,
-			mouseDown: false,
-			shiftKey: false,
-			shapeIsSelected: '',
-			nodeIsDragged: false,
-			init: true,
-			viewUpdate: false
+			shapeIsSelected: ''
 		};
 
 		this.settings = {
@@ -52,8 +45,6 @@ export default class DrawVectors extends Component {
 			saveCopyFn: saveCopyFn,
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
-			backspace_key: 27,
-			delete_key: 46,
 			nodeRadius: 3
 		};
 
@@ -74,8 +65,6 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	initLineCreator () {
-		const self = this;
-
 		this.lineCreator = d3.svg.line()
 			.x(function (d, i) { return d.x; })
 			.y(function (d) { return d.y; });
@@ -110,11 +99,25 @@ export default class DrawVectors extends Component {
 			});
 	}
 
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	showCanvas () {
 		d3.selectAll('svg')
 			.style({display: 'block'});
 	}
 
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	hideCanvas () {
 		d3.selectAll('svg')
 			.style({display: 'none'});
@@ -952,8 +955,6 @@ export default class DrawVectors extends Component {
 	 */
 	createPath () {
 		const self = this;
-		const views = this.state.props.views;
-		const currentView = this.state.currentView;
 		var z;
 
 		this.clickareas = d3.selectAll('.path')
