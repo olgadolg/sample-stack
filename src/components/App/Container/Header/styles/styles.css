@@ -8,9 +8,17 @@
 }
 
 :local(.header img) {
+	display: none;
 	float: left;
 	height: 80px;
 	margin-left: 55px;
+}
+
+:local(.nAngle) {
+	float: left;
+	margin-left: 33px;
+	margin-right: 7px;
+	margin-top: 30px;
 }
 
 :local(.tooldescWrapper) {
@@ -96,7 +104,7 @@
 }
 
 :local(.colorSlider) {
-	width: 225px;
+	width: 262px;
 	height: auto;
 	margin-top: 16px;
 	margin-left: 18px;

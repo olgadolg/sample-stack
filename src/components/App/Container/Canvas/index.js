@@ -38,6 +38,7 @@ export default class Canvas extends Component {
 		this.updateColor = this.updateColor.bind(this);
 		this.setColoronFigureClick = this.setColoronFigureClick.bind(this);
 		this.onStop = this.onStop.bind(this);
+		this.onStart = this.onStart.bind(this);
 		this.createInterpolation = this.createInterpolation.bind(this);
 	}
 
@@ -436,7 +437,7 @@ export default class Canvas extends Component {
 		});
 
 		return (
-			<Draggable cancel=".ghostRect, .bbRect" {...dragHandlers}>
+			<Draggable cancel=".ghostRect, .bbRect, .path, .overlay" {...dragHandlers}>
 				<div id="canvasWrapper" className={canvasWrapper}>
 					<Dropzone
 						className={dropzone}

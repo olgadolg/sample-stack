@@ -7,6 +7,7 @@ import List from '../List';
 import styles from './styles/styles.css';
 import { updateFill } from '../../../../actions/clickarea';
 import { saveWorkspace } from '../../../../actions/workspace';
+import { selectTool } from '../../../../actions/controls';
 import Utilities from '../../../../Utilities';
 import Draggable from 'react-draggable';
 import { exportProject, save, load } from '../../../../actions/project';
@@ -27,6 +28,7 @@ export default class ControlsContainer extends Component {
 		this.loadProject = this.loadProject.bind(this);
 		this.exportProject = this.exportProject.bind(this);
 		this.onStop = this.onStop.bind(this);
+		this.onStart = this.onStart.bind(this);
 	}
 
 	componentDidMount () {
@@ -90,6 +92,7 @@ export default class ControlsContainer extends Component {
 		controlsContainer.style.zIndex = '99999999';
 		canvasWrapper.style.zIndex = '9';
 		header.style.zIndex = '9';
+		this.props.dispatch(selectTool('selectAll'));
 	}
 
 	onStop (e, ui) {

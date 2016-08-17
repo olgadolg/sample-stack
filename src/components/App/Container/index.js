@@ -22,25 +22,27 @@ export default class Container extends Component {
 		let controls = document.getElementById('controlsContainer');
 		let canvas = document.getElementById('canvasWrapper');
 
+		console.log('canvas', nextProps.workspace.canvasWrapper)
+
 		if (nextProps.onload === true && nextProps.init === false) {
-			if (nextProps.workspace.header.y) {
+			if (!isNaN(nextProps.workspace.header.y)) {
 				header.style.top = nextProps.workspace.header.y + 'px';
 			}
-			if (nextProps.workspace.header.x) {
+			if (!isNaN(nextProps.workspace.header.x)) {
 				header.style.left = nextProps.workspace.header.x + 'px';
 			}
-			if (nextProps.workspace.controlsContainer.y) {
+			if (!isNaN(nextProps.workspace.controlsContainer.y)) {
 				controls.style.top = nextProps.workspace.controlsContainer.y + 'px';
 			}
-			if (nextProps.workspace.controlsContainer.x) {
+			if (!isNaN(nextProps.workspace.controlsContainer.x)) {
 				controls.style.left = nextProps.workspace.controlsContainer.x + 'px';
 			}
 
-			if (nextProps.workspace.canvasWrapper.y) {
+			if (!isNaN(nextProps.workspace.canvasWrapper.y)) {
 				canvas.style.top = nextProps.workspace.canvasWrapper.y + 'px';
 			}
 
-			if (nextProps.workspace.canvasWrapper.x) {
+			if (!isNaN(nextProps.workspace.canvasWrapper.x)) {
 				canvas.style.left = nextProps.workspace.canvasWrapper.x + 'px';
 			}
 

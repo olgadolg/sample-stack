@@ -10,7 +10,9 @@
 					"value": "OK",
 					"action": "onReload"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"resetArtboardfailed": {
 			"text": {
@@ -22,7 +24,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"saveArtboardSuccess": {
 			"text": {
@@ -34,7 +38,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"saveArtboardFailed": {
 			"text": {
@@ -46,7 +52,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"saveWorkspace": {
 			"text": {
@@ -58,7 +66,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"saveWorkspaceFail": {
 			"text": {
@@ -70,7 +80,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"workspaceReset": {
 			"text": {
@@ -82,7 +94,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"workspaceResetFail": {
 			"text": {
@@ -94,7 +108,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"layerCopy": {
 			"text": {
@@ -106,7 +122,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"exportSuccess": {
 			"text": {
@@ -118,7 +136,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"exportFailed": {
 			"text": {
@@ -130,7 +150,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"saveSuccess": {
 			"text": {
@@ -142,7 +164,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"saveFailed": {
 			"text": {
@@ -154,7 +178,9 @@
 					"value": "OK",
 					"action": "onConfirm"
 				}
-			]
+			],
+			"overlay": "overlay",
+			"animation": "transition"
 		},
 		"removeLayer": {
 			"text": {

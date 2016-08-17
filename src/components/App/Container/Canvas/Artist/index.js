@@ -23,6 +23,7 @@ export default class DrawVectors extends Component {
 			color: '#6ec2b3',
 			shapes: 0,
 			tool: 'selectAll',
+			angle: 0,
 			freezedNodes: [],
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
@@ -179,13 +180,14 @@ export default class DrawVectors extends Component {
 
 		this.state.nodes.push(
 			[
-				{interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
-				{interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
+				{angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
+				{angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
 			]
 		);
 
 		this.state.edges.push([
 			{
+				angle: 0,
 				closed: false,
 				source: {interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
 				target: {interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
@@ -290,6 +292,43 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
+	distanceBetweenPoints (p1, p2) {
+		return Math.sqrt(Math.pow(p2[1] - p1[1], 2) + Math.pow(p2[0] - p1[0], 2));
+	}
+
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	angleBetweenPoints (p1, p2) {
+		if (p1[0] === p2[0] && p1[1] === p2[1]) {
+			return Math.PI / 2;
+		} else {
+			return Math.atan2(p2[1] - p1[1], p2[0] - p1[0]);
+		}
+	}
+
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	toDegrees (rad) {
+		return rad * (180 / Math.PI);
+	}
+
+	/**
+	 * Triggers on theme selected
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	bindDrag () {
 		const self = this;
 
@@ -327,6 +366,7 @@ export default class DrawVectors extends Component {
 				if (self.state.tool !== 'select') {
 					return;
 				}
+
 				d3.select(this).classed('selected', true);
 				self.dragmove(d);
 			})
@@ -576,28 +616,31 @@ export default class DrawVectors extends Component {
 		box.y = box.y.toFixed(1);
 
 		this.state.nodes.push([
-			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height },
-			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y + box.height },
-			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y }
+			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height },
+			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y + box.height },
+			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y }
 
 		]);
 
 		this.state.edges.push([
 			{
+				angle: 0,
 				closed: true,
-				source: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			},
 			{
+				angle: 0,
 				closed: true,
-				source: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			},
 			{
+				angle: 0,
 				closed: true,
-				source: { clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { angle: 0, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { angle: 0, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			}
 		]);
 
@@ -662,6 +705,7 @@ export default class DrawVectors extends Component {
 		let xycoords = d3.mouse(this.svgG.node());
 
 		let node = {
+			angle: 0,
 			id: this.idct++,
 			clickarea: this.settings.clickarea,
 			interpolate: this.state.interpolate,
@@ -874,7 +918,7 @@ export default class DrawVectors extends Component {
 
 				if (isBetween === true && self.state.tool === 'penAdd') {
 					if (self.state.multiple === true) {
-						self.state.nodes[self.settings.clickarea - 1].push({interpolate: this.state.interpolate, x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
+						self.state.nodes[self.settings.clickarea - 1].push({angle: 0, interpolate: this.state.interpolate, x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
 						self.state.multiple = false;
 						self.update();
 					}
@@ -1560,6 +1604,84 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
+	rotateAxis (cx, cy, x, y, angle) {
+		var radians = (Math.PI / 180) * angle;
+		var cos = Math.cos(radians);
+		var sin = Math.sin(radians);
+		var nx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
+		var ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+		return [nx, ny];
+	}
+
+	bindRangeChange () {
+		const self = this;
+
+		d3.select('#nAngle').on('input', function () {
+			let nAngle = this.value;
+
+			d3.select('.overlay' + self.settings.clickarea).attr('transform', function (d) {
+				return 'rotate(' + nAngle + ' ' + parseInt(self.box.x + self.box.width / 2) + ' ' + parseInt(self.box.y + self.box.height / 2) + ')';
+			});
+		});
+	}
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	bindRangeStop () {
+		const self = this;
+
+		d3.select('#nAngle').on('mouseup', function () {
+			var nAngle = -(this.value);
+
+			d3.select('.overlay' + self.settings.clickarea).attr('transform', function (d) {
+				return 'rotate(0)';
+			});
+
+			for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+				var newCoords = self.rotateAxis(
+					self.box.x + (self.box.width / 2),
+					self.box.y + (self.box.height / 2),
+					self.state.nodes[self.settings.clickarea - 1][i].x,
+					self.state.nodes[self.settings.clickarea - 1][i].y,
+					nAngle
+				);
+
+				self.state.nodes[self.settings.clickarea - 1][i].x = newCoords[0];
+				self.state.nodes[self.settings.clickarea - 1][i].y = newCoords[1];
+			}
+
+			d3.selectAll('#nAngle')[0][0].value = 0;
+			$('#nAngle').attr('value', 0);
+
+			self.update();
+		});
+	}
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
+	rotateFigure () {
+		this.box = d3.selectAll('.overlay' + this.settings.clickarea).node().getBBox();
+		this.bindRangeStop();
+		this.bindRangeChange();
+	}
+
+	/**
+	 * update elements
+	 *
+	 * @method onThemeSelected
+	 * @param {object} event - event
+	 * @return void
+	 */
 	update (props) {
 		this.state.props = props || this.state.props;
 
@@ -1582,5 +1704,6 @@ export default class DrawVectors extends Component {
 		this.createHandles();
 		this.createPath();
 		this.setFigureState();
+		this.rotateFigure();
 	}
 }
