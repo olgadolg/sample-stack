@@ -149,7 +149,9 @@ export default class ControlsContainer extends Component {
 
 		const textfieldClass = classnames({
 			'textfield': true,
-			[styles.textfield]: true
+			'rotatefield': true,
+			[styles.textfield]: true,
+			[styles.rotatefield]: true
 		});
 
 		const button = classnames({
@@ -176,6 +178,15 @@ export default class ControlsContainer extends Component {
 			[styles.removeIcon]: true
 		});
 
+		const rotateWrapper = classnames({
+			'rotateWrapper': true,
+			[styles.rotateWrapper]: true
+		});
+
+		const degrees = classnames({
+			'degrees': true,
+			[styles.degrees]: true
+		});
 		/*
 		<input
 			type="file"
@@ -195,14 +206,17 @@ export default class ControlsContainer extends Component {
 					<Title />
 					<label className={titleLabel}>Rotation</label>
 					<form className={rotateForm}>
-						<input defaultvalue="0"
-							className={textfieldClass}
-							onChange={this.onChange}
-							onMouseUp={this.onMouseUp}
-						 	type="text"
-							value={this.state.value}
-							id="nAngle"
-						/>
+						<div className={rotateWrapper}>
+							<input defaultvalue="0"
+								className={textfieldClass}
+								onChange={this.onChange}
+								onMouseUp={this.onMouseUp}
+							 	type="text"
+								value={this.state.value}
+								id="nAngle"
+							/>
+							<span className={degrees}>°</span>
+						</div>
 						<button className={button} onClick={this.handleSubmit}>Rotate Figure</button>
 					</form>
 					<label className={titleLabel}>Color</label>
@@ -210,7 +224,7 @@ export default class ControlsContainer extends Component {
 						<SliderPicker
 							color={this.state.color}
 							onChange={this.handleColorChange}/>
-							<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
+						<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
 					</div>
 					<List />
 				</div>

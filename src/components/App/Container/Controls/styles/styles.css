@@ -43,7 +43,7 @@
 	padding: 10px !important;
 	float: left;
 	height: 41px;
-	width: 137px;
+	width: 128px;
 }
 
 :local(.textfield) {
@@ -58,17 +58,28 @@
 	text-transform: uppercase;
 	margin-left: 5px;
 	margin-top: 5px;
-	padding: 12px 3px;
+	padding: 12px 3px 6px 3px;
 	outline: 0;
 	background: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
-    padding: 10px;
     box-shadow: inset -1px 1px 1px 0 rgba(0, 0, 0, 0.3), inset 1px -1px 1px 0 rgba(255, 255, 255, 0.3);
 	border: none;
-	width: 25px;
+	width: 47px;
 	margin-right: 10px;
 	float: left;
 	text-align: center;
+}
+
+:local(.rotateWrapper) {
+	position: relative;
+}
+
+:local(.degrees) {
+	position: absolute;
+	top: 7px;
+	left: 41px;
+	font-size: 18px;
+	color: #444;
 }
 
 :local(.removeIcon) {
