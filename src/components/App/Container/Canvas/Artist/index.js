@@ -49,7 +49,8 @@ export default class DrawVectors extends Component {
 			saveCopyFn: saveCopyFn,
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
-			nodeRadius: 3
+			nodeRadius: 3,
+			deleteKey: 27
 		};
 
 		this.win = d3.select(window);
@@ -446,9 +447,7 @@ export default class DrawVectors extends Component {
 		}
 
 		switch (d3.event.keyCode) {
-		case this.settings.backspace_key:
-		case this.settings.delete_key:
-
+		case this.settings.deleteKey:
 			d3.event.preventDefault();
 			if (this.state.shapeIsSelected === true) {
 				this.removeFigure();

@@ -198,7 +198,6 @@ export default class Toolbox extends Component {
 
 		const selectAllIcon = classnames({
 			'tool': true,
-			'selectedTool': true,
 			'selectAllIcon': true,
 			[styles.tool]: true,
 			[styles.selectAllIcon]: true

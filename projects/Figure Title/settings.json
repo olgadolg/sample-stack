@@ -1,0 +1,15 @@
+{
+    "Cat": {
+        "viewId": "cat",
+        "clickarea": {}
+    },
+    "City": {
+        "viewId": "city",
+        "clickarea": {
+            "0": {
+                "coords": "M463,119L324,153L488,292z",
+                "goTo": "Figure"
+            }
+        }
+    }
+}

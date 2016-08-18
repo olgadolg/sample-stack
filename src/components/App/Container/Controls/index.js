@@ -171,6 +171,11 @@ export default class ControlsContainer extends Component {
 			[styles.titleLabel]: true
 		});
 
+		const removeIcon = classnames({
+			'removeIcon': true,
+			[styles.removeIcon]: true
+		});
+
 		/*
 		<input
 			type="file"
@@ -205,6 +210,7 @@ export default class ControlsContainer extends Component {
 						<SliderPicker
 							color={this.state.color}
 							onChange={this.handleColorChange}/>
+							<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
 					</div>
 					<List />
 				</div>

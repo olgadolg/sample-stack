@@ -90,6 +90,7 @@ export default class Canvas extends Component {
 			this.addLayer(nextProps, drawingTool, tool);
 			this.updateColor(nextProps);
 			this.setColor(nextProps, artState);
+			this.eraseColor(nextProps);
 			this.saveCopy(nextProps, drawingTool);
 			this.addCopy(nextProps);
 			this.changeTool(drawingTool, artState);
@@ -274,6 +275,19 @@ export default class Canvas extends Component {
 		if (this.state.colorClick === false) {
 			this.setState({backgroundColor: nextProps.color});
 		}
+	}
+
+	eraseColor (nextProps) {
+		if (nextProps.eraseColor === true) {
+			if (this.artist.state.nodes.length > 0) {
+				for (var i = 0; i < this.artist.state.nodes[this.artist.settings.clickarea - 1].length; i++) {
+					if (this.artist.settings.clickarea - 1 === nextProps.coordIndex) {
+						this.artist.state.nodes[this.artist.settings.clickarea - 1][i].color = 'rgba(255, 255, 255, 0)';
+					}
+				}
+			}
+		}
+		this.artist.update();
 	}
 
 	setColor (nextProps, artState) {
@@ -465,6 +479,7 @@ const mapStateToProps = (state) => {
 		clickarea: state.clickareas.clickarea,
 		tool: state.clickareas.tool,
 		color: state.clickareas.color,
+		eraseColor: state.clickareas.eraseColor,
 		addLayer: state.clickareas.addLayer,
 		loadProject: state.clickareas.loadProject,
 		artistState: state.clickareas.artistState,
