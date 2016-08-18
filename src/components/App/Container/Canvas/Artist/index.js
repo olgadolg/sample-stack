@@ -24,6 +24,9 @@ export default class DrawVectors extends Component {
 			shapes: 0,
 			tool: 'selectAll',
 			angle: 0,
+			tick: 0,
+			rotatedAngle: 0,
+			stopAngle: 0,
 			freezedNodes: [],
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
@@ -213,7 +216,8 @@ export default class DrawVectors extends Component {
 		d3.selectAll('.overlay').classed('selected', false);
 
 		let newG = this.svg.append('g')
-			.classed('overlay overlay ' + this.settings.containerclass, true);
+			.classed('overlay overlay ' + this.settings.containerclass, true)
+			.attr('transform', 'none');
 
 		if (index === this.state.shapes - 1) {
 			newG.classed('selected', true);
@@ -1517,9 +1521,7 @@ export default class DrawVectors extends Component {
 			break;
 		case 'penAdd':
 			if (this.state.shapeIsSelected === true) {
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
-					.style('stroke', 'rgb(6, 141, 242)');
-
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').style('stroke', 'rgb(6, 141, 242)');
 				d3.selectAll('.overlay .handle').classed('invisible', true);
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
 			}
@@ -1533,31 +1535,24 @@ export default class DrawVectors extends Component {
 
 		case 'penRemove':
 			if (this.state.shapeIsSelected === true) {
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
-					.style('stroke', 'rgb(6, 141, 242)');
-
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').style('stroke', 'rgb(6, 141, 242)');
 				d3.selectAll('.overlay .handle').classed('invisible', true);
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
 			}
 
 			if (this.state.toolChange === false) {
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
-					.style('stroke', 'rgb(6, 141, 242)');
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').style('stroke', 'rgb(6, 141, 242)');
 			}
 			this.removeBBRect();
 			break;
 
 		case 'select':
 			if (this.state.shapeIsSelected) {
-				d3.selectAll('.clickarea')
-						.style('stroke', '#fff');
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
-					.style('stroke', 'rgb(6, 141, 242)');
-
+				d3.selectAll('.clickarea').style('stroke', '#fff');
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').style('stroke', 'rgb(6, 141, 242)');
 				d3.selectAll('.handle').classed('invisible', true);
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle')
-					.classed('invisible', false);
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', false);
 			}
 			if (typeof this.pathBox !== 'undefined') {
 				this.pathBox.remove();
@@ -1572,10 +1567,8 @@ export default class DrawVectors extends Component {
 			}
 
 			if (this.state.shapeIsSelected) {
-				d3.selectAll('.clickarea')
-						.style('stroke', '#fff');
-				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea')
-					.style('stroke', 'rgb(6, 141, 242)');
+				d3.selectAll('.clickarea').style('stroke', '#fff');
+				d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').style('stroke', 'rgb(6, 141, 242)');
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', true);
 			}
 
@@ -1604,62 +1597,11 @@ export default class DrawVectors extends Component {
 	 * @param {object} event - event
 	 * @return void
 	 */
-	rotateAxis (cx, cy, x, y, angle) {
-		var radians = (Math.PI / 180) * angle;
-		var cos = Math.cos(radians);
-		var sin = Math.sin(radians);
-		var nx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
-		var ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+	rotateAxis (originX, originY, pointX, pointY, angle) {
+		angle = angle * Math.PI / 180.0;
+		var nx = Math.cos(angle) * (pointX - originX) - Math.sin(angle) * (pointY - originY) + originX;
+		var ny = Math.sin(angle) * (pointX - originX) + Math.cos(angle) * (pointY - originY) + originY;
 		return [nx, ny];
-	}
-
-	bindRangeChange () {
-		const self = this;
-
-		d3.select('#nAngle').on('input', function () {
-			let nAngle = this.value;
-
-			d3.select('.overlay' + self.settings.clickarea).attr('transform', function (d) {
-				return 'rotate(' + nAngle + ' ' + parseInt(self.box.x + self.box.width / 2) + ' ' + parseInt(self.box.y + self.box.height / 2) + ')';
-			});
-		});
-	}
-
-	/**
-	 * update elements
-	 *
-	 * @method onThemeSelected
-	 * @param {object} event - event
-	 * @return void
-	 */
-	bindRangeStop () {
-		const self = this;
-
-		d3.select('#nAngle').on('mouseup', function () {
-			var nAngle = -(this.value);
-
-			d3.select('.overlay' + self.settings.clickarea).attr('transform', function (d) {
-				return 'rotate(0)';
-			});
-
-			for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-				var newCoords = self.rotateAxis(
-					self.box.x + (self.box.width / 2),
-					self.box.y + (self.box.height / 2),
-					self.state.nodes[self.settings.clickarea - 1][i].x,
-					self.state.nodes[self.settings.clickarea - 1][i].y,
-					nAngle
-				);
-
-				self.state.nodes[self.settings.clickarea - 1][i].x = newCoords[0];
-				self.state.nodes[self.settings.clickarea - 1][i].y = newCoords[1];
-			}
-
-			d3.selectAll('#nAngle')[0][0].value = 0;
-			$('#nAngle').attr('value', 0);
-
-			self.update();
-		});
 	}
 
 	/**
@@ -1670,9 +1612,26 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	rotateFigure () {
-		this.box = d3.selectAll('.overlay' + this.settings.clickarea).node().getBBox();
-		this.bindRangeStop();
-		this.bindRangeChange();
+		const self = this;
+
+		d3.select('#nAngle').on('change', function () {
+			var nAngle = this.value;
+
+			for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+				var newCoords = self.rotateAxis(
+					self.box.x + (self.box.width / 2),
+					self.box.y + (self.box.height / 2),
+					self.state.nodes[self.settings.clickarea - 1][i].x,
+					self.state.nodes[self.settings.clickarea - 1][i].y,
+					nAngle
+				);
+
+				self.state.nodes[self.settings.clickarea - 1][i].x = Math.round(newCoords[0]);
+				self.state.nodes[self.settings.clickarea - 1][i].y = Math.round(newCoords[1]);
+			}
+
+			self.update();
+		});
 	}
 
 	/**
@@ -1700,6 +1659,8 @@ export default class DrawVectors extends Component {
 		for (var i = 0; i < this.state.nodes.length; i++) {
 			this.containerCreator();
 		}
+
+		this.box = d3.selectAll('.overlay' + this.settings.clickarea).node().getBBox();
 
 		this.createHandles();
 		this.createPath();

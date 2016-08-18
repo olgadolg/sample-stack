@@ -140,3 +140,33 @@
 :global(.selectedTool) {
 	box-shadow: inset 0px 0px 0px 4px rgba(110, 194, 179, 1);
 }
+
+:global(.button) {
+	display: inline-block;
+
+	margin: 5px 0;
+	padding: 1.4rem 0;
+	border: none;
+	border: none;
+	border-radius: 3px;
+
+	font-family: "BonavaSans Bold","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 1.4rem;
+	line-height: 1.4rem;
+	color: #fff;
+
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+
+	white-space: nowrap;
+	background-color: #013B2D;
+	box-shadow: 0 0 0 0 #6EC2B3;
+
+	outline: 0;
+	cursor: pointer;
+
+	transition: all .3s;
+}

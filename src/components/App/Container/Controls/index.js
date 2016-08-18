@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import Button from '../Button';
+import classnames from 'classnames';
 import Title from '../Title';
 import List from '../List';
 import styles from './styles/styles.css';
@@ -20,6 +21,7 @@ export default class ControlsContainer extends Component {
 		this.state = {
 			fillChecked: false,
 			isModalOpen: false,
+			value: 0,
 			json: ''
 		};
 
@@ -29,6 +31,8 @@ export default class ControlsContainer extends Component {
 		this.exportProject = this.exportProject.bind(this);
 		this.onStop = this.onStop.bind(this);
 		this.onStart = this.onStart.bind(this);
+		this.onChange = this.onChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount () {
@@ -41,6 +45,16 @@ export default class ControlsContainer extends Component {
 		}
 
 		this.setState({opacity: this.props.opacity});
+	}
+
+	handleSubmit (e) {
+		e.preventDefault();
+	}
+
+	onChange (e) {
+		this.setState({
+			value: e.target.value
+		});
 	}
 
 	exportProject () {
@@ -106,6 +120,27 @@ export default class ControlsContainer extends Component {
 	}
 
 	render () {
+		const nAngle = classnames({
+			'nAngle': true,
+			[styles.nAngle]: true
+		});
+
+		const textfieldClass = classnames({
+			'textfield': true,
+			[styles.textfield]: true
+		});
+
+		const button = classnames({
+			'button': true,
+			'rotateBtn': true,
+			[styles.rotateBtn]: true
+		});
+
+		const rotateForm = classnames({
+			'rotateForm': true,
+			[styles.rotateForm]: true
+		});
+
 		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const btnStyle = { backgroundColor: '#E90086' };
 
@@ -113,6 +148,17 @@ export default class ControlsContainer extends Component {
 			<Draggable {...dragHandlers}>
 				<div id="controlsContainer" className={styles.controlsContainer} >
 					<Title />
+					<form className={rotateForm}>
+						<input defaultvalue="0"
+							className={textfieldClass}
+							onChange={this.onChange}
+							onMouseUp={this.onMouseUp}
+						 	type="text"
+							value={this.state.value}
+							id="nAngle"
+						/>
+						<button className={button} onClick={this.handleSubmit}>Rotate Figure</button>
+					</form>
 					<List />
 					<input
 						type="file"

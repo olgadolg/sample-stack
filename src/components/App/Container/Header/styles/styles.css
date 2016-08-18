@@ -8,7 +8,6 @@
 }
 
 :local(.header img) {
-	display: none;
 	float: left;
 	height: 80px;
 	margin-left: 55px;
@@ -104,10 +103,10 @@
 }
 
 :local(.colorSlider) {
-	width: 262px;
+	width: 200px;
 	height: auto;
 	margin-top: 16px;
-	margin-left: 18px;
+	margin-left: 10px;
 	height: auto;
 	float: left;
 	cursor: pointer;

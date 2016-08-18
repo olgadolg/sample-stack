@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Toolbox from '../Tools';
+import $ from 'jquery';
 import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
 import { removeColor } from '../../../../actions/clickarea';
@@ -18,8 +19,7 @@ export default class Header extends Component {
 
 		this.state = {
 			color: '#6ec2b3',
-			value : 0
-
+			value: 0
 		};
 
 		this.utilities = new Utilities();
@@ -29,8 +29,6 @@ export default class Header extends Component {
 		this.onStart = this.onStart.bind(this);
 		this.onStop = this.onStop.bind(this);
 		this.onDrag = this.onDrag.bind(this);
-		this.onStart = this.onStart.bind(this);
-		this.onChange = this.onChange.bind(this);
 	}
 
 	componentWillReceiveProps (newProps) {
@@ -67,15 +65,6 @@ export default class Header extends Component {
 		controlsContainer.style.zIndex = '9';
 		canvasWrapper.style.zIndex = '9';
 		this.props.dispatch(selectTool('selectAll'));
-	}
-
-	onChange (e) {
-
-		console.log(e.target.value)
-
-		this.setState({
-			value: e.target.value
-		});
 	}
 
 	onStop (e, ui) {
@@ -117,11 +106,6 @@ export default class Header extends Component {
 			[styles.selectedToolNameWrapper]: true
 		});
 
-		const nAngle = classnames({
-			'nAngle': true,
-			[styles.nAngle]: true
-		});
-
 		/*
 		<div className={tooldescWrapper}>
 			<p className={selectedToolNameWrapper}>
@@ -134,7 +118,7 @@ export default class Header extends Component {
 			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle" onDrag={this.onDrag} {...dragHandlers}>
 				<header id="header" className={styles.header}>
 					<img className="logo" src={logo} alt="logo" />
-					<input defaultvalue="0" onChange={this.onChange} className={nAngle} type="range" value={this.state.value} min="0" max="360" id="nAngle" />
+
 					<Toolbox />
 					<div className={slider}>
 						<SliderPicker
