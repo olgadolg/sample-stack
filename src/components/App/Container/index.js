@@ -22,8 +22,6 @@ export default class Container extends Component {
 		let controls = document.getElementById('controlsContainer');
 		let canvas = document.getElementById('canvasWrapper');
 
-		console.log('canvas', nextProps.workspace.canvasWrapper)
-
 		if (nextProps.onload === true && nextProps.init === false) {
 			if (!isNaN(nextProps.workspace.header.y)) {
 				header.style.top = nextProps.workspace.header.y + 'px';
