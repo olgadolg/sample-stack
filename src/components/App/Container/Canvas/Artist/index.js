@@ -26,6 +26,7 @@ export default class DrawVectors extends Component {
 			angle: 0,
 			tick: 0,
 			rotatedAngle: 0,
+			animation: false,
 			stopAngle: 0,
 			freezedNodes: [],
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
@@ -1619,6 +1620,8 @@ export default class DrawVectors extends Component {
 
 		d3.select('#nAngle').on('change', function () {
 			var nAngle = this.value;
+
+			self.state.animation = true;
 
 			for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 				var newCoords = self.rotateAxis(

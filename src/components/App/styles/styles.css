@@ -11,6 +11,7 @@
 	background-size: 40px;
 	background-repeat: no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
 
 :local(.toolsIcon:hover) {
@@ -33,6 +34,7 @@
 	background-size: 40px;
 	background-repeat: no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
 
 :local(.settingsIcon:hover) {
