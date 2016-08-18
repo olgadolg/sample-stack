@@ -531,7 +531,9 @@ export default class DrawVectors extends Component {
 			.attr('fill', 'rgba(255, 255, 255, 0)')
 			.attr('class', 'resizerect')
 			.attr('width', 0)
-			.attr('height', 0);
+			.attr('height', 0)
+			.style('stroke', 'rgb(6, 141, 242)')
+			.style('stroke-width', 1.5)
 	}
 
 	/**
