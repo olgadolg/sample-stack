@@ -10,6 +10,9 @@ import { updateFill } from '../../../../actions/clickarea';
 import { saveWorkspace } from '../../../../actions/workspace';
 import { selectTool } from '../../../../actions/controls';
 import Utilities from '../../../../Utilities';
+import { SliderPicker } from 'react-color';
+import { selectColor } from '../../../../actions/controls';
+import { removeColor } from '../../../../actions/clickarea';
 import Draggable from 'react-draggable';
 import { exportProject, save, load } from '../../../../actions/project';
 
@@ -33,6 +36,8 @@ export default class ControlsContainer extends Component {
 		this.onStart = this.onStart.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleRemoveColor = this.handleRemoveColor.bind(this);
+		this.handleColorChange = this.handleColorChange.bind(this);
 	}
 
 	componentDidMount () {
@@ -49,6 +54,9 @@ export default class ControlsContainer extends Component {
 
 	handleSubmit (e) {
 		e.preventDefault();
+		this.setState({
+			value: 0
+		});
 	}
 
 	onChange (e) {
@@ -119,10 +127,24 @@ export default class ControlsContainer extends Component {
 		this.props.dispatch(saveWorkspace(position));
 	}
 
+	handleRemoveColor (event) {
+		this.props.dispatch(removeColor());
+	}
+
+	handleColorChange (event) {
+		this.setState({color: event.hex});
+		this.props.dispatch(selectColor(event));
+	}
+
 	render () {
 		const nAngle = classnames({
 			'nAngle': true,
 			[styles.nAngle]: true
+		});
+
+		const slider = classnames({
+			'color-slider': true,
+			[styles.colorSlider]: true
 		});
 
 		const textfieldClass = classnames({
@@ -144,10 +166,29 @@ export default class ControlsContainer extends Component {
 		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const btnStyle = { backgroundColor: '#E90086' };
 
+		const titleLabel = classnames({
+			'titleLabel': true,
+			[styles.titleLabel]: true
+		});
+
+		/*
+		<input
+			type="file"
+			name="file"
+			id="file"
+			onChange={(e) => this.loadProject(e)}
+			className={styles.inputfile}
+		/>
+		<label for="file">Load Project</label>
+		<Button onClick={this.saveProject} label="Save Project" />
+		<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
+		*/
+
 		return (
-			<Draggable {...dragHandlers}>
+			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle" {...dragHandlers}>
 				<div id="controlsContainer" className={styles.controlsContainer} >
 					<Title />
+					<label className={titleLabel}>Rotation</label>
 					<form className={rotateForm}>
 						<input defaultvalue="0"
 							className={textfieldClass}
@@ -159,17 +200,13 @@ export default class ControlsContainer extends Component {
 						/>
 						<button className={button} onClick={this.handleSubmit}>Rotate Figure</button>
 					</form>
+					<label className={titleLabel}>Color</label>
+					<div className={slider}>
+						<SliderPicker
+							color={this.state.color}
+							onChange={this.handleColorChange}/>
+					</div>
 					<List />
-					<input
-						type="file"
-						name="file"
-						id="file"
-						onChange={(e) => this.loadProject(e)}
-						className={styles.inputfile}
-					/>
-					<label for="file">Load Project</label>
-					<Button onClick={this.saveProject} label="Save Project" />
-					<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
 				</div>
 			</Draggable>
 		);
@@ -179,6 +216,7 @@ export default class ControlsContainer extends Component {
 const mapStateToProps = (state) => {
 	return {
 		clickareas: state.clickareas,
+		color: state.clickareas.color,
 		workspace: state.clickareas.workspace
 	};
 };

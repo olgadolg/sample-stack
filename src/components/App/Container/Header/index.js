@@ -24,6 +24,7 @@ export default class Header extends Component {
 
 		this.utilities = new Utilities();
 
+		this.loadProject = this.loadProject.bind(this);
 		this.handleRemoveColor = this.handleRemoveColor.bind(this);
 		this.handleColorChange = this.handleColorChange.bind(this);
 		this.onStart = this.onStart.bind(this);
@@ -77,6 +78,23 @@ export default class Header extends Component {
 		this.props.dispatch(saveWorkspace(position));
 	}
 
+	loadProject (event) {
+		event.preventDefault();
+
+		let reader = new FileReader();
+		let file = event.target.files[0];
+		reader.readAsText(event.target.files[0]);
+
+		reader.onload = ((theFile) => {
+			return (e) => {
+				this.setState({ json: e.target.result }, () => {
+					var object = JSON.parse(e.target.result);
+					this.props.dispatch(load(object));
+				});
+			};
+		})(file);
+	}
+
 	render () {
 		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const logo = require('../../../../images/logo.png');
@@ -114,18 +132,21 @@ export default class Header extends Component {
 		</div>
 		*/
 
+		/*
+			<div className={slider}>
+				<SliderPicker
+					color={this.state.color}
+					onChange={this.handleColorChange}/>
+			</div>
+			<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
+		*/
+
 		return (
 			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle" onDrag={this.onDrag} {...dragHandlers}>
 				<header id="header" className={styles.header}>
 					<img className="logo" src={logo} alt="logo" />
 
 					<Toolbox />
-					<div className={slider}>
-						<SliderPicker
-							color={this.state.color}
-							onChange={this.handleColorChange}/>
-					</div>
-					<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
 				</header>
 			</Draggable>
 		);

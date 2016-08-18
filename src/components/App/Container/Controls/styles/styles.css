@@ -14,8 +14,28 @@
 }
 
 :local(.rotateForm) {
-	margin-top: 20px;
 	overflow: hidden;
+	margin-bottom: 15px;
+}
+
+:local(.colorSlider) {
+	padding: 13px;
+	background-color: #013B2D;
+	border-radius: 3px;
+	width: 170px;
+	height: auto;
+	height: auto;
+	cursor: pointer;
+	margin-bottom: 5px;
+}
+
+:local(.titleLabel) {
+	color: rgb(1, 59, 45);
+	text-transform: uppercase;
+	font-size: 12px;
+	margin-bottom: 5px;
+	display: block;
+	margin-left: 5px;
 }
 
 :local(.rotateBtn) {

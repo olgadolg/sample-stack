@@ -8,6 +8,7 @@ import { pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../
 import { removeWorkspace, loadWorkspace } from '../../../../actions/workspace';
 import { addLayer } from '../../../../actions/layer';
 import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
+import { exportProject, save, load } from '../../../../actions/project';
 
 export default class Toolbox extends Component {
 
@@ -31,6 +32,8 @@ export default class Toolbox extends Component {
 			toolName: 'Pen Tool'
 		};
 
+		this.saveProject = this.saveProject.bind(this);
+		this.exportProject = this.exportProject.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDoubleClick = this.handleDoubleClick.bind(this);
 	}
@@ -52,6 +55,22 @@ export default class Toolbox extends Component {
 			layerIcon[0].style.pointerEvents = 'all';
 			layerIcon[0].style.opacity = 1;
 		}
+	}
+
+	exportProject () {
+		let stateToExport = {
+			clickareas: this.props.clickareas
+		};
+
+		this.props.dispatch(exportProject(stateToExport));
+	}
+
+	saveProject () {
+		let stateToSave = {
+			clickareas: this.props.clickareas
+		};
+
+		this.props.dispatch(save(stateToSave));
 	}
 
 	handleArtboardClick (event, type) {
@@ -258,6 +277,32 @@ export default class Toolbox extends Component {
 			[styles.cardinalIcon]: true
 		});
 
+		const downloadIcon = classnames({
+			'downloadIcon': true,
+			'tool': true,
+			[styles.tool]: true,
+			[styles.downloadIcon]: true
+		});
+
+		const uploadIcon = classnames({
+			'uploadIcon': true,
+			'tool': true,
+			[styles.tool]: true,
+			[styles.uploadIcon]: true
+		});
+
+		const exportIcon = classnames({
+			'exportIcon': true,
+			'tool': true,
+			[styles.tool]: true,
+			[styles.exportIcon]: true
+		});
+
+		const fileWrapper = classnames({
+			'fileWrapper': true,
+			[styles.fileWrapper]: true
+		});
+
 		return (
 			<div className={toolBox}>
 				<div id="Select Figure"
@@ -336,6 +381,26 @@ export default class Toolbox extends Component {
 							</div>);
 						}
 					})()}
+				</div>
+				<div className={fileWrapper}>
+					<input
+						type="file"
+						name="file"
+						id="file"
+						onChange={(e) => this.loadProject(e)}
+						className={styles.inputfile}
+					/>
+					<label for="file"></label>
+					<div id="Download"
+						onClick={this.saveProject}
+						label="Save Project"
+						className={downloadIcon}>
+					</div>
+					<div id="Export"
+						onClick={this.exportProject}
+						label="Export Project"
+						className={exportIcon}>
+					</div>
 				</div>
 			</div>
 		);

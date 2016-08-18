@@ -338,7 +338,9 @@ export default class DrawVectors extends Component {
 
 		this.dragRect = d3.behavior.drag()
 			.on('drag', function (d) {
-				self.box = d3.selectAll('.resizerect').node().getBBox();
+				if (d3.selectAll('.resizerect').node() !== null) {
+					self.box = d3.selectAll('.resizerect').node().getBBox();
+				}
 
 				self.resizeRect
 					.attr('stroke', '#fff')
