@@ -30,9 +30,6 @@ export default class ControlsContainer extends Component {
 		};
 
 		this.utilities = new Utilities();
-		this.saveProject = this.saveProject.bind(this);
-		this.loadProject = this.loadProject.bind(this);
-		this.exportProject = this.exportProject.bind(this);
 		this.onStop = this.onStop.bind(this);
 		this.onStart = this.onStart.bind(this);
 		this.onChange = this.onChange.bind(this);
@@ -47,9 +44,9 @@ export default class ControlsContainer extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		if (nextProps.clickareas.clickarea.coords !== null) {
-			$('.lockFillWrapper').fadeIn();
-		}
+		//if (nextProps.clickareas.clickarea.coords !== null) {
+			//$('.lockFillWrapper').fadeIn();
+		//}
 
 		this.setState({opacity: this.props.opacity});
 	}
@@ -65,39 +62,6 @@ export default class ControlsContainer extends Component {
 		this.setState({
 			value: e.target.value
 		});
-	}
-
-	exportProject () {
-		let stateToExport = {
-			clickareas: this.props.clickareas
-		};
-
-		this.props.dispatch(exportProject(stateToExport));
-	}
-
-	saveProject () {
-		let stateToSave = {
-			clickareas: this.props.clickareas
-		};
-
-		this.props.dispatch(save(stateToSave));
-	}
-
-	loadProject (event) {
-		event.preventDefault();
-
-		let reader = new FileReader();
-		let file = event.target.files[0];
-		reader.readAsText(event.target.files[0]);
-
-		reader.onload = ((theFile) => {
-			return (e) => {
-				this.setState({ json: e.target.result }, () => {
-					var object = JSON.parse(e.target.result);
-					this.props.dispatch(load(object));
-				});
-			};
-		})(file);
 	}
 
 	fillChange () {

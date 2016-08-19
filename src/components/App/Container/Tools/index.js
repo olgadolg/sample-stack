@@ -8,7 +8,7 @@ import { pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../
 import { removeWorkspace, loadWorkspace } from '../../../../actions/workspace';
 import { addLayer } from '../../../../actions/layer';
 import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
-import { exportProject, save} from '../../../../actions/project';
+import { exportProject, save, load } from '../../../../actions/project';
 
 export default class Toolbox extends Component {
 
@@ -34,6 +34,7 @@ export default class Toolbox extends Component {
 
 		this.saveProject = this.saveProject.bind(this);
 		this.exportProject = this.exportProject.bind(this);
+		this.loadProject = this.loadProject.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDoubleClick = this.handleDoubleClick.bind(this);
 	}
@@ -55,6 +56,23 @@ export default class Toolbox extends Component {
 			layerIcon[0].style.pointerEvents = 'all';
 			layerIcon[0].style.opacity = 1;
 		}
+	}
+
+	loadProject (event) {
+		event.preventDefault();
+
+		let reader = new FileReader();
+		let file = event.target.files[0];
+		reader.readAsText(event.target.files[0]);
+
+		reader.onload = ((theFile) => {
+			return (e) => {
+				this.setState({ json: e.target.result }, () => {
+					var object = JSON.parse(e.target.result);
+					this.props.dispatch(load(object));
+				});
+			};
+		})(file);
 	}
 
 	exportProject () {
