@@ -51,7 +51,11 @@ export default class DrawVectors extends Component {
 			selectedClass: 'selected',
 			containerclass: 'overlay overlay' + self.state.shapes.toString(),
 			nodeRadius: 3,
-			deleteKey: 27
+			deleteKey: 27,
+			leftKey: 37,
+			upKey: 38,
+			rightKey: 39,
+			downKey: 40
 		};
 
 		this.win = d3.select(window);
@@ -218,7 +222,7 @@ export default class DrawVectors extends Component {
 		d3.selectAll('.overlay').classed('selected', false);
 
 		let newG = this.svg.append('g')
-			.classed('overlay overlay ' + this.settings.containerclass, true)
+			.classed('overlay overlay ' + this.settings.containerclass, true);
 
 		if (index === this.state.shapes - 1) {
 			newG.classed('selected', true);
@@ -452,6 +456,35 @@ export default class DrawVectors extends Component {
 			if (this.state.shapeIsSelected === true) {
 				this.removeFigure();
 			}
+			break;
+		case this.settings.leftKey:
+			if (this.state.shapeIsSelected === false) return;
+			for (var i = 0; i < this.state.nodes[this.settings.clickarea - 1].length; i++) {
+				this.state.nodes[this.settings.clickarea - 1][i].x -= 1;
+			}
+			this.update();
+			break;
+		case this.settings.rightKey:
+			if (this.state.shapeIsSelected === false) return;
+			for (i = 0; i < this.state.nodes[this.settings.clickarea - 1].length; i++) {
+				this.state.nodes[this.settings.clickarea - 1][i].x += 1;
+			}
+			this.update();
+			break;
+		case this.settings.upKey:
+			if (this.state.shapeIsSelected === false) return;
+			for (i = 0; i < this.state.nodes[this.settings.clickarea - 1].length; i++) {
+				this.state.nodes[this.settings.clickarea - 1][i].y -= 1;
+			}
+			this.update();
+			break;
+		case this.settings.downKey:
+			if (this.state.shapeIsSelected === false) return;
+			for (i = 0; i < this.state.nodes[this.settings.clickarea - 1].length; i++) {
+				this.state.nodes[this.settings.clickarea - 1][i].y += 1;
+			}
+			this.update();
+			break;
 		}
 	}
 
@@ -533,7 +566,7 @@ export default class DrawVectors extends Component {
 			.attr('width', 0)
 			.attr('height', 0)
 			.style('stroke', 'rgb(6, 141, 242)')
-			.style('stroke-width', 1.5)
+			.style('stroke-width', 1.5);
 	}
 
 	/**
@@ -544,8 +577,6 @@ export default class DrawVectors extends Component {
 	 * @return void
 	 */
 	svgMouseDown (d) {
-		const self = this;
-
 		if (Object.keys(this.state.props.views).length === 0) {
 			return;
 		}
