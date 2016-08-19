@@ -18,6 +18,10 @@
 	margin-bottom: 15px;
 }
 
+:local(.inputRange) {
+	width: 100%;
+}
+
 :local(.colorSlider) {
 	position: relative;
 	padding: 13px;
@@ -27,7 +31,7 @@
 	height: auto;
 	height: auto;
 	cursor: pointer;
-	margin-bottom: 5px;
+	margin-bottom: 25px;
 }
 
 :local(.titleLabel) {

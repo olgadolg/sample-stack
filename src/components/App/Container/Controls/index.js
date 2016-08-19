@@ -25,6 +25,7 @@ export default class ControlsContainer extends Component {
 			fillChecked: false,
 			isModalOpen: false,
 			value: 0,
+			rangeValue: 70,
 			json: ''
 		};
 
@@ -38,6 +39,7 @@ export default class ControlsContainer extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleRemoveColor = this.handleRemoveColor.bind(this);
 		this.handleColorChange = this.handleColorChange.bind(this);
+		this.onRangeChange = this.onRangeChange.bind(this);
 	}
 
 	componentDidMount () {
@@ -127,6 +129,14 @@ export default class ControlsContainer extends Component {
 		this.props.dispatch(saveWorkspace(position));
 	}
 
+	onRangeChange (e) {
+		$('.clickarea').css('fill-opacity', e.target.value / 100);
+
+		this.setState({
+			rangeValue: e.target.value
+		});
+	}
+
 	handleRemoveColor (event) {
 		this.props.dispatch(removeColor());
 	}
@@ -187,21 +197,14 @@ export default class ControlsContainer extends Component {
 			'degrees': true,
 			[styles.degrees]: true
 		});
-		/*
-		<input
-			type="file"
-			name="file"
-			id="file"
-			onChange={(e) => this.loadProject(e)}
-			className={styles.inputfile}
-		/>
-		<label for="file">Load Project</label>
-		<Button onClick={this.saveProject} label="Save Project" />
-		<Button onClick={this.exportProject} btnStyle={btnStyle} label="Export Project" />
-		*/
+
+		const inputRange = classnames({
+			'inputRange': true,
+			[styles.inputRange]: true
+		});
 
 		return (
-			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle" {...dragHandlers}>
+			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle, #weight" {...dragHandlers}>
 				<div id="controlsContainer" className={styles.controlsContainer} >
 					<Title />
 					<label className={titleLabel}>Rotation</label>
@@ -226,6 +229,16 @@ export default class ControlsContainer extends Component {
 							onChange={this.handleColorChange}/>
 						<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
 					</div>
+					<label className={titleLabel}>Opacity</label>
+					<input
+						className={inputRange}
+						type="range"
+						id="weight"
+						min="0"
+						onChange={this.onRangeChange}
+						value={this.state.rangeValue}
+						max="100"
+						/>
 					<List />
 				</div>
 			</Draggable>
