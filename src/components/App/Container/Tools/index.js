@@ -49,13 +49,15 @@ export default class Toolbox extends Component {
 		}
 
 		if (nextProps.currentView.indexOf('Layer') > -1) {
-			let layerIcon = document.getElementsByClassName('layerIcon');
-			layerIcon[0].style.pointerEvents = 'none';
-			layerIcon[0].style.opacity = 0.5;
+			$('.layerIcon, #layerIcon').css({
+				'pointer-events': 'none',
+				'opacity': 0.5
+			});
 		} else {
-			let layerIcon = document.getElementsByClassName('layerIcon');
-			layerIcon[0].style.pointerEvents = 'all';
-			layerIcon[0].style.opacity = 1;
+			$('.layerIcon, #layerIcon').css({
+				'pointer-events': 'all',
+				'opacity': 1
+			});
 		}
 	}
 
@@ -300,13 +302,6 @@ export default class Toolbox extends Component {
 			'tool': true,
 			[styles.tool]: true,
 			[styles.downloadIcon]: true
-		});
-
-		const uploadIcon = classnames({
-			'uploadIcon': true,
-			'tool': true,
-			[styles.tool]: true,
-			[styles.uploadIcon]: true
 		});
 
 		const exportIcon = classnames({
