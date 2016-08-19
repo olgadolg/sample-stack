@@ -219,7 +219,6 @@ export default class DrawVectors extends Component {
 
 		let newG = this.svg.append('g')
 			.classed('overlay overlay ' + this.settings.containerclass, true)
-			.attr('transform', 'none');
 
 		if (index === this.state.shapes - 1) {
 			newG.classed('selected', true);
@@ -1620,8 +1619,6 @@ export default class DrawVectors extends Component {
 
 		d3.select('#nAngle').on('change', function () {
 			var nAngle = this.value;
-
-			self.state.animation = true;
 
 			for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
 				var newCoords = self.rotateAxis(

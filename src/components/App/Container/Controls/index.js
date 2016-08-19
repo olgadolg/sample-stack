@@ -14,7 +14,6 @@ import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
 import { removeColor } from '../../../../actions/clickarea';
 import Draggable from 'react-draggable';
-import { exportProject, save, load } from '../../../../actions/project';
 
 export default class ControlsContainer extends Component {
 
@@ -26,7 +25,8 @@ export default class ControlsContainer extends Component {
 			isModalOpen: false,
 			value: 0,
 			rangeValue: 70,
-			json: ''
+			json: '',
+			color: 'rgb(64, 181, 191)'
 		};
 
 		this.utilities = new Utilities();

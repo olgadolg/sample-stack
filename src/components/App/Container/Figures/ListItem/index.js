@@ -32,7 +32,9 @@ export default class ListItem extends Component {
 		if (figure[0].style.display === '') {
 			figure[0].style.display = 'none';
 			if (parentClasses.value.indexOf('layerfill') > -1) {
-				bbRect[0].style.display = 'none';
+				if (typeof bbRect !== 'undefined') {
+					bbRect[0].style.display = 'none';
+				}
 			}
 			targetStyle.opacity = 0.5;
 		} else {
