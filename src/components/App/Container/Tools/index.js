@@ -8,7 +8,7 @@ import { pasteClickarea, cutClickarea, unselectClickarea, getCopy } from '../../
 import { removeWorkspace, loadWorkspace } from '../../../../actions/workspace';
 import { addLayer } from '../../../../actions/layer';
 import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
-import { exportProject, save, load } from '../../../../actions/project';
+import { exportProject, save} from '../../../../actions/project';
 
 export default class Toolbox extends Component {
 

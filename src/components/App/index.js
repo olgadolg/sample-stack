@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import $ from 'jquery';
 import styles from './styles/styles.css';
+import { addLayer } from '../../actions/layer';
+import { unselectClickarea } from '../../actions/clickarea';
 
 export class App extends Component {
 
@@ -11,6 +13,7 @@ export class App extends Component {
 
 		this.toggleTools = this.toggleTools.bind(this);
 		this.toggleSettings = this.toggleSettings.bind(this);
+		this.addLayer = this.addLayer.bind(this);
 	}
 
 	toggleTools () {
@@ -29,6 +32,12 @@ export class App extends Component {
 		}
 	}
 
+	addLayer () {
+		$('.dropzone').show();
+		this.props.dispatch(addLayer());
+		this.props.dispatch(unselectClickarea());
+	}
+
 	render () {
 		const toolsIcon = classnames({
 			'toolsIcon': true,
@@ -38,6 +47,13 @@ export class App extends Component {
 		const settingsIcon = classnames({
 			'settingsIcon': true,
 			[styles.settingsIcon]: true
+		});
+
+		const layerIcon = classnames({
+			'layerIcon': true,
+			'appIcon': true,
+			[styles.layerIcon]: true,
+			[styles.appIcon]: true
 		});
 
 		return (
@@ -52,6 +68,12 @@ export class App extends Component {
 					id="settingsIcon"
 					className={settingsIcon}
 					onClick={this.toggleSettings}
+				>
+				</div>
+				<div
+					id="layerIcon"
+					className={layerIcon}
+					onClick={this.addLayer}
 				>
 				</div>
 				{this.props.children}
