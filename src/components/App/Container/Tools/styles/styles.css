@@ -13,6 +13,7 @@
 	cursor: pointer;
 	width: 35px !important;
 	height: 35px !important;
+	outline: 0;
 }
 
 :local(.fileWrapper) {
@@ -220,8 +221,8 @@
 
 :local(.resetWorkspaceIcon) {
 	position: absolute;
-	width: 20px !important;
-	height: 20px !important;
+	width: 27px !important;
+	height: 27px !important;
 	right: -14px;
 	top: -8px;
 	left: 26px;
@@ -235,10 +236,14 @@
 	background-color: #fff;
 }
 
+:local(.resetWorkspaceIcon:hover) {
+	box-shadow: none;
+}
+
 :local(.resetStateIcon) {
 	position: absolute;
-	width: 20px !important;
-	height: 20px !important;
+	width: 27px !important;
+	height: 27px !important;
 	right: -14px;
 	top: -8px;
 	left: 26px;
@@ -250,6 +255,10 @@
 	background-position: center;
 	background-repeat: no-repeat;
 	background-color: #fff;
+}
+
+local(.resetStateIcon:hover) {
+	box-shadow: none;
 }
 
 :local(.rectIcon) {

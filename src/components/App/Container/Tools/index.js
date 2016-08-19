@@ -318,80 +318,80 @@ export default class Toolbox extends Component {
 
 		return (
 			<div className={toolBox}>
-				<div id="Select Figure"
+				<button id="Select Figure"
 					onClick={(e) => this.handleClick(e, 'selectAll')}
 					className={selectAllIcon}>
-				</div>
-				<div id="Select Point"
+				</button>
+				<button id="Select Point"
 					onClick={(e) => this.handleClick(e, 'select')}
 					className={selectIcon}>
-				</div>
-				<div id="Rectangle"
+				</button>
+				<button id="Rectangle"
 					onClick={(e) => this.handleClick(e, 'rectangle')}
 					className={rectIcon}>
-				</div>
-				<div id="Rounded Corners"
+				</button>
+				<button id="Rounded Corners"
 					onClick={(e) => this.handleClick(e, 'stepBefore')}
 					className={stepBeforeIcon}>
-				</div>
-				<div id="Pen Tool"
+				</button>
+				<button id="Pen Tool"
 					onClick={(e) => this.handleClick(e, 'pen')}
 					className={penIcon}>
-				</div>
-				<div id="Bezier Curve"
+				</button>
+				<button id="Bezier Curve"
 					onClick={(e) => this.handleClick(e, 'bezier')}
 					className={bezierIcon}>
-				</div>
-				<div id="Cardinal"
+				</button>
+				<button id="Cardinal"
 					onClick={(e) => this.handleClick(e, 'cardinal')}
 					className={cardinalIcon}>
-				</div>
-				<div id="Add Point"
+				</button>
+				<button id="Add Point"
 					onClick={(e) => this.handleClick(e, 'penAdd')}
 					className={penAddIcon}>
-				</div>
-				<div id="Remove Point"
+				</button>
+				<button id="Remove Point"
 					onClick={(e) => this.handleClick(e, 'penRemove')}
 					className={penRemoveIcon}>
-				</div>
-				<div id="Copy Figure"
+				</button>
+				<button id="Copy Figure"
 					onClick={(e) => this.handleClick(e, 'copy')}
 					className={copyIcon}>
-				</div>
-				<div id="Cut / Paste"
+				</button>
+				<button id="Cut / Paste"
 					onClick={(e) => this.handleClick(e, 'cut')}
 					className={cutIcon}>
-				</div>
-				<div id="New Layer"
+				</button>
+				<button id="New Layer"
 					onClick={(e) => this.handleClick(e, 'layer')}
 					className={layerIcon}>
-				</div>
+				</button>
 				<div className={setupWrapper}>
-					<div id="Save Setup"
+					<button id="Save Setup"
 						onClick={(e) => this.handleClick(e, 'workspace')}
 						className={workspaceIcon}>
-					</div>
+					</button>
 					{(() => {
 						if (this.props.init === false) {
-							return (<div id="Reset save Workspace"
+							return (<button id="Reset save Workspace"
 								onClick={(e) => this.handleDoubleClick(e, 'workspace')}
 								className={resetWorkspaceIcon}>
-							</div>);
+							</button>);
 						}
 					})()}
 				</div>
 				<div className={artboardWrapper}>
-					<div id="Save Artboard"
+					<button id="Save Artboard"
 						onClick={(e) => this.handleClick(e, 'artboard')}
 						className={artboardIcon}>
-					</div>
+					</button>
 
 					{(() => {
 						if (this.props.savedProject === true) {
-							return (<div id="Reset save Artboard"
+							return (<button id="Reset save Artboard"
 								onClick={(e) => this.handleArtboardClick(e, 'artboard')}
 								className={resetWorkspaceIcon}>
-							</div>);
+							</button>);
 						}
 					})()}
 				</div>
@@ -404,16 +404,16 @@ export default class Toolbox extends Component {
 						className={styles.inputfile}
 					/>
 					<label for="file"></label>
-					<div id="Download"
+					<button id="Download"
 						onClick={this.saveProject}
 						label="Save Project"
 						className={downloadIcon}>
-					</div>
-					<div id="Export"
+					</button>
+					<button id="Export"
 						onClick={this.exportProject}
 						label="Export Project"
 						className={exportIcon}>
-					</div>
+					</button>
 				</div>
 			</div>
 		);
