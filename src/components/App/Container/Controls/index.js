@@ -131,12 +131,8 @@ export default class ControlsContainer extends Component {
 
 	onRangeChange (e) {
 		$('.clickarea').css('fill-opacity', e.target.value / 100);
-
 		$('.rangeOutput').html(e.target.value / 100);
-
-		this.setState({
-			rangeValue: e.target.value
-		});
+		this.setState({ rangeValue: e.target.value });
 	}
 
 	handleRemoveColor (event) {
@@ -149,6 +145,8 @@ export default class ControlsContainer extends Component {
 	}
 
 	render () {
+		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
+
 		const slider = classnames({
 			'color-slider': true,
 			[styles.colorSlider]: true
@@ -171,9 +169,6 @@ export default class ControlsContainer extends Component {
 			'rotateForm': true,
 			[styles.rotateForm]: true
 		});
-
-		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
-		const btnStyle = { backgroundColor: '#E90086' };
 
 		const titleLabel = classnames({
 			'titleLabel': true,

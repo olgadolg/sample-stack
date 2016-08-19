@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import Toolbox from '../Tools';
-import $ from 'jquery';
-import { SliderPicker } from 'react-color';
 import { selectColor } from '../../../../actions/controls';
 import { removeColor } from '../../../../actions/clickarea';
 import { saveWorkspace } from '../../../../actions/workspace';
@@ -123,23 +121,6 @@ export default class Header extends Component {
 			'selectedToolNameWrapper': true,
 			[styles.selectedToolNameWrapper]: true
 		});
-
-		/*
-		<div className={tooldescWrapper}>
-			<p className={selectedToolNameWrapper}>
-				<span id="selectedtool" className={selectedToolName}> Select Figure</span>
-			</p>
-		</div>
-		*/
-
-		/*
-			<div className={slider}>
-				<SliderPicker
-					color={this.state.color}
-					onChange={this.handleColorChange}/>
-			</div>
-			<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
-		*/
 
 		return (
 			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle" onDrag={this.onDrag} {...dragHandlers}>
