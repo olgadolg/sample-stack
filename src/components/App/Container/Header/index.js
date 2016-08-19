@@ -22,9 +22,6 @@ export default class Header extends Component {
 
 		this.utilities = new Utilities();
 
-		this.loadProject = this.loadProject.bind(this);
-		this.handleRemoveColor = this.handleRemoveColor.bind(this);
-		this.handleColorChange = this.handleColorChange.bind(this);
 		this.onStart = this.onStart.bind(this);
 		this.onStop = this.onStop.bind(this);
 		this.onDrag = this.onDrag.bind(this);
@@ -34,15 +31,6 @@ export default class Header extends Component {
 		this.setState({
 			color: newProps.color
 		});
-	}
-
-	handleRemoveColor (event) {
-		this.props.dispatch(removeColor());
-	}
-
-	handleColorChange (event) {
-		this.setState({color: event.hex});
-		this.props.dispatch(selectColor(event));
 	}
 
 	onDrag (e, ui) {
@@ -74,23 +62,6 @@ export default class Header extends Component {
 		const el = document.getElementById('header');
 		const position = this.utilities.createPosition(ui, this.props, el);
 		this.props.dispatch(saveWorkspace(position));
-	}
-
-	loadProject (event) {
-		event.preventDefault();
-
-		let reader = new FileReader();
-		let file = event.target.files[0];
-		reader.readAsText(event.target.files[0]);
-
-		reader.onload = ((theFile) => {
-			return (e) => {
-				this.setState({ json: e.target.result }, () => {
-					var object = JSON.parse(e.target.result);
-					this.props.dispatch(load(object));
-				});
-			};
-		})(file);
 	}
 
 	render () {

@@ -10,6 +10,7 @@ import { addLayer } from '../../../../actions/layer';
 import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
 import { exportProject, save, load } from '../../../../actions/project';
 
+
 export default class Toolbox extends Component {
 
 	constructor () {
@@ -69,7 +70,7 @@ export default class Toolbox extends Component {
 			return (e) => {
 				this.setState({ json: e.target.result }, () => {
 					var object = JSON.parse(e.target.result);
-					this.props.dispatch(load(object));
+					this.props.dispatch(load(object.clickareas));
 				});
 			};
 		})(file);

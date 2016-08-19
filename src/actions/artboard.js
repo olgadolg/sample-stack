@@ -28,6 +28,8 @@ export const loadArtboard = (saveState, update) => (dispatch) => {
 			} else {
 				if (res.body.length > 0) {
 					if (update === false) {
+						console.log(JSON.parse(res.body[0].clickareas))
+						//return;
 						dispatch({
 							type: 'LOAD_PROJECT',
 							data: JSON.parse(res.body[0].clickareas)
