@@ -22,6 +22,18 @@
 	width: 100%;
 }
 
+:local(.rangeWrapper) {
+	position: relative;
+}
+
+:local(.rangeOutput) {
+	position: absolute;
+	left: 67px;
+	top: -20px;
+	font-size: 13px;
+	color: red;
+}
+
 :local(.colorSlider) {
 	position: relative;
 	padding: 13px;
@@ -80,7 +92,7 @@
 
 :local(.degrees) {
 	position: absolute;
-	top: 7px;
+	top: 8px;
 	left: 41px;
 	font-size: 18px;
 	color: #444;

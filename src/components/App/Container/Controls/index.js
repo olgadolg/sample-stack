@@ -132,6 +132,8 @@ export default class ControlsContainer extends Component {
 	onRangeChange (e) {
 		$('.clickarea').css('fill-opacity', e.target.value / 100);
 
+		$('.rangeOutput').html(e.target.value / 100);
+
 		this.setState({
 			rangeValue: e.target.value
 		});
@@ -147,11 +149,6 @@ export default class ControlsContainer extends Component {
 	}
 
 	render () {
-		const nAngle = classnames({
-			'nAngle': true,
-			[styles.nAngle]: true
-		});
-
 		const slider = classnames({
 			'color-slider': true,
 			[styles.colorSlider]: true
@@ -203,6 +200,16 @@ export default class ControlsContainer extends Component {
 			[styles.inputRange]: true
 		});
 
+		const rangeWrapper = classnames({
+			'rangeWrapper': true,
+			[styles.rangeWrapper]: true
+		});
+
+		const rangeOutput = classnames({
+			'rangeOutput': true,
+			[styles.rangeOutput]: true
+		});
+
 		return (
 			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle, #weight" {...dragHandlers}>
 				<div id="controlsContainer" className={styles.controlsContainer} >
@@ -229,16 +236,19 @@ export default class ControlsContainer extends Component {
 							onChange={this.handleColorChange}/>
 						<div onClick={(e) => this.handleRemoveColor(e, 'remove')} className={removeIcon}></div>
 					</div>
-					<label className={titleLabel}>Opacity</label>
-					<input
-						className={inputRange}
-						type="range"
-						id="weight"
-						min="0"
-						onChange={this.onRangeChange}
-						value={this.state.rangeValue}
-						max="100"
-						/>
+					<label className={titleLabel}>Opacity:</label>
+					<div className={rangeWrapper}>
+						<input
+							className={inputRange}
+							type="range"
+							id="weight"
+							min="0"
+							onChange={this.onRangeChange}
+							value={this.state.rangeValue}
+							max="100"
+							/>
+						<span className={rangeOutput}>0.7</span>
+					</div>
 					<List />
 				</div>
 			</Draggable>
