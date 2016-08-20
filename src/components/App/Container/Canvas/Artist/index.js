@@ -24,6 +24,7 @@ export default class DrawVectors extends Component {
 			shapes: 0,
 			tool: 'selectAll',
 			angle: 0,
+			animating: false,
 			tick: 0,
 			rotatedAngle: 0,
 			animation: false,
@@ -416,7 +417,9 @@ export default class DrawVectors extends Component {
 				if (self.state.tool === 'selectAll') {
 					$('.bbRect').remove();
 					delete self.pathBox;
-					self.createDragBox();
+					if (self.state.animating === false) {
+						self.createDragBox();
+					}
 				}
 
 				self.update();
@@ -1673,7 +1676,10 @@ export default class DrawVectors extends Component {
 			if (this.state.shapeIsSelected === true || this.state.nodeIsDragged === true) {
 				this.removeBBRect();
 				d3.selectAll('.overlay' + this.settings.clickarea + ' .handle').classed('invisible', true);
-				this.createDragBox();
+
+				if (this.state.animating === false) {
+					this.createDragBox();
+				}
 			}
 
 			if (this.state.shapeIsSelected) {
@@ -1727,7 +1733,10 @@ export default class DrawVectors extends Component {
 		d3.select('#nAngle').on('change', function () {
 			var nAngle = this.value;
 
-			d3.select('.overlay' + self.settings.clickarea)
+			d3.selectAll('.bbRect').remove();
+			self.state.animating = true;
+
+			d3.selectAll('.overlay' + self.settings.clickarea)
 				.transition()
 				.duration(2000)
 				.attrTween('transform', function (d, i, a) {
@@ -1753,6 +1762,7 @@ export default class DrawVectors extends Component {
 						self.state.nodes[self.settings.clickarea - 1][i].y = Math.round(newCoords[1]);
 					}
 
+					self.state.animating = false;
 					self.update();
 				});
 		});
