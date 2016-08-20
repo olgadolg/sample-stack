@@ -559,7 +559,6 @@ export default class DrawVectors extends Component {
 			}
 		]);
 
-		console.log(this.state.nodes);
 		this.state.isNew = true;
 		this.update();
 	}

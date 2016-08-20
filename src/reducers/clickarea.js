@@ -7,16 +7,16 @@ export default handleActions({
 		return update(state, {
 			init: {$set: true},
 			initState: {$set: state},
-			selectColor: {$set: false}
-
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
 	RESET_INIT: (state, action) => {
 		return update(state, {
 			init: {$set: false},
-			selectColor: {$set: false}
-
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -25,9 +25,9 @@ export default handleActions({
 			clickarea: {
 				color: {$set: null},
 				fill: {$set: true}
-
 			},
 			isNew: {$set: true},
+			createRect: {$set: false},
 			loadProject: {$set: false},
 			saveCopy: {$set: false},
 			cut: {$set: false},
@@ -62,6 +62,7 @@ export default handleActions({
 				}
 			},
 			isSelected: {$set: false},
+			createRect: {$set: false},
 			isNew: {$set: false},
 			viewUpdate: {$set: false},
 			scope: {$set: 'figure'},
@@ -111,7 +112,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -155,7 +157,8 @@ export default handleActions({
 			show: {$set: false},
 			loadWorkspace: {$set: false},
 			initLayer: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -187,7 +190,8 @@ export default handleActions({
 				show: {$set: false},
 				isSelected: {$set: false},
 				loadWorkspace: {$set: false},
-				selectColor: {$set: false}
+				selectColor: {$set: false},
+				createRect: {$set: false}
 			});
 		} else {
 			return update(state, {
@@ -202,7 +206,8 @@ export default handleActions({
 				show: {$set: false},
 				isSelected: {$set: false},
 				loadWorkspace: {$set: false},
-				selectColor: {$set: false}
+				selectColor: {$set: false},
+				createRect: {$set: false}
 			});
 		}
 	},
@@ -237,7 +242,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -271,7 +277,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -291,7 +298,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			addLayer: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -305,7 +313,8 @@ export default handleActions({
 
 		return update(state, {
 			viewRemoved: {$set: true},
-			currentView: {$set: currentView}
+			currentView: {$set: currentView},
+			createRect: {$set: false}
 		});
 	},
 
@@ -316,7 +325,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -350,7 +360,8 @@ export default handleActions({
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
 			colorIndex: {$set: coordIndex},
-			selectColor: {$set: true}
+			selectColor: {$set: true},
+			createRect: {$set: false}
 		});
 	},
 
@@ -368,7 +379,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -398,7 +410,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -416,7 +429,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			initLayer: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -438,7 +452,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -454,7 +469,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -483,7 +499,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -501,7 +518,8 @@ export default handleActions({
 			show: {$set: false},
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -514,7 +532,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -527,7 +546,8 @@ export default handleActions({
 			resetRemoved: {$set: false},
 			show: {$set: false},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -542,7 +562,8 @@ export default handleActions({
 		return update(state, {
 			loadProject: {$set: false},
 			savedProject: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -550,7 +571,8 @@ export default handleActions({
 		return update(state, {
 			loadProject: {$set: true},
 			savedProject: {$set: true},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 
@@ -576,7 +598,8 @@ export default handleActions({
 			projectName: {$set: action.data.projectName},
 			scope: {$set: action.data.scope},
 			loadWorkspace: {$set: false},
-			selectColor: {$set: false}
+			selectColor: {$set: false},
+			createRect: {$set: false}
 		});
 	},
 	DRAW_RECT: (state, action) => {
@@ -622,7 +645,8 @@ export default handleActions({
 				workspace: {$set: action.data.workspace.workspace},
 				loadWorkspace: {$set: false},
 				onload: {$set: action.data.onload},
-				selectColor: {$set: false}
+				selectColor: {$set: false},
+				createRect: {$set: false}
 			});
 		}
 	}
