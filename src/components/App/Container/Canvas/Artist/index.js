@@ -1727,20 +1727,34 @@ export default class DrawVectors extends Component {
 		d3.select('#nAngle').on('change', function () {
 			var nAngle = this.value;
 
-			for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
-				var newCoords = self.rotateAxis(
-					self.box.x + (self.box.width / 2),
-					self.box.y + (self.box.height / 2),
-					self.state.nodes[self.settings.clickarea - 1][i].x,
-					self.state.nodes[self.settings.clickarea - 1][i].y,
-					nAngle
-				);
+			d3.select('.overlay' + self.settings.clickarea)
+				.transition()
+				.duration(2000)
+				.attrTween('transform', function (d, i, a) {
+					return d3.interpolateString(
+						'rotate(0' + ' ' + (self.box.x + self.box.width / 2) + ' ' + (self.box.y + self.box.height / 2) + ')',
+						'rotate(' + nAngle + ' ' + (self.box.x + self.box.width / 2) + ' ' + (self.box.y + self.box.height / 2) + ')'
+					);
+				})
+				.each('end', function () {
+					for (var i = 0; i < self.state.nodes[self.settings.clickarea - 1].length; i++) {
+						d3.select('.overlay' + self.settings.clickarea)
+							.attr('transform', 'none');
 
-				self.state.nodes[self.settings.clickarea - 1][i].x = Math.round(newCoords[0]);
-				self.state.nodes[self.settings.clickarea - 1][i].y = Math.round(newCoords[1]);
-			}
+						var newCoords = self.rotateAxis(
+							self.box.x + (self.box.width / 2),
+							self.box.y + (self.box.height / 2),
+							self.state.nodes[self.settings.clickarea - 1][i].x,
+							self.state.nodes[self.settings.clickarea - 1][i].y,
+							nAngle
+						);
 
-			self.update();
+						self.state.nodes[self.settings.clickarea - 1][i].x = Math.round(newCoords[0]);
+						self.state.nodes[self.settings.clickarea - 1][i].y = Math.round(newCoords[1]);
+					}
+
+					self.update();
+				});
 		});
 	}
 
