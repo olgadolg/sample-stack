@@ -37,6 +37,7 @@
 					"action": "onReload"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -51,6 +52,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -65,6 +67,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -79,6 +82,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -93,6 +97,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -107,6 +112,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -121,6 +127,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -135,6 +142,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -149,6 +157,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -163,6 +172,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -177,6 +187,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -191,6 +202,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -205,6 +217,7 @@
 					"action": "onConfirm"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		},
@@ -223,6 +236,7 @@
 					"action": "onSubmit"
 				}
 			],
+			"textfields": [],
 			"overlay": "overlay",
 			"animation": "transition"
 		}

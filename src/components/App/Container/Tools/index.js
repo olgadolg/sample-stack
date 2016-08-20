@@ -13,7 +13,6 @@ import { showDialog } from '../../../../actions/dialog';
 import config from 'json!../../../../../assets/json/dialogs.json';
 import { drawRect } from '../../../../actions/clickarea';
 
-
 export default class Toolbox extends Component {
 
 	constructor () {
