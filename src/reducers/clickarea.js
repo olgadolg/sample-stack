@@ -84,6 +84,10 @@ export default handleActions({
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
 		let coordIndex = action.data.index;
 
+		if (typeof action.data.nodes[coordIndex][0].color === 'undefined') {
+			action.data.nodes[coordIndex][0].color = '#6ec2b3';
+		}
+
 		return update(state, {
 			views: {
 				[view]: {
