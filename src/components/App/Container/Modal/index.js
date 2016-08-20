@@ -20,6 +20,7 @@ export default class Modal extends Component {
 		this.onReload = this.onReload.bind(this);
 		this.handleModal = this.handleModal.bind(this);
 		this.onCloseOverlay = this.onCloseOverlay.bind(this);
+		this.onCreateRect = this.onCreateRect.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -28,6 +29,11 @@ export default class Modal extends Component {
 
 	handleModal (nextProps) {
 		this.setState({isOpen: nextProps.show});
+	}
+
+	onCreateRect () {
+		this.setState({ isOpen: false });
+		this.props.dispatch(hideDialog());
 	}
 
 	onCancel () {

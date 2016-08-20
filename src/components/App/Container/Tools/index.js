@@ -9,6 +9,9 @@ import { removeWorkspace, loadWorkspace } from '../../../../actions/workspace';
 import { addLayer } from '../../../../actions/layer';
 import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
 import { exportProject, save, load } from '../../../../actions/project';
+import { showDialog } from '../../../../actions/dialog';
+import config from 'json!../../../../../assets/json/dialogs.json';
+//import { createRect } from '../../../../../actions/clickarea';
 
 
 export default class Toolbox extends Component {
@@ -38,6 +41,7 @@ export default class Toolbox extends Component {
 		this.loadProject = this.loadProject.bind(this);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleDoubleClick = this.handleDoubleClick.bind(this);
+		this.showRectDialog = this.showRectDialog.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
@@ -60,6 +64,21 @@ export default class Toolbox extends Component {
 			});
 		}
 	}
+
+	showRectDialog (e) {
+		const index = e.target.id;
+		const view = e.target.getAttribute('data-id');
+		const data = config.dialogs.createRect;
+
+		/*
+		data.callback = {
+			func: removeView,
+			params: [index, view]
+		};
+		*/
+
+		this.props.dispatch(showDialog(data));
+}
 
 	loadProject (event) {
 		event.preventDefault();
@@ -327,6 +346,7 @@ export default class Toolbox extends Component {
 					className={selectIcon}>
 				</button>
 				<button id="Rectangle"
+					onDoubleClick={this.showRectDialog}
 					onClick={(e) => this.handleClick(e, 'rectangle')}
 					className={rectIcon}>
 				</button>

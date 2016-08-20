@@ -16,7 +16,6 @@ export const initLayer = (obj) => (dispatch) => {
 		req.end(function (err, res) {
 			if (err) {
 				console.log(err)
-				//alert('Something went wrong!');
 			}
 
 			if (res.status === 200) {

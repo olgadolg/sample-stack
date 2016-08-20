@@ -1,5 +1,31 @@
 {
 	"dialogs": {
+		"createRect": {
+			"text": {
+				"header": "Create Rectangle",
+				"body": "Choose size of your figure."
+			},
+			"buttons": [
+				{
+					"value": "Cancel",
+					"action": "onCancel"
+				},
+				{
+					"value": "OK",
+					"action": "onSubmit"
+				}
+			],
+			"textfields": [
+				{
+					"value": "width"
+				},
+				{
+					"value": "height"
+				}
+			],
+			"overlay": "no-overlay",
+			"animation": "no-transition"
+		},
 		"resetArtboard": {
 			"text": {
 				"header": "Your artboard...",
