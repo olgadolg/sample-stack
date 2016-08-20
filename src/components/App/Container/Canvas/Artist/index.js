@@ -519,12 +519,12 @@ export default class DrawVectors extends Component {
 				angle: 0,
 				closed: true,
 				source: {
-					interpolate: this.state.interpolate,
+					interpolate: 'linear',
 					x: self.settings.width / 2,
 					y: self.settings.height / 2
 				},
 				target: {
-					interpolate: this.state.interpolate,
+					interpolate: 'linear',
 					x: self.settings.width / 2,
 					y: (self.settings.height / 2) + rect.height
 				}
@@ -533,12 +533,12 @@ export default class DrawVectors extends Component {
 				angle: 0,
 				closed: true,
 				source: {
-					interpolate: this.state.interpolate,
+					interpolate: 'linear',
 					x: self.settings.width / 2,
 					y: (self.settings.height / 2) + rect.height
 				},
 				target: {
-					interpolate: this.state.interpolate,
+					interpolate: 'linear',
 					x: (self.settings.width / 2) + rect.width,
 					y: (self.settings.height / 2) + rect.height
 				}
@@ -547,18 +547,19 @@ export default class DrawVectors extends Component {
 				angle: 0,
 				closed: true,
 				source: {
-					interpolate: this.state.interpolate,
+					interpolate: 'linear',
 					x: (this.svg.width / 2) + rect.width,
 					y: (this.svg.height / 2) + rect.height
 				},
 				target: {
-					interpolate: this.state.interpolate,
+					interpolate: 'linear',
 					x: (this.svg.width / 2) + rect.width,
 					y: this.svg.height / 2
 				}
 			}
 		]);
 
+		this.settings.dispatch(this.settings.createOverlayFn('Daniel'));
 		this.state.isNew = true;
 		this.update();
 	}
