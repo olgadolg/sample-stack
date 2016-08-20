@@ -113,7 +113,8 @@ export default handleActions({
 			show: {$set: false},
 			loadWorkspace: {$set: false},
 			selectColor: {$set: false},
-			createRect: {$set: false}
+			createRect: {$set: false},
+			color: {$set: action.data.nodes[coordIndex][0].color}
 		});
 	},
 

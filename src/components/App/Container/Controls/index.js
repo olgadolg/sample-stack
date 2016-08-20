@@ -48,7 +48,12 @@ export default class ControlsContainer extends Component {
 			//$('.lockFillWrapper').fadeIn();
 		//}
 
-		this.setState({opacity: this.props.opacity});
+		console.log(nextProps.color)
+
+		this.setState({
+			opacity: this.props.opacity,
+			color: nextProps.color
+		});
 	}
 
 	handleSubmit (e) {
