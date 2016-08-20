@@ -56,7 +56,7 @@
 
 :local(.modalBtn) {
 	display: inline-block;
-	margin: 1.4rem 1.8rem;
+	margin: 1.4rem 7px;
 	padding: 1.6rem 3.6rem;
 	border: none;
 	border-radius: .3rem;
