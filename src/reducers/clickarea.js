@@ -531,6 +531,13 @@ export default handleActions({
 		});
 	},
 
+	CREATE_RECT: (state, action) => {
+		return update(state, {
+			rect: {$set: action.data},
+			createRect: {$set: false}
+		});
+	},
+
 	RESET_PROJECT: (state, action) => {
 		return update(state, {
 			loadProject: {$set: false},
@@ -570,6 +577,11 @@ export default handleActions({
 			scope: {$set: action.data.scope},
 			loadWorkspace: {$set: false},
 			selectColor: {$set: false}
+		});
+	},
+	DRAW_RECT: (state, action) => {
+		return update(state, {
+			createRect: {$set: true}
 		});
 	},
 	SHOW_DIALOG: (state, action) => {
@@ -633,6 +645,8 @@ export default handleActions({
 	viewUpdate: false,
 	loadProject: false,
 	viewRemoved: false,
+	rect: {},
+	createRect: false,
 	projectName: '',
 	scope: 'project',
 	copy: {},

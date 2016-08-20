@@ -11,7 +11,7 @@ import { removeArtboard, loadArtboard } from '../../../../actions/artboard';
 import { exportProject, save, load } from '../../../../actions/project';
 import { showDialog } from '../../../../actions/dialog';
 import config from 'json!../../../../../assets/json/dialogs.json';
-//import { createRect } from '../../../../../actions/clickarea';
+import { drawRect } from '../../../../actions/clickarea';
 
 
 export default class Toolbox extends Component {
@@ -66,19 +66,14 @@ export default class Toolbox extends Component {
 	}
 
 	showRectDialog (e) {
-		const index = e.target.id;
-		const view = e.target.getAttribute('data-id');
 		const data = config.dialogs.createRect;
 
-		/*
 		data.callback = {
-			func: removeView,
-			params: [index, view]
+			func: drawRect
 		};
-		*/
 
 		this.props.dispatch(showDialog(data));
-}
+	}
 
 	loadProject (event) {
 		event.preventDefault();

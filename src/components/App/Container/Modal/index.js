@@ -88,6 +88,7 @@ export default class Modal extends Component {
 			<div className={revealOverlay}>
 				<div className={modalWrapper}>
 					<Dialog
+						ref="dialog"
 						content={this.props.content}
 						onCancel={this.onCancel}
 						onSubmit={this.onSubmit}

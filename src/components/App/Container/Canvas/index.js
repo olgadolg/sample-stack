@@ -99,6 +99,7 @@ export default class Canvas extends Component {
 			this.createNewFigure(nextProps, views, index, artState);
 			this.pasteClickarea(nextProps, drawingTool);
 			this.updateBackgroundImage(nextProps);
+			this.createRect(nextProps);
 		});
 	}
 
@@ -113,6 +114,13 @@ export default class Canvas extends Component {
 			this.setColoronFigureClick,
 			this.props.dispatch
 		);
+	}
+
+	createRect (nextProps) {
+		if (nextProps.createRect === true) {
+			let rect = nextProps.rect;
+			this.artist.createNewRect(rect);
+		}
 	}
 
 	updateBackgroundImage (nextProps, drawingTool) {
@@ -495,7 +503,9 @@ const mapStateToProps = (state) => {
 		workspace: state.clickareas.workspace,
 		coordIndex: state.clickareas.coordIndex,
 		colorIndex: state.clickareas.colorIndex,
-		selectColor: state.clickareas.selectColor
+		selectColor: state.clickareas.selectColor,
+		createRect: state.clickareas.createRect,
+		rect: state.clickareas.rect
 	};
 };
 

@@ -488,6 +488,82 @@ export default class DrawVectors extends Component {
 		}
 	}
 
+	createNewRect (rect) {
+		const self = this;
+
+		this.state.nodes.push([
+			{
+				interpolate: this.state.interpolate,
+				x: self.settings.width / 2 - (rect.width / 2),
+				y: self.settings.height / 2 - (rect.height / 2)
+			},
+			{
+				interpolate: this.state.interpolate,
+				x: self.settings.width / 2 - (rect.width / 2),
+				y: (self.settings.height / 2) + (rect.height / 2)
+			},
+			{
+				interpolate: this.state.interpolate,
+				x: (self.settings.width / 2) + (rect.width / 2),
+				y: (self.settings.height / 2) + (rect.height / 2)
+			},
+			{
+				interpolate: this.state.interpolate,
+				x: (self.settings.width / 2) + (rect.width / 2),
+				y: self.settings.height / 2 - (rect.height / 2)
+			}
+		]);
+
+		this.state.edges.push([
+			{
+				angle: 0,
+				closed: true,
+				source: {
+					interpolate: this.state.interpolate,
+					x: self.settings.width / 2,
+					y: self.settings.height / 2
+				},
+				target: {
+					interpolate: this.state.interpolate,
+					x: self.settings.width / 2,
+					y: (self.settings.height / 2) + rect.height
+				}
+			},
+			{
+				angle: 0,
+				closed: true,
+				source: {
+					interpolate: this.state.interpolate,
+					x: self.settings.width / 2,
+					y: (self.settings.height / 2) + rect.height
+				},
+				target: {
+					interpolate: this.state.interpolate,
+					x: (self.settings.width / 2) + rect.width,
+					y: (self.settings.height / 2) + rect.height
+				}
+			},
+			{
+				angle: 0,
+				closed: true,
+				source: {
+					interpolate: this.state.interpolate,
+					x: (this.svg.width / 2) + rect.width,
+					y: (this.svg.height / 2) + rect.height
+				},
+				target: {
+					interpolate: this.state.interpolate,
+					x: (this.svg.width / 2) + rect.width,
+					y: this.svg.height / 2
+				}
+			}
+		]);
+
+		console.log(this.state.nodes);
+		this.state.isNew = true;
+		this.update();
+	}
+
 	/**
 	 * Triggers on theme selected
 	 *

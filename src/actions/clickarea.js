@@ -7,6 +7,19 @@ export const createClickarea = (name) => (dispatch) => {
 	dispatch(addClickarea({name}));
 };
 
+export const createRect = (rect) => (dispatch) => {
+	dispatch({
+		type: 'CREATE_RECT',
+		data: rect
+	});
+};
+
+export const drawRect = () => (dispatch) => {
+	dispatch({
+		type: 'DRAW_RECT'
+	});
+};
+
 export const makeClickarea = (clickarea, view, nodes, edges) => (dispatch) => {
 	dispatch({
 		type: 'CREATE_CLICKAREA',

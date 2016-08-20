@@ -1,9 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createRect } from '../../../../actions/clickarea';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
 export default class Dialog extends Component {
+
+	constructor () {
+		super();
+
+		this.state = {
+			height: null,
+			width: null
+		};
+
+		this.setTextfieldValue = this.setTextfieldValue.bind(this);
+		this.getState = this.getState.bind(this);
+	}
+
+	getState () {
+		return this.state;
+	}
+
+	setTextfieldValue (e) {
+		this.setState({
+			[e.target.id]: parseInt(e.target.value)
+		}, () => {
+			this.props.dispatch(createRect(this.state));
+		});
+	}
 
 	render () {
 		const modalBtn = classnames({
@@ -20,6 +45,11 @@ export default class Dialog extends Component {
 		const textField = classnames({
 			'textfield': true,
 			[styles.textfield]: true
+		});
+
+		const textFieldWrapper = classnames({
+			'textFieldwrapper': true,
+			[styles.textFieldWrapper]: true
 		});
 
 		if (typeof this.props.content.text !== 'undefined') {
@@ -43,10 +73,13 @@ export default class Dialog extends Component {
 		const textfields = this.props.content.textfields.map((textfield) => {
 			return (
 				<input
+					value={this.state[textfield.value]}
+					id={textfield.value}
 					type="text"
+					onChange={this.setTextfieldValue}
 					onClick={this.props[textfield.action]}
 					className={textField}
-					defaualtValue={textfield.value}
+					placeholder={textfield.value}
 				/>
 			);
 		});
@@ -58,7 +91,9 @@ export default class Dialog extends Component {
 					<div className="body">
 						<p>{body}</p>
 					</div>
-					{textfields}
+					<div className={textFieldWrapper}>
+						{textfields}
+					</div>
 					{buttons}
 				</div>
 			</div>
