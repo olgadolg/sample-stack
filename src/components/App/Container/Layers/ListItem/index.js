@@ -11,22 +11,17 @@ export default class ListItem extends Component {
 	constructor (props) {
 		super(props);
 
-		this.state = {
-			backgroundClass: ''
-		};
-
-		this.handleRemove = this.handleRemove.bind(this);
+		this.state = { backgroundClass: '' };
+		this.onRemoveLayer = this.onRemoveLayer.bind(this);
 	}
 
 	componentDidMount () {
-		if (this.props.currentView.replace(/(.*)\.(.*?)$/, '$1') === this.props.item.viewId) {
-			this.setState({ backgroundClass: 'filled' });
-		} else {
-			this.setState({ backgroundClass: '' });
-		}
+		(this.props.currentView.replace(/(.*)\.(.*?)$/, '$1') === this.props.item.viewId)
+			? this.setState({ backgroundClass: 'filled' })
+			: this.setState({ backgroundClass: '' });
 	}
 
-	handleRemove (e) {
+	onRemoveLayer (e) {
 		const index = e.target.id;
 		const view = e.target.getAttribute('data-id');
 		const data = config.dialogs.removeLayer;
@@ -61,7 +56,7 @@ export default class ListItem extends Component {
 					id={this.props.item.viewId}
 					data-id={this.props.item.viewId}
 					className={removeIcon}
-					onClick={(e) => this.handleRemove(e)}
+					onClick={(e) => this.onRemoveLayer(e)}
 				>
 				</div>
 			</li>
