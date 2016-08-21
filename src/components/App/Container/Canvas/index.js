@@ -64,6 +64,7 @@ export default class Canvas extends Component {
 		const artState = this.artist.state;
 		const drawingTool = (typeof tool === 'undefined') ? 'selectAll' : tool;
 
+		artState.opacity = nextProps.opacity;
 		artState.isNew = nextProps.isNew;
 		artState.isSelected = nextProps.isSelected;
 
@@ -129,6 +130,7 @@ export default class Canvas extends Component {
 			const keys = Object.keys(nextProps.views);
 			const length = keys.length;
 
+			$('.dropzone').hide();
 			if (length === 0) return;
 
 			image[0].src = nextProps.views[keys[length - 1]].fileData;
@@ -229,7 +231,7 @@ export default class Canvas extends Component {
 				{
 					color: nextProps.cutItem.nodes[0][0].color,
 					coords: null,
-					goTo: 'Figure',
+					goTo: '',
 					fill: true
 				},
 				this.state.currentView,
@@ -505,7 +507,8 @@ const mapStateToProps = (state) => {
 		colorIndex: state.clickareas.colorIndex,
 		selectColor: state.clickareas.selectColor,
 		createRect: state.clickareas.createRect,
-		rect: state.clickareas.rect
+		rect: state.clickareas.rect,
+		opacity: state.clickareas.opacity
 	};
 };
 
