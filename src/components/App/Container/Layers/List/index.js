@@ -15,23 +15,23 @@ export default class List extends Component {
 		this.state = {};
 		this.onSelectChange = this.onSelectChange.bind(this);
 		this.removeView = this.removeView.bind(this);
-		this.removeBackgroundColor = this.removeBackgroundColor.bind(this);
+		this.onRemoveBackgroundColor = this.onRemoveBackgroundColor.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
 		let listItems = document.querySelectorAll('.layerList li');
 
 		if (nextProps.addLayer === true) {
-			this.removeBackgroundColor(listItems);
+			this.onRemoveBackgroundColor(listItems);
 		}
 
 		if (nextProps.removeView === true || nextProps.resetRemoveView === true) {
-			this.removeBackgroundColor(listItems);
+			this.onRemoveBackgroundColor(listItems);
 			listItems[listItems.length - 1].classList.add('layerfill');
 		}
 	}
 
-	removeBackgroundColor (nodes) {
+	onRemoveBackgroundColor (nodes) {
 		if (nodes.length) {
 			for (var i = 0; i < nodes.length; i++) {
 				nodes[i].classList.remove('layerfill');
@@ -48,7 +48,7 @@ export default class List extends Component {
 		let listItems = document.querySelectorAll('.layerList li');
 		let dropZone = document.getElementsByClassName('dropzone')[0];
 
-		this.removeBackgroundColor(listItems);
+		this.onRemoveBackgroundColor(listItems);
 		event.target.classList.add('layerfill');
 
 		(event.currentTarget.innerHTML.indexOf('Layer') > -1)
