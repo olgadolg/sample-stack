@@ -29,6 +29,7 @@ export default class DrawVectors extends Component {
 			rotatedAngle: 0,
 			animation: false,
 			stopAngle: 0,
+			opacity: 0.7,
 			freezedNodes: [],
 			dirs: ['n', 'e', 's', 'w', 'nw', 'ne', 'se', 'sw'],
 			handlesize: {'w': 5, 'n': 5, 'e': 5, 's': 5},
@@ -252,7 +253,7 @@ export default class DrawVectors extends Component {
 			d3.selectAll('.clickarea').attr('fill-opacity', 0);
 			this.fill = false;
 		} else {
-			d3.selectAll('.clickarea').attr('fill-opacity', 0.5);
+			d3.selectAll('.clickarea').attr('fill-opacity', this.state.opacity);
 			this.fill = true;
 		}
 	}
@@ -584,6 +585,11 @@ export default class DrawVectors extends Component {
 		this.unselectClickarea();
 		this.removeClickarea(this.settings.clickarea - 1);
 		this.removeBBRect();
+
+		if (this.settings.clickarea > 0) {
+			this.settings.clickarea--;
+		}
+
 		this.update();
 	}
 
@@ -1140,7 +1146,7 @@ export default class DrawVectors extends Component {
 						}
 					})
 					.attr('fill-opacity', function (d) {
-						return (self.state.props.fill === true) ? 0.7 : 0;
+						return (self.state.props.fill === true) ? self.state.opacity : 0;
 					})
 					.attr('d', function (d, k) {
 						if (self.state.nodes[i][0].interpolate === 'linear') {
@@ -1730,15 +1736,15 @@ export default class DrawVectors extends Component {
 	rotateFigure () {
 		const self = this;
 
-		d3.select('#nAngle').on('change', function () {
-			var nAngle = this.value;
+		d3.select('.rotateBtn').on('click', function () {
+			var nAngle = $('.rotatefield').val();
 
 			d3.selectAll('.bbRect').remove();
 			self.state.animating = true;
 
 			d3.selectAll('.overlay' + self.settings.clickarea)
 				.transition()
-				.duration(2000)
+				.duration(parseInt($('#rotateSpeed').val()) * 1000)
 				.attrTween('transform', function (d, i, a) {
 					return d3.interpolateString(
 						'rotate(0' + ' ' + (self.box.x + self.box.width / 2) + ' ' + (self.box.y + self.box.height / 2) + ')',
@@ -1794,7 +1800,9 @@ export default class DrawVectors extends Component {
 			this.containerCreator();
 		}
 
-		this.box = d3.selectAll('.overlay' + this.settings.clickarea).node().getBBox();
+		if (d3.selectAll('.overlay' + this.settings.clickarea).node() !== null) {
+			this.box = d3.selectAll('.overlay' + this.settings.clickarea).node().getBBox();
+		}
 
 		this.createHandles();
 		this.createPath();
