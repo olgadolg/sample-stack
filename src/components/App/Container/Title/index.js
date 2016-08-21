@@ -32,7 +32,7 @@ export default class CreateClickarea extends Component {
 			var title = nextProps.projectName;
 		} else {
 			title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
-				? 'Figure Title' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
+				? '' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
 		}
 
 		document.getElementById('editable')
@@ -42,27 +42,28 @@ export default class CreateClickarea extends Component {
 			html: title,
 			scope: nextProps.scope
 		}, () => {
-			if (title !== '') {
-				var el = document.getElementById('editable');
-				var range = document.createRange();
-				var sel = window.getSelection();
-				range.setStart(el.childNodes[0], el.childNodes[0].length);
-				range.collapse(true);
-				sel.removeAllRanges();
-				sel.addRange(range);
-				el.focus();
-			}
+			this.setTextfieldCursorPosition(title);
 		});
+	}
+
+	setTextfieldCursorPosition (title) {
+		if (title !== '') {
+			var el = document.getElementById('editable');
+			var range = document.createRange();
+			var sel = window.getSelection();
+			range.setStart(el.childNodes[0], el.childNodes[0].length);
+			range.collapse(true);
+			sel.removeAllRanges();
+			sel.addRange(range);
+			el.focus();
+		}
 	}
 
 	handleChange (e) {
 		e.preventDefault();
-		let scope = ($('.overlay').hasClass('selected'))
-			? 'figure' : 'project';
-
 		this.setState({
 			html: e.target.value,
-			scope: scope
+			scope: this.props.scope
 		}, () => {
 			this.props.dispatch(titleClickarea(this.state));
 		});
@@ -92,6 +93,8 @@ export default class CreateClickarea extends Component {
 			[styles.titleLabel]: true
 		});
 
+		console.log(this.state.scope, this.state.hml)
+
 		return (
 			<div className={titleWrapper}>
 				<label className={titleLabel}>Title</label>
@@ -100,8 +103,6 @@ export default class CreateClickarea extends Component {
 					disabled={this.state.disabled}
 					html={this.state.html}
 					onChange={(e) => this.handleChange(e)}
-					onFocus={(e) => this.handleFocus(e)}
-					onBlur={(e) => this.handleBlur(e)}
 					className={textfieldClass}
 				/>
 			</div>
