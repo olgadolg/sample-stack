@@ -1,15 +1,19 @@
 {
-    "Cat": {
-        "viewId": "cat",
-        "clickarea": {}
-    },
-    "City": {
-        "viewId": "city",
+    "3-5": {
+        "viewId": "3-5",
         "clickarea": {
             "0": {
-                "coords": "M463,119L324,153L488,292z",
+                "coords": "M140,174L140,264L264,229L261,128z",
+                "goTo": "TOBAKSBOLAGET"
+            },
+            "1": {
+                "coords": "M139,265L139,341L265,319L264,229z",
                 "goTo": "Figure"
             }
         }
+    },
+    "3-2": {
+        "viewId": "3-2",
+        "clickarea": {}
     }
 }
