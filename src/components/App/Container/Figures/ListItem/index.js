@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import classnames from 'classnames';
 import styles from './styles/styles.css';
 
@@ -36,7 +37,6 @@ export default class ListItem extends Component {
 		let listItems = document.querySelectorAll('.figureList li');
 
 		if (listItems.length) {
-			this.removeBackgroundColor(listItems);
 			event.target.classList.add('layerfill');
 		}
 
@@ -51,6 +51,8 @@ export default class ListItem extends Component {
 		const targetStyle = e.target.style;
 		const parentClasses = e.target.parentNode.classList;
 
+		$(e.target).css('pointer-events', 'all');
+
 		if (figure[0].style.display === '') {
 			figure[0].style.display = 'none';
 
@@ -60,6 +62,7 @@ export default class ListItem extends Component {
 				}
 			}
 			targetStyle.opacity = 0.5;
+			$(e.target.parentNode).css('pointer-events', 'none');
 		} else {
 			figure[0].style.display = '';
 
@@ -70,6 +73,7 @@ export default class ListItem extends Component {
 			}
 
 			targetStyle.opacity = 1;
+			$(e.target.parentNode).css('pointer-events', 'all');
 		}
 	}
 
