@@ -60,12 +60,15 @@ export default class CreateClickarea extends Component {
 
 	handleChange (e) {
 		e.preventDefault();
-		this.setState({
-			html: e.target.value,
-			scope: this.props.scope
-		}, () => {
+
+		if (typeof e.target.value !== 'undefined') {
 			this.props.dispatch(titleClickarea(this.state));
-		});
+
+			this.setState({
+				html: e.target.value,
+				scope: this.props.scope
+			});
+		}
 	}
 
 	handleBlur (e) {
@@ -97,9 +100,11 @@ export default class CreateClickarea extends Component {
 				<label className={titleLabel}>Title</label>
 				<ContentEditable
 					id="editable"
+					ref="editable"
 					disabled={this.state.disabled}
 					html={this.state.html}
 					onKeyUp={(e) => this.handleChange(e)}
+					onBlur={this.handleBlur}
 					className={textfieldClass}
 				/>
 			</div>
