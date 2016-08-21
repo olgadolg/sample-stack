@@ -21,7 +21,6 @@ export default class Header extends Component {
 		};
 
 		this.utilities = new Utilities();
-
 		this.onStart = this.onStart.bind(this);
 		this.onStop = this.onStop.bind(this);
 		this.onDrag = this.onDrag.bind(this);
@@ -45,12 +44,6 @@ export default class Header extends Component {
 	}
 
 	onStart (e, ui) {
-		let header = document.getElementById('header');
-		let controlsContainer = document.getElementById('controlsContainer');
-		let canvasWrapper = document.getElementById('canvasWrapper');
-		header.style.zIndex = '99999999';
-		controlsContainer.style.zIndex = '9';
-		canvasWrapper.style.zIndex = '9';
 		this.props.dispatch(selectTool('selectAll'));
 	}
 
@@ -67,31 +60,6 @@ export default class Header extends Component {
 	render () {
 		const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
 		const logo = require('../../../../images/logo.png');
-
-		const slider = classnames({
-			'color-slider': true,
-			[styles.colorSlider]: true
-		});
-
-		const removeIcon = classnames({
-			'removeIcon': true,
-			[styles.removeIcon]: true
-		});
-
-		const tooldescWrapper = classnames({
-			'tooldescWrapper': true,
-			[styles.tooldescWrapper]: true
-		});
-
-		const selectedToolName = classnames({
-			'selectedToolName': true,
-			[styles.selectedToolName]: true
-		});
-
-		const selectedToolNameWrapper = classnames({
-			'selectedToolNameWrapper': true,
-			[styles.selectedToolNameWrapper]: true
-		});
 
 		return (
 			<Draggable cancel=".color-slider, .tool, .logo, .removeIcon, .nAngle" onDrag={this.onDrag} {...dragHandlers}>
