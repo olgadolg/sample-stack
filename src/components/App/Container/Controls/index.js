@@ -75,6 +75,11 @@ export default class ControlsContainer extends Component {
 
 		const el = document.getElementById('controlsContainer');
 		const position = this.utilities.createPosition(ui, this.props, el);
+
+		if (position.x === 0 && position.y === 0) {
+			return;
+		}
+
 		this.props.dispatch(saveWorkspace(position));
 	}
 

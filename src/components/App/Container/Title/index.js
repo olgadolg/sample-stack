@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import { titleClickarea } from '../../../../actions/clickarea';
 import classnames from 'classnames';
 import ContentEditable from 'react-contenteditable';
@@ -28,9 +27,12 @@ export default class CreateClickarea extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		let title = (nextProps.scope === 'project')
-			? nextProps.projectName
-			: nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
+		if (nextProps.scope === 'project') {
+			var title = nextProps.projectName;
+		} else {
+			title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
+				? '' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
+		}
 
 		document.getElementById('editable')
 			.setAttribute('placeholder', nextProps.scope + ' name');
@@ -90,8 +92,6 @@ export default class CreateClickarea extends Component {
 			[styles.titleLabel]: true
 		});
 
-		console.log(this.state.scope, this.state.hml)
-
 		return (
 			<div className={titleWrapper}>
 				<label className={titleLabel}>Title</label>
@@ -99,7 +99,7 @@ export default class CreateClickarea extends Component {
 					id="editable"
 					disabled={this.state.disabled}
 					html={this.state.html}
-					onChange={(e) => this.handleChange(e)}
+					onKeyUp={(e) => this.handleChange(e)}
 					className={textfieldClass}
 				/>
 			</div>

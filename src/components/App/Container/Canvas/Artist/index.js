@@ -426,6 +426,15 @@ export default class DrawVectors extends Component {
 				self.update();
 			})
 			.on('dragend', function (d, i) {
+				var transform = $('#canvasWrapper').css('transform');
+				var matrix = transform.replace(/[^0-9\-.,]/g, '').split(',');
+ 				var x = matrix[12] || matrix[4];
+ 				var y = matrix[13] || matrix[5];
+
+				if (x === 0 && y === 0) {
+					return;
+				}
+
 				if (self.state.tool === 'select' || self.state.tool === 'selectAll') {
 					self.updateClickarea();
 				}
@@ -668,6 +677,7 @@ export default class DrawVectors extends Component {
 
 		d3.event.preventDefault();
 		this.state.toolChange = false;
+		$('.figureItem').removeClass('layerfill');
 
 		if (d3.event.target.tagName === 'path' && d3.event.target.attributes.d.nodeValue.indexOf('z') > -1) {
 			d3.selectAll('.ghostRect').remove();

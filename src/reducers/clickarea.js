@@ -662,7 +662,8 @@ export default handleActions({
 					}
 				},
 				loadWorkspace: {$set: false},
-				onload: {$set: action.data.onload}
+				onload: {$set: action.data.onload},
+				scope: {$set: 'project'}
 			});
 		} else {
 			return update(state, {
@@ -670,7 +671,8 @@ export default handleActions({
 				loadWorkspace: {$set: false},
 				onload: {$set: action.data.onload},
 				selectColor: {$set: false},
-				createRect: {$set: false}
+				createRect: {$set: false},
+				scope: {$set: 'project'}
 			});
 		}
 	}

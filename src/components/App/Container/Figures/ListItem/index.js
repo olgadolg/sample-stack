@@ -22,6 +22,28 @@ export default class ListItem extends Component {
 		}
 	}
 
+	handleClick (event) {
+		if (event.target.classList.value.indexOf('hideIcon') > -1) {
+			return;
+		}
+
+		const id = parseInt(event.target.id) || 0;
+		const figure = document.querySelector('.clickarea' + (id + 1));
+		const bbox = this.props.layers[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[id].bbox;
+		const mousedown = this.utilites.mouseEvent('mousedown', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
+		const mouseup = this.utilites.mouseEvent('mouseup', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
+
+		let listItems = document.querySelectorAll('.figureList li');
+
+		if (listItems.length) {
+			this.removeBackgroundColor(listItems);
+			event.target.classList.add('layerfill');
+		}
+
+		this.utilites.dispatchEvent(figure, 'mousedown', mousedown);
+		this.utilites.dispatchEvent(figure, 'mouseup', mouseup);
+	}
+
 	onVisibilityClick (e) {
 		let bbRect = document.getElementsByClassName('bbRect');
 		const index = e.target.getAttribute('data-index');

@@ -445,6 +445,12 @@ export default class Canvas extends Component {
 
 		const el = document.getElementById('canvasWrapper');
 		const position = this.utilities.createPosition(ui, this.props, el);
+
+		if (position.x === 0 && position.y === 0) {
+			return;
+		}
+
+		this.artist.state.dragPosition = position;
 		this.props.dispatch(saveWorkspace(position));
 	}
 

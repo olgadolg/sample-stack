@@ -54,6 +54,11 @@ export default class Header extends Component {
 
 		const el = document.getElementById('header');
 		const position = this.utilities.createPosition(ui, this.props, el);
+
+		if (position.x === 0 && position.y === 0) {
+			return;
+		}
+
 		this.props.dispatch(saveWorkspace(position));
 	}
 
