@@ -79,6 +79,12 @@ export default handleActions({
 		});
 	},
 
+	UNDO_CLICKAREA: (state, action) => {
+		return update(state, {
+			undo: {$set: true}
+		});
+	},
+
 	UPDATE_CLICKAREA: (state, action) => {
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
@@ -124,28 +130,30 @@ export default handleActions({
 
 	REMOVE_CLICKAREA: (state, action) => {
 		let views = state.views;
-		let isNew = state.isNew;
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
-		let loadProject = false;
 
-		isNew = false;
-		delete views[view].clickareas[action.data.index];
+		delete views[view].clickareas[action.data];
 
 		// update keys after delete
 		for (var i in views[view].clickareas) {
-			if (i > action.data.index) {
+			if (i > action.data) {
 				views[view].clickareas[i - 1] = views[view].clickareas[i];
 				delete views[view].clickareas[i];
 			}
 		}
 
-		return {
-			...state,
-			views,
-			isNew,
-			loadProject
-		};
+		let clickareas = views[view].clickareas;
+
+		return update(state, {
+			views: {
+				[view]: {
+					clickareas: {$set: clickareas}
+				}
+			},
+			loadProject: {$set: false},
+			isNew: {$set: false}
+		});
 	},
 
 	UNSELECT_CLICKAREA: (state, action) => {
@@ -323,6 +331,12 @@ export default handleActions({
 		});
 	},
 
+	SET_OPACITY: (state, action) => {
+		return update(state, {
+			opacity: {$set: action.data}
+		});
+	},
+
 	RESET_REMOVE_VIEW: (state, action) => {
 		return update(state, {
 			viewRemoved: {$set: false},
@@ -331,7 +345,8 @@ export default handleActions({
 			isSelected: {$set: false},
 			loadWorkspace: {$set: false},
 			selectColor: {$set: false},
-			createRect: {$set: false}
+			createRect: {$set: false},
+			addLayer: {$set: false}
 		});
 	},
 
@@ -582,6 +597,9 @@ export default handleActions({
 	},
 
 	LOAD_PROJECT: (state, action) => {
+		let projectName = (action.data.projectName.length > 0)
+			? action.data.projectName : '';
+
 		return update(state, {
 			addLayer: {$set: action.data.addLayer},
 			artistState: {$set: action.data.artistState},
@@ -597,11 +615,11 @@ export default handleActions({
 			isSelected: {$set: action.data.isSelected},
 			loadProject: {$set: true},
 			savedProject: {$set: true},
+			scope: {$set: 'project'},
 			tool: {$set: action.data.tool},
 			viewUpdate: {$set: action.data.viewUpdate},
 			views: {$set: action.data.views},
-			projectName: {$set: action.data.projectName},
-			scope: {$set: action.data.scope},
+			projectName: {$set: projectName},
 			loadWorkspace: {$set: false},
 			selectColor: {$set: false},
 			createRect: {$set: false}
@@ -669,6 +687,7 @@ export default handleActions({
 	addLayer: true,
 	initLayer: false,
 	isNew: false,
+	opacity: 0.7,
 	eraseColor: false,
 	isSelected: false,
 	viewUpdate: false,
@@ -688,6 +707,7 @@ export default handleActions({
 	selectColor: false,
 	content: {},
 	cutItem: {},
+	undo: false,
 	onload: false,
 	savedProject: false,
 	init: false,
@@ -706,5 +726,5 @@ export default handleActions({
 		}
 	},
 	viewRemvoved: false,
-	clickarea: {coords: null, goTo: 'Figure', bbox: {}}
+	clickarea: {coords: null, goTo: '', bbox: {}}
 });
