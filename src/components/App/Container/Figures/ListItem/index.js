@@ -9,7 +9,7 @@ export default class ListItem extends Component {
 		super(props);
 
 		this.state = {};
-		this.handleVisibility = this.handleVisibility.bind(this);
+		this.onVisibilityClick = this.onVisibilityClick.bind(this);
 	}
 
 	componentDidMount () {
@@ -22,15 +22,16 @@ export default class ListItem extends Component {
 		}
 	}
 
-	handleVisibility (e) {
+	onVisibilityClick (e) {
+		let bbRect = document.getElementsByClassName('bbRect');
 		const index = e.target.getAttribute('data-index');
 		const figure = document.getElementsByClassName('overlay' + (parseInt(index) + 1));
-		var bbRect = document.getElementsByClassName('bbRect');
 		const targetStyle = e.target.style;
 		const parentClasses = e.target.parentNode.classList;
 
 		if (figure[0].style.display === '') {
 			figure[0].style.display = 'none';
+
 			if (parentClasses.value.indexOf('layerfill') > -1) {
 				if (typeof bbRect !== 'undefined') {
 					bbRect[0].style.display = 'none';
@@ -39,9 +40,13 @@ export default class ListItem extends Component {
 			targetStyle.opacity = 0.5;
 		} else {
 			figure[0].style.display = '';
+
 			if (parentClasses.value.indexOf('layerfill') > -1) {
-				bbRect[0].style.display = '';
+				if (typeof bbRect !== 'undefined') {
+					bbRect[0].style.display = '';
+				}
 			}
+
 			targetStyle.opacity = 1;
 		}
 	}
@@ -66,7 +71,7 @@ export default class ListItem extends Component {
 				<div
 					data-index={this.props.index}
 					className={hideIcon}
-					onClick={(e) => this.handleVisibility(e)}
+					onClick={(e) => this.onVisibilityClick(e)}
 				>
 				</div>
 			</li>
