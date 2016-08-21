@@ -38,18 +38,13 @@ export default class Toolbox extends Component {
 		this.saveProject = this.saveProject.bind(this);
 		this.exportProject = this.exportProject.bind(this);
 		this.loadProject = this.loadProject.bind(this);
-		this.handleClick = this.handleClick.bind(this);
+		this.onToolClick = this.onToolClick.bind(this);
 		this.handleDoubleClick = this.handleDoubleClick.bind(this);
 		this.showRectDialog = this.showRectDialog.bind(this);
 	}
 
 	componentWillReceiveProps (nextProps) {
 		this.setState({currentView: nextProps.currentView});
-
-		if (nextProps.initLayer === true) {
-			//let selectedtool = document.getElementById('selectedtool');
-			//selectedtool.innerHTML = 'Select Figure';
-		}
 
 		if (nextProps.currentView.indexOf('Layer') > -1) {
 			$('.layerIcon, #layerIcon').css({
@@ -66,11 +61,7 @@ export default class Toolbox extends Component {
 
 	showRectDialog (e) {
 		const data = config.dialogs.createRect;
-
-		data.callback = {
-			func: drawRect
-		};
-
+		data.callback = { func: drawRect };
 		this.props.dispatch(showDialog(data));
 	}
 
@@ -92,18 +83,12 @@ export default class Toolbox extends Component {
 	}
 
 	exportProject () {
-		let stateToExport = {
-			clickareas: this.props.clickareas
-		};
-
+		let stateToExport = { clickareas: this.props.clickareas };
 		this.props.dispatch(exportProject(stateToExport));
 	}
 
 	saveProject () {
-		let stateToSave = {
-			clickareas: this.props.clickareas
-		};
-
+		let stateToSave = { clickareas: this.props.clickareas };
 		this.props.dispatch(save(stateToSave));
 	}
 
@@ -115,17 +100,15 @@ export default class Toolbox extends Component {
 		this.props.dispatch(removeWorkspace());
 	}
 
-	handleClick (event, type) {
-		let obj = {};
+	onToolClick (event, type) {
 		let tools = document.getElementsByClassName('tool');
-		//let toolSelected = document.getElementById('selectedtool');
+		let obj = {};
 
 		for (var i = 0; i < tools.length; i++) {
 			tools[i].classList.remove('selectedTool');
 		}
 
 		event.target.classList.add('selectedTool');
-		//toolSelected.innerHTML = event.target.id;
 
 		for (let item in this.state) {
 			if (type === item) {
@@ -135,37 +118,34 @@ export default class Toolbox extends Component {
 			}
 		}
 
-		if (type === 'rectangle') {
-			$('.ghostRect').show();
-		} else {
-			$('.ghostRect').hide();
-		}
-
 		if (type === 'artboard') {
 			this.props.dispatch(loadArtboard(this.props.clickareas, true));
 		}
 
 		if (type === 'workspace') {
-			this.props.dispatch(loadWorkspace(
-				{workspace: this.props.workspace},
-				true, false)
-			);
+			this.props.dispatch(loadWorkspace({workspace: this.props.workspace}, true, false));
 		}
 
-		if (type === 'copy') {
-			if ($('.overlay.selected').length === 0) return;
-			this.props.dispatch(getCopy());
-		}
+		(type === 'rectangle')
+			? $('.ghostRect').show()
+			: $('.ghostRect').hide();
 
-		if (type === 'cut') {
-			if (!$('.cutIcon').hasClass('paste')) {
+		if ($('.canvasIcon').attr('src').length) {
+			if (type === 'copy') {
 				if ($('.overlay.selected').length === 0) return;
+				this.props.dispatch(getCopy());
 			}
 
-			$('.cutIcon').toggleClass('paste');
-			$('.cutIcon').hasClass('paste')
-				? this.props.dispatch(cutClickarea())
-				: this.props.dispatch(pasteClickarea());
+			if (type === 'cut') {
+				if (!$('.cutIcon').hasClass('paste')) {
+					if ($('.overlay.selected').length === 0) return;
+				}
+
+				$('.cutIcon').toggleClass('paste');
+				$('.cutIcon').hasClass('paste')
+					? this.props.dispatch(cutClickarea())
+					: this.props.dispatch(pasteClickarea());
+			}
 		}
 
 		this.setState(obj, () => {
@@ -184,7 +164,9 @@ export default class Toolbox extends Component {
 					}
 				}
 
-				this.props.dispatch(selectTool(isSelected));
+				if ($('.canvasIcon').attr('src').length) {
+					this.props.dispatch(selectTool(isSelected));
+				}
 			}
 		});
 	}
@@ -324,6 +306,13 @@ export default class Toolbox extends Component {
 			[styles.exportIcon]: true
 		});
 
+		const undoIcon = classnames({
+			'undoIcon': true,
+			'tool': true,
+			[styles.tool]: true,
+			[styles.undoIcon]: true
+		});
+
 		const fileWrapper = classnames({
 			'fileWrapper': true,
 			[styles.fileWrapper]: true
@@ -332,57 +321,61 @@ export default class Toolbox extends Component {
 		return (
 			<div className={toolBox}>
 				<button id="Select Figure"
-					onClick={(e) => this.handleClick(e, 'selectAll')}
+					onClick={(e) => this.onToolClick(e, 'selectAll')}
 					className={selectAllIcon}>
 				</button>
 				<button id="Select Point"
-					onClick={(e) => this.handleClick(e, 'select')}
+					onClick={(e) => this.onToolClick(e, 'select')}
 					className={selectIcon}>
 				</button>
 				<button id="Rectangle"
 					onDoubleClick={this.showRectDialog}
-					onClick={(e) => this.handleClick(e, 'rectangle')}
+					onClick={(e) => this.onToolClick(e, 'rectangle')}
 					className={rectIcon}>
 				</button>
 				<button id="Rounded Corners"
-					onClick={(e) => this.handleClick(e, 'stepBefore')}
+					onClick={(e) => this.onToolClick(e, 'stepBefore')}
 					className={stepBeforeIcon}>
 				</button>
 				<button id="Pen Tool"
-					onClick={(e) => this.handleClick(e, 'pen')}
+					onClick={(e) => this.onToolClick(e, 'pen')}
 					className={penIcon}>
 				</button>
 				<button id="Bezier Curve"
-					onClick={(e) => this.handleClick(e, 'bezier')}
+					onClick={(e) => this.onToolClick(e, 'bezier')}
 					className={bezierIcon}>
 				</button>
 				<button id="Cardinal"
-					onClick={(e) => this.handleClick(e, 'cardinal')}
+					onClick={(e) => this.onToolClick(e, 'cardinal')}
 					className={cardinalIcon}>
 				</button>
 				<button id="Add Point"
-					onClick={(e) => this.handleClick(e, 'penAdd')}
+					onClick={(e) => this.onToolClick(e, 'penAdd')}
 					className={penAddIcon}>
 				</button>
 				<button id="Remove Point"
-					onClick={(e) => this.handleClick(e, 'penRemove')}
+					onClick={(e) => this.onToolClick(e, 'penRemove')}
 					className={penRemoveIcon}>
 				</button>
 				<button id="Copy Figure"
-					onClick={(e) => this.handleClick(e, 'copy')}
+					onClick={(e) => this.onToolClick(e, 'copy')}
 					className={copyIcon}>
 				</button>
 				<button id="Cut / Paste"
-					onClick={(e) => this.handleClick(e, 'cut')}
+					onClick={(e) => this.onToolClick(e, 'cut')}
 					className={cutIcon}>
 				</button>
+				<button id="Undo"
+					onClick={(e) => this.onToolClick(e, 'undo')}
+					className={undoIcon}>
+				</button>
 				<button id="New Layer"
-					onClick={(e) => this.handleClick(e, 'layer')}
+					onClick={(e) => this.onToolClick(e, 'layer')}
 					className={layerIcon}>
 				</button>
 				<div className={setupWrapper}>
 					<button id="Save Setup"
-						onClick={(e) => this.handleClick(e, 'workspace')}
+						onClick={(e) => this.onToolClick(e, 'workspace')}
 						className={workspaceIcon}>
 					</button>
 					{(() => {
@@ -396,7 +389,7 @@ export default class Toolbox extends Component {
 				</div>
 				<div className={artboardWrapper}>
 					<button id="Save Artboard"
-						onClick={(e) => this.handleClick(e, 'artboard')}
+						onClick={(e) => this.onToolClick(e, 'artboard')}
 						className={artboardIcon}>
 					</button>
 
