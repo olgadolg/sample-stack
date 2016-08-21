@@ -59,9 +59,7 @@ export default class CreateClickarea extends Component {
 	}
 
 	handleChange (e) {
-		e.preventDefault();
-
-		if (typeof e.target.value !== 'undefined') {
+		if (e.target.innerHTML !== this.state.html) {
 			this.props.dispatch(titleClickarea(this.state));
 
 			this.setState({
