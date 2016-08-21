@@ -8,6 +8,11 @@
 	background: #ffff;
 }
 
+:global(#angleLabel) {
+	float: left;
+	margin-right: 25px;
+}
+
 :global(h2) {
 	font-size: 2.4em;
 	margin-top: 0;
