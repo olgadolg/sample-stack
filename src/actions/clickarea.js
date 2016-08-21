@@ -7,10 +7,23 @@ export const createClickarea = (name) => (dispatch) => {
 	dispatch(addClickarea({name}));
 };
 
+export const setOpacity = (opacity) => (dispatch) => {
+	dispatch({
+		type: 'SET_OPACITY',
+		data: opacity
+	});
+};
+
 export const createRect = (rect) => (dispatch) => {
 	dispatch({
 		type: 'CREATE_RECT',
 		data: rect
+	});
+};
+
+export const undoClickarea = () => (dispatch) => {
+	dispatch({
+		type: 'UNDO_CLICKAREA'
 	});
 };
 
