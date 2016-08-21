@@ -38,7 +38,7 @@ export default class List extends Component {
 
 		const id = parseInt(event.target.id) || 0;
 		const figure = document.querySelector('.clickarea' + (id + 1));
-		const bbox = this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[id].bbox;
+		const bbox = this.props.layers[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[id].bbox;
 		const mousedown = this.utilites.mouseEvent('mousedown', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
 		const mouseup = this.utilites.mouseEvent('mouseup', bbox.x + (bbox.width / 2), (bbox.y + bbox.height / 2), bbox.x + (bbox.width / 2), bbox.y + (bbox.height / 2));
 
@@ -62,7 +62,7 @@ export default class List extends Component {
 	}
 
 	render () {
-		if (Object.keys(this.props.scenes).length === 0 || this.props.currentView === '') {
+		if (Object.keys(this.props.layers).length === 0 || this.props.currentView === '') {
 			return null;
 		}
 
@@ -76,7 +76,7 @@ export default class List extends Component {
 			[styles.figureHeading]: true
 		});
 
-		this.figures = _.map(this.props.scenes[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas, (figure, i) => {
+		this.figures = _.map(this.props.layers[this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas, (figure, i) => {
 			return (
 				<ListItem
 					onClick={this.handleClick}
@@ -91,10 +91,7 @@ export default class List extends Component {
 				<h6 className={figureHeading}>
 					{this.props.currentView.replace(/(.*)\.(.*?)$/, '$1')}
 				</h6>
-				<ul
-					id="sceneSelect"
-					className="figureList"
-				>
+				<ul id="sceneSelect" className="figureList">
 					{this.figures}
 				</ul>
 			</div>
@@ -104,7 +101,7 @@ export default class List extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		scenes: state.clickareas.views,
+		layers: state.clickareas.views,
 		currentView: state.clickareas.currentView,
 		addLayer: state.clickareas.addLayer,
 		initLayer: state.clickareas.initLayer,
