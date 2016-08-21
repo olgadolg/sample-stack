@@ -231,7 +231,7 @@ export default class Canvas extends Component {
 				{
 					color: nextProps.cutItem.nodes[0][0].color,
 					coords: null,
-					goTo: '',
+					goTo: 'Figure ' + this.artist.state.nodes.length,
 					fill: true
 				},
 				this.state.currentView,

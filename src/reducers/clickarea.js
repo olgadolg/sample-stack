@@ -24,7 +24,8 @@ export default handleActions({
 		return update(state, {
 			clickarea: {
 				color: {$set: null},
-				fill: {$set: true}
+				fill: {$set: true},
+				goTo: {$set: 'figure'}
 			},
 			isNew: {$set: true},
 			createRect: {$set: false},

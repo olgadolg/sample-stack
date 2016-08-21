@@ -28,12 +28,9 @@ export default class CreateClickarea extends Component {
 	}
 
 	componentWillReceiveProps (nextProps) {
-		if (nextProps.scope === 'project') {
-			var title = nextProps.projectName;
-		} else {
-			title = (typeof nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex] === 'undefined')
-				? '' : nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
-		}
+		let title = (nextProps.scope === 'project')
+			? nextProps.projectName
+			: nextProps.views[nextProps.currentView.replace(/(.*)\.(.*?)$/, '$1')].clickareas[nextProps.coordIndex].goTo;
 
 		document.getElementById('editable')
 			.setAttribute('placeholder', nextProps.scope + ' name');
