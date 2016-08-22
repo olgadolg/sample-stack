@@ -61,8 +61,10 @@ export default class ListItem extends Component {
 					bbRect[0].style.display = 'none';
 				}
 			}
+
 			targetStyle.opacity = 0.5;
 			$(e.target.parentNode).css('pointer-events', 'none');
+			$(e.target.parentNode).removeClass('layerfill');
 		} else {
 			figure[0].style.display = '';
 
