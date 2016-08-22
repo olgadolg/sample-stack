@@ -1780,6 +1780,7 @@ export default class DrawVectors extends Component {
 						self.state.nodes[self.settings.clickarea - 1][i].y = Math.round(newCoords[1]);
 					}
 
+					self.updateClickarea();
 					self.state.animating = false;
 					self.update();
 				});
