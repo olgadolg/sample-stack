@@ -44,6 +44,12 @@ export default class Header extends Component {
 	}
 
 	onStart (e, ui) {
+		let header = document.getElementById('header');
+		let controlsContainer = document.getElementById('controlsContainer');
+		let canvasWrapper = document.getElementById('canvasWrapper');
+		header.style.zIndex = '99999999';
+		controlsContainer.style.zIndex = '9';
+		canvasWrapper.style.zIndex = '9';
 		this.props.dispatch(selectTool('selectAll'));
 	}
 

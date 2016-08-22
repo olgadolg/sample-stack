@@ -65,6 +65,12 @@ export default class ControlsContainer extends Component {
 	}
 
 	onDragStart () {
+		let header = document.getElementById('header');
+		let controlsContainer = document.getElementById('controlsContainer');
+		let canvasWrapper = document.getElementById('canvasWrapper');
+		header.style.zIndex = '9';
+		controlsContainer.style.zIndex = '9999999';
+		canvasWrapper.style.zIndex = '9';
 		this.props.dispatch(selectTool('selectAll'));
 	}
 
