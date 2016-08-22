@@ -1308,6 +1308,7 @@ export default class DrawVectors extends Component {
 	 */
 	updateClickarea () {
 		var bbox = d3.selectAll('.overlay' + this.settings.clickarea + ' .clickarea').node().getBBox();
+		var scope = (this.state.shapeIsSelected === true) ? 'figure' : 'project';
 
 		this.state.pathData = d3.selectAll('.clickarea' + this.settings.clickarea).node().attributes.getNamedItem('d').value;
 
@@ -1319,7 +1320,8 @@ export default class DrawVectors extends Component {
 				this.state.nodes,
 				this.state.edges,
 				this.state.shapeIsSelected,
-				bbox
+				bbox,
+				scope
 			)
 		);
 	}
