@@ -39,7 +39,7 @@ export default class Toolbox extends Component {
 		this.exportProject = this.exportProject.bind(this);
 		this.loadProject = this.loadProject.bind(this);
 		this.onToolClick = this.onToolClick.bind(this);
-		this.handleDoubleClick = this.handleDoubleClick.bind(this);
+		this.onResetWorkspace = this.onResetWorkspace.bind(this);
 		this.showRectDialog = this.showRectDialog.bind(this);
 	}
 
@@ -96,7 +96,7 @@ export default class Toolbox extends Component {
 		this.props.dispatch(removeArtboard());
 	}
 
-	handleDoubleClick (event, type) {
+	onResetWorkspace (event, type) {
 		this.props.dispatch(removeWorkspace());
 	}
 
@@ -382,7 +382,7 @@ export default class Toolbox extends Component {
 					{(() => {
 						if (this.props.init === false) {
 							return (<button id="Reset save Workspace"
-								onClick={(e) => this.handleDoubleClick(e, 'workspace')}
+								onClick={(e) => this.onResetWorkspace(e, 'workspace')}
 								className={resetWorkspaceIcon}>
 							</button>);
 						}
