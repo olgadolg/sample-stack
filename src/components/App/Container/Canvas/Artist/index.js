@@ -92,7 +92,7 @@ export default class DrawVectors extends Component {
 			.attr('width', 1024)
 			.attr('height', 570)
 			.call(this.dragRect);
-	}
+}
 
 	/**
 	 * Triggers on theme selected
@@ -789,6 +789,7 @@ export default class DrawVectors extends Component {
 		}
 
 		if (this.state.tool === 'rectangle') {
+			d3.selectAll('.ghostRect').remove();
 			this.createGhostRect();
 			this.createDragRectData();
 			this.state.isNew = false;
