@@ -26,7 +26,7 @@ export default class ControlsContainer extends Component {
 		};
 
 		this.utilities = new Utilities();
-		this.onStop = this.onDragStop.bind(this);
+		this.onDragStop = this.onDragStop.bind(this);
 		this.onDragStart = this.onDragStart.bind(this);
 		this.onChangeRotationAngle = this.onChangeRotationAngle.bind(this);
 		this.onRotateFigure = this.onRotateFigure.bind(this);
@@ -75,11 +75,6 @@ export default class ControlsContainer extends Component {
 
 		const el = document.getElementById('controlsContainer');
 		const position = this.utilities.createPosition(ui, this.props, el);
-
-		if (position.x === 0 && position.y === 0) {
-			return;
-		}
-
 		this.props.dispatch(saveWorkspace(position));
 	}
 
@@ -100,7 +95,7 @@ export default class ControlsContainer extends Component {
 	}
 
 	render () {
-		const dragHandlers = {onDragStart: this.onDragStart, onDragStop: this.onDragStop};
+		const dragHandlers = {onStart: this.onDragStart, onStop: this.onDragStop};
 
 		const slider = classnames({
 			'color-slider': true,

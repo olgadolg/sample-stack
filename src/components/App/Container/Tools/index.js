@@ -299,13 +299,6 @@ export default class Toolbox extends Component {
 			[styles.exportIcon]: true
 		});
 
-		const undoIcon = classnames({
-			'undoIcon': true,
-			'tool': true,
-			[styles.tool]: true,
-			[styles.undoIcon]: true
-		});
-
 		const fileWrapper = classnames({
 			'fileWrapper': true,
 			[styles.fileWrapper]: true
@@ -353,10 +346,6 @@ export default class Toolbox extends Component {
 				<button id="Cut / Paste"
 					onClick={(e) => this.onToolClick(e, 'cut')}
 					className={cutIcon}>
-				</button>
-				<button id="Undo"
-					onClick={(e) => this.onToolClick(e, 'undo')}
-					className={undoIcon}>
 				</button>
 				<button id="New Layer"
 					onClick={(e) => this.onToolClick(e, 'layer')}

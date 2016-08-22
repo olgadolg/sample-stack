@@ -21,12 +21,6 @@ export const createRect = (rect) => (dispatch) => {
 	});
 };
 
-export const undoClickarea = () => (dispatch) => {
-	dispatch({
-		type: 'UNDO_CLICKAREA'
-	});
-};
-
 export const drawRect = () => (dispatch) => {
 	dispatch({
 		type: 'DRAW_RECT'

@@ -80,12 +80,6 @@ export default handleActions({
 		});
 	},
 
-	UNDO_CLICKAREA: (state, action) => {
-		return update(state, {
-			undo: {$set: true}
-		});
-	},
-
 	UPDATE_CLICKAREA: (state, action) => {
 		let currentView = state.currentView;
 		let view = currentView.replace(/(.*)\.(.*?)$/, '$1');
@@ -710,7 +704,6 @@ export default handleActions({
 	selectColor: false,
 	content: {},
 	cutItem: {},
-	undo: false,
 	onload: false,
 	savedProject: false,
 	init: false,
