@@ -13,6 +13,21 @@
 	background-position: center;
 }
 
+:local(.rangeWrapper) {
+	position: relative;
+}
+
+:local(.inputRange) {
+	width: 100%;
+}
+
+:local(.rangeOutput) {
+	position: absolute;
+	left: 69px;
+	top: -19px;
+	font-size: 12px;
+}
+
 :local(.rotateForm) {
 	overflow: hidden;
 	margin-bottom: 15px;

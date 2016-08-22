@@ -49,7 +49,7 @@ export default class ControlsContainer extends Component {
 
 	onRotateFigure (e) {
 		e.preventDefault();
-		this.setState({ rotationValue: 0, rotationSpeed: 0 });
+		this.setState({ rotationValue: 0, rotationSpeed: 2000 });
 	}
 
 	onChangeRotationSpeed (e) {
