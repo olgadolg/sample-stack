@@ -191,14 +191,13 @@ export default class DrawVectors extends Component {
 
 		this.state.nodes.push(
 			[
-				{angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
-				{angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
+				{interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
+				{interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
 			]
 		);
 
 		this.state.edges.push([
 			{
-				angle: 0,
 				closed: false,
 				source: {interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: x, y: y},
 				target: {interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: x, y: y}
@@ -529,7 +528,6 @@ export default class DrawVectors extends Component {
 
 		this.state.edges.push([
 			{
-				angle: 0,
 				closed: true,
 				source: {
 					interpolate: 'linear',
@@ -543,7 +541,6 @@ export default class DrawVectors extends Component {
 				}
 			},
 			{
-				angle: 0,
 				closed: true,
 				source: {
 					interpolate: 'linear',
@@ -557,7 +554,6 @@ export default class DrawVectors extends Component {
 				}
 			},
 			{
-				angle: 0,
 				closed: true,
 				source: {
 					interpolate: 'linear',
@@ -749,31 +745,28 @@ export default class DrawVectors extends Component {
 		box.y = box.y.toFixed(1);
 
 		this.state.nodes.push([
-			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height },
-			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y + box.height },
-			{ angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y }
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height },
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y + box.height },
+			{ interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node3', id: 2, x: box.x + box.width, y: box.y }
 
 		]);
 
 		this.state.edges.push([
 			{
-				angle: 0,
 				closed: true,
-				source: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			},
 			{
-				angle: 0,
 				closed: true,
-				source: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { angle: 0, interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { interpolate: this.state.interpolate, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			},
 			{
-				angle: 0,
 				closed: true,
-				source: { angle: 0, clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
-				target: { angle: 0, clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
+				source: { clickarea: this.state.shapes, title: 'Node1', id: 0, x: box.x, y: box.y },
+				target: { clickarea: this.state.shapes, title: 'Node2', id: 1, x: box.x, y: box.y + box.height }
 			}
 		]);
 
@@ -838,7 +831,6 @@ export default class DrawVectors extends Component {
 		let xycoords = d3.mouse(this.svgG.node());
 
 		let node = {
-			angle: 0,
 			id: this.idct++,
 			clickarea: this.settings.clickarea,
 			interpolate: this.state.interpolate,
@@ -1051,7 +1043,7 @@ export default class DrawVectors extends Component {
 
 				if (isBetween === true && self.state.tool === 'penAdd') {
 					if (self.state.multiple === true) {
-						self.state.nodes[self.settings.clickarea - 1].push({angle: 0, interpolate: this.state.interpolate, x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
+						self.state.nodes[self.settings.clickarea - 1].push({interpolate: this.state.interpolate, x: d3.mouse(d3.select('svg').node())[0], y: d3.mouse(d3.select('svg').node())[1]});
 						self.state.multiple = false;
 						self.update();
 					}
