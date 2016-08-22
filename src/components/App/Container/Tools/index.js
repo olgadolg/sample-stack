@@ -26,7 +26,6 @@ export default class Toolbox extends Component {
 			selectAll: true,
 			copy: false,
 			rectangle: false,
-			stepBefore: false,
 			bezier: false,
 			cardinal: false,
 			circle: false,
@@ -184,13 +183,6 @@ export default class Toolbox extends Component {
 			[styles.penIcon]: true
 		});
 
-		const stepBeforeIcon = classnames({
-			'tool': true,
-			'stepBeforeIcon': true,
-			[styles.tool]: true,
-			[styles.stepBeforeIcon]: true
-		});
-
 		const penAddIcon = classnames({
 			'tool': true,
 			'penAddIcon': true,
@@ -333,10 +325,6 @@ export default class Toolbox extends Component {
 					onDoubleClick={this.showRectDialog}
 					onClick={(e) => this.onToolClick(e, 'rectangle')}
 					className={rectIcon}>
-				</button>
-				<button id="Rounded Corners"
-					onClick={(e) => this.onToolClick(e, 'stepBefore')}
-					className={stepBeforeIcon}>
 				</button>
 				<button id="Pen Tool"
 					onClick={(e) => this.onToolClick(e, 'pen')}
